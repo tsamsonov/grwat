@@ -18,6 +18,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rgrwat_rcpp_hello_world", (DL_FUNC) &_rgrwat_rcpp_hello_world, 0},
+    {"maingrwat", (DL_FUNC) &F77_NAME(maingrwat), 34},
     {NULL, NULL, 0}
 };
 

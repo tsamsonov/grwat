@@ -14,9 +14,7 @@ title: "`r switch(params$locale, 'EN' = params$namen, 'RU' = params$name)`"
 author: "`r switch(params$locale, 'EN' = 'Report produced by R GrWat package', 'RU' = 'Отчет подготовлен с помощью пакета R GrWat')`"
 output: 
   pdf_document:
-    #keep_tex: yes
     toc: true
-    #latex_engine: xelatex
     dev: cairo_pdf
 documentclass: report
 classoption: landscape

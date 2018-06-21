@@ -4,6 +4,8 @@ library(readxl) # Reading excel
 
 # TODO: Process data with Rcpp instead of Fortran library execution
 
+# TODO: Provide ASCII-only R source files
+
 wd = "/Volumes/Data/Work/_Kireeva/2018/"
 # wd = "X:/Work/_Kireeva/2018/"
 
