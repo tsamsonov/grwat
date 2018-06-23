@@ -1,16 +1,24 @@
-# Multiple plot function
-#
-# ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)
-# - cols:   Number of columns in layout
-# - layout: A matrix specifying the layout. If present, 'cols' is ignored.
-#
-# If the layout is something like matrix(c(1,2,3,3), nrow=2, byrow=TRUE),
-# then plot 1 will go in the upper left, 2 will go in the upper right, and
-# 3 will go all the way across the bottom.
-#
-# taken from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
-multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  library(grid)
+#' Multiple plot function
+#' 
+#' Produces matrix layout for ggplot graphics. 
+#' Taken from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+#' 
+#' @param ... An arbitrary number of ggplot objects. Listed by colon
+#' @param plotlist A list of ggplot objects
+#' @param cols Integer. Number of columns in layout.
+#' @param layout A matrix specifying the layout. If present, 'cols' is ignored. 
+#'   If the layout is something like `matrix(c(1,2,3,3), nrow=2, byrow=TRUE)`, 
+#'   then plot 1 will go in the upper left, 2 will go in the upper right, and
+#'   3 will go all the way across the bottom.
+#'
+#' @return Plots the passed ggplot objects in a specified matrix layout
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' multiplot(g1, g2, layout=matrix(c(1,2,3,3), nrow=2, byrow=TRUE))
+#' }
+multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
   
   # Make a list from the ... arguments and plotlist
   plots <- c(list(...), plotlist)
@@ -45,7 +53,14 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 
-# Transform data to the best conic projection
+#' Project data to the best conic projection
+#'
+#' @param s `sf` (simple features) object
+#'
+#' @return `sf` (simple features) object projected to automatically selected projection
+#' @export
+#'
+#' @examples
 st_transform_opt <- function(s){
   box = st_bbox(s)
   # TODO: projections over 180 meridian

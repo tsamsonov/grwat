@@ -709,28 +709,3 @@ kable(stable, booktabs = T, longtable = T, escape = FALSE, format = "latex",
                 repeat_header_text = "",
                 latex_options = c("striped", "repeat_header"))
 ```
-
-<!-- Корреляционный анализ -->
-```{r, eval=FALSE}
-corrfname = paste0('Corr_', params$namen, '.txt')
-
-CairoPNG(corrfname,  
-         height = 75, width = 75, 
-         units = 'in', dpi = 300) # Very large
-
-# ggcorr(filtered[, -(1:3)], label = TRUE, label_round = 2)
-
-corrfn <- function(data, mapping, ...){
-  p <- ggplot(data = data, mapping = mapping) + 
-    geom_point() + 
-    geom_smooth(method=loess, fill="red", color="red", ...) +
-    geom_smooth(method=lm, fill="blue", color="blue", ...)
-  return(p)
-}
-
-ggpairs(filtered, 
-        columns = 4:ncol(filtered), 
-        lower = list(continuous = corrfn))
-
-dev.off()
-```
