@@ -7,7 +7,7 @@
 process_basins(wd, bufsize = 50000, clear = TRUE)
 }
 \arguments{
-\item{wd}{Character. Working directory with specified structure}
+\item{wd}{Path to a working directory with specified structure}
 
 \item{bufsize}{Size of a buffer that is used to select reanalysis data
 around each basin}
@@ -18,4 +18,9 @@ Generates water level files enriched with reanalysis data.
 }
 \description{
 Join reanalysis data based on geographic location and time
+}
+\examples{
+\dontrun{
+grwat::process_basins(wd)
+}
 }

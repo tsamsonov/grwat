@@ -12,7 +12,6 @@
 #'   3 will go all the way across the bottom.
 #'
 #' @return Plots the passed ggplot objects in a specified matrix layout
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -58,9 +57,7 @@ multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 #' @param s `sf` (simple features) object
 #'
 #' @return `sf` (simple features) object projected to automatically selected projection
-#' @export
 #'
-#' @examples
 st_transform_opt <- function(s){
   box = st_bbox(s)
   # TODO: projections over 180 meridian

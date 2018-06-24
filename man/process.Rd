@@ -13,6 +13,15 @@ process(hdata, rean, buffer)
 
 \item{buffer}{Region to select reanalysis data}
 }
+\value{
+List of two components: water level table enriched with reanalysis data
+  and selected points
+}
 \description{
 Process gauge hydrological data
+}
+\examples{
+\dontrun{
+grwat::process(hdata, rean, buffer)
+}
 }

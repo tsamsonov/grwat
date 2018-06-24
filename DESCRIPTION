@@ -1,20 +1,27 @@
 Package: grwat
 Type: Package
-Title: R package for hydrograph separation and analysis
+Title: Hydrograph separation and analysis
 Version: 0.0.0.9000
 Date: 2018-06-18
-Author: Timofey Samsonov, Ekaterina Retz, Maria Kireeva
-Maintainer: Timofey Samsonov <tsamsonov@geogr.msu.ru>
+Authors@R: c(
+    person("Timofey", "Samsonov",, "tsamsonov@geogr.msu.ru", role = c("aut", "cre"), 
+      comment = c(ORCID = "0000-0001-5994-0302")
+    ),
+    person("Ekaterina", "Retz", role = "aut"),
+    person("Maria", "Kireeva", role = "aut")
+    )
 Description: R package for hydrograph separation and analysis based on water level, 
     temperature and percipitation data. It makes use of geographic data processing 
     to spatially select temperature and precipitation data within the basin of each 
     gauge, average these data and join them to each element in water level series. 
-    High-preformance C++ computation is used for hydrograph processing that separates 
+    High-preformance Fortran/C++ computation is used for hydrograph processing that separates 
     water level series into ground, seasonal, thaw, and flood discharge. Interannual 
     and long-term characteristics of each discharge type are derived. Results are 
     visualized in a form of high-quality reports making use of ggplot2 graphics and 
     knitr report generation.
 License: GPL (>= 2)
+URL: https://github.com/tsamsonov/grwat
+BugReports: https://github.com/tsamsonov/grwat/issues
 Imports: Rcpp (>= 0.12.16),
     sf,
     ncdf4,
@@ -33,6 +40,7 @@ Imports: Rcpp (>= 0.12.16),
     dplyr,
     ggplot2
 LinkingTo: Rcpp
+SystemRequirements: pandoc
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown

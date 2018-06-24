@@ -12,8 +12,14 @@ read_interim(file_prec, file_temp)
 \item{file_temp}{Temperature NetCDF file}
 }
 \value{
-List containing sequence of days, sequence of values and spatial points
+List containing time series, precipitation series, temperature series 
+  and spatial points (sf)
 }
 \description{
 Read ERA-INTERIM reanalysis NetCDF files with temperature and precipitation
+}
+\examples{
+\dontrun{
+grwat::read_interim("rean/prec.nc", "rean/temp.nc")
+}
 }
