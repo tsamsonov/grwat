@@ -28,6 +28,12 @@ Imports: Rcpp (>= 0.12.16),
     mblm,
     GGally,
     kableExtra,
-    grid
+    grid,
+    lubridate,
+    dplyr,
+    ggplot2
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
