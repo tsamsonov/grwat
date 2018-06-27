@@ -1,3 +1,7 @@
+#' @useDynLib grwat
+#' @importFrom Rcpp sourceCpp
+NULL
+
 devtools::use_package('Rcpp')
 devtools::use_package('sf')
 devtools::use_package('grid')
@@ -13,6 +17,10 @@ devtools::use_package('trend')
 devtools::use_package('mblm')
 devtools::use_package('GGally')
 devtools::use_package('kableExtra')
+devtools::use_package('scales')
+devtools::use_package('readxl')
+devtools::use_package('trend')
+devtools::use_package('tidyr')
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("Welcome to grwat package for hydrograph separation and analysis")

@@ -1,22 +1,13 @@
-#' Multiple plot function
-#' 
-#' Produces matrix layout for ggplot graphics. 
-#' Taken from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
-#' 
-#' @param ... An arbitrary number of ggplot objects. Listed by colon
-#' @param plotlist A list of ggplot objects
-#' @param cols Integer. Number of columns in layout.
-#' @param layout A matrix specifying the layout. If present, 'cols' is ignored. 
-#'   If the layout is something like `matrix(c(1,2,3,3), nrow=2, byrow=TRUE)`, 
-#'   then plot 1 will go in the upper left, 2 will go in the upper right, and
-#'   3 will go all the way across the bottom.
-#'
-#' @return Plots the passed ggplot objects in a specified matrix layout
-#'
-#' @examples
-#' \dontrun{
-#' multiplot(g1, g2, layout=matrix(c(1,2,3,3), nrow=2, byrow=TRUE))
-#' }
+# Multiple plot function
+# 
+# Produces matrix layout for ggplot graphics. 
+# Taken from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+#
+#  Layout is a matrix specifying the layout. If present, 'cols' is ignored. 
+#  If the layout is something like `matrix(c(1,2,3,3), nrow=2, byrow=TRUE)`, 
+#  then plot 1 will go in the upper left, 2 will go in the upper right, and
+#  3 will go all the way across the bottom.
+
 multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
   
   # Make a list from the ... arguments and plotlist
@@ -52,12 +43,6 @@ multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
   }
 }
 
-#' Project data to the best conic projection
-#'
-#' @param s `sf` (simple features) object
-#'
-#' @return `sf` (simple features) object projected to automatically selected projection
-#'
 st_transform_opt <- function(s){
   box = st_bbox(s)
   # TODO: projections over 180 meridian
@@ -71,4 +56,23 @@ st_transform_opt <- function(s){
   p4s = str_interp('+proj=lcc +lat_1=${B2} +lat_0=${B1} +lon_0=${L0} +datum=${datum} +no_defs')
   
   return(s %>% st_transform(p4s))
+}
+
+replace_year <- function(d) {
+  dates = lapply(d, function(X) {
+    if (!is.na(X)){
+      if (month(X) < 7) {
+        year(X) = 2001
+      }
+      return(X)
+    } else return(NA)
+  })
+  return(do.call(c, dates)) # if simply unlist then dates are killed, so using the c() function
+}
+
+get_col_type = function(s) {
+  switch(s,
+         Date = readr::col_date(format = "%d%.%m%.%Y"),
+         double = readr::col_double(),
+         integer = readr::col_integer())
 }

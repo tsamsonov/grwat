@@ -1,16 +1,13 @@
 ---
 params:
     name: "Хопёр"
-    namen: "Xoper"
     file_tot: "Total.txt"
     file_sep: "AllGrWat.txt"
-    file_params: "params_out.xlsx"
-    file_utils: "Utils.R"
     locale: "EN"
     year: 1978
     fixedyear: false
 date: "`r Sys.Date()`"
-title: "`r switch(params$locale, 'EN' = params$namen, 'RU' = params$name)`"
+title: "`r params$name`"
 author: "`r switch(params$locale, 'EN' = 'Report produced by R GrWat package', 'RU' = 'Отчет подготовлен с помощью пакета R GrWat')`"
 output: 
   pdf_document:
@@ -30,157 +27,22 @@ header-includes:
 #mainfont: Open Sans
 ---
 
-<!-- Настройки и библиотеки -->
+<!-- Settings -->
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(include=FALSE)
-library(scales)
-library(readxl)
-library(writexl)
-library(tidyverse)
-library(lubridate)
-library(trend)
-library(mblm)
-library(GGally)
-library(Cairo)
-library(knitr)
-library(kableExtra)
-source(params$file_utils)
 ```
 
-<!-- Локализация -->
+<!-- Locale -->
 ```{r locale}
-Sys.setenv(LANGUAGE="ru")
-Sys.setlocale("LC_ALL", "Russian")
+# English locale is default
+Sys.setenv(LANGUAGE="en")
+Sys.setlocale("LC_ALL", "English")
 
-subtitle = 'Начало водохозяйственного года'
-bartitle.win = "Месяц минимального месячного расхода за зиму"
-bartitle.sum = "Месяц минимального месячного расхода за лето"
-monthtitle = "Месяц"
-periodtitle = "Период"
-beforetitle = "до "
-aftertitle = "с "
-
-label.p = 'p'
-pettitt.u = 'Петтитт (перелом): U*'
-kendall.z = 'Манн-Кендалл (тренд): z'
-theil.i = 'Тейл-Сен (тренд): i'
-fisher.f = 'Фишер (дисперсии): F'
-student.t = 'Стьюдент (средние): t'
-student.df = 'df'
-
-wraplength = 50
-
-if (params$locale == 'EN') {
-  Sys.setenv(LANGUAGE="en")
-  Sys.setlocale("LC_ALL", "English")
-  
-  subtitle = 'Water-resources year'
-  bartitle.win = "Month of a minimum monthly discharge during winter"
-  bartitle.sum = "Month of a minimum monthly discharge during summer"
-  monthtitle = "Month"
-  periodtitle = "Period"
-  beforetitle = "before "
-  aftertitle = "after "
-  
-  student.t = 'Student (mean): t'
-  fisher.f = 'Fisher (variance): F'
-  pettitt.u = 'Pettitt (change-point): U*'
-  kendall.z = 'Mann-Kendall (trend): z'
-  theil.i = 'Theil-Sen (trend): i'
-
-  wraplength = 60
+if (params$locale == 'RU') {
+  Sys.setenv(LANGUAGE="ru")
+  Sys.setlocale("LC_ALL", "Russian")
 }
-```
-
-<!-- Чтение параметров -->
-```{r}
-prms = read_excel(params$file_params)
-excl = which(prms$Source == 0) # exclude calculated variables
-
-widths = prms$Width
-coltypes = prms$Type
-names = prms$Name
-chart = prms$Chart
-units = switch(params$locale,
-              'RU' = prms$Units,
-              'EN' = prms$Unitsen)
-desc = switch(params$locale,
-              'RU' = prms$Desc,
-              'EN' = prms$Descen)
-
-names = sub('(', '_', names, fixed = TRUE)
-names = sub(')', '', names, fixed = TRUE)
-```
-
-<!-- Чтение данных -->
-```{r}
-get_col_type = function(s) {
-  switch(s,
-         Date = col_date(format = "%d%.%m%.%Y"),
-         double = col_double(),
-         integer = col_integer())
-}
-
-col_collectors = lapply(coltypes, get_col_type)
-
-total = read_fwf(params$file_tot, 
-                  fwf_widths(widths[-excl], col_names = names[-excl]), 
-                  col_types = col_collectors[-excl],
-                  skip = 1)
-```
-
-<!-- Костыли -->
-```{r}
-total = total %>% mutate(monmmsummer = ymd(paste("2000", monmmsummer, "01")),
-                          nommwin = ymd(paste("2000", nommwin, "01")))
-coltypes[which(colnames(total) == 'monmmsummer')] = 'Date'
-coltypes[which(colnames(total) == 'nommwin')] = 'Date'
-total$DaysPavsSum[abs(total$DaysPavsSum) > 300] = 0
-total$DaysThawWin[abs(total$DaysThawWin) > 300] = 0
-total$Year2 = c(total$Year1[-1], tail(total$Year1,1))
-total$PolProd = total$datepolend - total$datestart
-```
-
-<!-- Подготовка к рисованию -->
-```{r}
-replace_year = function(d) {
-  dates = lapply(d, function(X) {
-    if (!is.na(X)){
-      if (month(X) < 7) {
-        year(X) = 2001
-      }
-      return(X)
-    } else return(NA)
-  })
-  return(do.call(c, dates)) # if simply unlist then dates are killed, so using the c() function
-}
-
-filtered = total %>% 
-  mutate_if(prms$Winter == 1, replace_year)
-
-minyear = min(filtered$Year1)
-maxyear = max(filtered$Year1)
-breaks = fullseq(c(minyear, maxyear), 10)
-minbreaks = fullseq(c(minyear, maxyear), 5)
-
-prms = prms %>% 
-  filter(Order != 0) %>% 
-  arrange(Order)
-
-coltypes = prms$Type
-names = prms$Name
-chart = prms$Chart
-colors = prms$Color
-units = switch(params$locale,
-              'RU' = prms$Units,
-              'EN' = prms$Unitsen)
-desc = switch(params$locale,
-              'RU' = prms$Desc,
-              'EN' = prms$Descen)
-
-names = sub('(', '_', names, fixed = TRUE)
-names = sub(')', '', names, fixed = TRUE)
 ```
 
 ```{r, include=TRUE}
@@ -192,7 +54,7 @@ asis_output("Reanalysis data inside the basin")
 ```
 
 ```{r, include=TRUE, warning=FALSE, message=FALSE, out.height='7in'}
-pngfile = str_interp("${opts_knit$get('root.dir')}/${list.files('.', '*.png')[1]}")
+pngfile = stringr::str_interp("${opts_knit$get('root.dir')}/${list.files('.', '*.png')[1]}")
 knitr::include_graphics(pngfile)
 ```
 
@@ -202,265 +64,22 @@ asis_output("# Hydrograph separation")
 \pagebreak
 
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
-grw = read_fwf(file = params$file_sep, 
-               skip = 1,
-               fwf_widths(c(16, rep(10, 7)), 
-                         c("Date", "Qin", "Qgr", "Qpol", 
-                           "Qpav", "Qthaw", "Tin", "Pin")),
-               col_types = cols(
-                  Date = col_date(format = "%d%.%m%.%Y"),
-                  Qin = col_double(),
-                  Qgr = col_double(),
-                  Qpol = col_double(),
-                  Qpav = col_double(),
-                  Qthaw = col_double()
-              )
-      )
-grw <- grw %>% mutate(Year = year(Date))
-
-years = grw %>% group_by(Year) %>% 
-              summarise(nydate = Date[which(Qpol>0)[1]]) %>% 
-              filter(!is.na(nydate))
-
-n = nrow(years)
-
-max.runoff = max(grw$Qin)
-
-plotlist = list()
-j = 1
-
-for (i in 1:n) {
-  begin.date = years$nydate[i]
-  end.date = ceiling_date(begin.date, "year") - days(1) # Initialize by the end of the year
-  clipped.remark = "(clipped by the end of the year)"
-  year = years$Year[i]
-  
-  if (i != n){
-    nextyear <- years$Year[i+1]
-    if ((nextyear - year) == 1) {
-      end.date <- years$nydate[i+1] - days(1) # Change to the end date of water-resources year
-      clipped.remark <- ""
-    }
-  }
-
-  graphdata = grw %>%  
-                filter(between(Date, begin.date, end.date)) %>% 
-                gather(key="Runtype", value="Runoff", 
-                       Qthaw, Qpav, Qpol, Qgr,
-                       factor_key=TRUE)
-  
-  graphdata$Runtype = factor(graphdata$Runtype,
-                      levels = c("Qthaw", "Qpav", "Qpol", "Qgr"),
-                      labels = c("Thaw", "Rain", "Seasonal", "Ground"))
-  
-  datestart = filtered[filtered$Year1 == year, "datestart"] %>% as.matrix() %>% as.vector() %>% as.Date()
-  year(datestart) = year(begin.date)
-  
-  # datestart = begin.date
-  
-  datepolend = filtered[filtered$Year1 == year, "datepolend"] %>% as.matrix() %>% as.vector() %>% as.Date()
-  year(datepolend) = year(begin.date)
-  
-  g = ggplot(graphdata, aes(x=Date, y=Runoff, fill=Runtype)) + 
-        annotate("rect", 
-                 xmin = datestart, xmax = datepolend,
-                 ymax = max.runoff, ymin = 0,
-                 fill = 'black',
-                 alpha = 0.1) +
-        geom_area() + 
-        geom_vline(xintercept = datestart, color = "black", size=0.3) +
-        geom_vline(xintercept = datepolend, color = "black", size=0.3) +
-        annotate("text", label = format(datestart, format="%d-%m"),
-                 x = datestart + 20, y = 0.95 * max.runoff,
-                 size = 3, colour = "black") +
-        annotate("text", label = format(datepolend, format="%d-%m"), 
-                 x = datepolend + 20, y = 0.95 * max.runoff, 
-                 size = 3, colour = "black") +
-        coord_cartesian(ylim=c(0, max.runoff)) +
-        scale_fill_manual(values=c("blue", "darkgreen", "steelblue", "violetred"), 
-                          name = "Discharge:") +
-        scale_x_date(date_breaks = "1 month", date_labels = "%b") +
-        labs(title = year,
-             subtitle = paste(begin.date, "—", end.date, clipped.remark),
-             x = "Date", y = bquote('Total discharge, ' ~ m^3/s)) +
-        theme(plot.title = element_text(lineheight=.8, face="bold"),
-              legend.position="bottom")
-  
-  plotlist[[j]] = g
-  j = j+1
-  if (j == 5) {
-    multiplot(plotlist = plotlist, layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
-    cat("\n\n\\pagebreak\n")
-    plotlist = list()
-    j = 1
-  }
-}
-
-if (j > 1) {
-  multiplot(plotlist = plotlist, layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
-}
-```
-
-<!-- Статистические тесты -->
-```{r}
-nn = length(names)
-
-change_year = vector(mode = 'integer', length = nn) # change years
-maxval = vector(mode = 'list', length = nn) # maximum values
-
-ptt = vector(mode = 'list', length = nn) # Pettitt test
-mkt = vector(mode = 'list', length = nn) # Mann-Kendall test
-tst = vector(mode = 'list', length = nn) # Theil-Sen slope estimation
-ts_fit = vector(mode = 'list', length = nn) # Theil-Sen regression
-
-for (i in 1:nn) {
-  # PETTITT TEST FOR CHANGE DETECTION
-  
-  vl = filtered[names[i]] %>% as.matrix() %>% as.vector()
-  isdate = FALSE
-  if(units[i] %in% c('Date', 'Month', 'Дата', 'Месяц')) {
-    isdate = TRUE
-    vl = as.Date(vl)
-  }
-  
-  vl_cmp = !is.na(vl)
-  vl_cmp_sum = cumsum(vl_cmp)
-  
-  ptt[[i]] = pettitt.test(vl[vl_cmp])
-  nyear = match(ptt[[i]]$estimate, vl_cmp_sum)
-  
-  change_year[i] = as.vector(as.matrix(filtered[nyear, "Year1"]))[1]
-  
-  maxval[[i]] = max(vl)
-  
-  # MANN-KENDALL TEST FOR TREND SIGNIFICANCE
-  
-  if(isdate){
-    mkt[[i]] = mk.test(vl[vl_cmp] %>% as.integer())
-  } else {
-    mkt[[i]] = mk.test(vl[vl_cmp])
-  }
-  
-  # THEIL-SEN SLOPE ESTIMATION
-  
-  df.theil = filtered %>% select_('Year1', names[i]) %>% na.omit
-  
-  values = df.theil[names[i]] %>% 
-                        as.matrix() %>%
-                        as.vector()
-  if(isdate){
-    values = values %>% 
-                as.Date() %>% 
-                as.integer()
-    df.theil[names[i]] = values
-  }
-  
-  frml = substitute(y ~ x,
-                    list(y = as.name(names[i]),
-                         x = as.name('Year1')))
-  ts_fit[[i]] <- mblm(eval(frml),
-                 data = df.theil)
-
-  tst[[i]] = sens.slope(values)
-
-}
+params$file_sep %>% 
+  grwat::read_separation() %>% 
+  grwat::plot_separation()
 ```
 
 
-<!-- Основная серия графиков -->
-
+<!-- Main plots -->
 ```{r, include=TRUE}
 asis_output("# Interannual changes")
 ```
 \pagebreak
 
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
-plotlist = list()
-j = 1
-
-for (i in 1:nn) {
-  
-  ltype="solid"
-  if(ptt[[i]]$p.value > 0.05) ltype = 'dashed'
-  
-  ts_ltype="solid"
-  if(tst[[i]]$p.value > 0.05) ts_ltype = 'dashed'
-  
-  # MAIN DATA FOR PLOTTING
-  g = ggplot(filtered, aes_string(x = "Year1", y = names[i])) + 
-    geom_smooth() +
-    geom_abline(intercept = coef(ts_fit[[i]])[1], slope = coef(ts_fit[[i]])[2], 
-                color = 'red', size=1, linetype = ts_ltype) +
-    geom_vline(xintercept = change_year[i], color = "red", 
-               size=0.5, linetype = ltype) +
-    annotate("text", label = change_year[i], 
-             x = change_year[i] + 4, y = maxval[[i]], 
-             size = 4, colour = "red") +
-    scale_x_continuous(breaks = breaks, minor_breaks = minbreaks) +
-    labs(title = str_wrap(desc[i], width=wraplength),
-         subtitle = paste0(pettitt.u, ' = ',  round(ptt[[i]]$statistic, 3), ', ',
-                           label.p, ' = ', round(ptt[[i]]$p.value, 5), '\n',
-                           kendall.z, ' = ', round(mkt[[i]]$statistic, 3), ', ',
-                           label.p, ' = ', round(mkt[[i]]$p.value, 5), '. ',
-                           theil.i, ' = ', round(coef(ts_fit[[i]])[2], 5)),
-         x = subtitle, 
-         y = parse(text=units[i])) +
-    theme(plot.title = element_text(size=12, lineheight=.8, face="bold"),
-          panel.background = element_rect(fill = colors[i],
-                                          colour = colors[i],
-                                          size = 0.5, linetype = "solid"))
-  
-  date_labels = "%d-%b"
-  
-  # PLOT TYPE
-  if (chart[i] == 'line') {
-    g = g + geom_line() + geom_area(alpha = 0.3)
-  } else if (chart[i] == 'point') {
-    g = g + geom_point(size = 1.5) + geom_line(size = 0.2)
-    date_labels = "%b"
-  } else if (chart[i] == 'plate') {
-    g = g + geom_point(shape = 15, size = 1.5) + geom_step(size = 0.2)
-    date_labels = "%b"
-  } else if (chart[i] == 'step') {
-    g = g + geom_step() + geom_rect(aes_string(xmin = "Year1", 
-                                         xmax = "Year2", 
-                                         ymax = names[i], 
-                                         ymin = 0), 
-                                     alpha = 0.4) +
-      scale_y_continuous(limits = c(0, NA))
-    date_labels = "%m"
-  }
-  
-  # SPECIAL AXES FOR DATES
-  if(units[i] %in% c('Date', 'Month', 'Дата', 'Месяц')){
-    if(prms$Winter[i] != 1) {
-      g = g +
-        scale_y_date(date_labels = date_labels, 
-                     date_breaks = "2 month", 
-                     limits = c(ymd(20000101), ymd(20001231))) +
-        expand_limits(y = c(ymd(20000101), ymd(20001231)))
-    } else {
-      g = g +
-        scale_y_date(date_labels = date_labels, 
-                     date_breaks = "2 month", 
-                     limits = c(ymd(20000701), ymd(20010630))) +
-        expand_limits(y = c(ymd(20000701), ymd(20010630)))
-    }
-  }
-  
-  plotlist[[j]] = g
-  j = j+1
-  if (j == 5) {
-    multiplot(plotlist = plotlist, cols = 2)
-    cat("\n\n\\pagebreak\n")
-    plotlist = list()
-    j = 1
-  }
-}
-
-if (j > 1) {
-  multiplot(plotlist = plotlist, cols = 2)
-}
+total = grwat::read_total(params$file_tot)
+tests = grwat::run_tests(total)
+grwat::plot_parameters(total, tests)
 ```
 
 ```{r, include=TRUE}
@@ -469,243 +88,24 @@ asis_output("# Long-term changes")
 \pagebreak
 
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
-year = params$year
-periodtitle1 = paste0(beforetitle, year)
-periodtitle2 = paste0(aftertitle, year)
-
-chart.data = filtered %>% 
-  select(monmmsummer, nommwin, Year1) %>% 
-  filter(!is.na(monmmsummer) & !is.na(nommwin)) %>% 
-  mutate(summermonth = month(monmmsummer),
-         wintermonth = month(nommwin),
-         old = as.integer(Year1 >= year))
-
-chart.data$old = factor(chart.data$old, 
-                        levels = c(0,1), 
-                        labels = c(periodtitle1, periodtitle2))
-
-month.names = format(ISOdate(2017,1:12,1),"%m")
-winterlabels = month.names[c(7:12, 1:6)]
-
-chart.data$summermonth = ordered(chart.data$summermonth, 
-                                 levels = 1:12, 
-                                 labels = month.names)
-
-chart.data$wintermonth = ordered(chart.data$wintermonth, 
-                                 levels = c(7:12, 1:6), 
-                                 labels = winterlabels)
-
-df.summer = chart.data %>% 
-  group_by(old, summermonth) %>% 
-  tally() %>% 
-  complete(summermonth, nesting(old), fill=list(n=0)) %>%  
-  mutate(perc = 100*n/sum(n))
-
-df.winter = chart.data %>% 
-  group_by(old, wintermonth) %>% 
-  tally() %>% 
-  complete(wintermonth, nesting(old), fill=list(n=0)) %>%  
-  mutate(perc = 100*n/sum(n))
-
-df.summer.all = chart.data %>% 
-  group_by(summermonth) %>% 
-  tally() %>% 
-  mutate(perc = 100*n/sum(n))
-
-df.winter.all = chart.data %>% 
-  group_by(wintermonth) %>% 
-  tally() %>% 
-  mutate(perc = 100*n/sum(n))
-
-g.summer = ggplot() +
-  geom_col(data = df.summer, 
-           aes(x = summermonth, y = perc, fill = old), 
-           position = "dodge") +
-  geom_col(data = df.summer.all, 
-           aes(x = summermonth, y = perc), 
-           colour="black", 
-           fill = NA, 
-           size=1) +
-  theme(plot.title = element_text(face="bold")) +
-  scale_x_discrete(drop = FALSE) +
-  scale_fill_manual(values=c("indianred1", "deepskyblue4"), 
-                    name = periodtitle) +
-  labs(title = bartitle.sum,
-       x = monthtitle, 
-       y = "%")
-
-g.winter = ggplot() +
-  geom_col(data = df.winter, 
-           aes(x = wintermonth, y = perc, fill = old), 
-           position = "dodge") +
-  geom_col(data = df.winter.all, 
-           aes(x = wintermonth, y = perc), 
-           colour="black", 
-           fill = NA, 
-           size=1) +
-  theme(plot.title = element_text(face="bold")) +
-  scale_x_discrete(drop = FALSE) +
-  scale_fill_manual(values=c("indianred1", "deepskyblue4"), 
-                    name = periodtitle) +
-  labs(title = bartitle.win,
-       x = monthtitle, 
-       y = "%")
-multiplot(plotlist = list(g.summer, g.winter))
-cat("\n\n\\pagebreak\n")
+grwat::plot_minmonth(total)
 ```
-
-<!-- Боксплоты по периодам -->
 ```{r, fig.height=3.8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
-plotlist = list()
-j = 1
-
-year = params$year
-
-tt = vector(mode = 'list', length = nn) # Student t test
-ft = vector(mode = 'list', length = nn) # Fisher F test
-
-for (i in 1:nn) {
-  
-  if(!params$fixedyear){
-    year = change_year[i]
-  }
-  
-  d = filtered[names[i]] %>% 
-    as.matrix() %>% 
-    as.vector()
-  
-  is_date = FALSE
-  if(units[i] %in% c('Date', 'Month', 'Дата', 'Месяц')){
-    d = d %>% as.Date() %>% as.integer()
-    is_date = TRUE
-  }
-
-  d1 = d[filtered$Year1 < year]
-  d2 = d[filtered$Year1 >= year]
-  
-  n1 = length(d1)
-  n2 = length(d2)
-  
-  m1 = mean(d1)
-  m2 = mean(d2)
-  
-  rsd1 = round(sd(d1)/m1, 3)
-  rsd2 = round(sd(d2)/m2, 3)
-  
-  periodtitle1 = paste0(beforetitle, year)
-  periodtitle2 = paste0(aftertitle, year)
-  
-  df = data.frame(Value = d, 
-                  Period = c(rep(periodtitle1, n1), 
-                             rep(periodtitle2, n2)))
-  tt[[i]] = t.test(d1, d2)
-  ft[[i]] = var.test(d1, d2)
-  
-  means <- df %>% group_by(Period) %>% summarise(Value = mean(Value))
-  
-  mean1 = ifelse(is_date, 
-                 m1 %>% as.integer() %>% as.Date(origin = '1970-01-01') %>% format("%d-%b"),
-                 m1 %>% round(3)
-  )
-  
-  mean2 = ifelse(is_date, 
-                 m2 %>% as.integer() %>% as.Date(origin = '1970-01-01') %>% format("%d-%b"),
-                 m2 %>% round(3)
-  )
-  
-  m1 = ifelse(is_date,
-              m1 %>% as.integer(),
-              m1)
-  
-  m2 = ifelse(is_date,
-              m2 %>% as.integer(),
-              m2)
-  
-  pt.df = data.frame(Value = c(m1, m2), 
-                     Period = c(periodtitle1, periodtitle2))
-  
-  g = ggplot() + 
-    geom_boxplot(data = df, aes(x = Period, y = Value)) +
-    geom_point(data = pt.df, aes(x = Period, y = Value), colour="steelblue", shape=20, size=3) +
-    coord_flip() +
-    labs(title = str_wrap(desc[i], width=wraplength),
-         subtitle = paste0(student.t, ' = ', round(tt[[i]]$statistic, 3), ', ',
-                          label.p, ' = ', round(tt[[i]]$p.value, 5), ', ',
-                          'm1 = ', mean1, ', ', 
-                          'm2 = ', mean2,
-                          '\n',
-                          fisher.f, ' = ', round(ft[[i]]$statistic, 3), ', ',
-                          label.p, ' = ', round(ft[[i]]$p.value, 5), ', ',
-                          'cv1 = ', rsd1, ', ',
-                          'cv2 = ', rsd2),
-         x = NULL, 
-         y = parse(text=units[i])) +
-    theme(plot.title = element_text(size=12, lineheight=.8, face="bold"),
-          panel.background = element_rect(fill = colors[i],
-                                          colour = colors[i],
-                                          size = 0.5, linetype = "solid"))
-  
-  if(is_date){
-    g = g + scale_y_continuous(labels = function(x) {
-      return(as.Date(x, origin = "1970-01-01") %>% format(format = '%d-%m'))
-    })
-  }
-  
-  plotlist[[j]] = g
-  j = j+1
-  if (j == 5) {
-    multiplot(plotlist = plotlist, cols = 2)
-    cat("\n \n")
-    plotlist = list()
-    j = 1
-  }
-}
+grwat::plot_periods(total)
 ```
 
+<!-- Stats -->
 ```{r, include=TRUE}
 asis_output("# Statistical tests")
 ```
 \pagebreak
 
-```{r}
-stable = data.frame(
-  N = 1:nn,
-  Value = desc,
-  Mann.Kendall = sapply(mkt, function(X) X$p.value %>% round(5)),
-  Pettitt = sapply(ptt, function(X) X$p.value %>% round(5)),
-  Student = sapply(tt, function(X) X$p.value %>% round(5)),
-  Fisher = sapply(ft, function(X) X$p.value %>% round(5))
-)
-
-row.names(stable) = 1:nn
-
-stable %>% write_xlsx(paste('pvalues_', params$namen, '.xlsx', sep=''))
+<!-- Knit table to PDF -->
+```{r, include = TRUE, results='asis', warning=FALSE, message=FALSE}
+grwat::kable_tests(tests)
 ```
 
-<!-- Вывод таблицы в PDF -->
-```{r, include = TRUE, results='asis', warning=FALSE, message=FALSE}
-gcolor = '#99cc00'
-ycolor = '#e6e600'
-rcolor = '#ff9966'
-  
-stable = stable %>% mutate(
-  Mann.Kendall = cell_spec(Mann.Kendall, "latex", 
-                             background = ifelse(Mann.Kendall < 0.01, gcolor, 
-                                                  ifelse(Mann.Kendall < 0.05, ycolor, rcolor))),
-  Pettitt = cell_spec(Pettitt, "latex", 
-                             background = ifelse(Pettitt < 0.01, gcolor, 
-                                                  ifelse(Pettitt < 0.05, ycolor, rcolor))),
-  Student = cell_spec(Student, "latex", 
-                             background = ifelse(Student < 0.01, gcolor, 
-                                                  ifelse(Student < 0.05, ycolor, rcolor))),
-  Fisher = cell_spec(Fisher, "latex", 
-                             background = ifelse(Fisher < 0.01, gcolor, 
-                                                  ifelse(Fisher < 0.05, ycolor, rcolor)))
-)
-
-kable(stable, booktabs = T, longtable = T, escape = FALSE, format = "latex",
-      caption = 'p-values of statistical criteria') %>% 
-  kable_styling(font_size = 11,
-                repeat_header_text = "",
-                latex_options = c("striped", "repeat_header"))
+<!-- Write stats to table -->
+```{r}
+tests$stable %>% write_xlsx(paste('pvalues_', params$name, '.xlsx', sep=''))
 ```
