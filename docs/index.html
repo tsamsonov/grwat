@@ -74,11 +74,21 @@
       
       </header><div class="row">
   <div class="contents col-md-9">
-    <div id="grwat" class="section level1">
+    
+
+<div id="grwat" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#grwat" class="anchor"></a>grwat</h1></div>
-<p>R package for hydrograph separation and analysis based on water level, temperature and percipitation data. It makes use of geographic data processing to spatially select temperature and precipitation data within the basin of each gauge, average these data and join them to each element in water level series. High-preformance Fortran/C++ computation is used for hydrograph processing that separates water level series into ground, seasonal, thaw, and flood discharge. Interannual and long-term characteristics of each discharge type are derived. Results are visualized in a form of high-quality reports making use of ggplot2 graphics and knitr report generation</p>
+<p>Welcome to grwat, an R package for hydrograph separation and analysis based on water level, temperature and percipitation data. It makes use of geographic data processing to spatially select temperature and precipitation data within the basin of each gauge, average these data and join them to each element in water level series. High-preformance Fortran/C++ computation is used for hydrograph processing that separates water level series into ground, seasonal, thaw, and flood discharge. Interannual and long-term characteristics of each discharge type are derived. Results are visualized in a form of high-quality reports making use of ggplot2 graphics and knitr report generation</p>
+<div id="installing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installing" class="anchor"></a>Installing</h2>
+<p>Currently only development version is available. It can be installed from github with</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"tsamsonov/grwat"</span>)</a></code></pre></div>
 </div>
+</div>
+
   </div>
 
   <div class="col-md-3" id="sidebar">
@@ -106,7 +116,13 @@
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="http://www.gnu.org/licenses/gpl-2.0.html"><img src="http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat" alt="License"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
