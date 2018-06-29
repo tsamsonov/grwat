@@ -21,8 +21,8 @@ devtools::use_package('scales')
 devtools::use_package('readxl')
 devtools::use_package('trend')
 devtools::use_package('tidyr')
+devtools::use_package('progress')
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("Welcome to grwat package for hydrograph separation and analysis")
 }
-

@@ -12,7 +12,7 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = ""
 )
 ```
 
@@ -37,7 +37,9 @@ wd = "/Volumes/Data/Work/_grwat/Mezen_Malonisog/"
 
 setwd(wd)
 
-hdata = read.csv('in_Mezen_Malonisog.txt', sep = ' ', header = FALSE) # read gauge data
+hdata = read.csv('in_Mezen_Malonisog.txt',
+                 header = FALSE, 
+                 sep = ' ') # read gauge data
 head(hdata)
 
 basin = st_read('Mezen_Malonisog.gpkg', quiet = TRUE) # read basin region
@@ -83,7 +85,8 @@ Basins mode provides automation of reanalysis data joining across multiple basin
 The names of basin and gauge folders are not restricted, but we highly recommend begin with a letter and proceed with alphanumerical symbols, underscore and a hyphen from ASCII encoding (`a-z, A-Z, 0-9, _, -`)
 
 The processing of such folder structure is performed by `process_basins()` function:
-```{r, eval = FALSE}
+```{r, eval=FALSE}
+wd = "/Volumes/Data/Work/_grwat/2018/"
 grwat::process_basins(wd, rean, bufsize = 50000) # process single folder
 ```
 

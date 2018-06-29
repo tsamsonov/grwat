@@ -32,6 +32,9 @@ st_buffer_geo <- function(g, bufsize){
 #' }
 join_interim <- function(hdata, rean, buffer){
   
+  hdata = hdata[, 1:4]
+  colnames(hdata) <- c('D', 'M', 'Y', 'L')
+  
   # determine the first and last date
   first = hdata[1, 1:3]
   last = hdata[nrow(hdata), 1:3]
@@ -90,8 +93,10 @@ join_interim <- function(hdata, rean, buffer){
       matrix(ncol = 3, byrow = TRUE)
     
     # prepare output table
-    sum.table.with.dates = data.frame(sum.table[, 1], dates.matrix, hdata[, 4], sum.table[, 2:3])
-    colnames(sum.table.with.dates) = c("N", "Y", "M", "D", "L", "T", "P")
+    sum.table.with.dates = data.frame(sum.table[, 1], dates.matrix, sum.table[, 2:3])
+    colnames(sum.table.with.dates) <- c("N", "Y", "M", "D", "T", "P")
+    
+    sum.table.with.dates = sum.table.with.dates %>% dplyr::left_join(hdata)
   }
   
   return(list(df = sum.table.with.dates, pts = pts.selected))
@@ -151,8 +156,7 @@ process_gauge <- function(wd, rean, bufsize=50000){
         
         reanpts = nrow(pts.selected)
         
-        # Cairo::CairoPNG(stringr::str_interp('${wd}.png'), 
-        Cairo::CairoPNG('Yeah.png',
+        Cairo::CairoPNG(paste0(basename(getwd()), '.png'), 
                  height = 5, width = 5, 
                  units = 'in', dpi = 300)
         
@@ -190,6 +194,7 @@ process_gauge <- function(wd, rean, bufsize=50000){
 #' @param wd Path to a working directory with specified structure
 #' @param bufsize Size of a buffer that is used to select reanalysis data
 #'   around each basin
+#' @param clear Boolean. Whether to remove out directory before processing. Defaults to TRUE
 #'
 #' @return Generates water level files enriched with reanalysis data.
 #'   Produces text reports on a number of a processed gauges in each basin
@@ -197,14 +202,12 @@ process_gauge <- function(wd, rean, bufsize=50000){
 #'
 #' @examples
 #' \dontrun{
-#' grwat::process_basins(wd)
+#' grwat::process_basins(wd, rean, bufsize=50000, clear=TRUE)
 #' }
-process_basins <- function(wd, bufsize=50000, clear=TRUE){
+process_basins <- function(wd, rean, bufsize=50000, clear=TRUE){
   
   old = setwd(wd)
   on.exit(setwd(old), add = TRUE)
-  
-  rean = grwat::read_interim("rean/prec.nc", "rean/temp.nc")
   
   # clear previous data
   if(clear) {
@@ -214,14 +217,17 @@ process_basins <- function(wd, bufsize=50000, clear=TRUE){
   
   file.copy('in/.', 'out', recursive = TRUE)
   
-  wd = paste0(wd, 'out/')
+  wd = paste0(getwd(), '/out/')
   setwd(wd)
   
   # list basins
   basins = list.dirs(recursive = FALSE, full.names = FALSE)
-  reports = vector('list', length = length(basins))
+  
+  nbasins = length(basins)
+  reports = vector('list', length = nbasins)
   
   i = 1
+  
   for (basin in basins) {
     setwd(wd)
     setwd(basin)
@@ -230,16 +236,19 @@ process_basins <- function(wd, bufsize=50000, clear=TRUE){
     reanpts = vector(mode = "integer", length(gauges))
     j = 1
     
+    pb = progress::progress_bar$new(format = stringr::str_interp("Processing basin ${i} of ${nbasins} [:bar] :percent :elapsed"),
+                                    total = length(gauges),
+                                    show_after = 2)
+    pb$tick(0)
+    
     for (gauge in gauges){
       reanpts[j] = grwat::process_gauge(gauge, rean, bufsize) # TODO: correct working directory
-      
-      setwd(wd)
-      setwd(basin)
       j = j + 1
+      pb$tick()
     }
     
     reports[[i]] = data.frame(gauge = gauges, reanpts)
-    write_delim(reports[[i]], "summary.txt")
+    readr::write_delim(reports[[i]], "summary.txt")
     i = i + 1
   }
   
@@ -249,8 +258,8 @@ process_basins <- function(wd, bufsize=50000, clear=TRUE){
   ngauges = sapply(reports, nrow)
   
   report = do.call(rbind, reports) %>% 
-    mutate(basin = rep(basins, ngauges)) %>% 
-    select(basin, gauge, reanpts)
+    dplyr::mutate(basin = rep(basins, ngauges)) %>% 
+    dplyr::select(basin, gauge, reanpts)
   
-  write_delim(report, "summary.txt") 
+  readr::write_delim(report, "summary.txt") 
 }

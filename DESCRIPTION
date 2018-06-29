@@ -41,7 +41,8 @@ Imports: Rcpp (>= 0.12.16),
     ggplot2,
     scales,
     readxl,
-    tidyr
+    tidyr,
+    progress
 LinkingTo: Rcpp
 SystemRequirements: pandoc
 RoxygenNote: 6.0.1

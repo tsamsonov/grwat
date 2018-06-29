@@ -1,7 +1,7 @@
 ## ----setup, include = FALSE----------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = ""
 )
 
 ## ---- message=FALSE, warning=FALSE---------------------------------------
@@ -12,7 +12,9 @@ wd = "/Volumes/Data/Work/_grwat/Mezen_Malonisog/"
 
 setwd(wd)
 
-hdata = read.csv('in_Mezen_Malonisog.txt', sep = ' ', header = FALSE) # read gauge data
+hdata = read.csv('in_Mezen_Malonisog.txt',
+                 header = FALSE, 
+                 sep = ' ') # read gauge data
 head(hdata)
 
 basin = st_read('Mezen_Malonisog.gpkg', quiet = TRUE) # read basin region
@@ -28,6 +30,7 @@ grwat::map(rean$pts, hdata_rean$pts, basin, basin_pr) # plot spatial configurati
 ## ---- message=FALSE, warning=FALSE---------------------------------------
 grwat::process_gauge(wd, rean, bufsize = 50000) # process single folder
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval=FALSE---------------------------------------------------------
+#  wd = "/Volumes/Data/Work/_grwat/2018/"
 #  grwat::process_basins(wd, rean, bufsize = 50000) # process single folder
 

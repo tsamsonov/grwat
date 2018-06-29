@@ -4,13 +4,15 @@
 \alias{process_basins}
 \title{Join reanalysis data based on geographic location and time}
 \usage{
-process_basins(wd, bufsize = 50000, clear = TRUE)
+process_basins(wd, rean, bufsize = 50000, clear = TRUE)
 }
 \arguments{
 \item{wd}{Path to a working directory with specified structure}
 
 \item{bufsize}{Size of a buffer that is used to select reanalysis data
 around each basin}
+
+\item{clear}{Boolean. Whether to remove out directory before processing. Defaults to TRUE}
 }
 \value{
 Generates water level files enriched with reanalysis data.
@@ -21,6 +23,6 @@ Join reanalysis data based on geographic location and time
 }
 \examples{
 \dontrun{
-grwat::process_basins(wd)
+grwat::process_basins(wd, rean, bufsize=50000, clear=TRUE)
 }
 }
