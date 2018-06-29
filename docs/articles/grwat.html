@@ -135,18 +135,17 @@
 <p>Grwat can process hydrological data that is inside one gauge folder. That folder should contain <strong>two</strong> files:</p>
 <ul>
 <li>Text file with hydrological data in CSV format, space-separated (<code>.txt</code> extension)</li>
-<li>
-<a href="https://www.geopackage.org">GeoPackage</a> file with polygon of a gauge watershed area (<code>.gpkg</code> extension)</li>
+<li>GeoPackage file with polygon of a gauge watershed area (<code>.gpkg</code> extension)</li>
 </ul>
+<blockquote>
+<p>We use GeoPackage because it is <a href="https://www.geopackage.org">OGC-standardized</a>, fast, modern and powerful spatial data format that does not include any sidecar files like Esri Shapefile. You can easily convert many spatial data formats to GeoPackage by <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, using <code>st_write</code> function from <code>sf</code> R package, or via <a href="http://www.gdal.org">GDAL</a> utils if you prefer command-line processing.</p>
+</blockquote>
 <p>The name of the file is not restricted, only the extension and the format. Here is an example:</p>
 <p><img src="in_gauge.png"></p>
 <p>Reanalysis data should be read before using <code><a href="../reference/read_interim.html">read_interim()</a></code> function from grwat package. Having these prerequisities satisfied, the command is:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/process_gauge">process_gauge</a></span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></a></code></pre></div>
 <p>The value returned by this function is a number of reanalysis points extracted by buffered basin region. As a result of the execution of this function the folder receives two enriched data files and a map of the spatial configuration:</p>
 <p><img src="out_gauge.png"></p>
-<blockquote>
-<p>You can easily convert many spatial data formats to GeoPackage using <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, or via <a href="http://www.gdal.org">GDAL</a> command-line utils if you need batch processing</p>
-</blockquote>
 </div>
 <div id="basins-folder" class="section level2">
 <h2 class="hasAnchor">

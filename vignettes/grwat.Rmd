@@ -61,7 +61,9 @@ grwat::map(rean$pts, hdata_rean$pts, basin, basin_pr) # plot spatial configurati
 Grwat can process hydrological data that is inside one gauge folder. That folder should contain __two__ files:
 
 - Text file with hydrological data in CSV format, space-separated (`.txt` extension)
-- [GeoPackage](https://www.geopackage.org) file with polygon of a gauge watershed area (`.gpkg` extension)
+- GeoPackage file with polygon of a gauge watershed area (`.gpkg` extension)
+
+> We use GeoPackage because it is [OGC-standardized](https://www.geopackage.org), fast, modern and powerful spatial data format that does not include any sidecar files like Esri Shapefile. You can easily convert many spatial data formats to GeoPackage by [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, using `st_write` function from `sf` R package, or via [GDAL](http://www.gdal.org) utils if you prefer command-line processing.
 
 The name of the file is not restricted, only the extension and the format. Here is an example:
 
@@ -74,8 +76,6 @@ grwat::process_gauge(wd, rean, bufsize = 50000) # process single folder
 The value returned by this function is a number of reanalysis points extracted by buffered basin region. As a result of the execution of this function the folder receives two enriched data files and a map of the spatial configuration:
 
 ![](out_gauge.png)
-
-> You can easily convert many spatial data formats to GeoPackage using [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, or via [GDAL](http://www.gdal.org) command-line utils if you need batch processing
 
 ## Basins folder
 
