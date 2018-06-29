@@ -26,7 +26,7 @@ grwat package allows three different levels of hydrograph preparation:
 
 The first level should be used to generate output inside R session, while the second and the third level produce files inside provided folder.
 
-## Raw table
+## Manual preparation
 
 You can join reanalysis and water level data for a single gauge as follows:
 ```{r, message=FALSE, warning=FALSE}
@@ -56,19 +56,30 @@ grwat::map(rean$pts, hdata_rean$pts, basin, basin_pr) # plot spatial configurati
 
 ## Gauge folder
 
-Grwat can process hydrological data that is inside one gauge folder. That folder should contain *two* files:
+Grwat can process hydrological data that is inside one gauge folder. That folder should contain __two__ files:
 
 - Text file with hydrological data in CSV format, space-separated (`*.txt` extension)
-- [GeoPackage](https://www.geopackage.org) file with borders of a river basin (`*.gpkg` extension)^[You can easily convert spatial files to GeoPackage using [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, or via [GDAL](http://www.gdal.org) command-line processing if you need batch processing]
+- [GeoPackage](https://www.geopackage.org) file with borders of a river basin (`*.gpkg` extension)
+
+> You can easily convert many spatial data formats to GeoPackage using [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, or via [GDAL](http://www.gdal.org) command-line utils if you need batch processing
 
 Reanalysis data should be read before using `read_interim()` function from grwat package. Having these prerequisities satisfied, the command is:
 ```{r, message=FALSE, warning=FALSE}
 grwat::process_gauge(wd, rean, bufsize = 50000) # process single folder
 ```
-
+The value returned by this function is a number of reanalysis points extracted by buffered basin region.
 
 ## Basins folder
 
 # Separate
+
+Currently separation procedure is unavalable inside grwat package and is performed using external command-line Fortran program that produces two files inside each gauge folder:
+
+- _AllGrWat.txt_ contains hydrograph separation data
+- _Total.txt_ contains multiple characteristics of water discharge
+
+These output data can be visualised and statistically assessed by grwat functions that are uncovered in the next section.
+
+> In the next release of grwat package separation stage will be rewritten in C++ using Rcpp package to provide the complete workflow inside R ecosystem.
 
 # Report

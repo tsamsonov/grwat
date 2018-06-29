@@ -135,7 +135,7 @@ process_gauge <- function(wd, rean, bufsize=50000){
       warning('Cannot find a geopackage with basin border')
     } else {
       
-      region = st_read(shapes[flt][1]) # select only first geopackage
+      region = st_read(shapes[flt][1], quiet = TRUE) # select only first geopackage
       
       # buffer region to select more points
       buffer = grwat::st_buffer_geo(region, bufsize)

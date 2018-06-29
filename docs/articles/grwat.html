@@ -89,9 +89,9 @@
 <li>basin level goes through multiple gauge directories inside basin and generates enriched data for each basin</li>
 </ol>
 <p>The first level should be used to generate output inside R session, while the second and the third level produce files inside provided folder.</p>
-<div id="raw-table" class="section level2">
+<div id="manual-preparation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#raw-table" class="anchor"></a>Raw table</h2>
+<a href="#manual-preparation" class="anchor"></a>Manual preparation</h2>
 <p>You can join reanalysis and water level data for a single gauge as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(grwat)</a>
@@ -130,40 +130,19 @@
 <div id="gauge-folder" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gauge-folder" class="anchor"></a>Gauge folder</h2>
-<p>Grwat can process hydrological data that is inside one gauge folder. That folder should contain <em>two</em> files:</p>
+<p>Grwat can process hydrological data that is inside one gauge folder. That folder should contain <strong>two</strong> files:</p>
 <ul>
 <li>Text file with hydrological data in CSV format, space-separated (<code>*.txt</code> extension)</li>
 <li>
-<a href="https://www.geopackage.org">GeoPackage</a> file with borders of a river basin (<code>*.gpkg</code> extension)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
-</li>
+<a href="https://www.geopackage.org">GeoPackage</a> file with borders of a river basin (<code>*.gpkg</code> extension)</li>
 </ul>
+<blockquote>
+<p>You can easily convert many spatial data formats to GeoPackage using <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, or via <a href="http://www.gdal.org">GDAL</a> command-line utils if you need batch processing</p>
+</blockquote>
 <p>Reanalysis data should be read before using <code><a href="../reference/read_interim.html">read_interim()</a></code> function from grwat package. Having these prerequisities satisfied, the command is:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/process_gauge">process_gauge</a></span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Reading layer `Mezen_Malonisogorskaya' from data source `/Volumes/Data/Work/_grwat/Mezen_Malonisog/Mezen_Malonisog.gpkg' using driver `GPKG'</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Simple feature collection with 1 feature and 4 fields</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; geometry type:  MULTIPOLYGON</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; dimension:      XY</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; bbox:           xmin: 45.14606 ymin: 62.13174 xmax: 50.93081 ymax: 65.46484</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; epsg (SRID):    4326</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; Warning in plot.sf(region, col = rgb(1, 0, 0, 0.5), border = rgb(1, 0,</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 0), : ignoring all but the first attribute</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; Warning in plot.sf(rivers, col = "steelblue4", lwd = 0.5, add = TRUE):</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; ignoring all but the first attribute</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; Warning in plot.sf(rivers_europe, col = "steelblue4", lwd = 0.2, add =</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; TRUE): ignoring all but the first attribute</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; Warning in plot.sf(lakes, border = "steelblue4", col = "skyblue", lwd =</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; 0.2, : ignoring all but the first attribute</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; Warning in plot.sf(lakes_europe, border = "steelblue4", col = "skyblue", :</span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; ignoring all but the first attribute</span></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; Warning in plot.sf(ocean, border = "steelblue4", col = "skyblue", lwd =</span></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; 0.5, : ignoring all but the first attribute</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt; Warning in plot.sf(pts, pch = 19, col = "gray30", cex = 0.3, add = TRUE):</span></a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; ignoring all but the first attribute</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; Warning in plot.sf(pts_sel, pch = 19, col = "black", cex = 0.7, add =</span></a>
-<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt; TRUE): ignoring all but the first attribute</span></a>
-<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt; [1] 8</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] 8</span></a></code></pre></div>
+<p>The value returned by this function is a number of reanalysis points extracted by buffered basin region.</p>
 </div>
 <div id="basins-folder" class="section level2">
 <h2 class="hasAnchor">
@@ -173,16 +152,21 @@
 <div id="separate" class="section level1">
 <h1 class="hasAnchor">
 <a href="#separate" class="anchor"></a>Separate</h1>
+<p>Currently separation procedure is unavalable inside grwat package and is performed using external command-line Fortran program that produces two files inside each gauge folder:</p>
+<ul>
+<li>
+<em>AllGrWat.txt</em> contains hydrograph separation data</li>
+<li>
+<em>Total.txt</em> contains multiple characteristics of water discharge</li>
+</ul>
+<p>These output data can be visualised and statistically assessed by grwat functions that are uncovered in the next section.</p>
+<blockquote>
+<p>In the next release of grwat package separation stage will be rewritten in C++ using Rcpp package to provide the complete workflow inside R ecosystem.</p>
+</blockquote>
 </div>
 <div id="report" class="section level1">
 <h1 class="hasAnchor">
 <a href="#report" class="anchor"></a>Report</h1>
-</div>
-<div class="footnotes">
-<hr>
-<ol>
-<li id="fn1"><p>You can easily convert spatial files to GeoPackage using <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, or via <a href="http://www.gdal.org">GDAL</a> command-line processing if you need batch processing<a href="#fnref1" class="footnote-back">↩</a></p></li>
-</ol>
 </div>
   </div>
 
@@ -193,7 +177,7 @@
       <ul class="nav nav-pills nav-stacked">
 <li>
 <a href="#prepare">Prepare</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#raw-table">Raw table</a></li>
+<li><a href="#manual-preparation">Manual preparation</a></li>
       <li><a href="#gauge-folder">Gauge folder</a></li>
       <li><a href="#basins-folder">Basins folder</a></li>
       </ul>
