@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Intoroduction to grwat R package • grwat</title>
+<title>Introduction to grwat R package • grwat</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Intoroduction to grwat R package">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to grwat R package">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -67,10 +67,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Intoroduction to grwat R package</h1>
+      <h1>Introduction to grwat R package</h1>
                         <h4 class="author">Timofey Samsonov</h4>
             
-            <h4 class="date">2018-06-27</h4>
+            <h4 class="date">2018-06-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/master/vignettes/grwat.Rmd"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="hidden name"><code>grwat.Rmd</code></div>
@@ -79,13 +79,129 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(grwat)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">wd =<span class="st"> "/Volumes/Data/Work/_Kireeva/2018/"</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/process_basins">process_basins</a></span>(wd)</a></code></pre></div>
+<div id="prepare" class="section level1">
+<h1 class="hasAnchor">
+<a href="#prepare" class="anchor"></a>Prepare</h1>
+<p>grwat package allows three different levels of hydrograph preparation:</p>
+<ol style="list-style-type: decimal">
+<li>data level joins reanalysis data to hydrograph data</li>
+<li>gauge level processes gauge directory and produces hydrograph data enriched with reanalysis data, and generates a small map of the source data</li>
+<li>basin level goes through multiple gauge directories inside basin and generates enriched data for each basin</li>
+</ol>
+<p>The first level should be used to generate output inside R session, while the second and the third level produce files inside provided folder.</p>
+<div id="raw-table" class="section level2">
+<h2 class="hasAnchor">
+<a href="#raw-table" class="anchor"></a>Raw table</h2>
+<p>You can join reanalysis and water level data for a single gauge as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(grwat)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">wd =<span class="st"> "/Volumes/Data/Work/_grwat/Mezen_Malonisog/"</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">setwd</span>(wd)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">hdata =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">'in_Mezen_Malonisog.txt'</span>, <span class="dt">sep =</span> <span class="st">' '</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>) <span class="co"># read gauge data</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">head</span>(hdata)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;   V1 V2   V3  V4</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 1 11  5 1945 142</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 2 12  5 1945 146</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 3 13  5 1945 148</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 4 14  5 1945 158</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 5 15  5 1945 175</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; 6 16  5 1945 212</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">basin =<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="st">'Mezen_Malonisog.gpkg'</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>) <span class="co"># read basin region</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">basin_pr =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/st_buffer_geo">st_buffer_geo</a></span>(basin, <span class="dv">50000</span>)  <span class="co"># buffer region by 50 km</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">rean =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/read_interim">read_interim</a></span>(<span class="st">'prec.nc'</span>, <span class="st">'temp.nc'</span>) <span class="co"># read reanalysis data</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">hdata_rean =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/join_interim">join_interim</a></span>(hdata, rean, basin_pr) <span class="co"># join reanalysis data to hydrological series</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="kw">head</span>(hdata_rean<span class="op">$</span>df)</a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">#&gt;       N    Y M  D   L     T     P</span></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt; 1 23872 1945 5 11 142 -3.61 1.081</span></a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; 2 23873 1945 5 12 146 -0.41 3.266</span></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt; 3 23874 1945 5 13 148 -0.05 5.723</span></a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; 4 23875 1945 5 14 158 -0.19 1.774</span></a>
+<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; 5 23876 1945 5 15 175 -0.26 1.690</span></a>
+<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#&gt; 6 23877 1945 5 16 212 -0.89 1.648</span></a></code></pre></div>
+<p>After reanalysis data are joined you can easily plot a map of the derived spatial configuration with</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/map">map</a></span>(rean<span class="op">$</span>pts, hdata_rean<span class="op">$</span>pts, basin, basin_pr) <span class="co"># plot spatial configuration</span></a></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+</div>
+<div id="gauge-folder" class="section level2">
+<h2 class="hasAnchor">
+<a href="#gauge-folder" class="anchor"></a>Gauge folder</h2>
+<p>Grwat can process hydrological data that is inside one gauge folder. That folder should contain <em>two</em> files:</p>
+<ul>
+<li>Text file with hydrological data in CSV format, space-separated (<code>*.txt</code> extension)</li>
+<li>
+<a href="https://www.geopackage.org">GeoPackage</a> file with borders of a river basin (<code>*.gpkg</code> extension)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
+</li>
+</ul>
+<p>Reanalysis data should be read before using <code><a href="../reference/read_interim.html">read_interim()</a></code> function from grwat package. Having these prerequisities satisfied, the command is:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/process_gauge">process_gauge</a></span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Reading layer `Mezen_Malonisogorskaya' from data source `/Volumes/Data/Work/_grwat/Mezen_Malonisog/Mezen_Malonisog.gpkg' using driver `GPKG'</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Simple feature collection with 1 feature and 4 fields</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; geometry type:  MULTIPOLYGON</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; dimension:      XY</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; bbox:           xmin: 45.14606 ymin: 62.13174 xmax: 50.93081 ymax: 65.46484</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; epsg (SRID):    4326</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; Warning in plot.sf(region, col = rgb(1, 0, 0, 0.5), border = rgb(1, 0,</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 0), : ignoring all but the first attribute</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; Warning in plot.sf(rivers, col = "steelblue4", lwd = 0.5, add = TRUE):</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; ignoring all but the first attribute</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; Warning in plot.sf(rivers_europe, col = "steelblue4", lwd = 0.2, add =</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; TRUE): ignoring all but the first attribute</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; Warning in plot.sf(lakes, border = "steelblue4", col = "skyblue", lwd =</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; 0.2, : ignoring all but the first attribute</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; Warning in plot.sf(lakes_europe, border = "steelblue4", col = "skyblue", :</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; ignoring all but the first attribute</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; Warning in plot.sf(ocean, border = "steelblue4", col = "skyblue", lwd =</span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; 0.5, : ignoring all but the first attribute</span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt; Warning in plot.sf(pts, pch = 19, col = "gray30", cex = 0.3, add = TRUE):</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; ignoring all but the first attribute</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; Warning in plot.sf(pts_sel, pch = 19, col = "black", cex = 0.7, add =</span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt; TRUE): ignoring all but the first attribute</span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt; [1] 8</span></a></code></pre></div>
+</div>
+<div id="basins-folder" class="section level2">
+<h2 class="hasAnchor">
+<a href="#basins-folder" class="anchor"></a>Basins folder</h2>
+</div>
+</div>
+<div id="separate" class="section level1">
+<h1 class="hasAnchor">
+<a href="#separate" class="anchor"></a>Separate</h1>
+</div>
+<div id="report" class="section level1">
+<h1 class="hasAnchor">
+<a href="#report" class="anchor"></a>Report</h1>
+</div>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p>You can easily convert spatial files to GeoPackage using <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, or via <a href="http://www.gdal.org">GDAL</a> command-line processing if you need batch processing<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#prepare">Prepare</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#raw-table">Raw table</a></li>
+      <li><a href="#gauge-folder">Gauge folder</a></li>
+      <li><a href="#basins-folder">Basins folder</a></li>
+      </ul>
+</li>
+      <li><a href="#separate">Separate</a></li>
+      <li><a href="#report">Report</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

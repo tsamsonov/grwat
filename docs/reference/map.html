@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read file with hydrograph parameters — read_total • grwat</title>
+<title>Map reanalysis and basin data — map • grwat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Read file with hydrograph parameters — read_total" />
+<meta property="og:title" content="Map reanalysis and basin data — map" />
 
-<meta property="og:description" content="Read file with hydrograph parameters" />
+<meta property="og:description" content="Map reanalysis and basin data" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,31 +100,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read file with hydrograph parameters</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/read.R'><code>R/read.R</code></a></small>
-    <div class="hidden name"><code>read_total.Rd</code></div>
+    <h1>Map reanalysis and basin data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/map.R'><code>R/map.R</code></a></small>
+    <div class="hidden name"><code>map.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Read file with hydrograph parameters</p>
+    <p>Map reanalysis and basin data</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_total</span>(<span class='no'>file_tot</span>)</pre>
+    <pre class="usage"><span class='fu'>map</span>(<span class='no'>pts</span>, <span class='no'>pts_sel</span>, <span class='no'>region</span>, <span class='kw'>buffer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>total_file</th>
-      <td><p>Path to a file</p></td>
+      <th>pts</th>
+      <td><p>sf object with reanalysis points</p></td>
+    </tr>
+    <tr>
+      <th>pts_sel</th>
+      <td><p>sf object with selected reanalysis points</p></td>
+    </tr>
+    <tr>
+      <th>region</th>
+      <td><p>sf object with basin region</p></td>
+    </tr>
+    <tr>
+      <th>buffer</th>
+      <td><p>sf object with buffered basin region</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>data.frame</p>
     
 
   </div>
@@ -132,9 +140,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

@@ -1,48 +1,22 @@
-#' Read ERA-INTERIM reanalysis NetCDF files with temperature and precipitation
+#' Buffer sf objects in geographic coordinates through conic projection
 #'
-#' @param file_prec Precipitation NetCDF file
-#' @param file_temp Temperature NetCDF file
+#' @param g `sf` or `sfg` object in geographic coordinates
+#' @param bufsize double. Size of a buffer, in metres
 #'
-#' @return List containing time series, precipitation series, temperature series 
-#'   and spatial points (sf)
+#' @return `sf` or `sfg` object, buffered to `bufsize` distance
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' grwat::read_interim("rean/prec.nc", "rean/temp.nc")
-#' }
-read_interim <- function(file_prec, file_temp){
-  # Read NetCDF data
-  precip = nc_open(file_prec)
-  temps = nc_open(file_temp)
-  prate = ncvar_get(precip, precip$var$prate) * 86400
-  temp = ncvar_get(temps, temps$var$air) - 273.15
-  
-  # Number of days and their values
-  ndays.full = temps$dim$time$len
-  vals.full = temps$dim$time$vals
-  
-  # Reconstruct spatial points
-  lat = precip$dim$lat$vals
-  lon = precip$dim$lon$vals
-  lonidx = 1:length(lon)
-  latidx = 1:length(lat)
-  coords = expand.grid(lon, lat)
-  idx = expand.grid(lonidx, latidx)
-  data = data.frame(idx, coords)
-  colnames(data) = c('nlon', 'nlat', 'lon', 'lat')
-  
-  pts = st_as_sf(data, coords = c("lon", "lat"), crs = 4326)
-  
-  return(list(vals.full = vals.full, 
-              prate = prate, 
-              temp = temp, 
-              pts = pts)
-  )
+#' st_buffer_geo(basin, 50000)
+st_buffer_geo <- function(g, bufsize){
+  # TODO: create geodetic buffering instead
+  g %>% 
+    st_transform_opt() %>%
+    sf::st_buffer(bufsize) %>% 
+    sf::st_transform(4326)
 }
 
-
-#' Process gauge hydrological data
+#' Join ERA-INTERIM data to hydrological level series
 #'
 #' @param hdata Water discharge series. Data frame containing 4 columns: YYYY, MM, DD and water level
 #' @param buffer Region to select reanalysis data
@@ -56,7 +30,7 @@ read_interim <- function(file_prec, file_temp){
 #' \dontrun{
 #' grwat::process(hdata, rean, buffer)
 #' }
-process_data <- function(hdata, rean, buffer){
+join_interim <- function(hdata, rean, buffer){
   
   # determine the first and last date
   first = hdata[1, 1:3]
@@ -69,8 +43,8 @@ process_data <- function(hdata, rean, buffer){
   ndates = length(hdates)
   
   # frame for visualizing points
-  frame = st_bbox(buffer) %>% as.numeric()
-  frame_sf = st_bbox(buffer) %>% st_as_sfc()
+  frame = sf::st_bbox(buffer) %>% as.numeric()
+  frame_sf = sf::st_bbox(buffer) %>% st_as_sfc()
   
   # Select points
   pts.selected = rean$pts[buffer, ]
@@ -80,7 +54,7 @@ process_data <- function(hdata, rean, buffer){
   
   if (npts > 0){
     # Extract point numbers for subsetting ncdf array
-    pts.numbers = pts.selected %>% select(nlon, nlat)
+    pts.numbers = pts.selected %>% dplyr::select(nlon, nlat)
     st_geometry(pts.numbers) <- NULL
     
     # Extract dates for subsetting ncdf array
@@ -103,8 +77,8 @@ process_data <- function(hdata, rean, buffer){
     
     # calculate average temp and prate per day
     sum.table = result %>%
-      group_by(pts.days) %>% 
-      summarise(mean_temp = mean(temp.selected) %>% round(2),
+      dplyr::group_by(pts.days) %>% 
+      dplyr::summarise(mean_temp = mean(temp.selected) %>% round(2),
                 mean_prate = mean(prate.selected) %>% round(3))
     
     # split dates into three columns
@@ -116,11 +90,11 @@ process_data <- function(hdata, rean, buffer){
       matrix(ncol = 3, byrow = TRUE)
     
     # prepare output table
-    sum.table.with.dates = data.frame(sum.table[,1], dates.matrix, sum.table[,2:3])
-    colnames(sum.table.with.dates) = c("N", "Y", "M", "D", "T", "P")
+    sum.table.with.dates = data.frame(sum.table[, 1], dates.matrix, hdata[, 4], sum.table[, 2:3])
+    colnames(sum.table.with.dates) = c("N", "Y", "M", "D", "L", "T", "P")
   }
   
-  return(list(sum.table.with.dates, pts.selected))
+  return(list(df = sum.table.with.dates, pts = pts.selected))
 }
 
 #' Process gauge directory
@@ -154,63 +128,57 @@ process_gauge <- function(wd, rean, bufsize=50000){
   } else {
     
     # read only first file with .shp extension
-    shapes = list.files("Shape")
-    flt = grep(".shp$", shapes, perl = TRUE)
-    region = str_interp('Shape/${shapes[flt][1]}') %>% st_read() 
+    shapes = list.files()
+    flt = grep(".gpkg$", shapes, perl = TRUE)
     
-    # buffer region to select more points
-    buffer = region %>% 
-      st_transform_opt() %>% # optimal projection
-      st_buffer(bufsize) %>% 
-      st_transform(4326)
-    
-    results = grwat::process_data(hdata, rean, buffer) # TODO: nice processing here
-    
-    sum.table.with.dates = results[[1]]
-    pts.selected = results[[2]]
-    
-    if (is.null(pts.selected)){
-      warning("Failed to calculate statistics for ", gauge, ". No reanalysis data available")
+    if (length(flt) == 0){
+      warning('Cannot find a geopackage with basin border')
     } else {
       
-      reanpts = nrow(pts.selected)
+      region = st_read(shapes[flt][1]) # select only first geopackage
       
-      CairoPNG(str_interp('${wd}.png'),  
-               height = 5, width = 5, 
-               units = 'in', dpi = 300)
+      # buffer region to select more points
+      buffer = grwat::st_buffer_geo(region, bufsize)
       
-      par_default = par(no.readonly = TRUE)
-      par(mfrow = c(1,1))
+      results = grwat::join_interim(hdata, rean, buffer) # TODO: nice processing here
       
+      sum.table.with.dates = results[[1]]
+      pts.selected = results[[2]]
       
-      plot(buffer %>% st_geometry(), col = rgb(1, 0, 0, 0.2), border = rgb(1, 0, 0), lwd = 0.5)
-      plot(region, col = rgb(1, 0, 0, 0.5), border = rgb(1, 0, 0), add = TRUE)
-      plot(rivers, col = 'steelblue4', lwd = 0.5, add = TRUE)
-      plot(rivers_europe, col = 'steelblue4', lwd = 0.2, add = TRUE)
-      plot(lakes, border = 'steelblue4', col = 'skyblue', lwd = 0.2, add = TRUE)
-      plot(lakes_europe, border = 'steelblue4', col = 'skyblue', lwd = 0.2, add = TRUE)
-      plot(ocean, border = 'steelblue4', col = 'skyblue', lwd = 0.5, add = TRUE)
-      plot(rean$pts, pch = 19, col = 'gray30', cex = 0.3, add = TRUE)
-      plot(pts.selected, pch = 19, col = 'black', cex = 0.7, add = TRUE)
-      box(lwd = 0.2, col = 'black')
-      
-      par(par_default)
-      
-      dev.off()
-      
-      # write output files
-      sum.table.with.dates %>% 
-        select(`T`, P) %>% 
-        write_delim(path = paste(input_name, "_rean.txt", sep = ""),
-                    delim = " ",
-                    col_names = FALSE
-        )
-      sum.table.with.dates %>% 
-        select(D, M, Y, `T`, P) %>% 
-        write_delim(path = paste(input_name, "_rean_ymd.txt", sep = ""),
-                    delim = " ",
-                    col_names = FALSE
-        )
+      if (is.null(pts.selected)){
+        warning("Failed to calculate statistics for ", gauge, ". No reanalysis data available")
+      } else {
+        
+        reanpts = nrow(pts.selected)
+        
+        # Cairo::CairoPNG(stringr::str_interp('${wd}.png'), 
+        Cairo::CairoPNG('Yeah.png',
+                 height = 5, width = 5, 
+                 units = 'in', dpi = 300)
+        
+        par_default = par(no.readonly = TRUE)
+        par(mfrow = c(1,1))
+        
+        grwat::map(rean$pts, pts.selected, region, buffer)
+        
+        par(par_default)
+        
+        dev.off()
+        
+        # write output files
+        sum.table.with.dates %>% 
+          dplyr::select(`T`, P) %>% 
+          readr::write_delim(path = paste(input_name, "_rean.txt", sep = ""),
+                      delim = " ",
+                      col_names = FALSE
+          )
+        sum.table.with.dates %>% 
+          dplyr::select(D, M, Y, `T`, P) %>% 
+          readr::write_delim(path = paste(input_name, "_rean_ymd.txt", sep = ""),
+                      delim = " ",
+                      col_names = FALSE
+          )
+      } 
     }
   }
   

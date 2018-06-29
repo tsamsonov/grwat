@@ -44,18 +44,18 @@ multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 }
 
 st_transform_opt <- function(s){
-  box = st_bbox(s)
+  box = sf::st_bbox(s)
   # TODO: projections over 180 meridian
   L0 = 0.5 * (box[1] + box[3]) # central meridian
   db = box[4] - box[2] # latitude range
   B1 = box[2] + db * 0.25 # southern standard parallel
   B2 = box[2] + db * 0.75 # northern standard parallel
   
-  datum = st_crs(s)$datum
+  datum = sf::st_crs(s)$datum
   
-  p4s = str_interp('+proj=lcc +lat_1=${B2} +lat_0=${B1} +lon_0=${L0} +datum=${datum} +no_defs')
+  p4s = stringr::str_interp('+proj=lcc +lat_1=${B2} +lat_0=${B1} +lon_0=${L0} +datum=${datum} +no_defs')
   
-  return(s %>% st_transform(p4s))
+  return(s %>% sf::st_transform(p4s))
 }
 
 replace_year <- function(d) {

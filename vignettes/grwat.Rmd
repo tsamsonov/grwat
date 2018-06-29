@@ -1,5 +1,5 @@
 ---
-title: "Intoroduction to grwat R package"
+title: "Introduction to grwat R package"
 author: "Timofey Samsonov"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -16,11 +16,59 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r, eval=FALSE}
+# Prepare 
+
+grwat package allows three different levels of hydrograph preparation:
+
+1. data level joins reanalysis data to hydrograph data
+2. gauge level processes gauge directory and produces hydrograph data enriched with reanalysis data, and generates a small map of the source data
+3. basin level goes through multiple gauge directories inside basin and generates enriched data for each basin
+
+The first level should be used to generate output inside R session, while the second and the third level produce files inside provided folder.
+
+## Raw table
+
+You can join reanalysis and water level data for a single gauge as follows:
+```{r, message=FALSE, warning=FALSE}
+library(sf)
 library(grwat)
 
-wd = "/Volumes/Data/Work/_Kireeva/2018/"
-grwat::process_basins(wd)
+wd = "/Volumes/Data/Work/_grwat/Mezen_Malonisog/"
+
+setwd(wd)
+
+hdata = read.csv('in_Mezen_Malonisog.txt', sep = ' ', header = FALSE) # read gauge data
+head(hdata)
+
+basin = st_read('Mezen_Malonisog.gpkg', quiet = TRUE) # read basin region
+basin_pr = grwat::st_buffer_geo(basin, 50000)  # buffer region by 50 km
+
+rean = grwat::read_interim('prec.nc', 'temp.nc') # read reanalysis data
+hdata_rean = grwat::join_interim(hdata, rean, basin_pr) # join reanalysis data to hydrological series
+head(hdata_rean$df)
+```
+
+After reanalysis data are joined you can easily plot a map of the derived spatial configuration with
+```{r, message=FALSE, warning=FALSE}
+grwat::map(rean$pts, hdata_rean$pts, basin, basin_pr) # plot spatial configuration
 ```
 
 
+## Gauge folder
+
+Grwat can process hydrological data that is inside one gauge folder. That folder should contain *two* files:
+
+- Text file with hydrological data in CSV format, space-separated (`*.txt` extension)
+- [GeoPackage](https://www.geopackage.org) file with borders of a river basin (`*.gpkg` extension)^[You can easily convert spatial files to GeoPackage using [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, or via [GDAL](http://www.gdal.org) command-line processing if you need batch processing]
+
+Reanalysis data should be read before using `read_interim()` function from grwat package. Having these prerequisities satisfied, the command is:
+```{r, message=FALSE, warning=FALSE}
+grwat::process_gauge(wd, rean, bufsize = 50000) # process single folder
+```
+
+
+## Basins folder
+
+# Separate
+
+# Report
