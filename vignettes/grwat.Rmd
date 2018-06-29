@@ -63,11 +63,11 @@ Grwat can process hydrological data that is inside one gauge folder. That folder
 - Text file with hydrological data in CSV format, space-separated (`.txt` extension)
 - GeoPackage file with polygon of a gauge watershed area (`.gpkg` extension)
 
-> We use GeoPackage because it is [OGC-standardized](https://www.geopackage.org), fast, modern and powerful spatial data format that does not include any sidecar files like Esri Shapefile. You can easily convert many spatial data formats to GeoPackage by [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, using `st_write` function from `sf` R package, or via [GDAL](http://www.gdal.org) utils if you prefer command-line processing.
-
 The name of the file is not restricted, only the extension and the format. Here is an example:
 
 ![](in_gauge.png)
+
+> We use GeoPackage because it is [OGC-standardized](https://www.geopackage.org), fast, modern and powerful spatial data format that does not include any sidecar files (like Esri Shapefile). You can easily convert many spatial data formats to GeoPackage by [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, using `st_read` and then `st_write` functions from [`sf`](https://r-spatial.github.io/sf/) R package, or via [GDAL](http://www.gdal.org) utils if you prefer command line or need batch processing (which can also be automated in R).
 
 Reanalysis data should be read before using `read_interim()` function from grwat package. Having these prerequisities satisfied, the command is:
 ```{r, eval=FALSE}
