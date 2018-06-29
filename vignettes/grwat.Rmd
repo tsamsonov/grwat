@@ -12,7 +12,7 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = ""
+  comment = "#>"
 )
 ```
 
@@ -63,15 +63,19 @@ Grwat can process hydrological data that is inside one gauge folder. That folder
 - Text file with hydrological data in CSV format, space-separated (`.txt` extension)
 - [GeoPackage](https://www.geopackage.org) file with polygon of a gauge watershed area (`.gpkg` extension)
 
-The name of the file is not restricted, only the extension and the format.
+The name of the file is not restricted, only the extension and the format. Here is an example:
 
-> You can easily convert many spatial data formats to GeoPackage using [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, or via [GDAL](http://www.gdal.org) command-line utils if you need batch processing
+![](in_gauge.png)
 
 Reanalysis data should be read before using `read_interim()` function from grwat package. Having these prerequisities satisfied, the command is:
-```{r, message=FALSE, warning=FALSE}
+```{r, eval=FALSE}
 grwat::process_gauge(wd, rean, bufsize = 50000) # process single folder
 ```
-The value returned by this function is a number of reanalysis points extracted by buffered basin region.
+The value returned by this function is a number of reanalysis points extracted by buffered basin region. As a result of the execution of this function the folder receives two enriched data files and a map of the spatial configuration:
+
+![](out_gauge.png)
+
+> You can easily convert many spatial data formats to GeoPackage using [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, or via [GDAL](http://www.gdal.org) command-line utils if you need batch processing
 
 ## Basins folder
 
@@ -84,7 +88,11 @@ Basins mode provides automation of reanalysis data joining across multiple basin
 
 The names of basin and gauge folders are not restricted, but we highly recommend begin with a letter and proceed with alphanumerical symbols, underscore and a hyphen from ASCII encoding (`a-z, A-Z, 0-9, _, -`)
 
-The processing of such folder structure is performed by `process_basins()` function:
+An example of specified directory structure is provided in the picture below:
+
+![](in_folder.png)
+
+The processing of this folder structure is performed by `process_basins()` function:
 ```{r, eval=FALSE}
 wd = "/Volumes/Data/Work/_grwat/2018/"
 grwat::process_basins(wd, rean, bufsize = 50000) # process single folder
@@ -103,6 +111,10 @@ It works in a following way:
 
     
     In both cases the corresponding gauge folder will not contain any new files inside, and the further exploration of the problem should be taken by user. 0 means that the watershed is located outside the extent of reanalysis data or it is too small in comparison with spatial sampling of reanalysis data. Try increasing buffer size. -1 means that there are problems with your input files, and solution depends on the exact case (you must diagnose the reasons by yourself).
+
+An example of resulting directory structure is provided in the picture below:
+
+![](out_folder.png)
 
 # Separate
 

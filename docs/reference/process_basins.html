@@ -111,7 +111,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>process_basins</span>(<span class='no'>wd</span>, <span class='kw'>bufsize</span> <span class='kw'>=</span> <span class='fl'>50000</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>process_basins</span>(<span class='no'>wd</span>, <span class='no'>rean</span>, <span class='kw'>bufsize</span> <span class='kw'>=</span> <span class='fl'>50000</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -125,6 +125,10 @@
       <td><p>Size of a buffer that is used to select reanalysis data
 around each basin</p></td>
     </tr>
+    <tr>
+      <th>clear</th>
+      <td><p>Boolean. Whether to remove out directory before processing. Defaults to TRUE</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -135,7 +139,7 @@ around each basin</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='kw pkg'>grwat</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/grwat/topics/process_basins'>process_basins</a></span>(<span class='no'>wd</span>)
+<span class='kw pkg'>grwat</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/grwat/topics/process_basins'>process_basins</a></span>(<span class='no'>wd</span>, <span class='no'>rean</span>, <span class='kw'>bufsize</span><span class='kw'>=</span><span class='fl'>50000</span>, <span class='kw'>clear</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

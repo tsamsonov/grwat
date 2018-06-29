@@ -100,29 +100,31 @@
 <a class="sourceLine" id="cb1-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">setwd</span>(wd)</a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">hdata =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">'in_Mezen_Malonisog.txt'</span>, <span class="dt">sep =</span> <span class="st">' '</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>) <span class="co"># read gauge data</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">head</span>(hdata)</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;   V1 V2   V3  V4</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 1 11  5 1945 142</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 2 12  5 1945 146</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 3 13  5 1945 148</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 4 14  5 1945 158</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 5 15  5 1945 175</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; 6 16  5 1945 212</span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18">basin =<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="st">'Mezen_Malonisog.gpkg'</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>) <span class="co"># read basin region</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19">basin_pr =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/st_buffer_geo">st_buffer_geo</a></span>(basin, <span class="dv">50000</span>)  <span class="co"># buffer region by 50 km</span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb1-21" data-line-number="21">rean =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/read_interim">read_interim</a></span>(<span class="st">'prec.nc'</span>, <span class="st">'temp.nc'</span>) <span class="co"># read reanalysis data</span></a>
-<a class="sourceLine" id="cb1-22" data-line-number="22">hdata_rean =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/join_interim">join_interim</a></span>(hdata, rean, basin_pr) <span class="co"># join reanalysis data to hydrological series</span></a>
-<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="kw">head</span>(hdata_rean<span class="op">$</span>df)</a>
-<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">#&gt;       N    Y M  D   L     T     P</span></a>
-<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt; 1 23872 1945 5 11 142 -3.61 1.081</span></a>
-<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; 2 23873 1945 5 12 146 -0.41 3.266</span></a>
-<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt; 3 23874 1945 5 13 148 -0.05 5.723</span></a>
-<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; 4 23875 1945 5 14 158 -0.19 1.774</span></a>
-<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; 5 23876 1945 5 15 175 -0.26 1.690</span></a>
-<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#&gt; 6 23877 1945 5 16 212 -0.89 1.648</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-8" data-line-number="8">hdata =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">'in_Mezen_Malonisog.txt'</span>,</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">                 <span class="dt">header =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">                 <span class="dt">sep =</span> <span class="st">' '</span>) <span class="co"># read gauge data</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">head</span>(hdata)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt;   V1 V2   V3  V4</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 1 11  5 1945 142</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 2 12  5 1945 146</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 3 13  5 1945 148</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; 4 14  5 1945 158</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 5 15  5 1945 175</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; 6 16  5 1945 212</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">basin =<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="st">'Mezen_Malonisog.gpkg'</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>) <span class="co"># read basin region</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">basin_pr =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/st_buffer_geo">st_buffer_geo</a></span>(basin, <span class="dv">50000</span>)  <span class="co"># buffer region by 50 km</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23">rean =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/read_interim">read_interim</a></span>(<span class="st">'prec.nc'</span>, <span class="st">'temp.nc'</span>) <span class="co"># read reanalysis data</span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24">hdata_rean =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/join_interim">join_interim</a></span>(hdata, rean, basin_pr) <span class="co"># join reanalysis data to hydrological series</span></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="kw">head</span>(hdata_rean<span class="op">$</span>df)</a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt;       N    Y M  D     T     P   L</span></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt; 1 23872 1945 5 11 -3.61 1.081 142</span></a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; 2 23873 1945 5 12 -0.41 3.266 146</span></a>
+<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; 3 23874 1945 5 13 -0.05 5.723 148</span></a>
+<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#&gt; 4 23875 1945 5 14 -0.19 1.774 158</span></a>
+<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="co">#&gt; 5 23876 1945 5 15 -0.26 1.690 175</span></a>
+<a class="sourceLine" id="cb1-32" data-line-number="32"><span class="co">#&gt; 6 23877 1945 5 16 -0.89 1.648 212</span></a></code></pre></div>
 <p>After reanalysis data are joined you can easily plot a map of the derived spatial configuration with</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/map">map</a></span>(rean<span class="op">$</span>pts, hdata_rean<span class="op">$</span>pts, basin, basin_pr) <span class="co"># plot spatial configuration</span></a></code></pre></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
@@ -136,14 +138,15 @@
 <li>
 <a href="https://www.geopackage.org">GeoPackage</a> file with polygon of a gauge watershed area (<code>.gpkg</code> extension)</li>
 </ul>
-<p>The name of the file is not restricted, only the extension and the format.</p>
+<p>The name of the file is not restricted, only the extension and the format. Here is an example:</p>
+<p><img src="in_gauge.png"></p>
+<p>Reanalysis data should be read before using <code><a href="../reference/read_interim.html">read_interim()</a></code> function from grwat package. Having these prerequisities satisfied, the command is:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/process_gauge">process_gauge</a></span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></a></code></pre></div>
+<p>The value returned by this function is a number of reanalysis points extracted by buffered basin region. As a result of the execution of this function the folder receives two enriched data files and a map of the spatial configuration:</p>
+<p><img src="out_gauge.png"></p>
 <blockquote>
 <p>You can easily convert many spatial data formats to GeoPackage using <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, or via <a href="http://www.gdal.org">GDAL</a> command-line utils if you need batch processing</p>
 </blockquote>
-<p>Reanalysis data should be read before using <code><a href="../reference/read_interim.html">read_interim()</a></code> function from grwat package. Having these prerequisities satisfied, the command is:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/process_gauge">process_gauge</a></span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] 8</span></a></code></pre></div>
-<p>The value returned by this function is a number of reanalysis points extracted by buffered basin region.</p>
 </div>
 <div id="basins-folder" class="section level2">
 <h2 class="hasAnchor">
@@ -156,8 +159,11 @@
 <li>Each gauge folder contains strictly two files: a <code>.txt</code> file with hydrological data, and <code>.gpkg</code> file with polygon of a gauge watershed area.</li>
 </ol>
 <p>The names of basin and gauge folders are not restricted, but we highly recommend begin with a letter and proceed with alphanumerical symbols, underscore and a hyphen from ASCII encoding (<code>a-z, A-Z, 0-9, _, -</code>)</p>
-<p>The processing of such folder structure is performed by <code><a href="../reference/process_basins.html">process_basins()</a></code> function:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/process_basins">process_basins</a></span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></a></code></pre></div>
+<p>An example of specified directory structure is provided in the picture below:</p>
+<p><img src="in_folder.png"></p>
+<p>The processing of this folder structure is performed by <code><a href="../reference/process_basins.html">process_basins()</a></code> function:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">wd =<span class="st"> "/Volumes/Data/Work/_grwat/2018/"</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/process_basins">process_basins</a></span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></a></code></pre></div>
 <p>It works in a following way:</p>
 <ol style="list-style-type: decimal">
 <li><p><code><a href="../reference/process_basins.html">process_basins()</a></code> takes <strong>in</strong> folder inside folder specified by <code>wd</code> parameter and copies its content to a new <strong>out</strong> folder in the same directory. All the following procedures are executed inside <strong>out</strong> folder, which allows easy removal of results and rexecution of the processing if some parameters should be changed.</p></li>
@@ -171,6 +177,8 @@
 <p>In both cases the corresponding gauge folder will not contain any new files inside, and the further exploration of the problem should be taken by user. 0 means that the watershed is located outside the extent of reanalysis data or it is too small in comparison with spatial sampling of reanalysis data. Try increasing buffer size. -1 means that there are problems with your input files, and solution depends on the exact case (you must diagnose the reasons by yourself).</p>
 </li>
 </ol>
+<p>An example of resulting directory structure is provided in the picture below:</p>
+<p><img src="out_folder.png"></p>
 </div>
 </div>
 <div id="separate" class="section level1">

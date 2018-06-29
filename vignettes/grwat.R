@@ -1,7 +1,7 @@
 ## ----setup, include = FALSE----------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = ""
+  comment = "#>"
 )
 
 ## ---- message=FALSE, warning=FALSE---------------------------------------
@@ -27,8 +27,8 @@ head(hdata_rean$df)
 ## ---- message=FALSE, warning=FALSE---------------------------------------
 grwat::map(rean$pts, hdata_rean$pts, basin, basin_pr) # plot spatial configuration
 
-## ---- message=FALSE, warning=FALSE---------------------------------------
-grwat::process_gauge(wd, rean, bufsize = 50000) # process single folder
+## ---- eval=FALSE---------------------------------------------------------
+#  grwat::process_gauge(wd, rean, bufsize = 50000) # process single folder
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  wd = "/Volumes/Data/Work/_grwat/2018/"
