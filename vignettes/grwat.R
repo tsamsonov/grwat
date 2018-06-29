@@ -28,3 +28,6 @@ grwat::map(rean$pts, hdata_rean$pts, basin, basin_pr) # plot spatial configurati
 ## ---- message=FALSE, warning=FALSE---------------------------------------
 grwat::process_gauge(wd, rean, bufsize = 50000) # process single folder
 
+## ---- eval = FALSE-------------------------------------------------------
+#  grwat::process_basins(wd, rean, bufsize = 50000) # process single folder
+

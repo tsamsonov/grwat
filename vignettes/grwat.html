@@ -293,8 +293,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li>basin level goes through multiple gauge directories inside basin and generates enriched data for each basin</li>
 </ol>
 <p>The first level should be used to generate output inside R session, while the second and the third level produce files inside provided folder.</p>
-<div id="raw-table" class="section level2">
-<h2>Raw table</h2>
+<div id="manual-preparation" class="section level2">
+<h2>Manual preparation</h2>
 <p>You can join reanalysis and water level data for a single gauge as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(grwat)</a>
@@ -334,9 +334,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>Gauge folder</h2>
 <p>Grwat can process hydrological data that is inside one gauge folder. That folder should contain <strong>two</strong> files:</p>
 <ul>
-<li>Text file with hydrological data in CSV format, space-separated (<code>*.txt</code> extension)</li>
-<li><a href="https://www.geopackage.org">GeoPackage</a> file with borders of a river basin (<code>*.gpkg</code> extension)</li>
+<li>Text file with hydrological data in CSV format, space-separated (<code>.txt</code> extension)</li>
+<li><a href="https://www.geopackage.org">GeoPackage</a> file with polygon of a gauge watershed area (<code>.gpkg</code> extension)</li>
 </ul>
+<p>The name of the file is not restricted, only the extension and the format.</p>
 <blockquote>
 <p>You can easily convert many spatial data formats to GeoPackage using <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, or via <a href="http://www.gdal.org">GDAL</a> command-line utils if you need batch processing</p>
 </blockquote>
@@ -347,6 +348,27 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="basins-folder" class="section level2">
 <h2>Basins folder</h2>
+<p>Basins mode provides automation of reanalysis data joining across multiple basins and gauges. It is based on a fixed folder structure that should be organized by user. This structure is:</p>
+<ol style="list-style-type: decimal">
+<li>The top-level folder specified by user must contain only one folder, which is called <strong>in</strong>.</li>
+<li>This <strong>in</strong> folder contains an arbitrary number of folders (at least one), each of those corresponding to a single river <strong>basin</strong>.</li>
+<li>Each river basin folder contains an arbitrary number of folders (at least one), each of those corresponding to a single river <strong>gauge</strong>.</li>
+<li>Each gauge folder contains strictly two files: a <code>.txt</code> file with hydrological data, and <code>.gpkg</code> file with polygon of a gauge watershed area.</li>
+</ol>
+<p>The names of basin and gauge folders are not restricted, but we highly recommend begin with a letter and proceed with alphanumerical symbols, underscore and a hyphen from ASCII encoding (<code>a-z, A-Z, 0-9, _, -</code>)</p>
+<p>The processing of such folder structure is performed by <code>process_basins()</code> function:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">grwat<span class="op">::</span><span class="kw">process_basins</span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></a></code></pre></div>
+<p>It works in a following way:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>process_basins()</code> takes <strong>in</strong> folder inside folder specified by <code>wd</code> parameter and copies its content to a new <strong>out</strong> folder in the same directory. All the following procedures are executed inside <strong>out</strong> folder, which allows easy removal of results and rexecution of the processing if some parameters should be changed.</p></li>
+<li><p>Every gauge folder is processed using <code>process_gauge()</code> function which produces enriched data files and a map inside each gauge folder.</p></li>
+<li><p><code>process_basins()</code> also produces <em>summary.txt</em> files inside each basin folder and one <em>summary.txt</em> file directly in <strong>out</strong> folder. These files contain a number of reanalysis points for each gauge’s watershed. These are two special cases:</p>
+<ul>
+<li>0 means that no reanalysis data are found inside a watershed</li>
+<li>-1 means that there were problems either reading <code>.txt</code> or <code>.gpkg</code> file</li>
+</ul>
+<p>In both cases the corresponding gauge folder will not contain any new files inside, and the further exploration of the problem should be taken by user. 0 means that the watershed is too small in comparison with spatial sampling of reanalysis data. Try increasing buffer size. -1 means that there are problems with your input files, and solution depends on the exact case (you must diagnose the reasons by yourself).</p></li>
+</ol>
 </div>
 </div>
 <div id="separate" class="section level1">

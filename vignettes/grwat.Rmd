@@ -58,8 +58,10 @@ grwat::map(rean$pts, hdata_rean$pts, basin, basin_pr) # plot spatial configurati
 
 Grwat can process hydrological data that is inside one gauge folder. That folder should contain __two__ files:
 
-- Text file with hydrological data in CSV format, space-separated (`*.txt` extension)
-- [GeoPackage](https://www.geopackage.org) file with borders of a river basin (`*.gpkg` extension)
+- Text file with hydrological data in CSV format, space-separated (`.txt` extension)
+- [GeoPackage](https://www.geopackage.org) file with polygon of a gauge watershed area (`.gpkg` extension)
+
+The name of the file is not restricted, only the extension and the format.
 
 > You can easily convert many spatial data formats to GeoPackage using [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, or via [GDAL](http://www.gdal.org) command-line utils if you need batch processing
 
@@ -70,6 +72,34 @@ grwat::process_gauge(wd, rean, bufsize = 50000) # process single folder
 The value returned by this function is a number of reanalysis points extracted by buffered basin region.
 
 ## Basins folder
+
+Basins mode provides automation of reanalysis data joining across multiple basins and gauges. It is based on a fixed folder structure that should be organized by user. This structure is:
+
+1. The top-level folder specified by user must contain only one folder, which is called __in__.
+2. This __in__ folder contains an arbitrary number of folders (at least one), each of those corresponding to a single river __basin__.
+3. Each river basin folder contains an arbitrary number of folders (at least one), each of those corresponding to a single river __gauge__.
+4. Each gauge folder contains strictly two files: a `.txt` file with hydrological data, and `.gpkg` file with polygon of a gauge watershed area.
+
+The names of basin and gauge folders are not restricted, but we highly recommend begin with a letter and proceed with alphanumerical symbols, underscore and a hyphen from ASCII encoding (`a-z, A-Z, 0-9, _, -`)
+
+The processing of such folder structure is performed by `process_basins()` function:
+```{r, eval = FALSE}
+grwat::process_basins(wd, rean, bufsize = 50000) # process single folder
+```
+
+It works in a following way:
+
+1. `process_basins()` takes __in__ folder inside folder specified by `wd` parameter and copies its content to a new __out__ folder in the same directory. All the following procedures are executed inside __out__ folder, which allows easy removal of results and rexecution of the processing if some parameters should be changed.
+
+2. Every gauge folder is processed using `process_gauge()` function which produces enriched data files and a map inside each gauge folder. 
+
+3. `process_basins()` also produces _summary.txt_ files inside each basin folder and one _summary.txt_ file directly in __out__ folder. These files contain a number of reanalysis points for each gauge's watershed. These are two special cases:
+
+    - 0 means that no reanalysis data are found inside a watershed
+    - -1 means that there were problems either reading `.txt` or `.gpkg` file
+
+    
+    In both cases the corresponding gauge folder will not contain any new files inside, and the further exploration of the problem should be taken by user. 0 means that the watershed is located outside the extent of reanalysis data or it is too small in comparison with spatial sampling of reanalysis data. Try increasing buffer size. -1 means that there are problems with your input files, and solution depends on the exact case (you must diagnose the reasons by yourself).
 
 # Separate
 
