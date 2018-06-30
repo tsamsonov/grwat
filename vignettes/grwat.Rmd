@@ -16,17 +16,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Prepare 
+# Process 
 
-grwat package allows three different levels of hydrograph preparation:
+Processing joins reanalysis data to raw hydrlogical data on time stamps and geographic location. It can be made using grwat in three regimes: manual, gauge folder processing and basins folder processing. 
 
-1. data level joins reanalysis data to hydrograph data
-2. gauge level processes gauge directory and produces hydrograph data enriched with reanalysis data, and generates a small map of the source data
-3. basin level goes through multiple gauge directories inside basin and generates enriched data for each basin
-
-The first level should be used to generate output inside R session, while the second and the third level produce files inside provided folder.
-
-## Manual preparation
+## Manual processing
 
 You can join reanalysis and water level data for a single gauge as follows:
 ```{r, message=FALSE, warning=FALSE}
@@ -61,13 +55,11 @@ grwat::map(rean$pts, hdata_rean$pts, basin, basin_pr) # plot spatial configurati
 Grwat can process hydrological data that is inside one gauge folder. That folder should contain __two__ files:
 
 - Text file with hydrological data in CSV format, space-separated (`.txt` extension)
-- GeoPackage file with polygon of a gauge watershed area (`.gpkg` extension)
+- Spatial data file with polygon of a gauge watershed area in Geopackage (`.gpkg` extension) or Shapefile (`.shp` extension) format
 
 The name of the file is not restricted, only the extension and the format. Here is an example:
 
 ![](in_gauge.png)
-
-> We use GeoPackage because it is [OGC-standardized](https://www.geopackage.org), fast, modern and powerful spatial data format that does not include any sidecar files (like Esri Shapefile). You can easily convert many spatial data formats to GeoPackage by [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, using `st_read` and then `st_write` functions from [`sf`](https://r-spatial.github.io/sf/) R package, or via [GDAL](http://www.gdal.org) utils if you prefer command line or need batch processing (which can also be automated in R).
 
 Reanalysis data should be read before using `read_interim()` function from grwat package. Having these prerequisities satisfied, the command is:
 ```{r, eval=FALSE}
@@ -76,6 +68,8 @@ grwat::process_gauge(wd, rean, bufsize = 50000) # process single folder
 The value returned by this function is a number of reanalysis points extracted by buffered basin region. As a result of the execution of this function the folder receives two enriched data files and a map of the spatial configuration:
 
 ![](out_gauge.png)
+
+> We recommend using GeoPackage because it is fast and powerful [OGC-standardized](https://www.geopackage.org) modern spatial data format that does not include any sidecar files like Esri Shapefile. You can easily convert many spatial data formats to GeoPackage by [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, using `st_read` and then `st_write` functions from [`sf`](https://r-spatial.github.io/sf/) R package, or via [GDAL](http://www.gdal.org) utils if you prefer command line or need batch processing (which can also be automated in R).
 
 ## Basins folder
 
@@ -118,13 +112,65 @@ An example of resulting directory structure is provided in the picture below:
 
 # Separate
 
-Currently separation procedure is unavalable inside grwat package and is performed using external command-line Fortran program that produces two files inside each gauge folder:
+Currently separation procedure is unavalable inside grwat package and is performed using external command-line Fortran^[In the next release of grwat package separation stage will be rewritten in C++ using Rcpp package to provide the complete workflow inside R ecosystem] program that produces two files:
 
 - _AllGrWat.txt_ contains hydrograph separation data
 - _Total.txt_ contains multiple characteristics of water discharge
 
-These output data can be visualised and statistically assessed by grwat functions that are uncovered in the next section.
+These output data can be visualised and statistically assessed by grwat functions that are uncovered in the next section. 
 
-> In the next release of grwat package separation stage will be rewritten in C++ using Rcpp package to provide the complete workflow inside R ecosystem.
+We recommend placing these files in the same folder as processed data like in a picture below:
+
+![](sep_files.png)
 
 # Report
+
+Reporting functions from grwat package allow you to:
+
+- Plot separation of hydrograph
+- Plot interannual changes of key water discharge characteristics
+- Plot long-term changes of key water discharge characteristics
+- Perform statistical tests on all calculated characteristics
+- Export all this stuff in a form of a single-file PDF report
+
+> Currently only English locale is provided in plots. In future releases Russian locale will also be added
+
+## Plot separation of hydrograph
+
+To plot separation of hydrograph you need results of a separation procedure which are saved as _AllGrWat.txt_ text file (see previous section). This file is read by `read_separation()` function:
+
+```{r, message=FALSE}
+setwd("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
+
+sep = grwat::read_separation('AllGrWat.txt')#
+head(sep)
+```
+
+You can then plot separations for selected years using `plot_separation()` function:
+```{r}
+grwat::plot_separation(sep, 1978) # plot single year
+grwat::plot_separation(sep, c(1994, 2001)) # plot two years sequentially
+grwat::plot_separation(sep, 1994:1997, # plot four years on the same page
+                       layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
+```
+
+## Plot interannual changes
+
+Interannual changes of parameters are read from _Total.txt_ file using `read_parameters()` function:
+```{r}
+setwd("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
+
+df = grwat::read_parameters('Total.txt') # read parameters file
+head(df)
+```
+
+To get the detailed description of available parameters you can invoke `get_parameters()`:
+```{r}
+grwat::get_parameters()
+```
+
+Plotting discharge parameters is like plotting separation except that you should provide names or numbers of parameters instead of years. Names are quoted, so you do not need to eclose them in quotes. Plotting is made by `plot_parameters()` function:
+```{r}
+
+```
+

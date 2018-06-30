@@ -47,24 +47,24 @@ read_interim <- function(file_prec, file_temp){
 #'
 #' @return data.frame
 #' @export
-read_total <- function(file_tot){
+read_parameters <- function(file_tot){
   
-  col_collectors = lapply(params_out$Type, get_col_type)
+  col_collectors = lapply(params_out$Readtype, get_col_type) # TODO: safe loading of parameters
   
   excl = which(params_out$Source == 0) # exclude calculated variables
   
-  total = read_fwf(file_tot, 
+  total = readr::read_fwf(file_tot, 
                    readr::fwf_widths(widths = params_out$Width[-excl], 
                                      col_names = params_out$Name[-excl]), 
                    col_types = col_collectors[-excl],
                    skip = 1)
   
-  total = total %>% 
-    dplyr::mutate(monmmsummer = ymd(paste("2000", monmmsummer, "01")),
-                  nommwin = ymd(paste("2000", nommwin, "01")))
-  
-  params_out$coltypes[which(colnames(total) == 'monmmsummer')] = 'Date'
-  params_out$coltypes[which(colnames(total) == 'nommwin')] = 'Date'
+  total = total %>%
+    dplyr::mutate(monmmsummer = lubridate::ymd(paste("2000", monmmsummer, "01")),
+                  nommwin = lubridate::ymd(paste("2000", nommwin, "01")))
+
+  # params_out$coltypes[which(colnames(total) == 'monmmsummer')] = 'Date'
+  # params_out$coltypes[which(colnames(total) == 'nommwin')] = 'Date'
   
   total$DaysPavsSum[abs(total$DaysPavsSum) > 300] = 0
   total$DaysThawWin[abs(total$DaysThawWin) > 300] = 0
@@ -83,18 +83,18 @@ read_total <- function(file_tot){
 #' @return data.frame
 #' @export
 read_separation <- function(file_sep){
-  read_fwf(file = file_sep, 
+  readr::read_fwf(file = file_sep, 
            skip = 1,
-           fwf_widths(c(16, rep(10, 7)), 
+           readr::fwf_widths(c(16, rep(10, 7)), 
                       c("Date", "Qin", "Qgr", "Qpol", 
                         "Qpav", "Qthaw", "Tin", "Pin")),
-           col_types = cols(
-             Date = col_date(format = "%d%.%m%.%Y"),
-             Qin = col_double(),
-             Qgr = col_double(),
-             Qpol = col_double(),
-             Qpav = col_double(),
-             Qthaw = col_double()
+           col_types = readr::cols(
+             Date = readr::col_date(format = "%d%.%m%.%Y"),
+             Qin = readr::col_double(),
+             Qgr = readr::col_double(),
+             Qpol = readr::col_double(),
+             Qpav = readr::col_double(),
+             Qthaw = readr::col_double()
            )
   )
 }

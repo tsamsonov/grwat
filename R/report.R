@@ -196,3 +196,14 @@ kable_tests <- function(tests){
                       repeat_header_text = "",
                       latex_options = c("striped", "repeat_header"))
 }
+
+#' Gete hydrograph parameters list
+#'
+#' @return data.frame of parameters
+#' @export
+#'
+#' @examples
+#' grwat::get_parameters()
+get_parameters <- function(){
+  return(params_out)
+}

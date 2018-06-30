@@ -70,7 +70,7 @@
       <h1>Introduction to grwat R package</h1>
                         <h4 class="author">Timofey Samsonov</h4>
             
-            <h4 class="date">2018-06-29</h4>
+            <h4 class="date">2018-06-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/master/vignettes/grwat.Rmd"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="hidden name"><code>grwat.Rmd</code></div>
@@ -79,19 +79,13 @@
 
     
     
-<div id="prepare" class="section level1">
+<div id="process" class="section level1">
 <h1 class="hasAnchor">
-<a href="#prepare" class="anchor"></a>Prepare</h1>
-<p>grwat package allows three different levels of hydrograph preparation:</p>
-<ol style="list-style-type: decimal">
-<li>data level joins reanalysis data to hydrograph data</li>
-<li>gauge level processes gauge directory and produces hydrograph data enriched with reanalysis data, and generates a small map of the source data</li>
-<li>basin level goes through multiple gauge directories inside basin and generates enriched data for each basin</li>
-</ol>
-<p>The first level should be used to generate output inside R session, while the second and the third level produce files inside provided folder.</p>
-<div id="manual-preparation" class="section level2">
+<a href="#process" class="anchor"></a>Process</h1>
+<p>Processing joins reanalysis data to raw hydrlogical data on time stamps and geographic location. It can be made using grwat in three regimes: manual, gauge folder processing and basins folder processing.</p>
+<div id="manual-processing" class="section level2">
 <h2 class="hasAnchor">
-<a href="#manual-preparation" class="anchor"></a>Manual preparation</h2>
+<a href="#manual-processing" class="anchor"></a>Manual processing</h2>
 <p>You can join reanalysis and water level data for a single gauge as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(grwat)</a>
@@ -135,17 +129,17 @@
 <p>Grwat can process hydrological data that is inside one gauge folder. That folder should contain <strong>two</strong> files:</p>
 <ul>
 <li>Text file with hydrological data in CSV format, space-separated (<code>.txt</code> extension)</li>
-<li>GeoPackage file with polygon of a gauge watershed area (<code>.gpkg</code> extension)</li>
+<li>Spatial data file with polygon of a gauge watershed area in Geopackage (<code>.gpkg</code> extension) or Shapefile (<code>.shp</code> extension) format</li>
 </ul>
 <p>The name of the file is not restricted, only the extension and the format. Here is an example:</p>
 <p><img src="in_gauge.png"></p>
-<blockquote>
-<p>We use GeoPackage because it is <a href="https://www.geopackage.org">OGC-standardized</a>, fast, modern and powerful spatial data format that does not include any sidecar files (like Esri Shapefile). You can easily convert many spatial data formats to GeoPackage by <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, using <code>st_read</code> and then <code>st_write</code> functions from <a href="https://r-spatial.github.io/sf/"><code>sf</code></a> R package, or via <a href="http://www.gdal.org">GDAL</a> utils if you prefer command line or need batch processing (which can also be automated in R).</p>
-</blockquote>
 <p>Reanalysis data should be read before using <code><a href="../reference/read_interim.html">read_interim()</a></code> function from grwat package. Having these prerequisities satisfied, the command is:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/process_gauge">process_gauge</a></span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></a></code></pre></div>
 <p>The value returned by this function is a number of reanalysis points extracted by buffered basin region. As a result of the execution of this function the folder receives two enriched data files and a map of the spatial configuration:</p>
 <p><img src="out_gauge.png"></p>
+<blockquote>
+<p>We recommend using GeoPackage because it is fast and powerful <a href="https://www.geopackage.org">OGC-standardized</a> modern spatial data format that does not include any sidecar files like Esri Shapefile. You can easily convert many spatial data formats to GeoPackage by <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, using <code>st_read</code> and then <code>st_write</code> functions from <a href="https://r-spatial.github.io/sf/"><code>sf</code></a> R package, or via <a href="http://www.gdal.org">GDAL</a> utils if you prefer command line or need batch processing (which can also be automated in R).</p>
+</blockquote>
 </div>
 <div id="basins-folder" class="section level2">
 <h2 class="hasAnchor">
@@ -183,7 +177,7 @@
 <div id="separate" class="section level1">
 <h1 class="hasAnchor">
 <a href="#separate" class="anchor"></a>Separate</h1>
-<p>Currently separation procedure is unavalable inside grwat package and is performed using external command-line Fortran program that produces two files inside each gauge folder:</p>
+<p>Currently separation procedure is unavalable inside grwat package and is performed using external command-line Fortran<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> program that produces two files:</p>
 <ul>
 <li>
 <em>AllGrWat.txt</em> contains hydrograph separation data</li>
@@ -191,13 +185,106 @@
 <em>Total.txt</em> contains multiple characteristics of water discharge</li>
 </ul>
 <p>These output data can be visualised and statistically assessed by grwat functions that are uncovered in the next section.</p>
-<blockquote>
-<p>In the next release of grwat package separation stage will be rewritten in C++ using Rcpp package to provide the complete workflow inside R ecosystem.</p>
-</blockquote>
+<p>We recommend placing these files in the same folder as processed data like in a picture below:</p>
+<p><img src="sep_files.png"></p>
 </div>
 <div id="report" class="section level1">
 <h1 class="hasAnchor">
 <a href="#report" class="anchor"></a>Report</h1>
+<p>Reporting functions from grwat package allow you to:</p>
+<ul>
+<li>Plot separation of hydrograph</li>
+<li>Plot interannual changes of key water discharge characteristics</li>
+<li>Plot long-term changes of key water discharge characteristics</li>
+<li>Perform statistical tests on all calculated characteristics</li>
+<li>Export all this stuff in a form of a single-file PDF report</li>
+</ul>
+<blockquote>
+<p>Currently only English locale is provided in plots. In future releases Russian locale will also be added</p>
+</blockquote>
+<div id="plot-separation-of-hydrograph" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plot-separation-of-hydrograph" class="anchor"></a>Plot separation of hydrograph</h2>
+<p>To plot separation of hydrograph you need results of a separation procedure which are saved as <em>AllGrWat.txt</em> text file (see previous section). This file is read by <code><a href="../reference/read_separation.html">read_separation()</a></code> function:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">setwd</span>(<span class="st">"/Volumes/Data/Work/_grwat/Mezen_Malonisog/"</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">sep =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/read_separation">read_separation</a></span>(<span class="st">'AllGrWat.txt'</span>)<span class="co">#</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw">head</span>(sep)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; # A tibble: 6 x 8</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;   Date         Qin   Qgr  Qpol  Qpav Qthaw   Tin   Pin</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 1 1938-03-23  43.3  43.3   0       0     0  9999  9999</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 2 1938-03-24  56.9  39.7  17.2     0     0  9999  9999</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 3 1938-03-25  77.7  36.1  41.6     0     0  9999  9999</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 4 1938-03-26 150    32.5 118.      0     0  9999  9999</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 5 1938-03-27 334    28.9 305.      0     0  9999  9999</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 6 1938-03-28 429    25.3 404.      0     0  9999  9999</span></a></code></pre></div>
+<p>You can then plot separations for selected years using <code><a href="../reference/plot_separation.html">plot_separation()</a></code> function:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_separation">plot_separation</a></span>(sep, <span class="dv">1978</span>) <span class="co"># plot single year</span></a></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_separation">plot_separation</a></span>(sep, <span class="kw">c</span>(<span class="dv">1994</span>, <span class="dv">2001</span>)) <span class="co"># plot two years sequentially</span></a></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-6-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_separation">plot_separation</a></span>(sep, <span class="dv">1994</span><span class="op">:</span><span class="dv">1997</span>, <span class="co"># plot four years on the same page</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">                       <span class="dt">layout =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="dt">nrow=</span><span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>))</a></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-6-4.png" width="700"></p>
+</div>
+<div id="plot-interannual-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plot-interannual-changes" class="anchor"></a>Plot interannual changes</h2>
+<p>Interannual changes of parameters are read from <em>Total.txt</em> file using <code><a href="../reference/read_parameters.html">read_parameters()</a></code> function:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">setwd</span>(<span class="st">"/Volumes/Data/Work/_grwat/Mezen_Malonisog/"</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">df =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/read_parameters">read_parameters</a></span>(<span class="st">'Total.txt'</span>) <span class="co"># read parameters file</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Warning: 3 failed to parse.</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw">head</span>(df)</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; # A tibble: 6 x 57</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;   year_number Year1 Year2 datestart  datepolend    Qy  Qmax datemax   </span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;         &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;date&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;    </span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; 1           1  1938  1939 2000-03-23 2000-06-08  98.1   747 2000-04-03</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; 2           2  1939  1940 2000-03-16 2000-07-11  66.9   487 2000-04-28</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; 3           3  1940  1941 2000-03-09 2000-07-12  97.4   995 2000-04-28</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; 4           4  1941  1942 2000-03-24 2000-07-21 214.   2030 2000-05-01</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 5           5  1942  1943 2000-04-02 2000-07-31 242.   2790 2000-05-08</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 6           6  1943  1944 2000-03-24 2000-06-15  71.3   451 2000-05-02</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; # ... with 49 more variables: Qygr &lt;dbl&gt;, Qmmsummer &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; #   monmmsummer &lt;date&gt;, Qmmwin &lt;dbl&gt;, nommwin &lt;date&gt;, Q30s &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; #   date30s1 &lt;date&gt;, date30s2 &lt;date&gt;, Q30w &lt;dbl&gt;, date30w1 &lt;date&gt;,</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; #   date30w2 &lt;date&gt;, Q10s &lt;dbl&gt;, date10s1 &lt;date&gt;, date10s2 &lt;date&gt;,</span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt; #   Q10w &lt;dbl&gt;, date10w1 &lt;date&gt;, date10w2 &lt;date&gt;, Q5s &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt; #   date5s1 &lt;date&gt;, date5s2 &lt;date&gt;, Q5w &lt;dbl&gt;, date5w1 &lt;date&gt;,</span></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt; #   date5w2 &lt;date&gt;, Wy &lt;dbl&gt;, Wgr &lt;dbl&gt;, Wpol1 &lt;dbl&gt;, Wpol2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt; #   Wpol3 &lt;dbl&gt;, Wpavs1 &lt;dbl&gt;, Wpavs2 &lt;dbl&gt;, Wpavthaw1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt; #   Wpavthaw2 &lt;dbl&gt;, WgrS &lt;dbl&gt;, WS &lt;dbl&gt;, WgrW &lt;dbl&gt;, WW &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt; #   Qmaxpavs &lt;dbl&gt;, datemaxpavs &lt;date&gt;, Qmaxpavthaw &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt; #   datemaxpavthaw &lt;date&gt;, SumProd &lt;int&gt;, DaysPavsSum &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt; #   WinProd &lt;int&gt;, DaysThawWin &lt;dbl&gt;, CvWin &lt;dbl&gt;, CvSum &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt; #   CountPavs &lt;int&gt;, CountThaws &lt;int&gt;, PolProd &lt;time&gt;</span></a></code></pre></div>
+<p>To get the detailed description of available parameters you can invoke <code><a href="../reference/get_parameters.html">get_parameters()</a></code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/get_parameters">get_parameters</a></span>()</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; # A tibble: 57 x 18</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;       ID Position Width Source Name   Units Unitsen Readtype Type  Desc   </span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;  1     1        1     7      1 year_… &lt;NA&gt;  &lt;NA&gt;    integer  inte… Номер …</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;  2     2        8    10      1 Year1  Год   Year    integer  inte… Год, к…</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;  3     3       18    10      1 Year2  Год   Year    integer  inte… Год, к…</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;  4     4       28    15      1 dates… Дата  Date    Date     Date  Дата н…</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;  5     5       43    15      1 datep… Дата  Date    Date     Date  Дата о…</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt;  6     6       58    10      1 Qy     м^3/с m^3/s   double   doub… Средни…</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt;  7     7       68    10      1 Qmax   м^3/с m^3/s   double   doub… Максим…</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt;  8     8       78    15      1 datem… Дата  Date    Date     Date  Дата м…</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;  9    10       93    10      1 Qygr   м^3/с m^3/s   double   doub… Средни…</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; 10    11      103    10      1 Qmmsu… м^3/с m^3/s   double   doub… Минима…</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; # ... with 47 more rows, and 8 more variables: Descen &lt;chr&gt;, Group &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; #   Winter &lt;dbl&gt;, Chart &lt;chr&gt;, Color &lt;chr&gt;, Order &lt;dbl&gt;, Range &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; #   Problems &lt;chr&gt;</span></a></code></pre></div>
+<p>Plotting discharge parameters is like plotting separation except that you should provide names or numbers of parameters instead of years. Names are quoted, so you do not need to eclose them in quotes. Plotting is made by <code><a href="../reference/plot_parameters.html">plot_parameters()</a></code> function:</p>
+</div>
+</div>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p>In the next release of grwat package separation stage will be rewritten in C++ using Rcpp package to provide the complete workflow inside R ecosystem<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
 </div>
   </div>
 
@@ -207,14 +294,19 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li>
-<a href="#prepare">Prepare</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#manual-preparation">Manual preparation</a></li>
+<a href="#process">Process</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#manual-processing">Manual processing</a></li>
       <li><a href="#gauge-folder">Gauge folder</a></li>
       <li><a href="#basins-folder">Basins folder</a></li>
       </ul>
 </li>
       <li><a href="#separate">Separate</a></li>
-      <li><a href="#report">Report</a></li>
+      <li>
+<a href="#report">Report</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#plot-separation-of-hydrograph">Plot separation of hydrograph</a></li>
+      <li><a href="#plot-interannual-changes">Plot interannual changes</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>

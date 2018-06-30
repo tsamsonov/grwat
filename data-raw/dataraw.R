@@ -11,8 +11,6 @@ devtools::use_data(rivers,
                    lakes, 
                    lakes_europe,
                    ocean,
+                   params_out,
                    overwrite = TRUE,
                    internal = TRUE)
-
-devtools::use_data(params_out, 
-                   overwrite = TRUE)

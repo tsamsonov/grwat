@@ -52,47 +52,59 @@ get_plot_labels <- function(locale = 'EN'){
 #'
 #' @return
 #' @export
-plot_separation <- function(df, locale='EN'){
+plot_separation <- function(df, yrs = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
-  df = df %>% mutate(Year = year(Date))
+  if (locale == 'RU') {
+    Sys.setenv(LANGUAGE="ru")
+    Sys.setlocale("LC_ALL", "RU")
+  } else {
+    Sys.setenv(LANGUAGE="en")
+    Sys.setlocale("LC_ALL", "en_US.UTF-8")
+  }
   
-  years = df %>% group_by(Year) %>% 
-    summarise(nydate = Date[which(Qpol>0)[1]],
-              datepolend = max(Date[which(Qpol>0)])) %>% 
-    filter(!is.na(nydate))
+  df = df %>% dplyr::mutate(Year = lubridate::year(Date))
+  
+  if(!is.null(yrs)){
+    df = df %>% dplyr::filter(Year %in% yrs)
+  }
+  
+  years = df %>% dplyr::group_by(Year) %>% 
+    dplyr::summarise(nydate = Date[which(Qpol>0)[1]],
+                     datepolend = max(Date[which(Qpol>0)])) %>% 
+    dplyr::filter(!is.na(nydate))
   
   n = nrow(years)
   
   max.runoff = max(df$Qin)
   
-  labs = grwat::get_plot_labels(locale)
+  labs = get_plot_labels(locale)
   plotlist = list()
   j = 1
   
   for (i in 1:n) {
     begin.date = years$nydate[i]
-    end.date = ceiling_date(begin.date, "year") - days(1) # Initialize by the end of the year
+    end.date = lubridate::ceiling_date(begin.date, "year") - lubridate::days(1) # Initialize by the end of the year
     
     clipped.remark = labs$clipped.remark
     year = years$Year[i]
     
     datestart = begin.date
-    year(datestart) = year(begin.date)
+    lubridate::year(datestart) = lubridate::year(begin.date)
     
     datepolend = years$datepolend[i]
-    year(datepolend) = year(begin.date)
+    lubridate::year(datepolend) = lubridate::year(begin.date)
     
     if (i != n){
       nextyear <- years$Year[i+1]
       if ((nextyear - year) == 1) {
-        end.date = years$nydate[i+1] - days(1) # Change to the end date of water-resources year
+        end.date = years$nydate[i+1] - lubridate::days(1) # Change to the end date of water-resources year
         clipped.remark = ""
       }
     }
     
     graphdata = df %>%  
-      filter(between(Date, begin.date, end.date)) %>% 
-      gather(key="Runtype", value="Runoff", 
+      dplyr::filter(dplyr::between(Date, begin.date, end.date)) %>% 
+      tidyr::gather(key="Runtype", value="Runoff", 
              Qthaw, Qpav, Qpol, Qgr,
              factor_key=TRUE)
     
@@ -121,22 +133,22 @@ plot_separation <- function(df, locale='EN'){
       scale_x_date(date_breaks = "1 month", date_labels = "%b") +
       labs(title = year,
            subtitle = paste(begin.date, "—", end.date, clipped.remark),
-           x = labs$date, y = bquote(eval(labs$discharge) ~ ', ' ~ eval(m3s))) +
+           x = labs$date, y = substitute(d ~ ', ' ~ m, list(d = labs$discharge, m = labs$m3s))) +
       theme(plot.title = element_text(lineheight=.8, face="bold"),
             legend.position="bottom")
     
     plotlist[[j]] = g
     j = j+1
-    if (j == 5) {
-      multiplot(plotlist = plotlist, layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
-      cat("\n\n\\pagebreak\n")
+    if (j == length(layout)+1) {
+      multiplot(plotlist = plotlist, layout = layout)
+      if (pagebreak) cat("\n\n\\pagebreak\n")
       plotlist = list()
       j = 1
     }
   }
   
   if (j > 1) {
-    multiplot(plotlist = plotlist, layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
+    multiplot(plotlist = plotlist, layout = layout)
   }
 }
 
@@ -150,7 +162,15 @@ plot_separation <- function(df, locale='EN'){
 #' @export
 #'
 #' @examples
-plot_parameters <- function(df, tests = NULL, locale='EN'){
+plot_parameters <- function(df, names = NULL, tests = NULL, locale='EN'){
+  
+  if (locale == 'RU') {
+    Sys.setenv(LANGUAGE="ru")
+    Sys.setlocale("LC_ALL", "Russian")
+  } else {
+    Sys.setenv(LANGUAGE="en")
+    Sys.setlocale("LC_ALL", "English")
+  }
   
   df = df %>% 
     dplyr::mutate_if(params_out$Winter == 1, grwat::replace_year)
@@ -274,6 +294,15 @@ plot_parameters <- function(df, tests = NULL, locale='EN'){
 #'
 #' @examples
 plot_minmonth <- function(df, locale='EN'){
+  
+  if (locale == 'RU') {
+    Sys.setenv(LANGUAGE="ru")
+    Sys.setlocale("LC_ALL", "Russian")
+  } else {
+    Sys.setenv(LANGUAGE="en")
+    Sys.setlocale("LC_ALL", "English")
+  }
+  
   year = params$year
   periodtitle1 = paste0(beforetitle, year)
   periodtitle2 = paste0(aftertitle, year)
@@ -370,6 +399,14 @@ plot_minmonth <- function(df, locale='EN'){
 #'
 #' @examples
 plot_periods <- function(df, year = 1900, change_year = NULL, fixedyear = TRUE, locale='EN'){
+  
+  if (locale == 'RU') {
+    Sys.setenv(LANGUAGE="ru")
+    Sys.setlocale("LC_ALL", "Russian")
+  } else {
+    Sys.setenv(LANGUAGE="en")
+    Sys.setlocale("LC_ALL", "English")
+  }
   
   df = df %>% 
     dplyr::mutate_if(params_out$Winter == 1, grwat::replace_year)

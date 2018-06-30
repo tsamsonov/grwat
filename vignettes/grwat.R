@@ -34,3 +34,27 @@ grwat::map(rean$pts, hdata_rean$pts, basin, basin_pr) # plot spatial configurati
 #  wd = "/Volumes/Data/Work/_grwat/2018/"
 #  grwat::process_basins(wd, rean, bufsize = 50000) # process single folder
 
+## ---- message=FALSE------------------------------------------------------
+setwd("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
+
+sep = grwat::read_separation('AllGrWat.txt')#
+head(sep)
+
+## ------------------------------------------------------------------------
+grwat::plot_separation(sep, 1978) # plot single year
+grwat::plot_separation(sep, c(1994, 2001)) # plot two years sequentially
+grwat::plot_separation(sep, 1994:1997, # plot four years on the same page
+                       layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
+
+## ------------------------------------------------------------------------
+setwd("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
+
+df = grwat::read_parameters('Total.txt') # read parameters file
+head(df)
+
+## ------------------------------------------------------------------------
+grwat::get_parameters()
+
+## ------------------------------------------------------------------------
+
+

@@ -42,10 +42,13 @@ Imports: Rcpp (>= 0.12.16),
     scales,
     readxl,
     tidyr,
-    progress
+    progress,
+    magrittr
 LinkingTo: Rcpp
 SystemRequirements: pandoc
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
+Depends: magrittr,
+    ggplot2

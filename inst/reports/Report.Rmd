@@ -33,18 +33,6 @@ knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(include=FALSE)
 ```
 
-<!-- Locale -->
-```{r locale}
-# English locale is default
-Sys.setenv(LANGUAGE="en")
-Sys.setlocale("LC_ALL", "English")
-
-if (params$locale == 'RU') {
-  Sys.setenv(LANGUAGE="ru")
-  Sys.setlocale("LC_ALL", "Russian")
-}
-```
-
 ```{r, include=TRUE}
 asis_output("# Input data")
 ```
@@ -66,7 +54,9 @@ asis_output("# Hydrograph separation")
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
 params$file_sep %>% 
   grwat::read_separation() %>% 
-  grwat::plot_separation()
+  grwat::plot_separation(layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
+                         locale = params$locale,
+                         pagebreak = TRUE)
 ```
 
 
@@ -77,9 +67,9 @@ asis_output("# Interannual changes")
 \pagebreak
 
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
-total = grwat::read_total(params$file_tot)
+total = grwat::read_parameters(params$file_tot)
 tests = grwat::run_tests(total)
-grwat::plot_parameters(total, tests)
+grwat::plot_parameters(total, tests, locale = params$locale)
 ```
 
 ```{r, include=TRUE}
@@ -88,10 +78,10 @@ asis_output("# Long-term changes")
 \pagebreak
 
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
-grwat::plot_minmonth(total)
+grwat::plot_minmonth(total, locale = params$locale)
 ```
 ```{r, fig.height=3.8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
-grwat::plot_periods(total)
+grwat::plot_periods(total, locale = params$locale)
 ```
 
 <!-- Stats -->

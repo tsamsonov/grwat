@@ -4,7 +4,7 @@
 \alias{plot_parameters}
 \title{Plot interannual parameters}
 \usage{
-plot_parameters(df, tests = NULL, locale = "EN")
+plot_parameters(df, names = NULL, tests = NULL, locale = "EN")
 }
 \arguments{
 \item{df}{data.frame produced by separation function}
