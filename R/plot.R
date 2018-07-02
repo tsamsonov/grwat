@@ -162,7 +162,7 @@ plot_separation <- function(df, yrs = NULL, layout = as.matrix(1), pagebreak = F
 #' @export
 #'
 #' @examples
-plot_parameters <- function(df, names = NULL, tests = NULL, locale='EN'){
+plot_parameters <- function(df, ..., tests = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -173,28 +173,41 @@ plot_parameters <- function(df, names = NULL, tests = NULL, locale='EN'){
   }
   
   df = df %>% 
-    dplyr::mutate_if(params_out$Winter == 1, grwat::replace_year)
+    dplyr::mutate_if(params_out$Winter == 1, replace_year)
+  
+  fields = ifelse(length(...) > 0,
+                  as.character(rlang::exprs(...)),
+                  params_out %>% 
+                    dplyr::filter(Order != 0) %>% 
+                    dplyr::arrange(Order) %>% 
+                    dplyr::select(Name) %>% 
+                    as.matrix() %>% 
+                    as.vector())
   
   prms = params_out %>% 
-    dplyr::filter(Order != 0) %>% 
-    dplyr::arrange(Order)
+            dplyr::filter(Name %in% fields) %>% 
+            dplyr::slice(match(Name, fields))
   
   if(is.null(tests)){
-    tests = grwat::run_tests(df)
+    tests = do.call(grwat::run_tests, 
+                    c(list(df), lapply(fields, as.name)))
   }
+  
+  nn = length(prms)
   
   minyear = min(df$Year1)
   maxyear = max(df$Year1)
-  breaks = fullseq(c(minyear, maxyear), 10)
-  minbreaks = fullseq(c(minyear, maxyear), 5)
+  breaks = scales::fullseq(c(minyear, maxyear), 10)
+  minbreaks = scales::fullseq(c(minyear, maxyear), 5)
   
-  labs = grwat::get_plot_labels(locale)
+  labs = get_plot_labels(locale)
+  
   units = switch(locale,
-                 'RU' = params_out$Units,
-                 'EN' = params_out$Unitsen)
+                 'RU' = prms$Units,
+                 'EN' = prms$Unitsen)
   desc = switch(locale,
-                'RU' = params_out$Desc,
-                'EN' = params_out$Descen)
+                'RU' = prms$Desc,
+                'EN' = prms$Descen)
   
   plotlist = list()
   j = 1
@@ -227,25 +240,25 @@ plot_parameters <- function(df, names = NULL, tests = NULL, locale='EN'){
            x = subtitle, 
            y = parse(text=units[i])) +
       theme(plot.title = element_text(size=12, lineheight=.8, face="bold"),
-            panel.background = element_rect(fill = colors[i],
-                                            colour = colors[i],
+            panel.background = element_rect(fill = prms$Color[i],
+                                            colour = prms$Color[i],
                                             size = 0.5, linetype = "solid"))
     
     date_labels = "%d-%b"
     
     # PLOT TYPE
-    if (chart[i] == 'line') {
+    if (prms$Chart[i] == 'line') {
       g = g + geom_line() + geom_area(alpha = 0.3)
-    } else if (chart[i] == 'point') {
+    } else if (prms$Chart[i] == 'point') {
       g = g + geom_point(size = 1.5) + geom_line(size = 0.2)
       date_labels = "%b"
-    } else if (chart[i] == 'plate') {
+    } else if (prms$Chart[i] == 'plate') {
       g = g + geom_point(shape = 15, size = 1.5) + geom_step(size = 0.2)
       date_labels = "%b"
-    } else if (chart[i] == 'step') {
+    } else if (prms$Chart[i] == 'step') {
       g = g + geom_step() + geom_rect(aes_string(xmin = "Year1", 
                                                  xmax = "Year2", 
-                                                 ymax = names[i], 
+                                                 ymax = prms$Name[i], 
                                                  ymin = 0), 
                                       alpha = 0.4) +
         scale_y_continuous(limits = c(0, NA))
@@ -253,34 +266,34 @@ plot_parameters <- function(df, names = NULL, tests = NULL, locale='EN'){
     }
     
     # SPECIAL AXES FOR DATES
-    if(units[i] %in% c('Date', 'Month', 'Дата', 'Месяц')){
+    if(prms$Units[i] %in% c('Date', 'Month')){
       if(prms$Winter[i] != 1) {
         g = g +
           scale_y_date(date_labels = date_labels, 
                        date_breaks = "2 month", 
-                       limits = c(ymd(20000101), ymd(20001231))) +
-          expand_limits(y = c(ymd(20000101), ymd(20001231)))
+                       limits = c(lubridate::ymd(20000101), lubridate::ymd(20001231))) +
+          expand_limits(y = c(lubridate::ymd(20000101), lubridate::ymd(20001231)))
       } else {
         g = g +
           scale_y_date(date_labels = date_labels, 
                        date_breaks = "2 month", 
-                       limits = c(ymd(20000701), ymd(20010630))) +
-          expand_limits(y = c(ymd(20000701), ymd(20010630)))
+                       limits = c(lubridate::ymd(20000701), lubridate::ymd(20010630))) +
+          expand_limits(y = c(lubridate::ymd(20000701), lubridate::ymd(20010630)))
       }
     }
     
     plotlist[[j]] = g
     j = j+1
-    if (j == 5) {
-      multiplot(plotlist = plotlist, cols = 2)
-      cat("\n\n\\pagebreak\n")
+    if (j == length(layout)+1) {
+      multiplot(plotlist = plotlist, layout = layout)
+      if (pagebreak) cat("\n\n\\pagebreak\n")
       plotlist = list()
       j = 1
     }
   }
   
   if (j > 1) {
-    multiplot(plotlist = plotlist, cols = 2)
+    multiplot(plotlist = plotlist, layout = layout)
   }
 }
 

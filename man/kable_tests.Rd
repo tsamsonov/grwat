@@ -2,7 +2,7 @@
 % Please edit documentation in R/report.R
 \name{kable_tests}
 \alias{kable_tests}
-\title{Kable p-values table by coloring it with green-yellow-red palette}
+\title{Kable p-values table by coloring it using green-yellow-red palette}
 \usage{
 kable_tests(tests)
 }
@@ -13,5 +13,5 @@ kable_tests(tests)
 kabled version of p-values table coloured
 }
 \description{
-Kable p-values table by coloring it with green-yellow-red palette
+Kable p-values table by coloring it using green-yellow-red palette
 }

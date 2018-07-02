@@ -61,8 +61,8 @@ st_transform_opt <- function(s){
 replace_year <- function(d) {
   dates = lapply(d, function(X) {
     if (!is.na(X)){
-      if (month(X) < 7) {
-        year(X) = 2001
+      if (lubridate::month(X) < 7) {
+        lubridate::year(X) = 2001
       }
       return(X)
     } else return(NA)

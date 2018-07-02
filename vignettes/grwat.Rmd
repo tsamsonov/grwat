@@ -123,15 +123,14 @@ We recommend placing these files in the same folder as processed data like in a 
 
 ![](sep_files.png)
 
-# Report
+# Plot and test
 
-Reporting functions from grwat package allow you to:
+These functions from grwat package allow you to:
 
 - Plot separation of hydrograph
 - Plot interannual changes of key water discharge characteristics
 - Plot long-term changes of key water discharge characteristics
 - Perform statistical tests on all calculated characteristics
-- Export all this stuff in a form of a single-file PDF report
 
 > Currently only English locale is provided in plots. In future releases Russian locale will also be added
 
@@ -154,7 +153,7 @@ grwat::plot_separation(sep, 1994:1997, # plot four years on the same page
                        layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
 ```
 
-## Plot interannual changes
+## Read and test hydrograph parameters
 
 Interannual changes of parameters are read from _Total.txt_ file using `read_parameters()` function:
 ```{r}
@@ -169,8 +168,32 @@ To get the detailed description of available parameters you can invoke `get_para
 grwat::get_parameters()
 ```
 
-Plotting discharge parameters is like plotting separation except that you should provide names or numbers of parameters instead of years. Names are quoted, so you do not need to eclose them in quotes. Plotting is made by `plot_parameters()` function:
+Parameters can be statistically tested using `run_tests(df, ..., year = NULL, locale='EN')` function. Names of the parameters are passed comma-separated in place of `...`. They are quoted, so you do not need to pass them as character strings, just write their names:
 ```{r}
-
+grwat::run_tests(df, Qmax)
 ```
+
+This is an example with three variables selected:
+```{r}
+tests = grwat::run_tests(df, Qygr, date10w1, Wpol3)
+tests$stable
+```
+
+If you want to test all parameters, just skip variable names:
+```{r}
+tests = grwat::run_tests(df)
+tests$change_year
+```
+
+Long-term changes are tested against breaking year, which is calculated for each variable using Pettitt test. However, if you want to use a fixed year, you should pass the desired breaking year into `change_year` parameter:
+```{r}
+tests = grwat::run_tests(df, Qmax, Qygr, change_year = 1987)
+tests$ft # Fisher F tests to compare two variances
+```
+
+## Plot interannual parameters
+
+## Plot long-term parameters
+
+# Report
 

@@ -56,5 +56,17 @@ head(df)
 grwat::get_parameters()
 
 ## ------------------------------------------------------------------------
+grwat::run_tests(df, Qmax)
 
+## ------------------------------------------------------------------------
+tests = grwat::run_tests(df, Qygr, date10w1, Wpol3)
+tests$stable
+
+## ------------------------------------------------------------------------
+tests = grwat::run_tests(df)
+tests$change_year
+
+## ------------------------------------------------------------------------
+tests = grwat::run_tests(df, Qmax, Qygr, change_year = 1987)
+tests$ft # Fisher F tests to compare two variances
 

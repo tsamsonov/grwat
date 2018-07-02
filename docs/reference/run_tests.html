@@ -111,7 +111,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>run_tests</span>(<span class='no'>df</span>, <span class='kw'>fixedyear</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>locale</span> <span class='kw'>=</span> <span class='st'>"EN"</span>)</pre>
+    <pre class="usage"><span class='fu'>run_tests</span>(<span class='no'>df</span>, <span class='no'>...</span>, <span class='kw'>change_year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>locale</span> <span class='kw'>=</span> <span class='st'>"EN"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -121,16 +121,20 @@
       <td><p>data.frame produced by separation function</p></td>
     </tr>
     <tr>
+      <th>...</th>
+      <td><p>fields (quoted)</p></td>
+    </tr>
+    <tr>
+      <th>locale</th>
+      <td><p>locale for p-value table</p></td>
+    </tr>
+    <tr>
       <th>fixedyear</th>
       <td><p>use fixed year value for long-term changes stimation. Default is FALSE</p></td>
     </tr>
     <tr>
       <th>year</th>
       <td><p>fixed year value for long-term changes estimation</p></td>
-    </tr>
-    <tr>
-      <th>locale</th>
-      <td><p>locale for p-value table</p></td>
     </tr>
     </table>
     

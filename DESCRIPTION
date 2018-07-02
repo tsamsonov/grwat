@@ -43,7 +43,8 @@ Imports: Rcpp (>= 0.12.16),
     readxl,
     tidyr,
     progress,
-    magrittr
+    magrittr,
+    rlang
 LinkingTo: Rcpp
 SystemRequirements: pandoc
 RoxygenNote: 6.0.1

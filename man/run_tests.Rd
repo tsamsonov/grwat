@@ -4,16 +4,18 @@
 \alias{run_tests}
 \title{Run various tests on interannual characteristics}
 \usage{
-run_tests(df, fixedyear = FALSE, year = NULL, locale = "EN")
+run_tests(df, ..., change_year = NULL, locale = "EN")
 }
 \arguments{
 \item{df}{data.frame produced by separation function}
 
+\item{...}{fields (quoted)}
+
+\item{locale}{locale for p-value table}
+
 \item{fixedyear}{use fixed year value for long-term changes stimation. Default is FALSE}
 
 \item{year}{fixed year value for long-term changes estimation}
-
-\item{locale}{locale for p-value table}
 }
 \value{
 List of testing results

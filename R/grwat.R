@@ -22,6 +22,7 @@ devtools::use_package('trend')
 devtools::use_package('tidyr')
 devtools::use_package('progress')
 devtools::use_package('grid')
+devtools::use_package('rlang')
 devtools::use_package('ggplot2', 'Depends')
 devtools::use_package('magrittr', 'Depends')
 
