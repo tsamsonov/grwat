@@ -467,15 +467,20 @@
 <p>To plot long-term changes for all variables just skip variable names in function call:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_periods">plot_periods</a></span>(df, <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df))</a></code></pre></div>
 <p>There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_minmonth">plot_minmonth</a></span>(df, <span class="dt">change_year =</span> <span class="dv">1978</span>)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="co">#&gt; Warning in Sys.setlocale("LC_ALL", "English"): OS reports request to set</span></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co">#&gt; locale to "English" cannot be honored</span></a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_minmonth">plot_minmonth</a></span>(df, <span class="dt">change_year =</span> <span class="dv">1978</span>)</a></code></pre></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 </div>
 </div>
 <div id="report" class="section level1">
 <h1 class="hasAnchor">
 <a href="#report" class="anchor"></a>Report</h1>
+<p>The final feature of grwat package is reporting. Previous sections demonstrated various functions that allow different level of data processing: from individual tables, plots and maps to fully processed folders, tests and plots of multiple variables. Reporting allows you to produce a <strong>single PDF file</strong> that provides a comprehensive overview of hydrograph separation and water discharge variables for the whole time period covered by your data. There are three functions:</p>
+<ul>
+<li>
+<code>report_gauge()</code> generates a single PDF report for a gauge folder organized after (hydrograph separation @ref(separate))</li>
+<li>
+<code>report_basins()</code> generates multiple PDF reports for the hierarchy of basin and gauge folders</li>
+</ul>
 </div>
 <div class="footnotes">
 <hr>

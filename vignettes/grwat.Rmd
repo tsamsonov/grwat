@@ -112,7 +112,7 @@ An example of resulting directory structure is provided in the picture below:
 
 ![](out_folder.png)
 
-# Separate
+# Separate {#separate}
 
 Currently separation procedure is unavalable inside grwat package and is performed using external command-line Fortran^[In the next release of grwat package separation stage will be rewritten in C++ using Rcpp package to provide the complete workflow inside R ecosystem] program that produces two files:
 
@@ -239,10 +239,15 @@ grwat::plot_periods(df, tests = test_variables(df))
 ```
 
 There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:
-```{r}
+```{r, message=FALSE}
 grwat::plot_minmonth(df, change_year = 1978)
 ```
 
-
 # Report
+
+The final feature of grwat package is reporting. Previous sections demonstrated various functions that allow different level of data processing: from individual tables, plots and maps to fully processed folders, tests and plots of multiple variables. Reporting allows you to produce a __single PDF file__ that provides a comprehensive overview of hydrograph separation and water discharge variables for the whole time period covered by your data. There are three functions:
+
+- `report_gauge()` generates a single PDF report for a gauge folder organized after (hydrograph separation \@ref(separate))
+- `report_basins()` generates multiple PDF reports for the hierarchy of basin and gauge folders
+
 
