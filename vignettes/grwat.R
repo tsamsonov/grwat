@@ -1,4 +1,4 @@
-## ----setup, include = FALSE----------------------------------------------
+## ---- include = FALSE----------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -95,6 +95,9 @@ grwat::plot_periods(df, Qy, Qmax,
 ## ---- eval = FALSE-------------------------------------------------------
 #  grwat::plot_periods(df, tests = test_variables(df))
 
-## ------------------------------------------------------------------------
+## ---- message=FALSE------------------------------------------------------
 grwat::plot_minmonth(df, change_year = 1978)
+
+## ---- eval = FALSE-------------------------------------------------------
+#  grwat::report_gauge("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
 

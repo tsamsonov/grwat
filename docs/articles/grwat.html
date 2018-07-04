@@ -121,7 +121,7 @@
 <a class="sourceLine" id="cb1-32" data-line-number="32"><span class="co">#&gt; 6 23877 1945 5 16 -0.89 1.648 212</span></a></code></pre></div>
 <p>After reanalysis data are joined you can easily plot a map of the derived spatial configuration with</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/map">map</a></span>(rean<span class="op">$</span>pts, hdata_rean<span class="op">$</span>pts, basin, basin_pr) <span class="co"># plot spatial configuration</span></a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 </div>
 <div id="gauge-folder" class="section level2">
 <h2 class="hasAnchor">
@@ -223,12 +223,12 @@
 <a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 6 1938-03-28 429    25.3 404.      0     0  9999  9999</span></a></code></pre></div>
 <p>You can then plot separations for selected years using <code><a href="../reference/plot_separation.html">plot_separation()</a></code> function:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_separation">plot_separation</a></span>(sep, <span class="dv">1978</span>) <span class="co"># plot single year</span></a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_separation">plot_separation</a></span>(sep, <span class="kw">c</span>(<span class="dv">1994</span>, <span class="dv">2001</span>)) <span class="co"># plot two years sequentially</span></a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-6-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-7-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_separation">plot_separation</a></span>(sep, <span class="dv">1994</span><span class="op">:</span><span class="dv">1997</span>, <span class="co"># plot four years on the same page</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">                       <span class="dt">layout =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="dt">nrow=</span><span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>))</a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-6-4.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-7-4.png" width="700"></p>
 </div>
 <div id="read-and-test-hydrograph-variables" class="section level2">
 <h2 class="hasAnchor">
@@ -435,16 +435,16 @@
 <a href="#plot-interannual-changes" class="anchor"></a>Plot interannual changes</h2>
 <p>Interannual changes are visualized using <code><a href="../reference/plot_variables.html">plot_variables()</a></code> function. Its syntax is similar to <code><a href="../reference/test_variables.html">test_variables()</a></code> and <code><a href="../reference/plot_separation.html">plot_separation()</a></code>:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_variables">plot_variables</a></span>(df, Qmax) <span class="co"># plot one selected variable</span></a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_variables">plot_variables</a></span>(df, date10w1, Wpol3) <span class="co"># plot two variables sequentially</span></a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-13-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-13-3.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-14-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-14-3.png" width="700"></p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_variables">plot_variables</a></span>(df, Qmax, Qygr, date10w1, Wpol3, <span class="co"># plot four variables in matrix layout</span></a>
 <a class="sourceLine" id="cb17-2" data-line-number="2">                      <span class="dt">layout =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="dt">nrow=</span><span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>)) </a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-13-4.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-14-4.png" width="700"></p>
 <p>You can add the results of statistical tests to the plot by specifying the result of <code><a href="../reference/test_variables.html">test_variables()</a></code> function to the <code>tests</code> parameter. In that case the subtitle with test results will be added, Theil-Sen slope and Pettitt test breaking year are drawn as solid (<span class="math inline">\(p \leq 0.05\)</span>) or dashed (<span class="math inline">\(p &gt; 0.05\)</span>) lines:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_variables">plot_variables</a></span>(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs,</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2">                      <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) <span class="co"># add test information</span></a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-14-1.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-14-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-14-3.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-14-4.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-15-1.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-15-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-15-3.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-15-4.png" width="700"></p>
 <blockquote>
 <p>Note that <code>tests</code> parameter of <code><a href="../reference/plot_variables.html">plot_variables()</a></code> expects the tests for the same variables as those selected for plotting. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other</p>
 </blockquote>
@@ -456,31 +456,33 @@
 <a href="#plot-long-term-period-changes" class="anchor"></a>Plot long-term period changes</h2>
 <p>Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using <code><a href="../reference/plot_periods.html">plot_periods()</a></code> function. The syntax is similar to <code><a href="../reference/plot_variables.html">plot_variables()</a></code> except that you must provide either <code>tests</code> or <code>year</code> parameter. If both are supplied then <code>tests</code> is prioritized (you can also supply a fixed year when testing variables:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_periods">plot_periods</a></span>(df, Qy, <span class="dt">change_year =</span> <span class="dv">1978</span>)</a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_periods">plot_periods</a></span>(df, Qy, <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df, Qmax))</a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-16-2.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-17-2.png" width="700"></p>
 <p>Multiple plots can be combined on one page using <code>layout</code> parameter:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_periods">plot_periods</a></span>(df, Qy, Qmax, </a>
 <a class="sourceLine" id="cb22-2" data-line-number="2">                    <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df, Qy, Qmax),</a>
 <a class="sourceLine" id="cb22-3" data-line-number="3">                    <span class="dt">layout =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)))</a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p>To plot long-term changes for all variables just skip variable names in function call:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_periods">plot_periods</a></span>(df, <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df))</a></code></pre></div>
 <p>There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_minmonth">plot_minmonth</a></span>(df, <span class="dt">change_year =</span> <span class="dv">1978</span>)</a></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
 </div>
 <div id="report" class="section level1">
 <h1 class="hasAnchor">
 <a href="#report" class="anchor"></a>Report</h1>
-<p>The final feature of grwat package is reporting. Previous sections demonstrated various functions that allow different level of data processing: from individual tables, plots and maps to fully processed folders, tests and plots of multiple variables. Reporting allows you to produce a <strong>single PDF file</strong> that provides a comprehensive overview of hydrograph separation and water discharge variables for the whole time period covered by your data. There are three functions:</p>
+<p>The final feature of grwat package is reporting. Previous sections demonstrated various functions that allow different level of data processing: from individual tables, plots and maps to fully processed folders, tests and plots of multiple variables. Reporting allows you to produce a <strong>single PDF file</strong> that provides a comprehensive overview of hydrograph separation and water discharge variables for the whole time period covered by your data. There are currently two functions that work with folder data:</p>
 <ul>
 <li>
-<code>report_gauge()</code> generates a single PDF report for a gauge folder organized after (hydrograph separation @ref(separate))</li>
+<code><a href="../reference/report_gauge.html">report_gauge()</a></code> generates a single PDF report for a gauge folder containing <em>separation file</em> <code>AllGrWat.txt</code>, <em>variables file</em> <code>Total.txt</code> and map file <code>*.png</code>.</li>
 <li>
-<code>report_basins()</code> generates multiple PDF reports for the hierarchy of basin and gauge folders</li>
+<code><a href="../reference/report_basins.html">report_basins()</a></code> generates multiple PDF reports for the hierarchy of basin and gauge folders</li>
 </ul>
+<p>These functions work as follows:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/report_gauge">report_gauge</a></span>(<span class="st">"/Volumes/Data/Work/_grwat/Mezen_Malonisog/"</span>)</a></code></pre></div>
 </div>
 <div class="footnotes">
 <hr>

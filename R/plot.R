@@ -484,7 +484,7 @@ plot_periods <- function(df, ..., change_year = NULL, tests = NULL, layout = as.
 #' @export
 #'
 #' @examples
-plot_minmonth <- function(df, change_year = NULL, locale='EN'){
+plot_minmonth <- function(df, change_year = NULL, pagebreak = FALSE, locale='EN'){
   
   if(is.null(change_year))
     stop('You must supply change_year parameter')
@@ -580,4 +580,5 @@ plot_minmonth <- function(df, change_year = NULL, locale='EN'){
          x = labs$monthtitle, 
          y = "%")
   multiplot(plotlist = list(g.summer, g.winter))
+  if (pagebreak) cat("\n\n\\pagebreak\n")
 }

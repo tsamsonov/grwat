@@ -6,10 +6,10 @@
 #' @export
 #'
 #' @examples
-report <- function(wd){
+report_basins <- function(wd){
   # list basins
   old = setwd(wd)
-  on.exit(setwd(old), add = TRUE)
+  on.exit(setwd(old))
   
   basins = list.dirs(recursive = FALSE, full.names = FALSE)
   
@@ -19,23 +19,31 @@ report <- function(wd){
     setwd(basin)
     gauges = list.dirs(recursive = FALSE, full.names = FALSE)
     
-    for (gauge in gauges){
-      setwd(gauge)
-      
-      fullpath = getwd()
-      
-      rmarkdown::render(input = system.file('reports', 'Report.Rmd', package = 'grwat'), 
-                        output_file = 'report.pdf',
-                        output_dir = fullpath,
-                        knit_root_dir = fullpath,
-                        encoding = 'UTF-8',
-                        params = list(name = gauge, namen = gauge))
-      setwd(wd)
-      setwd(basin)
-      break
-    }
-    break
+    for (gauge in gauges)
+      grwat::report_gauge(gauge)
   } 
+}
+
+#' Generate report for the specified gauge folder
+#'
+#' @param wd 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+report_gauge <- function(wd){
+  oldwd = setwd(wd)
+  on.exit(setwd(oldwd))
+  
+  fullpath = getwd()
+  
+  rmarkdown::render(input = system.file('reports', 'Report.Rmd', package = 'grwat'), 
+                    output_file = 'report.pdf',
+                    output_dir = fullpath,
+                    knit_root_dir = fullpath,
+                    encoding = 'UTF-8',
+                    params = list(name = basename(fullpath)))
 }
 
 #' Run various tests on interannual characteristics
@@ -186,7 +194,7 @@ kable_tests <- function(tests){
   ycolor = '#e6e600'
   rcolor = '#ff9966'
   
-  stable = tests$stable %>% mutate(
+  stable = tests$stable %>% dplyr::mutate(
     Mann.Kendall = kableExtra::cell_spec(Mann.Kendall, "latex", 
                              background = ifelse(Mann.Kendall < 0.01, gcolor, 
                                                  ifelse(Mann.Kendall < 0.05, ycolor, rcolor))),

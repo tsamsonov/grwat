@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -245,10 +245,15 @@ grwat::plot_minmonth(df, change_year = 1978)
 
 # Report
 
-The final feature of grwat package is reporting. Previous sections demonstrated various functions that allow different level of data processing: from individual tables, plots and maps to fully processed folders, tests and plots of multiple variables. Reporting allows you to produce a __single PDF file__ that provides a comprehensive overview of hydrograph separation and water discharge variables for the whole time period covered by your data. There are three functions:
+The final feature of grwat package is reporting. Previous sections demonstrated various functions that allow different level of data processing: from individual tables, plots and maps to fully processed folders, tests and plots of multiple variables. Reporting allows you to produce a __single PDF file__ that provides a comprehensive overview of hydrograph separation and water discharge variables for the whole time period covered by your data. There are currently two functions that work with folder data:
 
-- `report()` generates a single PDF for results of separation
-- `report_gauge()` generates a single PDF report for a gauge folder organized after hydrograph separation
+- `report_gauge()` generates a single PDF report for a gauge folder containing _separation file_ `AllGrWat.txt`, _variables file_ `Total.txt` and map file `*.png`. 
 - `report_basins()` generates multiple PDF reports for the hierarchy of basin and gauge folders
+
+These functions work as follows:
+```{r, eval = FALSE}
+grwat::report_gauge("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
+```
+
 
 
