@@ -71,6 +71,8 @@ The value returned by this function is a number of reanalysis points extracted b
 
 > We recommend using GeoPackage because it is fast and powerful [OGC-standardized](https://www.geopackage.org) modern spatial data format that does not include any sidecar files like Esri Shapefile. You can easily convert many spatial data formats to GeoPackage by [QGIS](https://www.qgis.org/) _Export > Save as..._ command in a layer context menu, using `st_read` and then `st_write` functions from [`sf`](https://r-spatial.github.io/sf/) R package, or via [GDAL](http://www.gdal.org) utils if you prefer command line or need batch processing (which can also be automated in R).
 
+> Note that if you use Shapefile format for basin border representation, you should also preserve `.dbf` and `.shx` sidecar files that store attribute information and relation between attributes and geometry. Otherwise the shapefile cannot be read correctly.
+
 ## Basins folder
 
 Basins mode provides automation of reanalysis data joining across multiple basins and gauges. It is based on a fixed folder structure that should be organized by user. This structure is:
@@ -78,7 +80,7 @@ Basins mode provides automation of reanalysis data joining across multiple basin
 1. The top-level folder specified by user must contain only one folder, which is called __in__.
 2. This __in__ folder contains an arbitrary number of folders (at least one), each of those corresponding to a single river __basin__.
 3. Each river basin folder contains an arbitrary number of folders (at least one), each of those corresponding to a single river __gauge__.
-4. Each gauge folder contains strictly two files: a `.txt` file with hydrological data, and `.gpkg` file with polygon of a gauge watershed area.
+4. Each gauge folder contains strictly two files: a `.txt` file with hydrological data, and `.gpkg` or `.shp` file with polygon of a gauge watershed area.
 
 The names of basin and gauge folders are not restricted, but we highly recommend begin with a letter and proceed with alphanumerical symbols, underscore and a hyphen from ASCII encoding (`a-z, A-Z, 0-9, _, -`)
 
@@ -101,7 +103,7 @@ It works in a following way:
 3. `process_basins()` also produces _summary.txt_ files inside each basin folder and one _summary.txt_ file directly in __out__ folder. These files contain a number of reanalysis points for each gauge's watershed. These are two special cases:
 
     - 0 means that no reanalysis data are found inside a watershed
-    - -1 means that there were problems either reading `.txt` or `.gpkg` file
+    - -1 means that there were problems either reading `.txt` or `.gpkg`/`.shp` file
 
     
     In both cases the corresponding gauge folder will not contain any new files inside, and the further exploration of the problem should be taken by user. 0 means that the watershed is located outside the extent of reanalysis data or it is too small in comparison with spatial sampling of reanalysis data. Try increasing buffer size. -1 means that there are problems with your input files, and solution depends on the exact case (you must diagnose the reasons by yourself).
@@ -115,7 +117,7 @@ An example of resulting directory structure is provided in the picture below:
 Currently separation procedure is unavalable inside grwat package and is performed using external command-line Fortran^[In the next release of grwat package separation stage will be rewritten in C++ using Rcpp package to provide the complete workflow inside R ecosystem] program that produces two files:
 
 - _AllGrWat.txt_ contains hydrograph separation data
-- _Total.txt_ contains multiple characteristics of water discharge
+- _Total.txt_ contains multiple characteristics of water discharge (they are called variables)
 
 These output data can be visualised and statistically assessed by grwat functions that are uncovered in the next section. 
 
@@ -128,9 +130,9 @@ We recommend placing these files in the same folder as processed data like in a 
 These functions from grwat package allow you to:
 
 - Plot separation of hydrograph
-- Plot interannual changes of key water discharge characteristics
-- Plot long-term changes of key water discharge characteristics
-- Perform statistical tests on all calculated characteristics
+- Plot interannual changes of key water discharge variables
+- Plot long-term changes of key water discharge variables
+- Perform statistical tests on all calculated variables
 
 > Currently only English locale is provided in plots. In future releases Russian locale will also be added
 
@@ -153,47 +155,70 @@ grwat::plot_separation(sep, 1994:1997, # plot four years on the same page
                        layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
 ```
 
-## Read and test hydrograph parameters
+## Read and test hydrograph variables
 
-Interannual changes of parameters are read from _Total.txt_ file using `read_parameters()` function:
+Interannual changes of parameters are read from _Total.txt_ file using `read_variables()` function:
 ```{r}
 setwd("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
 
-df = grwat::read_parameters('Total.txt') # read parameters file
+df = grwat::read_variables('Total.txt') # read parameters file
 head(df)
 ```
 
-To get the detailed description of available parameters you can invoke `get_parameters()`:
+To get the detailed description of available variables you can invoke `get_parameters()`:
 ```{r}
-grwat::get_parameters()
+grwat::get_variables()
 ```
 
-Parameters can be statistically tested using `run_tests(df, ..., year = NULL, locale='EN')` function. Names of the parameters are passed comma-separated in place of `...`. They are quoted, so you do not need to pass them as character strings, just write their names:
+Parameters can be statistically tested using `test_variables(df, ..., year = NULL, locale='EN')` function. Names of the parameters are passed comma-separated in place of `...`. They are quoted, so you do not need to pass them as character strings, just write their names:
 ```{r}
-grwat::run_tests(df, Qmax)
+grwat::test_variables(df, Qmax)
 ```
 
 This is an example with three variables selected:
 ```{r}
-tests = grwat::run_tests(df, Qygr, date10w1, Wpol3)
+tests = grwat::test_variables(df, Qygr, date10w1, Wpol3)
 tests$stable
 ```
 
 If you want to test all parameters, just skip variable names:
 ```{r}
-tests = grwat::run_tests(df)
+tests = grwat::test_variables(df)
 tests$change_year
 ```
 
 Long-term changes are tested against breaking year, which is calculated for each variable using Pettitt test. However, if you want to use a fixed year, you should pass the desired breaking year into `change_year` parameter:
 ```{r}
-tests = grwat::run_tests(df, Qmax, Qygr, change_year = 1987)
+tests = grwat::test_variables(df, Qmax, Qygr, change_year = 1987)
 tests$ft # Fisher F tests to compare two variances
 ```
 
-## Plot interannual parameters
+## Plot interannual changes
 
-## Plot long-term parameters
+Interannual changes are visualized using `plot_variables()` function. Its syntax is similar to `test_variables()` and `plot_separation()`:
+
+```{r, collapse=TRUE, message=FALSE}
+grwat::plot_variables(df, Qmax) # plot one selected variable
+grwat::plot_variables(df, date10w1, Wpol3) # plot two variables sequentially
+grwat::plot_variables(df, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
+                      layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 
+```
+
+You can add the results of statistical tests to the plot by specifying the result of `test_variables()` function to the `tests` parameter. In that case the subtitle with test results will be added, Theil-Sen slope and Pettitt test breaking year are drawn as solid ($p \leq 0.05$) or dashed ($p > 0.05$) lines:
+
+```{r, collapse=TRUE, message=FALSE}
+grwat::plot_variables(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
+                      tests = test_variables(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) # add test information
+```
+
+> Note that `tests` parameter of `plot_variables()` expects the tests for the same variables as those selected for plotting. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other
+
+Finally, you can plot all variables by not supplying column names to `plot_variables()` function. In that case tests (if you want to plot them too) should also be calculated for all variables:
+```{r, eval=FALSE}
+grwat::plot_variables(df, tests = test_variables(df))
+```
+
+## Plot long-term changes
 
 # Report
 

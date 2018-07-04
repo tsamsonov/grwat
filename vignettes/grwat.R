@@ -49,24 +49,37 @@ grwat::plot_separation(sep, 1994:1997, # plot four years on the same page
 ## ------------------------------------------------------------------------
 setwd("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
 
-df = grwat::read_parameters('Total.txt') # read parameters file
+df = grwat::read_variables('Total.txt') # read parameters file
 head(df)
 
 ## ------------------------------------------------------------------------
-grwat::get_parameters()
+grwat::get_variables()
 
 ## ------------------------------------------------------------------------
-grwat::run_tests(df, Qmax)
+grwat::test_variables(df, Qmax)
 
 ## ------------------------------------------------------------------------
-tests = grwat::run_tests(df, Qygr, date10w1, Wpol3)
+tests = grwat::test_variables(df, Qygr, date10w1, Wpol3)
 tests$stable
 
 ## ------------------------------------------------------------------------
-tests = grwat::run_tests(df)
+tests = grwat::test_variables(df)
 tests$change_year
 
 ## ------------------------------------------------------------------------
-tests = grwat::run_tests(df, Qmax, Qygr, change_year = 1987)
+tests = grwat::test_variables(df, Qmax, Qygr, change_year = 1987)
 tests$ft # Fisher F tests to compare two variances
+
+## ---- collapse=TRUE, message=FALSE---------------------------------------
+grwat::plot_variables(df, Qmax) # plot one selected variable
+grwat::plot_variables(df, date10w1, Wpol3) # plot two variables sequentially
+grwat::plot_variables(df, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
+                      layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 
+
+## ---- collapse=TRUE, message=FALSE---------------------------------------
+grwat::plot_variables(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
+                      tests = test_variables(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) # add test information
+
+## ---- eval=FALSE---------------------------------------------------------
+#  grwat::plot_variables(df, tests = test_variables(df))
 

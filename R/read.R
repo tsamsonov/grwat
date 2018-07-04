@@ -47,7 +47,7 @@ read_interim <- function(file_prec, file_temp){
 #'
 #' @return data.frame
 #' @export
-read_parameters <- function(file_tot){
+read_variables <- function(file_tot){
   
   col_collectors = lapply(params_out$Readtype, get_col_type) # TODO: safe loading of parameters
   

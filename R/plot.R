@@ -56,7 +56,7 @@ plot_separation <- function(df, yrs = NULL, layout = as.matrix(1), pagebreak = F
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
-    Sys.setlocale("LC_ALL", "RU")
+    Sys.setlocale("LC_ALL", "ru_RU.UTF-8")
   } else {
     Sys.setenv(LANGUAGE="en")
     Sys.setlocale("LC_ALL", "en_US.UTF-8")
@@ -162,38 +162,38 @@ plot_separation <- function(df, yrs = NULL, layout = as.matrix(1), pagebreak = F
 #' @export
 #'
 #' @examples
-plot_parameters <- function(df, ..., tests = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
-    Sys.setlocale("LC_ALL", "Russian")
+    Sys.setlocale("LC_ALL", "ru_RU.UTF-8")
   } else {
     Sys.setenv(LANGUAGE="en")
-    Sys.setlocale("LC_ALL", "English")
+    Sys.setlocale("LC_ALL", "en_US.UTF-8")
   }
   
-  df = df %>% 
-    dplyr::mutate_if(params_out$Winter == 1, replace_year)
-  
-  fields = ifelse(length(...) > 0,
-                  as.character(rlang::exprs(...)),
-                  params_out %>% 
-                    dplyr::filter(Order != 0) %>% 
-                    dplyr::arrange(Order) %>% 
-                    dplyr::select(Name) %>% 
-                    as.matrix() %>% 
-                    as.vector())
+  fields = rlang::exprs(...) %>% as.character()
+  if(length(fields) == 0)
+    fields = params_out %>% 
+      dplyr::filter(Order != 0) %>% 
+      dplyr::arrange(Order) %>% 
+      dplyr::select(Name) %>% 
+      as.matrix() %>% 
+      as.vector()
   
   prms = params_out %>% 
             dplyr::filter(Name %in% fields) %>% 
             dplyr::slice(match(Name, fields))
   
-  if(is.null(tests)){
-    tests = do.call(grwat::run_tests, 
-                    c(list(df), lapply(fields, as.name)))
-  }
+  # if(is.null(tests)){
+  #   tests = do.call(grwat::run_tests, 
+  #                   c(list(df), lapply(fields, as.name)))
+  # }
   
-  nn = length(prms)
+  nn = nrow(prms)
+  
+  df = df %>% 
+    dplyr::mutate_if(params_out$Winter == 1, replace_year)
   
   minyear = min(df$Year1)
   maxyear = max(df$Year1)
@@ -214,38 +214,47 @@ plot_parameters <- function(df, ..., tests = NULL, layout = as.matrix(1), pagebr
   
   for (i in 1:nn) {
     
-    ltype="solid"
-    if(tests$ptt[[i]]$p.value > 0.05) ltype = 'dashed'
-    
-    ts_ltype="solid"
-    if(tests$tst[[i]]$p.value > 0.05) ts_ltype = 'dashed'
-    
     # MAIN DATA FOR PLOTTING
     g = ggplot(df, aes_string(x = "Year1", y = prms$Name[i])) + 
-      geom_smooth() +
-      geom_abline(intercept = coef(tests$ts_fit[[i]])[1], slope = coef(tests$ts_fit[[i]])[2], 
-                  color = 'red', size=1, linetype = ts_ltype) +
-      geom_vline(xintercept = tests$change_year[i], color = "red", 
-                 size=0.5, linetype = ltype) +
-      annotate("text", label = tests$change_year[i], 
-               x = tests$change_year[i] + 4, y = tests$maxval[[i]], 
-               size = 4, colour = "red") +
       scale_x_continuous(breaks = breaks, minor_breaks = minbreaks) +
       labs(title = stringr::str_wrap(desc[i], width=labs$wraplength),
-           subtitle = paste0(labs$pettitt.u, ' = ',  round(tests$ptt[[i]]$statistic, 3), ', ',
-                             labs$label.p, ' = ', round(tests$ptt[[i]]$p.value, 5), '\n',
-                             labs$kendall.z, ' = ', round(tests$mkt[[i]]$statistic, 3), ', ',
-                             labs$label.p, ' = ', round(tests$mkt[[i]]$p.value, 5), '. ',
-                             labs$theil.i, ' = ', round(tests$coef(ts_fit[[i]])[2], 5)),
-           x = subtitle, 
+           x = labs$subtitle, 
            y = parse(text=units[i])) +
       theme(plot.title = element_text(size=12, lineheight=.8, face="bold"),
             panel.background = element_rect(fill = prms$Color[i],
                                             colour = prms$Color[i],
                                             size = 0.5, linetype = "solid"))
     
-    date_labels = "%d-%b"
+    if (smooth) {
+      g = g + geom_smooth()
+    }
     
+    if (!is.null(tests)) {
+      
+      ltype="solid"
+      ts_ltype="solid"
+      
+      if (tests$ptt[[i]]$p.value > 0.05) ltype = 'dashed'
+      if (tests$tst[[i]]$p.value > 0.05) ts_ltype = 'dashed' 
+      
+      g = g +       
+        geom_abline(intercept = coef(tests$ts_fit[[i]])[1], slope = coef(tests$ts_fit[[i]])[2], 
+                                color = 'red', size=1, linetype = ts_ltype) +
+        geom_vline(xintercept = tests$change_year[i], color = "red", 
+                   size=0.5, linetype = ltype) +
+        annotate("text", label = tests$change_year[i], 
+                 x = tests$change_year[i] + 4, y = tests$maxval[[i]], 
+                 size = 4, colour = "red") +
+        labs(title = stringr::str_wrap(desc[i], width=labs$wraplength),
+             subtitle = paste0(labs$pettitt.u, ' = ',  round(tests$ptt[[i]]$statistic, 3), ', ',
+                               labs$label.p, ' = ', round(tests$ptt[[i]]$p.value, 5), '\n',
+                               labs$kendall.z, ' = ', round(tests$mkt[[i]]$statistic, 3), ', ',
+                               labs$label.p, ' = ', round(tests$mkt[[i]]$p.value, 5), '. ',
+                               labs$theil.i, ' = ', round(coef(tests$ts_fit[[i]])[2], 5)))
+    }
+    
+    date_labels = "%d-%b"
+
     # PLOT TYPE
     if (prms$Chart[i] == 'line') {
       g = g + geom_line() + geom_area(alpha = 0.3)
@@ -297,110 +306,6 @@ plot_parameters <- function(df, ..., tests = NULL, layout = as.matrix(1), pagebr
   }
 }
 
-#' Plot histogram of minimum discharge month for two periods
-#'
-#' @param df 
-#' @param locale 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-plot_minmonth <- function(df, locale='EN'){
-  
-  if (locale == 'RU') {
-    Sys.setenv(LANGUAGE="ru")
-    Sys.setlocale("LC_ALL", "Russian")
-  } else {
-    Sys.setenv(LANGUAGE="en")
-    Sys.setlocale("LC_ALL", "English")
-  }
-  
-  year = params$year
-  periodtitle1 = paste0(beforetitle, year)
-  periodtitle2 = paste0(aftertitle, year)
-  
-  chart.data = df %>% 
-    select(monmmsummer, nommwin, Year1) %>% 
-    filter(!is.na(monmmsummer) & !is.na(nommwin)) %>% 
-    mutate(summermonth = month(monmmsummer),
-           wintermonth = month(nommwin),
-           old = as.integer(Year1 >= year))
-  
-  chart.data$old = factor(chart.data$old, 
-                          levels = c(0,1), 
-                          labels = c(periodtitle1, periodtitle2))
-  
-  month.names = format(ISOdate(2017,1:12,1),"%m")
-  winterlabels = month.names[c(7:12, 1:6)]
-  
-  chart.data$summermonth = ordered(chart.data$summermonth, 
-                                   levels = 1:12, 
-                                   labels = month.names)
-  
-  chart.data$wintermonth = ordered(chart.data$wintermonth, 
-                                   levels = c(7:12, 1:6), 
-                                   labels = winterlabels)
-  
-  df.summer = chart.data %>% 
-    group_by(old, summermonth) %>% 
-    tally() %>% 
-    complete(summermonth, nesting(old), fill=list(n=0)) %>%  
-    mutate(perc = 100*n/sum(n))
-  
-  df.winter = chart.data %>% 
-    group_by(old, wintermonth) %>% 
-    tally() %>% 
-    complete(wintermonth, nesting(old), fill=list(n=0)) %>%  
-    mutate(perc = 100*n/sum(n))
-  
-  df.summer.all = chart.data %>% 
-    group_by(summermonth) %>% 
-    tally() %>% 
-    mutate(perc = 100*n/sum(n))
-  
-  df.winter.all = chart.data %>% 
-    group_by(wintermonth) %>% 
-    tally() %>% 
-    mutate(perc = 100*n/sum(n))
-  
-  labs = grwat::get_plot_labels(locale)
-  g.summer = ggplot() +
-    geom_col(data = df.summer, 
-             aes(x = summermonth, y = perc, fill = old), 
-             position = "dodge") +
-    geom_col(data = df.summer.all, 
-             aes(x = summermonth, y = perc), 
-             colour="black", 
-             fill = NA, 
-             size=1) +
-    theme(plot.title = element_text(face="bold")) +
-    scale_x_discrete(drop = FALSE) +
-    scale_fill_manual(values=c("indianred1", "deepskyblue4"), 
-                      name = labs$periodtitle) +
-    labs(title = labs$bartitle.sum,
-         x = labs$monthtitle, 
-         y = "%")
-  
-  g.winter = ggplot() +
-    geom_col(data = df.winter, 
-             aes(x = wintermonth, y = perc, fill = old), 
-             position = "dodge") +
-    geom_col(data = df.winter.all, 
-             aes(x = wintermonth, y = perc), 
-             colour="black", 
-             fill = NA, 
-             size=1) +
-    theme(plot.title = element_text(face="bold")) +
-    scale_x_discrete(drop = FALSE) +
-    scale_fill_manual(values=c("indianred1", "deepskyblue4"), 
-                      name = labs$periodtitle) +
-    labs(title = labs$bartitle.win,
-         x = labs$monthtitle, 
-         y = "%")
-  multiplot(plotlist = list(g.summer, g.winter))
-}
-
 #' Plot long-term characteristics for two periods
 #'
 #' @param df 
@@ -411,7 +316,7 @@ plot_minmonth <- function(df, locale='EN'){
 #' @export
 #'
 #' @examples
-plot_periods <- function(df, year = 1900, change_year = NULL, fixedyear = TRUE, locale='EN'){
+plot_longterm <- function(df, ..., tests = NULL, locale='EN'){
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -526,4 +431,108 @@ plot_periods <- function(df, year = 1900, change_year = NULL, fixedyear = TRUE, 
       j = 1
     }
   }
+}
+
+#' Plot histogram of minimum discharge month for two periods
+#'
+#' @param df 
+#' @param locale 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+plot_minmonth <- function(df, locale='EN'){
+  
+  if (locale == 'RU') {
+    Sys.setenv(LANGUAGE="ru")
+    Sys.setlocale("LC_ALL", "Russian")
+  } else {
+    Sys.setenv(LANGUAGE="en")
+    Sys.setlocale("LC_ALL", "English")
+  }
+  
+  year = params$year
+  periodtitle1 = paste0(beforetitle, year)
+  periodtitle2 = paste0(aftertitle, year)
+  
+  chart.data = df %>% 
+    select(monmmsummer, nommwin, Year1) %>% 
+    filter(!is.na(monmmsummer) & !is.na(nommwin)) %>% 
+    mutate(summermonth = month(monmmsummer),
+           wintermonth = month(nommwin),
+           old = as.integer(Year1 >= year))
+  
+  chart.data$old = factor(chart.data$old, 
+                          levels = c(0,1), 
+                          labels = c(periodtitle1, periodtitle2))
+  
+  month.names = format(ISOdate(2017,1:12,1),"%m")
+  winterlabels = month.names[c(7:12, 1:6)]
+  
+  chart.data$summermonth = ordered(chart.data$summermonth, 
+                                   levels = 1:12, 
+                                   labels = month.names)
+  
+  chart.data$wintermonth = ordered(chart.data$wintermonth, 
+                                   levels = c(7:12, 1:6), 
+                                   labels = winterlabels)
+  
+  df.summer = chart.data %>% 
+    group_by(old, summermonth) %>% 
+    tally() %>% 
+    complete(summermonth, nesting(old), fill=list(n=0)) %>%  
+    mutate(perc = 100*n/sum(n))
+  
+  df.winter = chart.data %>% 
+    group_by(old, wintermonth) %>% 
+    tally() %>% 
+    complete(wintermonth, nesting(old), fill=list(n=0)) %>%  
+    mutate(perc = 100*n/sum(n))
+  
+  df.summer.all = chart.data %>% 
+    group_by(summermonth) %>% 
+    tally() %>% 
+    mutate(perc = 100*n/sum(n))
+  
+  df.winter.all = chart.data %>% 
+    group_by(wintermonth) %>% 
+    tally() %>% 
+    mutate(perc = 100*n/sum(n))
+  
+  labs = grwat::get_plot_labels(locale)
+  g.summer = ggplot() +
+    geom_col(data = df.summer, 
+             aes(x = summermonth, y = perc, fill = old), 
+             position = "dodge") +
+    geom_col(data = df.summer.all, 
+             aes(x = summermonth, y = perc), 
+             colour="black", 
+             fill = NA, 
+             size=1) +
+    theme(plot.title = element_text(face="bold")) +
+    scale_x_discrete(drop = FALSE) +
+    scale_fill_manual(values=c("indianred1", "deepskyblue4"), 
+                      name = labs$periodtitle) +
+    labs(title = labs$bartitle.sum,
+         x = labs$monthtitle, 
+         y = "%")
+  
+  g.winter = ggplot() +
+    geom_col(data = df.winter, 
+             aes(x = wintermonth, y = perc, fill = old), 
+             position = "dodge") +
+    geom_col(data = df.winter.all, 
+             aes(x = wintermonth, y = perc), 
+             colour="black", 
+             fill = NA, 
+             size=1) +
+    theme(plot.title = element_text(face="bold")) +
+    scale_x_discrete(drop = FALSE) +
+    scale_fill_manual(values=c("indianred1", "deepskyblue4"), 
+                      name = labs$periodtitle) +
+    labs(title = labs$bartitle.win,
+         x = labs$monthtitle, 
+         y = "%")
+  multiplot(plotlist = list(g.summer, g.winter))
 }

@@ -48,12 +48,12 @@ report <- function(wd){
 #'
 #' @return List of testing results
 #' @export
-run_tests <- function(df, ..., change_year = NULL, locale='EN'){
+test_variables <- function(df, ..., change_year = NULL, locale='EN'){
 
   fields = rlang::exprs(...) %>% as.character()
   if(length(fields) == 0)
     fields = params_out %>% 
-                dplyr::filter(Test != 0) %>% 
+                dplyr::filter(Order != 0) %>% 
                 dplyr::arrange(Order) %>% 
                 dplyr::select(Name) %>% 
                 as.matrix() %>% 
@@ -215,6 +215,6 @@ kable_tests <- function(tests){
 #'
 #' @examples
 #' grwat::get_parameters()
-get_parameters <- function(){
+get_variables <- function(){
   return(params_out)
 }

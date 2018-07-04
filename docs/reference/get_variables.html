@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Buffer sf objects in geographic coordinates through conic projection — st_buffer_geo • grwat</title>
+<title>Gete hydrograph parameters list — get_variables • grwat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Buffer sf objects in geographic coordinates through conic projection — st_buffer_geo" />
+<meta property="og:title" content="Gete hydrograph parameters list — get_variables" />
 
-<meta property="og:description" content="Buffer sf objects in geographic coordinates through conic projection" />
+<meta property="og:description" content="Gete hydrograph parameters list" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,44 +100,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Buffer sf objects in geographic coordinates through conic projection</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/process.R'><code>R/process.R</code></a></small>
-    <div class="hidden name"><code>st_buffer_geo.Rd</code></div>
+    <h1>Gete hydrograph parameters list</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/report.R'><code>R/report.R</code></a></small>
+    <div class="hidden name"><code>get_variables.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Buffer sf objects in geographic coordinates through conic projection</p>
+    <p>Gete hydrograph parameters list</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>st_buffer_geo</span>(<span class='no'>g</span>, <span class='no'>bufsize</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>g</th>
-      <td><p>`sf` or `sfg` object in geographic coordinates</p></td>
-    </tr>
-    <tr>
-      <th>bufsize</th>
-      <td><p>double. Size of a buffer, in metres</p></td>
-    </tr>
-    </table>
-    
+    <pre class="usage"><span class='fu'>get_variables</span>()</pre>
+        
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>`sf` or `sfg` object, buffered to `bufsize` distance</p>
+    <p>data.frame of parameters</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>st_buffer_geo</span>(<span class='no'>basin</span>, <span class='fl'>50000</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'basin' not found</span></div></pre>
+    <pre class="examples"><div class='input'><span class='kw pkg'>grwat</span><span class='kw ns'>::</span><span class='fu'>get_parameters</span>()</div><div class='output co'>#&gt; <span class='error'>Error: 'get_parameters' is not an exported object from 'namespace:grwat'</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
       
