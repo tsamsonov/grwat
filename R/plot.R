@@ -313,7 +313,7 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
 #'
 #' @param df 
 #' @param ... 
-#' @param year 
+#' @param change_year 
 #' @param tests 
 #' @param layout 
 #' @param pagebreak 
@@ -323,9 +323,9 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
 #' @export
 #'
 #' @examples
-plot_periods <- function(df, ..., year = NULL, tests = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+plot_periods <- function(df, ..., change_year = NULL, tests = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
-  if(is.null(year) & is.null(tests))
+  if(is.null(change_year) & is.null(tests))
     stop('You must provide year or tests parameter')
   
   if (locale == 'RU') {
@@ -369,7 +369,7 @@ plot_periods <- function(df, ..., year = NULL, tests = NULL, layout = as.matrix(
   for (i in 1:nn) {
     
     if(!is.null(tests)){
-      year = tests$change_year[i]
+      change_year = tests$change_year[i]
     }
     
     d = df[prms$Name[i]] %>% 
@@ -382,14 +382,14 @@ plot_periods <- function(df, ..., year = NULL, tests = NULL, layout = as.matrix(
       is_date = TRUE
     }
     
-    d1 = d[df$Year1 < year]
-    d2 = d[df$Year1 >= year]
+    d1 = d[df$Year1 < change_year]
+    d2 = d[df$Year1 >= change_year]
     
     n1 = length(d1)
     n2 = length(d2)
     
-    periodtitle1 = paste0(labs$beforetitle, year)
-    periodtitle2 = paste0(labs$aftertitle, year)
+    periodtitle1 = paste0(labs$beforetitle, change_year)
+    periodtitle2 = paste0(labs$aftertitle, change_year)
     
     df.plot = data.frame(Value = d, 
                     Period = c(rep(periodtitle1, n1), 
@@ -477,32 +477,37 @@ plot_periods <- function(df, ..., year = NULL, tests = NULL, layout = as.matrix(
 #' Plot histogram of minimum discharge month for two periods
 #'
 #' @param df 
+#' @param change_year 
 #' @param locale 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-plot_minmonth <- function(df, locale='EN'){
+plot_minmonth <- function(df, change_year = NULL, locale='EN'){
+  
+  if(is.null(change_year))
+    stop('You must supply change_year parameter')
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
-    Sys.setlocale("LC_ALL", "Russian")
+    Sys.setlocale("LC_ALL", "ru_RU.UTF-8")
   } else {
     Sys.setenv(LANGUAGE="en")
-    Sys.setlocale("LC_ALL", "English")
+    Sys.setlocale("LC_ALL", "en_US.UTF-8")
   }
   
-  year = params$year
-  periodtitle1 = paste0(beforetitle, year)
-  periodtitle2 = paste0(aftertitle, year)
+  labs = get_plot_labels(locale)
+  
+  periodtitle1 = paste0(labs$beforetitle, change_year)
+  periodtitle2 = paste0(labs$aftertitle, change_year)
   
   chart.data = df %>% 
-    select(monmmsummer, nommwin, Year1) %>% 
-    filter(!is.na(monmmsummer) & !is.na(nommwin)) %>% 
-    mutate(summermonth = month(monmmsummer),
-           wintermonth = month(nommwin),
-           old = as.integer(Year1 >= year))
+    dplyr::select(monmmsummer, nommwin, Year1) %>% 
+    dplyr::filter(!is.na(monmmsummer) & !is.na(nommwin)) %>% 
+    dplyr::mutate(summermonth = lubridate::month(monmmsummer),
+                  wintermonth = lubridate::month(nommwin),
+                  old = as.integer(Year1 >= change_year))
   
   chart.data$old = factor(chart.data$old, 
                           levels = c(0,1), 
@@ -520,28 +525,27 @@ plot_minmonth <- function(df, locale='EN'){
                                    labels = winterlabels)
   
   df.summer = chart.data %>% 
-    group_by(old, summermonth) %>% 
-    tally() %>% 
-    complete(summermonth, nesting(old), fill=list(n=0)) %>%  
-    mutate(perc = 100*n/sum(n))
+    dplyr::group_by(old, summermonth) %>% 
+    dplyr::tally() %>% 
+    tidyr::complete(summermonth, tidyr::nesting(old), fill=list(n=0)) %>%  
+    dplyr::mutate(perc = 100*n/sum(n))
   
   df.winter = chart.data %>% 
-    group_by(old, wintermonth) %>% 
-    tally() %>% 
-    complete(wintermonth, nesting(old), fill=list(n=0)) %>%  
-    mutate(perc = 100*n/sum(n))
+    dplyr::group_by(old, wintermonth) %>% 
+    dplyr::tally() %>% 
+    tidyr::complete(wintermonth, tidyr::nesting(old), fill=list(n=0)) %>%  
+    dplyr::mutate(perc = 100*n/sum(n))
   
   df.summer.all = chart.data %>% 
-    group_by(summermonth) %>% 
-    tally() %>% 
-    mutate(perc = 100*n/sum(n))
+    dplyr::group_by(summermonth) %>% 
+    dplyr::tally() %>% 
+    dplyr::mutate(perc = 100*n/sum(n))
   
   df.winter.all = chart.data %>% 
-    group_by(wintermonth) %>% 
-    tally() %>% 
-    mutate(perc = 100*n/sum(n))
+    dplyr::group_by(wintermonth) %>% 
+    dplyr::tally() %>% 
+    dplyr::mutate(perc = 100*n/sum(n))
   
-  labs = grwat::get_plot_labels(locale)
   g.summer = ggplot() +
     geom_col(data = df.summer, 
              aes(x = summermonth, y = perc, fill = old), 

@@ -4,15 +4,15 @@
 \alias{plot_periods}
 \title{Plot long-term characteristics for two periods}
 \usage{
-plot_periods(df, ..., year = NULL, tests = NULL, layout = as.matrix(1),
-  pagebreak = FALSE, locale = "EN")
+plot_periods(df, ..., change_year = NULL, tests = NULL,
+  layout = as.matrix(1), pagebreak = FALSE, locale = "EN")
 }
 \arguments{
 \item{df}{}
 
 \item{...}{}
 
-\item{year}{}
+\item{change_year}{}
 
 \item{tests}{}
 

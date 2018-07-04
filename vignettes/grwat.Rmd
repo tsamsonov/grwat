@@ -222,7 +222,7 @@ grwat::plot_variables(df, tests = test_variables(df))
 
 Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using `plot_periods()` function. The syntax is similar to `plot_variables()` except that you must provide either `tests` or `year` parameter. If both are supplied then `tests` is prioritized (you can also supply a fixed year when testing variables:
 ```{r}
-grwat::plot_periods(df, Qy, year = 1978)
+grwat::plot_periods(df, Qy, change_year = 1978)
 grwat::plot_periods(df, Qy, tests = test_variables(df, Qmax))
 ```
 
@@ -236,6 +236,11 @@ grwat::plot_periods(df, Qy, Qmax,
 To plot long-term changes for all variables just skip variable names in function call:
 ```{r, eval = FALSE}
 grwat::plot_periods(df, tests = test_variables(df))
+```
+
+There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:
+```{r}
+grwat::plot_minmonth(df, change_year = 1978)
 ```
 
 

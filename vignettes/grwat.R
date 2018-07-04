@@ -84,7 +84,7 @@ grwat::plot_variables(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
 #  grwat::plot_variables(df, tests = test_variables(df))
 
 ## ------------------------------------------------------------------------
-grwat::plot_periods(df, Qy, year = 1978)
+grwat::plot_periods(df, Qy, change_year = 1978)
 grwat::plot_periods(df, Qy, tests = test_variables(df, Qmax))
 
 ## ------------------------------------------------------------------------
@@ -94,4 +94,7 @@ grwat::plot_periods(df, Qy, Qmax,
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  grwat::plot_periods(df, tests = test_variables(df))
+
+## ------------------------------------------------------------------------
+grwat::plot_minmonth(df, change_year = 1978)
 
