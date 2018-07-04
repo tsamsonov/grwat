@@ -10,7 +10,15 @@ plot_variables(df, ..., tests = NULL, smooth = TRUE,
 \arguments{
 \item{df}{data.frame produced by separation function}
 
+\item{...}{}
+
 \item{tests}{}
+
+\item{smooth}{}
+
+\item{layout}{}
+
+\item{pagebreak}{}
 
 \item{locale}{}
 }

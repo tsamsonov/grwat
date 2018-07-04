@@ -48,11 +48,14 @@ get_plot_labels <- function(locale = 'EN'){
 #' Plot hydrograph separation
 #'
 #' @param df 
+#' @param years 
+#' @param layout 
+#' @param pagebreak 
 #' @param locale 
 #'
 #' @return
 #' @export
-plot_separation <- function(df, yrs = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -64,16 +67,16 @@ plot_separation <- function(df, yrs = NULL, layout = as.matrix(1), pagebreak = F
   
   df = df %>% dplyr::mutate(Year = lubridate::year(Date))
   
-  if(!is.null(yrs)){
-    df = df %>% dplyr::filter(Year %in% yrs)
+  if(!is.null(years)){
+    df = df %>% dplyr::filter(Year %in% years)
   }
   
-  years = df %>% dplyr::group_by(Year) %>% 
+  yrs = df %>% dplyr::group_by(Year) %>% 
     dplyr::summarise(nydate = Date[which(Qpol>0)[1]],
                      datepolend = max(Date[which(Qpol>0)])) %>% 
     dplyr::filter(!is.na(nydate))
   
-  n = nrow(years)
+  n = nrow(yrs)
   
   max.runoff = max(df$Qin)
   
@@ -82,22 +85,22 @@ plot_separation <- function(df, yrs = NULL, layout = as.matrix(1), pagebreak = F
   j = 1
   
   for (i in 1:n) {
-    begin.date = years$nydate[i]
+    begin.date = yrs$nydate[i]
     end.date = lubridate::ceiling_date(begin.date, "year") - lubridate::days(1) # Initialize by the end of the year
     
     clipped.remark = labs$clipped.remark
-    year = years$Year[i]
+    year = yrs$Year[i]
     
     datestart = begin.date
     lubridate::year(datestart) = lubridate::year(begin.date)
     
-    datepolend = years$datepolend[i]
+    datepolend = yrs$datepolend[i]
     lubridate::year(datepolend) = lubridate::year(begin.date)
     
     if (i != n){
-      nextyear <- years$Year[i+1]
+      nextyear <- yrs$Year[i+1]
       if ((nextyear - year) == 1) {
-        end.date = years$nydate[i+1] - lubridate::days(1) # Change to the end date of water-resources year
+        end.date = yrs$nydate[i+1] - lubridate::days(1) # Change to the end date of water-resources year
         clipped.remark = ""
       }
     }
@@ -155,7 +158,11 @@ plot_separation <- function(df, yrs = NULL, layout = as.matrix(1), pagebreak = F
 #' Plot interannual parameters
 #'
 #' @param df  data.frame produced by separation function
+#' @param ... 
 #' @param tests 
+#' @param smooth 
+#' @param layout 
+#' @param pagebreak 
 #' @param locale 
 #'
 #' @return
@@ -184,11 +191,6 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
   prms = params_out %>% 
             dplyr::filter(Name %in% fields) %>% 
             dplyr::slice(match(Name, fields))
-  
-  # if(is.null(tests)){
-  #   tests = do.call(grwat::run_tests, 
-  #                   c(list(df), lapply(fields, as.name)))
-  # }
   
   nn = nrow(prms)
   
@@ -308,47 +310,74 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
 
 #' Plot long-term characteristics for two periods
 #'
+#'
 #' @param df 
+#' @param ... 
 #' @param year 
+#' @param tests 
+#' @param layout 
+#' @param pagebreak 
 #' @param locale 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-plot_longterm <- function(df, ..., tests = NULL, locale='EN'){
+plot_periods <- function(df, ..., year = NULL, tests = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+  
+  if(is.null(year) & is.null(tests))
+    stop('You must provide year or tests parameter')
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
-    Sys.setlocale("LC_ALL", "Russian")
+    Sys.setlocale("LC_ALL", "ru_RU.UTF-8")
   } else {
     Sys.setenv(LANGUAGE="en")
-    Sys.setlocale("LC_ALL", "English")
+    Sys.setlocale("LC_ALL", "en_US.UTF-8")
   }
   
-  df = df %>% 
-    dplyr::mutate_if(params_out$Winter == 1, grwat::replace_year)
+  fields = rlang::exprs(...) %>% as.character()
+  if(length(fields) == 0)
+    fields = params_out %>% 
+    dplyr::filter(Order != 0) %>% 
+    dplyr::arrange(Order) %>% 
+    dplyr::select(Name) %>% 
+    as.matrix() %>% 
+    as.vector()
   
   prms = params_out %>% 
-    dplyr::filter(Order != 0) %>% 
-    dplyr::arrange(Order)
+    dplyr::filter(Name %in% fields) %>% 
+    dplyr::slice(match(Name, fields))
   
-  labs = grwat::get_plot_labels(locale)
+  nn = nrow(prms)
+  
+  df = df %>% 
+    dplyr::mutate_if(params_out$Winter == 1, replace_year)
+  
+  labs = get_plot_labels(locale)
+  
+  units = switch(locale,
+                 'RU' = prms$Units,
+                 'EN' = prms$Unitsen)
+  desc = switch(locale,
+                'RU' = prms$Desc,
+                'EN' = prms$Descen)
+  
   plotlist = list()
   j = 1
   
   for (i in 1:nn) {
     
-    if(!fixedyear){
-      year = change_year[i]
+    if(!is.null(tests)){
+      year = tests$change_year[i]
     }
     
-    d = df[names[i]] %>% 
+    d = df[prms$Name[i]] %>% 
       as.matrix() %>% 
       as.vector()
     
     is_date = FALSE
-    if(units[i] %in% c('Date', 'Month', 'Дата', 'Месяц')){
+    if(prms$Unitsen[i] %in% c('Date', 'Month')){
       d = d %>% as.Date() %>% as.integer()
       is_date = TRUE
     }
@@ -359,12 +388,6 @@ plot_longterm <- function(df, ..., tests = NULL, locale='EN'){
     n1 = length(d1)
     n2 = length(d2)
     
-    m1 = mean(d1)
-    m2 = mean(d2)
-    
-    rsd1 = round(sd(d1)/m1, 3)
-    rsd2 = round(sd(d2)/m2, 3)
-    
     periodtitle1 = paste0(labs$beforetitle, year)
     periodtitle2 = paste0(labs$aftertitle, year)
     
@@ -372,49 +395,62 @@ plot_longterm <- function(df, ..., tests = NULL, locale='EN'){
                     Period = c(rep(periodtitle1, n1), 
                                rep(periodtitle2, n2)))
     
-    means <- df.plot %>% group_by(Period) %>% summarise(Value = mean(Value))
-    
-    mean1 = ifelse(is_date, 
-                   m1 %>% as.integer() %>% as.Date(origin = '1970-01-01') %>% format("%d-%b"),
-                   m1 %>% round(3)
-    )
-    
-    mean2 = ifelse(is_date, 
-                   m2 %>% as.integer() %>% as.Date(origin = '1970-01-01') %>% format("%d-%b"),
-                   m2 %>% round(3)
-    )
-    
-    m1 = ifelse(is_date,
-                m1 %>% as.integer(),
-                m1)
-    
-    m2 = ifelse(is_date,
-                m2 %>% as.integer(),
-                m2)
-    
-    pt.df = data.frame(Value = c(m1, m2), 
-                       Period = c(periodtitle1, periodtitle2))
-    
     g = ggplot() + 
       geom_boxplot(data = df.plot, aes(x = Period, y = Value)) +
-      geom_point(data = pt.df, aes(x = Period, y = Value), colour="steelblue", shape=20, size=3) +
       coord_flip() +
-      labs(title = str_wrap(desc[i], width=labs$wraplength),
-           subtitle = paste0(labs$student.t, ' = ', round(tt[[i]]$statistic, 3), ', ',
-                             labs$label.p, ' = ', round(tt[[i]]$p.value, 5), ', ',
-                             'm1 = ', mean1, ', ', 
-                             'm2 = ', mean2,
-                             '\n',
-                             labs$fisher.f, ' = ', round(ft[[i]]$statistic, 3), ', ',
-                             labs$label.p, ' = ', round(ft[[i]]$p.value, 5), ', ',
-                             'cv1 = ', rsd1, ', ',
-                             'cv2 = ', rsd2),
+      labs(title = stringr::str_wrap(desc[i], width=labs$wraplength),
            x = NULL, 
            y = parse(text=units[i])) +
       theme(plot.title = element_text(size=12, lineheight=.8, face="bold"),
-            panel.background = element_rect(fill = colors[i],
-                                            colour = colors[i],
+            panel.background = element_rect(fill = prms$Color[i],
+                                            colour = prms$Color[i],
                                             size = 0.5, linetype = "solid"))
+    
+    if (!is.null(tests)) {
+      
+      m1 = mean(d1)
+      m2 = mean(d2)
+      
+      rsd1 = round(sd(d1)/m1, 3)
+      rsd2 = round(sd(d2)/m2, 3)
+      
+      means <- df.plot %>% 
+        dplyr::group_by(Period) %>% 
+        dplyr::summarise(Value = mean(Value))
+      
+      mean1 = ifelse(is_date, 
+                     m1 %>% as.integer() %>% as.Date(origin = '1970-01-01') %>% format("%d-%b"),
+                     m1 %>% round(3)
+      )
+      
+      mean2 = ifelse(is_date, 
+                     m2 %>% as.integer() %>% as.Date(origin = '1970-01-01') %>% format("%d-%b"),
+                     m2 %>% round(3)
+      )
+      
+      m1 = ifelse(is_date,
+                  m1 %>% as.integer(),
+                  m1)
+      
+      m2 = ifelse(is_date,
+                  m2 %>% as.integer(),
+                  m2)
+      
+      pt.df = data.frame(Value = c(m1, m2), 
+                         Period = c(periodtitle1, periodtitle2))
+      
+      g = g + 
+        geom_point(data = pt.df, aes(x = Period, y = Value), colour="steelblue", shape=20, size=3) +
+        labs(subtitle = paste0(labs$student.t, ' = ', round(tests$tt[[i]]$statistic, 3), ', ',
+                               labs$label.p, ' = ', round(tests$tt[[i]]$p.value, 5), ', ',
+                               'm1 = ', mean1, ', ', 
+                               'm2 = ', mean2,
+                               '\n',
+                               labs$fisher.f, ' = ', round(tests$ft[[i]]$statistic, 3), ', ',
+                               labs$label.p, ' = ', round(tests$ft[[i]]$p.value, 5), ', ',
+                               'cv1 = ', rsd1, ', ',
+                               'cv2 = ', rsd2))
+    }
     
     if(is_date){
       g = g + scale_y_continuous(labels = function(x) {
@@ -424,13 +460,18 @@ plot_longterm <- function(df, ..., tests = NULL, locale='EN'){
     
     plotlist[[j]] = g
     j = j+1
-    if (j == 5) {
-      multiplot(plotlist = plotlist, cols = 2)
-      cat("\n \n")
+    if (j == length(layout)+1) {
+      multiplot(plotlist = plotlist, layout = layout)
+      if (pagebreak) cat("\n\n\\pagebreak\n")
       plotlist = list()
       j = 1
     }
   }
+  
+  if (j > 1) {
+    multiplot(plotlist = plotlist, layout = layout)
+  }
+  
 }
 
 #' Plot histogram of minimum discharge month for two periods

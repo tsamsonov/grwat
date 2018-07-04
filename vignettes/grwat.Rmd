@@ -218,7 +218,26 @@ Finally, you can plot all variables by not supplying column names to `plot_varia
 grwat::plot_variables(df, tests = test_variables(df))
 ```
 
-## Plot long-term changes
+## Plot long-term period changes 
+
+Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using `plot_periods()` function. The syntax is similar to `plot_variables()` except that you must provide either `tests` or `year` parameter. If both are supplied then `tests` is prioritized (you can also supply a fixed year when testing variables:
+```{r}
+grwat::plot_periods(df, Qy, year = 1978)
+grwat::plot_periods(df, Qy, tests = test_variables(df, Qmax))
+```
+
+Multiple plots can be combined on one page using `layout` parameter:
+```{r}
+grwat::plot_periods(df, Qy, Qmax, 
+                    tests = test_variables(df, Qy, Qmax),
+                    layout = matrix(c(1,2)))
+```
+
+To plot long-term changes for all variables just skip variable names in function call:
+```{r, eval = FALSE}
+grwat::plot_periods(df, tests = test_variables(df))
+```
+
 
 # Report
 

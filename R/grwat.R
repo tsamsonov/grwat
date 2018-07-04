@@ -1,5 +1,6 @@
 #' @useDynLib grwat
 #' @importFrom Rcpp sourceCpp
+#' @importFrom magrittr "%>%"
 NULL
 
 devtools::use_package('Rcpp')
@@ -23,8 +24,8 @@ devtools::use_package('tidyr')
 devtools::use_package('progress')
 devtools::use_package('grid')
 devtools::use_package('rlang')
+devtools::use_package('magrittr')
 devtools::use_package('ggplot2', 'Depends')
-devtools::use_package('magrittr', 'Depends')
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("Welcome to grwat package for hydrograph separation and analysis")

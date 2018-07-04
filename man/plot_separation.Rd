@@ -4,11 +4,17 @@
 \alias{plot_separation}
 \title{Plot hydrograph separation}
 \usage{
-plot_separation(df, yrs = NULL, layout = as.matrix(1), pagebreak = FALSE,
-  locale = "EN")
+plot_separation(df, years = NULL, layout = as.matrix(1),
+  pagebreak = FALSE, locale = "EN")
 }
 \arguments{
 \item{df}{}
+
+\item{years}{}
+
+\item{layout}{}
+
+\item{pagebreak}{}
 
 \item{locale}{}
 }

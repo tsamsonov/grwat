@@ -83,3 +83,15 @@ grwat::plot_variables(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
 ## ---- eval=FALSE---------------------------------------------------------
 #  grwat::plot_variables(df, tests = test_variables(df))
 
+## ------------------------------------------------------------------------
+grwat::plot_periods(df, Qy, year = 1978)
+grwat::plot_periods(df, Qy, tests = test_variables(df, Qmax))
+
+## ------------------------------------------------------------------------
+grwat::plot_periods(df, Qy, Qmax, 
+                    tests = test_variables(df, Qy, Qmax),
+                    layout = matrix(c(1,2)))
+
+## ---- eval = FALSE-------------------------------------------------------
+#  grwat::plot_periods(df, tests = test_variables(df))
+
