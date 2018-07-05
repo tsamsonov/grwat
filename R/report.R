@@ -184,10 +184,12 @@ test_variables <- function(df, ..., change_year = NULL, locale='EN'){
 #'
 #' @return kabled version of p-values table coloured
 #' @export
-kable_tests <- function(tests){
+kable_tests <- function(tests, locale = 'EN'){
   gcolor = '#99cc00'
   ycolor = '#e6e600'
   rcolor = '#ff9966'
+  
+  labs = get_plot_labels(locale)
   
   pvalues = tests$pvalues %>% dplyr::mutate(
     Mann.Kendall = kableExtra::cell_spec(Mann.Kendall, "latex", 
@@ -205,7 +207,7 @@ kable_tests <- function(tests){
   )
   
   knitr::kable(pvalues, booktabs = T, longtable = T, escape = FALSE, format = "latex",
-               caption = 'p-values of statistical criteria') %>% 
+               caption = labs$pheader) %>% 
                kableExtra::kable_styling(font_size = 11,
                                         repeat_header_text = "",
                                         latex_options = c("striped", "repeat_header"))

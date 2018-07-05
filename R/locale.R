@@ -1,0 +1,48 @@
+get_plot_labels <- function(locale = 'EN'){
+  switch(locale,
+         'EN' = list(
+           subtitle = 'Water-resources year',
+           bartitle.win = "Month of a minimum monthly discharge during winter",
+           bartitle.sum = "Month of a minimum monthly discharge during summer",
+           monthtitle = "Month",
+           periodtitle = "Period",
+           beforetitle = "before ",
+           aftertitle = "after ",
+           label.p = 'p',
+           student.t = 'Student (mean): t',
+           fisher.f = 'Fisher (variance): F',
+           pettitt.u = 'Pettitt (change-point): U*',
+           kendall.z = 'Mann-Kendall (trend): z',
+           theil.i = 'Theil-Sen (trend): i',
+           student.df = 'df',
+           clipped.remark = "(clipped by the end of the year)",
+           discharge = "Total discharge",
+           date = "Date",
+           m3s = bquote(m^3/s),
+           pheader = "p-values of statistical criteria",
+           wraplength = 60 # row wrap length for long titles
+         ),
+         'RU' = list(
+           subtitle = 'Начало водохозяйственного года',
+           bartitle.win = "Месяц минимального месячного расхода за зиму",
+           bartitle.sum = "Месяц минимального месячного расхода за лето",
+           monthtitle = "Месяц",
+           periodtitle = "Период",
+           beforetitle = "до ",
+           aftertitle = "с ",
+           label.p = 'p',
+           student.t = 'Стьюдент (средние): t',
+           fisher.f = 'Фишер (дисперсии): F',
+           pettitt.u = 'Петтитт (перелом): U*',
+           kendall.z = 'Манн-Кендалл (тренд): z',
+           theil.i = 'Тейл-Сен (тренд): i',
+           student.df = 'df',
+           clipped.remark = "(обрезано по концу календарного года)",
+           discharge = "Суммарный расход",
+           date = "Дата",
+           m3s = bquote(м^3/с),
+           pheader = "p-значения статистических критериев",
+           wraplength = 50 # row wrap length for long titles
+         )
+  )
+}

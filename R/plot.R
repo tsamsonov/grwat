@@ -1,50 +1,3 @@
-get_plot_labels <- function(locale = 'EN'){
-  switch(locale,
-     'EN' = list(
-       subtitle = 'Water-resources year',
-       bartitle.win = "Month of a minimum monthly discharge during winter",
-       bartitle.sum = "Month of a minimum monthly discharge during summer",
-       monthtitle = "Month",
-       periodtitle = "Period",
-       beforetitle = "before ",
-       aftertitle = "after ",
-       label.p = 'p',
-       student.t = 'Student (mean): t',
-       fisher.f = 'Fisher (variance): F',
-       pettitt.u = 'Pettitt (change-point): U*',
-       kendall.z = 'Mann-Kendall (trend): z',
-       theil.i = 'Theil-Sen (trend): i',
-       student.df = 'df',
-       clipped.remark = "(clipped by the end of the year)",
-       discharge = "Total discharge",
-       date = "Date",
-       m3s = bquote(m^3/s),
-       wraplength = 60 # row wrap length for long titles
-     ),
-     'RU' = list(
-       subtitle = 'Начало водохозяйственного года',
-       bartitle.win = "Месяц минимального месячного расхода за зиму",
-       bartitle.sum = "Месяц минимального месячного расхода за лето",
-       monthtitle = "Месяц",
-       periodtitle = "Период",
-       beforetitle = "до ",
-       aftertitle = "с ",
-       label.p = 'p',
-       student.t = 'Стьюдент (средние): t',
-       fisher.f = 'Фишер (дисперсии): F',
-       pettitt.u = 'Петтитт (перелом): U*',
-       kendall.z = 'Манн-Кендалл (тренд): z',
-       theil.i = 'Тейл-Сен (тренд): i',
-       student.df = 'df',
-       clipped.remark = "(обрезано по концу календарного года)",
-       discharge = "Суммарный расход",
-       date = "Дата",
-       m3s = bquote(м^3/с),
-       wraplength = 50 # row wrap length for long titles
-     )
-  )
-}
-
 #' Plot hydrograph separation
 #'
 #' @param df data.frame with hydrograph separation
@@ -59,10 +12,15 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
-    Sys.setlocale("LC_ALL", "ru_RU.UTF-8")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Russian"))
+    
   } else {
     Sys.setenv(LANGUAGE="en")
-    Sys.setlocale("LC_ALL", "en_US.UTF-8")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "en_US.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "English"))
   }
   
   df = df %>% dplyr::mutate(Year = lubridate::year(Date))
@@ -135,7 +93,7 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
                         name = "Discharge:") +
       scale_x_date(date_breaks = "1 month", date_labels = "%b") +
       labs(title = year,
-           subtitle = paste(begin.date, "—", end.date, clipped.remark),
+           subtitle = paste(begin.date, "-", end.date, clipped.remark),
            x = labs$date, y = substitute(d ~ ', ' ~ m, list(d = labs$discharge, m = labs$m3s))) +
       theme(plot.title = element_text(lineheight=.8, face="bold"),
             legend.position="bottom")
@@ -173,10 +131,15 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
-    Sys.setlocale("LC_ALL", "ru_RU.UTF-8")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Russian"))
+    
   } else {
     Sys.setenv(LANGUAGE="en")
-    Sys.setlocale("LC_ALL", "en_US.UTF-8")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "en_US.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "English"))
   }
   
   fields = rlang::exprs(...) %>% as.character()
@@ -327,10 +290,15 @@ plot_periods <- function(df, ..., change_year = NULL, tests = NULL, layout = as.
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
-    Sys.setlocale("LC_ALL", "ru_RU.UTF-8")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Russian"))
+    
   } else {
     Sys.setenv(LANGUAGE="en")
-    Sys.setlocale("LC_ALL", "en_US.UTF-8")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "en_US.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "English"))
   }
   
   fields = rlang::exprs(...) %>% as.character()
@@ -486,10 +454,15 @@ plot_minmonth <- function(df, change_year = NULL, pagebreak = FALSE, locale='EN'
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
-    Sys.setlocale("LC_ALL", "ru_RU.UTF-8")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Russian"))
+    
   } else {
     Sys.setenv(LANGUAGE="en")
-    Sys.setlocale("LC_ALL", "en_US.UTF-8")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "en_US.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "English"))
   }
   
   labs = get_plot_labels(locale)

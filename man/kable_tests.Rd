@@ -4,7 +4,7 @@
 \alias{kable_tests}
 \title{Kable p-values table by coloring it using green-yellow-red palette}
 \usage{
-kable_tests(tests)
+kable_tests(tests, locale = "EN")
 }
 \arguments{
 \item{tests}{Test result returned by `test_variables()` function}
