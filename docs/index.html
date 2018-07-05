@@ -83,9 +83,62 @@
 <div id="installing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing" class="anchor"></a>Installing</h2>
-<p>Currently only development version is available. It can be installed from github with</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"tsamsonov/grwat"</span>)</a></code></pre></div>
+<p>To use grwat on your machine you need to install:</p>
+<ol>
+<li>devtools</li>
+<li>command-line development tools <em>(Windows and macOS users only)</em>
+</li>
+<li>grwat package itself</li>
+<li>TeX distribution <em>(only if you need reporting)</em>
+</li>
+</ol>
+<div id="install-devtools-package" class="section level3">
+<h3 class="hasAnchor">
+<a href="#install-devtools-package" class="anchor"></a>Install devtools package</h3>
+<p><a href="https://cran.r-project.org/web/packages/devtools/index.html">devtools</a> is a great library that facilitates working with in-development packages not hosted in CRAN. You have to install it first (unless it is already installed on your machine):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a></code></pre></div>
+</div>
+<div id="install-command-line-development-tools" class="section level3">
+<h3 class="hasAnchor">
+<a href="#install-command-line-development-tools" class="anchor"></a>Install command-line development tools</h3>
+<p>Since grwat contains C++ code, it needs to be compiled during the package installation.</p>
+<p><strong>Linux</strong> users should have the compiler already installed in their system.</p>
+<p><strong>macOS</strong> users have to:</p>
+<ol>
+<li>Install <a href="https://developer.apple.com/download/more/">Xcode command-line tools</a>.</li>
+<li>Restart R session.</li>
+</ol>
+<p><strong>Windows</strong> users have to:</p>
+<ol>
+<li>Install <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>.</li>
+<li>Restart R session.</li>
+<li>Run the following code in R command line:</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">assignInNamespace</span>(<span class="st">"version_info"</span>, <span class="kw">c</span>(devtools<span class="op">:::</span>version_info, <span class="kw">list</span>(<span class="st">"3.5"</span> =<span class="st"> </span><span class="kw">list</span>(<span class="dt">version_min =</span> <span class="st">"3.3.0"</span>, <span class="dt">version_max =</span> <span class="st">"99.99.99"</span>, <span class="dt">path =</span> <span class="st">"bin"</span>))), <span class="st">"devtools"</span>)</a></code></pre></div>
+</div>
+<div id="install-grwat-package" class="section level3">
+<h3 class="hasAnchor">
+<a href="#install-grwat-package" class="anchor"></a>Install grwat package</h3>
+<p>If all previous steps are completed successfully, grwat package can be installed via single command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"tsamsonov/grwat"</span>)</a></code></pre></div>
+</div>
+<div id="install-tex-distribution" class="section level3">
+<h3 class="hasAnchor">
+<a href="#install-tex-distribution" class="anchor"></a>Install TeX distribution</h3>
+<p>If you want to use grwat reporting functionality, you need to have TeX distribution installed. The easiest way to get TeX is to use <a href="https://yihui.name/tinytex/"><strong>tinytex</strong></a> package. It provides a small TeX distribution that installs LaTeX packages automatically as soon as they are needed.</p>
+<p>The following commands will install tinytex package and TeX distribution underlying it:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">'tinytex'</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">tinytex<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tinytex/topics/install_tinytex">install_tinytex</a></span>()</a></code></pre></div>
+<p>Then restart R session and run <code>tinytex:::is_tinytex()</code>. If everything is OK, you will get <code>TRUE</code> as a result:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">tinytex<span class="op">:::</span><span class="kw">is_tinytex</span>()</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">[<span class="dv">1</span>] <span class="ot">TRUE</span></a></code></pre></div>
+</div>
+</div>
+<div id="using" class="section level2">
+<h2 class="hasAnchor">
+<a href="#using" class="anchor"></a>Using</h2>
+<p>Check out the <strong>Get started</strong> vignette at the top of the page.</p>
 </div>
 </div>
 

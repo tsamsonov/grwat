@@ -6,8 +6,65 @@ Welcome to grwat, an R package for hydrograph separation and analysis based on w
 
 ## Installing
 
-Currently only development version is available. It can be installed from github with
+To use grwat on your machine you need to install:
+
+1. devtools
+2. command-line development tools _(Windows and macOS users only)_
+3. grwat package itself
+4. TeX distribution _(only if you need reporting)_
+
+### Install devtools package
+
+[devtools](https://cran.r-project.org/web/packages/devtools/index.html) is a great library that facilitates working with in-development packages not hosted in CRAN. You have to install it first (unless it is already installed on your machine):
+```r
+install.packages("devtools")
+```
+
+### Install command-line development tools
+
+Since grwat contains C++ code, it needs to be compiled during the package installation. 
+
+__Linux__ users should have the compiler already installed in their system. 
+
+__macOS__ users have to:
+
+1. Install [Xcode command-line tools](https://developer.apple.com/download/more/).
+2. Restart R session.
+
+__Windows__ users have to:
+
+1. Install [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
+2. Restart R session.
+3. Run the following code in R command line:
+
 ```r
 library(devtools)
-install_github("tsamsonov/grwat")
+assignInNamespace("version_info", c(devtools:::version_info, list("3.5" = list(version_min = "3.3.0", version_max = "99.99.99", path = "bin"))), "devtools")
 ```
+
+### Install grwat package
+
+If all previous steps are completed successfully, grwat package can be installed via single command:
+```r
+devtools::install_github("tsamsonov/grwat")
+```
+
+### Install TeX distribution
+
+If you want to use grwat reporting functionality, you need to have TeX distribution installed. The easiest way to get TeX is to use [__tinytex__](https://yihui.name/tinytex/) package. It provides a small TeX distribution that installs LaTeX packages automatically as soon as they are needed.
+
+The following commands will install tinytex package and TeX distribution underlying it:
+```r
+install.packages('tinytex')
+tinytex::install_tinytex()
+```
+
+Then restart R session and run `tinytex:::is_tinytex()`. If everything is OK, you will get `TRUE` as a result:
+```r
+tinytex:::is_tinytex()
+[1] TRUE
+```
+
+## Using
+
+Check out the __Get started__ vignette at the top of the page.
