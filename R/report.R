@@ -43,6 +43,7 @@ report_gauge <- function(wd){
                     output_dir = fullpath,
                     knit_root_dir = fullpath,
                     encoding = 'UTF-8',
+                    quiet = TRUE,
                     params = list(name = basename(fullpath)))
 }
 
@@ -159,7 +160,7 @@ test_variables <- function(df, ..., change_year = NULL, locale='EN'){
     
   }
   
-  stable = data.frame(
+  pvalues = data.frame(
     N = 1:nn,
     Value = desc,
     Mann.Kendall = sapply(mkt, function(X) X$p.value %>% round(5)),
@@ -168,7 +169,7 @@ test_variables <- function(df, ..., change_year = NULL, locale='EN'){
     Fisher = sapply(ft, function(X) X$p.value %>% round(5))
   )
   
-  row.names(stable) = 1:nn
+  row.names(pvalues) = 1:nn
   
   return(list(ptt = ptt,
               mkt = mkt,
@@ -178,7 +179,7 @@ test_variables <- function(df, ..., change_year = NULL, locale='EN'){
               ft = ft,
               change_year = ch_year,
               maxval = maxval,
-              stable = stable))
+              pvalues = pvalues))
 }
 
 #' Kable p-values table by coloring it using green-yellow-red palette
@@ -194,7 +195,7 @@ kable_tests <- function(tests){
   ycolor = '#e6e600'
   rcolor = '#ff9966'
   
-  stable = tests$stable %>% dplyr::mutate(
+  pvalues = tests$pvalues %>% dplyr::mutate(
     Mann.Kendall = kableExtra::cell_spec(Mann.Kendall, "latex", 
                              background = ifelse(Mann.Kendall < 0.01, gcolor, 
                                                  ifelse(Mann.Kendall < 0.05, ycolor, rcolor))),
@@ -209,7 +210,7 @@ kable_tests <- function(tests){
                                            ifelse(Fisher < 0.05, ycolor, rcolor)))
   )
   
-  knitr::kable(stable, booktabs = T, longtable = T, escape = FALSE, format = "latex",
+  knitr::kable(pvalues, booktabs = T, longtable = T, escape = FALSE, format = "latex",
                caption = 'p-values of statistical criteria') %>% 
                kableExtra::kable_styling(font_size = 11,
                                         repeat_header_text = "",

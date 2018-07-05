@@ -99,5 +99,6 @@ grwat::plot_periods(df, Qy, Qmax,
 grwat::plot_minmonth(df, change_year = 1978)
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  grwat::report_gauge("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
+#  grwat::report_gauge("/Volumes/Data/Work/_grwat/2018/out/1_Sever/Mezen_Malonisog")
+#  grwat::report_basins("/Volumes/Data/Work/_grwat/2018/out/")
 

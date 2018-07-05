@@ -105,5 +105,5 @@ grwat::kable_tests(tests)
 
 <!-- Write stats to table -->
 ```{r}
-tests$stable %>% writexl::write_xlsx(paste('pvalues_', params$name, '.xlsx', sep=''))
+tests$pvalues %>% writexl::write_xlsx(paste('pvalues_', params$name, '.xlsx', sep=''))
 ```

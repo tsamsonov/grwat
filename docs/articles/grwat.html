@@ -70,7 +70,7 @@
       <h1>Introduction to grwat R package</h1>
                         <h4 class="author">Timofey Samsonov</h4>
             
-            <h4 class="date">2018-07-04</h4>
+            <h4 class="date">2018-07-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/master/vignettes/grwat.Rmd"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="hidden name"><code>grwat.Rmd</code></div>
@@ -79,13 +79,23 @@
 
     
     
-<div id="process" class="section level1">
+<p><strong>grwat</strong> is an R package for automated multi-year hydrograph analysis that provides functions to</p>
+<ol style="list-style-type: decimal">
+<li>Preprocess hydrological data to enrich them with meteorological variables.</li>
+<li>Separate hydrograph into ground, seasonal, thaw and rain discharge.</li>
+<li>Describe obtained separation with multiple variables.</li>
+<li>Perform statistical tests on hydrograph variables.</li>
+<li>Plot interannual and long-term changes of hydrograph variables.</li>
+<li>Generate high-quality report files containing the full information gained during analysis.</li>
+</ol>
+<p>This vignette contains a brief introduction to solving all these tasks with grwat.</p>
+<div id="preprocess" class="section level1">
 <h1 class="hasAnchor">
-<a href="#process" class="anchor"></a>Process</h1>
-<p>Processing joins reanalysis data to raw hydrlogical data on time stamps and geographic location. It can be made using grwat in three regimes: manual, gauge folder processing and basins folder processing.</p>
-<div id="manual-processing" class="section level2">
+<a href="#preprocess" class="anchor"></a>Preprocess</h1>
+<p>Preprocessing joins reanalysis data to raw hydrological data on time and geographic location. It can be made using grwat in three regimes: manual, gauge folder processing and basins folder processing.</p>
+<div id="manual-preprocessing" class="section level2">
 <h2 class="hasAnchor">
-<a href="#manual-processing" class="anchor"></a>Manual processing</h2>
+<a href="#manual-preprocessing" class="anchor"></a>Manual preprocessing</h2>
 <p>You can join reanalysis and water level data for a single gauge as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(grwat)</a>
@@ -126,7 +136,7 @@
 <div id="gauge-folder" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gauge-folder" class="anchor"></a>Gauge folder</h2>
-<p>Grwat can process hydrological data that is inside one gauge folder. That folder should contain <strong>two</strong> files:</p>
+<p>Grwat can preprocess hydrological data that is inside one gauge folder. That folder should contain <strong>two</strong> files:</p>
 <ul>
 <li>Text file with hydrological data in CSV format, space-separated (<code>.txt</code> extension)</li>
 <li>Spatial data file with polygon of a gauge watershed area in Geopackage (<code>.gpkg</code> extension) or Shapefile (<code>.shp</code> extension) format</li>
@@ -138,10 +148,7 @@
 <p>The value returned by this function is a number of reanalysis points extracted by buffered basin region. As a result of the execution of this function the folder receives two enriched data files and a map of the spatial configuration:</p>
 <p><img src="out_gauge.png"></p>
 <blockquote>
-<p>We recommend using GeoPackage because it is fast and powerful <a href="https://www.geopackage.org">OGC-standardized</a> modern spatial data format that does not include any sidecar files like Esri Shapefile. You can easily convert many spatial data formats to GeoPackage by <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, using <code>st_read</code> and then <code>st_write</code> functions from <a href="https://r-spatial.github.io/sf/"><code>sf</code></a> R package, or via <a href="http://www.gdal.org">GDAL</a> utils if you prefer command line or need batch processing (which can also be automated in R).</p>
-</blockquote>
-<blockquote>
-<p>Note that if you use Shapefile format for basin border representation, you should also preserve <code>.dbf</code> and <code>.shx</code> sidecar files that store attribute information and relation between attributes and geometry. Otherwise the shapefile cannot be read correctly.</p>
+<p>We recommend using GeoPackage because it is fast and powerful <a href="https://www.geopackage.org">OGC-standardized</a> modern spatial data format that does not include any sidecar files like Esri Shapefile. You can easily convert many spatial data formats to GeoPackage by <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, using <code>st_read</code> and then <code>st_write</code> functions from <a href="https://r-spatial.github.io/sf/"><code>sf</code></a> R package, or via <a href="http://www.gdal.org">GDAL</a> utils if you prefer command line or need batch processing (which can also be automated in R). Note that if you use Shapefile format for basin border representation, you should also preserve <code>.dbf</code> and <code>.shx</code> sidecar files that store attribute information and relation between attributes and geometry. Otherwise the shapefile cannot be read correctly.</p>
 </blockquote>
 </div>
 <div id="basins-folder" class="section level2">
@@ -179,13 +186,13 @@
 </div>
 <div id="separate" class="section level1">
 <h1 class="hasAnchor">
-<a href="#separate" class="anchor"></a>Separate</h1>
-<p>Currently separation procedure is unavalable inside grwat package and is performed using external command-line Fortran<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> program that produces two files:</p>
+<a href="#separate" class="anchor"></a>Separate and describe</h1>
+<p>Currently separation and description procedures are unavalable inside grwat package and are performed using external command-line Fortran<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> program that produces two files:</p>
 <ul>
 <li>
 <em>AllGrWat.txt</em> contains hydrograph separation data</li>
 <li>
-<em>Total.txt</em> contains multiple characteristics of water discharge (they are called variables)</li>
+<em>Total.txt</em> contains multiple variables describing the separated hydrograph</li>
 </ul>
 <p>These output data can be visualised and statistically assessed by grwat functions that are uncovered in the next section.</p>
 <p>We recommend placing these files in the same folder as processed data like in a picture below:</p>
@@ -377,14 +384,14 @@
 <a class="sourceLine" id="cb11-95" data-line-number="95"><span class="co">#&gt; [1] 2790</span></a>
 <a class="sourceLine" id="cb11-96" data-line-number="96"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb11-97" data-line-number="97"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb11-98" data-line-number="98"><span class="co">#&gt; $stable</span></a>
+<a class="sourceLine" id="cb11-98" data-line-number="98"><span class="co">#&gt; $pvalues</span></a>
 <a class="sourceLine" id="cb11-99" data-line-number="99"><span class="co">#&gt;   N                                               Value Mann.Kendall</span></a>
 <a class="sourceLine" id="cb11-100" data-line-number="100"><span class="co">#&gt; 1 1 Maximum annual discharge during seasonal flood wave        4e-05</span></a>
 <a class="sourceLine" id="cb11-101" data-line-number="101"><span class="co">#&gt;   Pettitt Student  Fisher</span></a>
 <a class="sourceLine" id="cb11-102" data-line-number="102"><span class="co">#&gt; 1 0.00051 0.00011 0.00499</span></a></code></pre></div>
 <p>This is an example with three variables selected:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">tests =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/test_variables">test_variables</a></span>(df, Qygr, date10w1, Wpol3)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">tests<span class="op">$</span>stable</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">tests<span class="op">$</span>pvalues</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;   N                                                                 Value</span></a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1 1 Annual groundwater discharge ("baseflow") during water-resources year</span></a>
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2 2                   First date of 10-day window discharge during winter</span></a>
@@ -477,12 +484,28 @@
 <p>The final feature of grwat package is reporting. Previous sections demonstrated various functions that allow different level of data processing: from individual tables, plots and maps to fully processed folders, tests and plots of multiple variables. Reporting allows you to produce a <strong>single PDF file</strong> that provides a comprehensive overview of hydrograph separation and water discharge variables for the whole time period covered by your data. There are currently two functions that work with folder data:</p>
 <ul>
 <li>
-<code><a href="../reference/report_gauge.html">report_gauge()</a></code> generates a single PDF report for a gauge folder containing <em>separation file</em> <code>AllGrWat.txt</code>, <em>variables file</em> <code>Total.txt</code> and map file <code>*.png</code>.</li>
+<code><a href="../reference/report_gauge.html">report_gauge()</a></code> generates a report for a gauge folder containing <em>separation file</em> <code>AllGrWat.txt</code>, <em>variables file</em> <code>Total.txt</code> and map file <code>*.png</code>.</li>
 <li>
-<code><a href="../reference/report_basins.html">report_basins()</a></code> generates multiple PDF reports for the hierarchy of basin and gauge folders</li>
+<code><a href="../reference/report_basins.html">report_basins()</a></code> generates multiple reports for the hierarchy of basin and gauge folders. It actually runs <code><a href="../reference/report_gauge.html">report_gauge()</a></code> for every leaf subdirectory in the provided path.</li>
 </ul>
-<p>These functions work as follows:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/report_gauge">report_gauge</a></span>(<span class="st">"/Volumes/Data/Work/_grwat/Mezen_Malonisog/"</span>)</a></code></pre></div>
+<p>The syntax of these functions is straightforward:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/report_gauge">report_gauge</a></span>(<span class="st">"/Volumes/Data/Work/_grwat/2018/out/1_Sever/Mezen_Malonisog"</span>)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/report_basins">report_basins</a></span>(<span class="st">"/Volumes/Data/Work/_grwat/2018/out/"</span>)</a></code></pre></div>
+<p>As a result of reporting each gauge folder gains <em>report.pdf</em> (report) and <em>pvalues<gaugename>.xlsx</gaugename></em> (p-values of statistical tests) files:</p>
+<p><img src="report_folder.png"></p>
+<p>A report file contains 5 sections:</p>
+<ol style="list-style-type: decimal">
+<li>Input data</li>
+<li>Hydrograph separation</li>
+<li>Interannual changes</li>
+<li>Long-term changes</li>
+<li>Statistical tests</li>
+</ol>
+<p>They are organized in a compact form with multiple plots per page:</p>
+<p><img src="report.png"></p>
+<blockquote>
+<p>Note that reporting is a time-consuming operation since it produces dozens of high-quality plots. Therefore it is reasonable to run reporting functions from a separate R session if you want to perform another tasks in R at the same time. Or take a cup of coffee and watch your favourite TV series.</p>
+</blockquote>
 </div>
 <div class="footnotes">
 <hr>
@@ -498,13 +521,13 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li>
-<a href="#process">Process</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#manual-processing">Manual processing</a></li>
+<a href="#preprocess">Preprocess</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#manual-preprocessing">Manual preprocessing</a></li>
       <li><a href="#gauge-folder">Gauge folder</a></li>
       <li><a href="#basins-folder">Basins folder</a></li>
       </ul>
 </li>
-      <li><a href="#separate">Separate</a></li>
+      <li><a href="#separate">Separate and describe</a></li>
       <li>
 <a href="#plot-and-test">Plot and test</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#plot-separation-of-hydrograph">Plot separation of hydrograph</a></li>

@@ -134,7 +134,7 @@ process_gauge <- function(wd, rean, bufsize=50000){
     
     # read only first file with .shp extension
     shapes = list.files()
-    flt = grep(".gpkg$", shapes, perl = TRUE)
+    flt = grep("\\.gpkg$|\\.shp$", shapes, perl = TRUE)
     
     if (length(flt) == 0){
       warning('Cannot find a geopackage with basin border')

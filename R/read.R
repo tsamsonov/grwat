@@ -62,9 +62,6 @@ read_variables <- function(file_tot){
   total = total %>%
     dplyr::mutate(monmmsummer = lubridate::ymd(paste("2000", monmmsummer, "01")),
                   nommwin = lubridate::ymd(paste("2000", nommwin, "01")))
-
-  # params_out$coltypes[which(colnames(total) == 'monmmsummer')] = 'Date'
-  # params_out$coltypes[which(colnames(total) == 'nommwin')] = 'Date'
   
   total$DaysPavsSum[abs(total$DaysPavsSum) > 300] = 0
   total$DaysThawWin[abs(total$DaysThawWin) > 300] = 0
