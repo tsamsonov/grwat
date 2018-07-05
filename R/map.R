@@ -5,10 +5,8 @@
 #' @param region sf object with basin region
 #' @param buffer sf object with buffered basin region
 #'
-#' @return
+#' @return plot object
 #' @export
-#'
-#' @examples
 map <- function(pts, pts_sel, region, buffer = NULL){
   
   if(!is.null(buffer)){

@@ -7,7 +7,7 @@
 kable_tests(tests)
 }
 \arguments{
-\item{tests}{Test result returned by run_tests}
+\item{tests}{Test result returned by `test_variables()` function}
 }
 \value{
 kabled version of p-values table coloured

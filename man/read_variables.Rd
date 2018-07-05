@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{read_variables}
 \alias{read_variables}
-\title{Read file with hydrograph parameters}
+\title{Read file with hydrograph variables}
 \usage{
 read_variables(file_tot)
 }
@@ -13,5 +13,5 @@ read_variables(file_tot)
 data.frame
 }
 \description{
-Read file with hydrograph parameters
+Read file with hydrograph variables
 }

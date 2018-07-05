@@ -41,7 +41,7 @@ read_interim <- function(file_prec, file_temp){
   )
 }
 
-#' Read file with hydrograph parameters
+#' Read file with hydrograph variables
 #'
 #' @param total_file Path to a file
 #'
@@ -73,7 +73,7 @@ read_variables <- function(file_tot){
   return(total)
 }
 
-#' Read file with separation hydrograph
+#' Read file with hydrograph separation
 #'
 #' @param file_sep Path to a file
 #'

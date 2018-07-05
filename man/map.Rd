@@ -15,6 +15,9 @@ map(pts, pts_sel, region, buffer = NULL)
 
 \item{buffer}{sf object with buffered basin region}
 }
+\value{
+plot object
+}
 \description{
 Map reanalysis and basin data
 }

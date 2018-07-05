@@ -7,7 +7,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' st_buffer_geo(basin, 50000)
+#' }
 st_buffer_geo <- function(g, bufsize){
   # TODO: create geodetic buffering instead
   g %>% 

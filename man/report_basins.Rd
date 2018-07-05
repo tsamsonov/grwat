@@ -7,7 +7,7 @@
 report_basins(wd)
 }
 \arguments{
-\item{wd}{Character. A working directory with specified structure}
+\item{wd}{Character. A path to a working directory with specified structure}
 }
 \value{
 Generates a new out working directory with detailed reports

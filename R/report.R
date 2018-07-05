@@ -1,11 +1,9 @@
 #' Generate reports with detailed hydrograph analysis
 #'
-#' @param wd Character. A working directory with specified structure
+#' @param wd Character. A path to a working directory with specified structure
 #'
 #' @return Generates a new out working directory with detailed reports
 #' @export
-#'
-#' @examples
 report_basins <- function(wd){
   # list basins
   old = setwd(wd)
@@ -26,12 +24,10 @@ report_basins <- function(wd){
 
 #' Generate report for the specified gauge folder
 #'
-#' @param wd 
+#' @param wd A path to a gauge directory
 #'
 #' @return
 #' @export
-#'
-#' @examples
 report_gauge <- function(wd){
   oldwd = setwd(wd)
   on.exit(setwd(oldwd))
@@ -184,12 +180,10 @@ test_variables <- function(df, ..., change_year = NULL, locale='EN'){
 
 #' Kable p-values table by coloring it using green-yellow-red palette
 #'
-#' @param tests Test result returned by run_tests
+#' @param tests Test result returned by `test_variables()` function
 #'
 #' @return kabled version of p-values table coloured
 #' @export
-#'
-#' @examples
 kable_tests <- function(tests){
   gcolor = '#99cc00'
   ycolor = '#e6e600'
@@ -223,7 +217,7 @@ kable_tests <- function(tests){
 #' @export
 #'
 #' @examples
-#' grwat::get_parameters()
+#' grwat::get_variables()
 get_variables <- function(){
   return(params_out)
 }

@@ -46,7 +46,7 @@ grwat::plot_separation(sep, c(1994, 2001)) # plot two years sequentially
 grwat::plot_separation(sep, 1994:1997, # plot four years on the same page
                        layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
 
-## ------------------------------------------------------------------------
+## ---- message=FALSE------------------------------------------------------
 setwd("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
 
 df = grwat::read_variables('Total.txt') # read parameters file
@@ -60,7 +60,7 @@ grwat::test_variables(df, Qmax)
 
 ## ------------------------------------------------------------------------
 tests = grwat::test_variables(df, Qygr, date10w1, Wpol3)
-tests$stable
+tests$pvalues
 
 ## ------------------------------------------------------------------------
 tests = grwat::test_variables(df)

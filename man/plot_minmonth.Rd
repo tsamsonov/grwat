@@ -7,11 +7,14 @@
 plot_minmonth(df, change_year = NULL, pagebreak = FALSE, locale = "EN")
 }
 \arguments{
-\item{df}{}
+\item{df}{data.frame produced by description function (read by `read_variables()`)}
 
-\item{change_year}{}
+\item{change_year}{change year value to separate two periods}
 
-\item{locale}{}
+\item{locale}{string locale. Currently only English locale is supported. Defaults to 'EN'.}
+}
+\value{
+ggplot2 objects
 }
 \description{
 Plot histogram of minimum discharge month for two periods

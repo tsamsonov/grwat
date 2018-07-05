@@ -7,7 +7,7 @@
 report_gauge(wd)
 }
 \arguments{
-\item{wd}{}
+\item{wd}{A path to a gauge directory}
 }
 \description{
 Generate report for the specified gauge folder

@@ -8,15 +8,18 @@ plot_separation(df, years = NULL, layout = as.matrix(1),
   pagebreak = FALSE, locale = "EN")
 }
 \arguments{
-\item{df}{}
+\item{df}{data.frame with hydrograph separation}
 
-\item{years}{}
+\item{years}{a vector of years to be plotted}
 
-\item{layout}{}
+\item{layout}{layout matrix}
 
-\item{pagebreak}{}
+\item{pagebreak}{logical. Whether to break page between plots (needed for reporting). Defaults to FALSE}
 
-\item{locale}{}
+\item{locale}{string locale. Currently only English locale is supported. Defaults to 'EN'.}
+}
+\value{
+ggplot2 objects
 }
 \description{
 Plot hydrograph separation

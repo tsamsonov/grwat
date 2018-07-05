@@ -18,5 +18,7 @@ st_buffer_geo(g, bufsize)
 Buffer sf objects in geographic coordinates through conic projection
 }
 \examples{
+\dontrun{
 st_buffer_geo(basin, 50000)
+}
 }
