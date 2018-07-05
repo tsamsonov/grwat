@@ -8,14 +8,14 @@ Welcome to grwat, an R package for hydrograph separation and analysis based on w
 
 To use grwat on your machine you need to install:
 
-1. devtools
+1. devtools package
 2. command-line development tools _(Windows and macOS users only)_
 3. grwat package itself
 4. TeX distribution _(only if you need reporting)_
 
 ### Install devtools package
 
-[devtools](https://cran.r-project.org/web/packages/devtools/index.html) is a great library that facilitates working with in-development packages not hosted in CRAN. You have to install it first (unless it is already installed on your machine):
+[__devtools__](https://cran.r-project.org/web/packages/devtools/index.html) is a great library that facilitates working with in-development packages not hosted on CRAN. You have to install it first (unless it is already installed on your machine):
 ```r
 install.packages("devtools")
 ```
