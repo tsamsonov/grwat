@@ -70,7 +70,7 @@
       <h1>Introduction to grwat R package</h1>
                         <h4 class="author">Timofey Samsonov</h4>
             
-            <h4 class="date">2018-07-06</h4>
+            <h4 class="date">2018-07-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/master/vignettes/grwat.Rmd"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="hidden name"><code>grwat.Rmd</code></div>
@@ -464,7 +464,7 @@
 <p>Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using <code><a href="../reference/plot_periods.html">plot_periods()</a></code> function. The syntax is similar to <code><a href="../reference/plot_variables.html">plot_variables()</a></code> except that you must provide either <code>tests</code> or <code>year</code> parameter. If both are supplied then <code>tests</code> is prioritized (you can also supply a fixed year when testing variables:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_periods">plot_periods</a></span>(df, Qy, <span class="dt">change_year =</span> <span class="dv">1978</span>)</a></code></pre></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_periods">plot_periods</a></span>(df, Qy, <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df, Qmax))</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_periods">plot_periods</a></span>(df, Qy, <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df, Qy))</a></code></pre></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-17-2.png" width="700"></p>
 <p>Multiple plots can be combined on one page using <code>layout</code> parameter:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">grwat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/grwat/topics/plot_periods">plot_periods</a></span>(df, Qy, Qmax, </a>
