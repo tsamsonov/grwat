@@ -373,11 +373,11 @@ plot_periods <- function(df, ..., change_year = NULL, tests = NULL, layout = as.
     
     if (!is.null(tests)) {
       
-      m1 = mean(d1)
-      m2 = mean(d2)
+      m1 = mean(d1, na.rm = TRUE)
+      m2 = mean(d2, na.rm = TRUE)
       
-      rsd1 = round(sd(d1)/m1, 3)
-      rsd2 = round(sd(d2)/m2, 3)
+      rsd1 = round(sd(d1, na.rm = TRUE)/m1, 3)
+      rsd2 = round(sd(d2, na.rm = TRUE)/m2, 3)
       
       means <- df.plot %>% 
         dplyr::group_by(Period) %>% 

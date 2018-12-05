@@ -4,7 +4,7 @@
 #'
 #' @return Generates a new out working directory with detailed reports
 #' @export
-report_basins <- function(wd){
+report_basins <- function(wd, year = NULL){
   # list basins
   old = setwd(wd)
   on.exit(setwd(old))
@@ -18,7 +18,7 @@ report_basins <- function(wd){
     gauges = list.dirs(recursive = FALSE, full.names = FALSE)
     
     for (gauge in gauges)
-      grwat::report_gauge(gauge)
+      grwat::report_gauge(gauge, year)
   } 
 }
 
@@ -28,7 +28,7 @@ report_basins <- function(wd){
 #'
 #' @return
 #' @export
-report_gauge <- function(wd){
+report_gauge <- function(wd, year = NULL){
   oldwd = setwd(wd)
   on.exit(setwd(oldwd))
   
@@ -40,7 +40,9 @@ report_gauge <- function(wd){
                     knit_root_dir = fullpath,
                     encoding = 'UTF-8',
                     quiet = TRUE,
-                    params = list(name = basename(fullpath)))
+                    params = list(name = basename(fullpath),
+                                  fixedyear = !is.null(year),
+                                  year = year))
 }
 
 #' Run various tests on interannual characteristics
