@@ -1,12 +1,12 @@
-rivers = sf::st_read('data-raw/rivers.gpkg')
-rivers_europe = sf::st_read('data-raw/rivers_europe.gpkg')
-lakes = sf::st_read('data-raw/lakes.gpkg')
-lakes_europe = sf::st_read('data-raw/lakes_europe.gpkg')
-ocean = sf::st_read('data-raw/ocean.gpkg')
+rivers = sf::st_read('data-raw/ne.gpkg', 'rivers')
+rivers_europe = sf::st_read('data-raw/ne.gpkg', 'rivers_europe')
+lakes = sf::st_read('data-raw/ne.gpkg', 'lakes')
+lakes_europe = sf::st_read('data-raw/ne.gpkg', 'lakes_europe')
+ocean = sf::st_read('data-raw/ne.gpkg', 'ocean')
 
 params_out = readxl::read_excel('data-raw/params_out.xlsx')
 
-devtools::use_data(rivers, 
+usethis::use_data(rivers, 
                    rivers_europe, 
                    lakes, 
                    lakes_europe,

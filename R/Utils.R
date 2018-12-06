@@ -59,7 +59,7 @@ st_transform_opt <- function(s){
 }
 
 replace_year <- function(d) {
-  dates = lapply(d, function(X) {
+  dates = sapply(d, function(X) {
     if (!is.na(X)){
       if (lubridate::month(X) < 7) {
         lubridate::year(X) = 2001
@@ -67,7 +67,10 @@ replace_year <- function(d) {
       return(X)
     } else return(NA)
   })
-  return(do.call(c, dates)) # if simply unlist then dates are killed, so using the c() function
+  
+  return(as.Date(dates, origin = "1970-01-01")) # TODO: may need earlier dates!
+  
+  # return(do.call(c, dates)) # if simply unlist then dates are killed, so using the c() function
 }
 
 get_col_type = function(s) {

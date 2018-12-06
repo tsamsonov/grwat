@@ -68,7 +68,7 @@ read_variables <- function(file_tot){
   
   # New variables
   total$Year2 = c(total$Year1[-1], tail(total$Year1,1))
-  total$PolProd = total$datepolend - total$datestart
+  total$PolProd = as.integer(total$datepolend - total$datestart)
   
   return(total)
 }
