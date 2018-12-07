@@ -97,7 +97,7 @@ knitr::asis_output("# Long-term changes")
 
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting long-term changes...\n')
-grwat::plot_minmonth(total, year = params$year, locale = params$locale, pagebreak = TRUE)
+grwat::plot_minmonth(total, year = 1978, locale = params$locale, pagebreak = TRUE)
 ```
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 grwat::plot_periods(total,

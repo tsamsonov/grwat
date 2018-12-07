@@ -466,6 +466,8 @@ plot_periods <- function(df, ..., year = NULL, tests = NULL, layout = as.matrix(
 #' @export
 plot_minmonth <- function(df, year = NULL, pagebreak = FALSE, locale='EN'){
   
+  # TODO: make variable parameter
+ 
   if(is.null(year))
     stop('You must supply change_year parameter')
   
