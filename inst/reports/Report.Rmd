@@ -34,13 +34,14 @@ knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(include=FALSE)
 ```
 
-```{r, include=TRUE}
+```{r, include=TRUE, warning=FALSE, message=FALSE, }
+message('Generating hydrograph separation report for ', params$name, '\n')
 if (params$map) {
   knitr::asis_output("# Input data") 
 }
 ```
 \pagebreak
-```{r, include=TRUE}
+```{r, include=TRUE, warning=FALSE, message=FALSE, }
 if (params$map) {
   knitr::asis_output("Reanalysis data inside the basin")
 }
@@ -48,6 +49,7 @@ if (params$map) {
 
 ```{r, include=TRUE, warning=FALSE, message=FALSE, out.height='7in'}
 if (params$map) {
+  message(' > Plotting a map...\n')
   pngfile = stringr::str_interp("${knitr::opts_knit$get('root.dir')}/${list.files('.', '*.png')[1]}")
   knitr::include_graphics(pngfile)
 }
@@ -59,6 +61,7 @@ knitr::asis_output("# Hydrograph separation")
 \pagebreak
 
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
+message(' > Plotting separation...\n')
 params$file_sep %>% 
   grwat::read_separation() %>% 
   grwat::plot_separation(layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
@@ -74,6 +77,7 @@ knitr::asis_output("# Interannual changes")
 \pagebreak
 
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
+message(' > Plotting interannual changes...\n')
 total = grwat::read_variables(params$file_tot)
 tests = grwat::test_variables(total)
 grwat::plot_variables(total, 
@@ -89,6 +93,7 @@ knitr::asis_output("# Long-term changes")
 \pagebreak
 
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
+message(' > Plotting long-term changes...\n')
 grwat::plot_minmonth(total, change_year = 1978, locale = params$locale, pagebreak = TRUE)
 ```
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
@@ -107,6 +112,7 @@ knitr::asis_output("# Statistical tests")
 
 <!-- Knit table to PDF -->
 ```{r, include = TRUE, results='asis', warning=FALSE, message=FALSE}
+message(' > Kabling statistical tests...\n')
 grwat::kable_tests(tests)
 ```
 

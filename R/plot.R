@@ -190,7 +190,7 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
                                             size = 0.5, linetype = "solid"))
     
     if (smooth) {
-      g = g + geom_smooth()
+      g = g + geom_smooth(method = 'loess', formula = y ~ x)
     }
     
     if (!is.null(tests)) {
