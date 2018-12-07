@@ -49,14 +49,13 @@ report_gauge <- function(wd, year = NULL, map = FALSE){
 #' Run various tests on interannual characteristics
 #'
 #' @param df data.frame produced by separation function
-#' @param fixedyear use fixed year value for long-term changes stimation. Default is FALSE
 #' @param year fixed year value for long-term changes estimation
 #' @param locale locale for p-value table
 #' @param ... fields (quoted)
 #'
 #' @return List of testing results
 #' @export
-test_variables <- function(df, ..., change_year = NULL, locale='EN'){
+test_variables <- function(df, ..., year = NULL, locale='EN'){
 
   fields = rlang::exprs(...) %>% as.character()
   
@@ -109,11 +108,11 @@ test_variables <- function(df, ..., change_year = NULL, locale='EN'){
     ptt[[i]] = trend::pettitt.test(vl[vl_cmp])
     nyear = match(ptt[[i]]$estimate, vl_cmp_sum)
     
-    ch_year[i] = ifelse(is.numeric(change_year), 
-                        change_year, 
+    ch_year[i] = ifelse(is.numeric(year), 
+                        year, 
                         as.vector(as.matrix(df[nyear, "Year1"]))[1])
     
-    maxval[[i]] = max(vl)
+    maxval[[i]] = max(vl, na.rm = TRUE)
     
     # MANN-KENDALL TEST FOR TREND SIGNIFICANCE
     
@@ -175,7 +174,7 @@ test_variables <- function(df, ..., change_year = NULL, locale='EN'){
               ts_fit = ts_fit,
               tt = tt,
               ft = ft,
-              change_year = ch_year,
+              year = ch_year,
               maxval = maxval,
               pvalues = pvalues))
 }

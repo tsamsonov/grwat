@@ -9,7 +9,7 @@ params:
     fixedyear: false
 date: "`r Sys.Date()`"
 title: "`r params$name`"
-author: "`r switch(params$locale, 'EN' = 'Report produced by R GrWat package', 'RU' = 'Отчет подготовлен с помощью пакета R GrWat')`"
+author: "`r switch(params$locale, 'EN' = 'Report produced by grwat R package', 'RU' = 'Отчет подготовлен с помощью пакета R grwat')`"
 output: 
   pdf_document:
     toc: true
@@ -35,7 +35,7 @@ knitr::opts_chunk$set(include=FALSE)
 ```
 
 ```{r, include=TRUE, warning=FALSE, message=FALSE, }
-message('Generating hydrograph separation report for ', params$name, '\n')
+message('\nGenerating hydrograph separation report for ', params$name, '\n')
 if (params$map) {
   knitr::asis_output("# Input data") 
 }
@@ -79,7 +79,7 @@ knitr::asis_output("# Interannual changes")
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
 message(' > Plotting interannual changes...\n')
 total = grwat::read_variables(params$file_tot)
-tests = grwat::test_variables(total)
+tests = grwat::test_variables(total, year = params$year)
 grwat::plot_variables(total, 
                       tests = tests,
                       layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
@@ -94,7 +94,7 @@ knitr::asis_output("# Long-term changes")
 
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting long-term changes...\n')
-grwat::plot_minmonth(total, change_year = 1978, locale = params$locale, pagebreak = TRUE)
+grwat::plot_minmonth(total, year = params$year, locale = params$locale, pagebreak = TRUE)
 ```
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 grwat::plot_periods(total,
