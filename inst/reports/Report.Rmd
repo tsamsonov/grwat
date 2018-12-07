@@ -4,6 +4,7 @@ params:
     file_tot: "Total.txt"
     file_sep: "AllGrWat.txt"
     locale: "EN"
+    map: false
     year: 1978
     fixedyear: false
 date: "`r Sys.Date()`"
@@ -34,16 +35,22 @@ knitr::opts_chunk$set(include=FALSE)
 ```
 
 ```{r, include=TRUE}
-knitr::asis_output("# Input data")
+if (params$map) {
+  knitr::asis_output("# Input data") 
+}
 ```
 \pagebreak
 ```{r, include=TRUE}
-knitr::asis_output("Reanalysis data inside the basin")
+if (params$map) {
+  knitr::asis_output("Reanalysis data inside the basin")
+}
 ```
 
 ```{r, include=TRUE, warning=FALSE, message=FALSE, out.height='7in'}
-pngfile = stringr::str_interp("${knitr::opts_knit$get('root.dir')}/${list.files('.', '*.png')[1]}")
-knitr::include_graphics(pngfile)
+if (params$map) {
+  pngfile = stringr::str_interp("${knitr::opts_knit$get('root.dir')}/${list.files('.', '*.png')[1]}")
+  knitr::include_graphics(pngfile)
+}
 ```
 
 ```{r, include=TRUE}

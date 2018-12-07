@@ -7,10 +7,10 @@ ocean = sf::st_read('data-raw/ne.gpkg', 'ocean')
 params_out = readxl::read_excel('data-raw/params_out.xlsx')
 
 usethis::use_data(rivers, 
-                   rivers_europe, 
-                   lakes, 
-                   lakes_europe,
-                   ocean,
-                   params_out,
-                   overwrite = TRUE,
-                   internal = TRUE)
+                 rivers_europe, 
+                 lakes, 
+                 lakes_europe,
+                 ocean,
+                 params_out,
+                 overwrite = TRUE,
+                 internal = TRUE)
