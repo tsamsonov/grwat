@@ -42,7 +42,14 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
   plotlist = list()
   j = 1
   
+  bar = progress::progress_bar$new(total = n)
+  bar$tick(0)
+  
   for (i in 1:n) {
+    
+    bar$tick()
+    #Sys.sleep(0.01)
+    
     begin.date = yrs$nydate[i]
     end.date = lubridate::ceiling_date(begin.date, "year") - lubridate::days(1) # Initialize by the end of the year
     
@@ -176,7 +183,13 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
   plotlist = list()
   j = 1
   
+  bar = progress::progress_bar$new(total = nn)
+  bar$tick(0)
+  
   for (i in 1:nn) {
+    
+    bar$tick()
+    #Sys.sleep(0.01)
     
     # MAIN DATA FOR PLOTTING
     g = ggplot(df, aes_string(x = "Year1", y = prms$Name[i])) + 
@@ -329,9 +342,13 @@ plot_periods <- function(df, ..., year = NULL, tests = NULL, layout = as.matrix(
   plotlist = list()
   j = 1
   
-  message(tests$year)
+  bar = progress::progress_bar$new(total = nn)
+  bar$tick(0)
   
   for (i in 1:nn) {
+    
+    bar$tick()
+    #Sys.sleep(0.01)
     
     if(!is.null(tests)){
       year = tests$year[i]

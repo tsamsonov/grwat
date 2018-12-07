@@ -26,6 +26,7 @@ usethis::use_package('grid')
 usethis::use_package('rlang')
 usethis::use_package('magrittr')
 usethis::use_package('ggplot2', 'Depends')
+usethis::use_package('progress')
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("Welcome to grwat package for hydrograph separation and analysis")

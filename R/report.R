@@ -34,6 +34,8 @@ report_gauge <- function(wd, year = NULL, map = FALSE){
   
   fullpath = getwd()
   
+  t1 = Sys.time()
+  
   rmarkdown::render(input = system.file('reports', 'Report.Rmd', package = 'grwat'), 
                     output_file = 'report.pdf',
                     output_dir = fullpath,
@@ -44,6 +46,9 @@ report_gauge <- function(wd, year = NULL, map = FALSE){
                                   fixedyear = !is.null(year),
                                   year = year,
                                   map = map))
+  t2 = Sys.time()
+  
+  message('Elapsed time: ', format(.POSIXct(t2 - t1, tz = "GMT"), "%H:%M:%S"))
 }
 
 #' Run various tests on interannual characteristics
@@ -90,7 +95,13 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
     dplyr::mutate_if(params_out$Winter == 1, 
                      replace_year)
   
+  bar = progress::progress_bar$new(total = nn)
+  bar$tick(0)
+  
   for (i in 1:nn) {
+    
+    bar$tick()
+    #Sys.sleep(0.01)
     
     # PETTITT TEST FOR CHANGE DETECTION
     
