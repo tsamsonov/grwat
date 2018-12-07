@@ -59,17 +59,16 @@ report_gauge <- function(wd, year = NULL, map = FALSE){
 test_variables <- function(df, ..., change_year = NULL, locale='EN'){
 
   fields = rlang::exprs(...) %>% as.character()
+  
   if(length(fields) == 0)
     fields = params_out %>% 
-                dplyr::filter(Order != 0) %>% 
-                dplyr::arrange(Order) %>% 
-                dplyr::select(Name) %>% 
-                as.matrix() %>% 
-                as.vector()
+      dplyr::filter(Order != 0) %>% 
+      dplyr::arrange(Order) %>% 
+      dplyr::pull(Name)
   
   prms = params_out %>% 
     dplyr::filter(Name %in% fields) %>% 
-    dplyr::slice(match(Name, fields))
+    dplyr::slice(match(fields, Name))
   
   desc = switch(locale,
                 'RU' = prms$Desc,

@@ -143,17 +143,16 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
   }
   
   fields = rlang::exprs(...) %>% as.character()
+  
   if(length(fields) == 0)
     fields = params_out %>% 
       dplyr::filter(Order != 0) %>% 
       dplyr::arrange(Order) %>% 
-      dplyr::select(Name) %>% 
-      as.matrix() %>% 
-      as.vector()
+      dplyr::pull(Name)
   
   prms = params_out %>% 
             dplyr::filter(Name %in% fields) %>% 
-            dplyr::slice(match(Name, fields))
+            dplyr::slice(match(fields, Name))
   
   nn = nrow(prms)
   
@@ -302,17 +301,16 @@ plot_periods <- function(df, ..., change_year = NULL, tests = NULL, layout = as.
   }
   
   fields = rlang::exprs(...) %>% as.character()
+
   if(length(fields) == 0)
     fields = params_out %>% 
     dplyr::filter(Order != 0) %>% 
     dplyr::arrange(Order) %>% 
-    dplyr::select(Name) %>% 
-    as.matrix() %>% 
-    as.vector()
+    dplyr::pull(Name)
   
   prms = params_out %>% 
     dplyr::filter(Name %in% fields) %>% 
-    dplyr::slice(match(Name, fields))
+    dplyr::slice(match(fields, Name))
   
   nn = nrow(prms)
   

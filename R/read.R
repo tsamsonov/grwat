@@ -49,14 +49,20 @@ read_interim <- function(file_prec, file_temp){
 #' @export
 read_variables <- function(file_tot){
   
-  col_collectors = lapply(params_out$Readtype, get_col_type) # TODO: safe loading of parameters
+  params = params_out %>% 
+    dplyr::filter(Source == 1) %>% 
+    dplyr::arrange(ID)
   
-  excl = which(params_out$Source == 0) # exclude calculated variables
+  col_collectors = params %>% 
+    dplyr::pull(Readtype) %>% 
+    lapply(get_col_type) # TODO: safe loading of parameters
+  
+  # excl = which(params_out$Source == 0) # exclude calculated variables
   
   total = readr::read_fwf(file_tot, 
-                   readr::fwf_widths(widths = params_out$Width[-excl], 
-                                     col_names = params_out$Name[-excl]), 
-                   col_types = col_collectors[-excl],
+                   readr::fwf_widths(widths = params$Width, 
+                                     col_names = params$Name), 
+                   col_types = col_collectors,
                    skip = 1)
   
   total = total %>%
