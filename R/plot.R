@@ -77,16 +77,17 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
              factor_key=TRUE)
     
     graphdata$Runtype = factor(graphdata$Runtype,
-                               levels = c("Qthaw", "Qpav", "Qpol", "Qgr"),
-                               labels = c("Thaw", "Rain", "Seasonal", "Ground"))
+                               levels = c("Qpav", "Qpol", "Qthaw", "Qgr"),
+                               labels = c("Rain", "Seasonal", "Thaw", "Ground"))
     
-    g = ggplot(graphdata, aes(x=Date, y=Runoff, fill=Runtype)) + 
+    g = ggplot(graphdata, aes(x = Date, y = Runoff, fill = Runtype)) + 
       annotate("rect", 
                xmin = datestart, xmax = datepolend,
                ymax = max.runoff, ymin = 0,
                fill = 'black',
                alpha = 0.1) +
-      geom_area() + 
+      geom_area(size = 0.1, color = 'black') + 
+      # geom_line(aes(group = Runtype), size = 0.1, color = 'black') +
       geom_vline(xintercept = datestart, color = "black", size=0.3) +
       geom_vline(xintercept = datepolend, color = "black", size=0.3) +
       annotate("text", label = format(datestart, format="%d-%m"),
@@ -96,7 +97,7 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
                x = datepolend + 20, y = 0.95 * max.runoff, 
                size = 3, colour = "black") +
       coord_cartesian(ylim=c(0, max.runoff)) +
-      scale_fill_manual(values=c("blue", "darkgreen", "steelblue", "violetred"), 
+      scale_fill_manual(values=c("coral2", "deepskyblue3", "darkturquoise", "bisque4"), 
                         name = "Discharge:") +
       scale_x_date(date_breaks = "1 month", date_labels = "%b") +
       labs(title = year,
