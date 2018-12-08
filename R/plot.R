@@ -78,7 +78,7 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
     
     graphdata$Runtype = factor(graphdata$Runtype,
                                levels = c("Qpav", "Qpol", "Qthaw", "Qgr"),
-                               labels = c("Rain", "Seasonal", "Thaw", "Ground"))
+                               labels = c(labs$rain, labs$seasonal, labs$thaw, labs$ground))
     
     g = ggplot(graphdata, aes(x = Date, y = Runoff, fill = Runtype)) + 
       annotate("rect", 
@@ -98,7 +98,7 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
                size = 3, colour = "black") +
       coord_cartesian(ylim=c(0, max.runoff)) +
       scale_fill_manual(values=c("coral2", "deepskyblue3", "darkturquoise", "bisque4"), 
-                        name = "Discharge:") +
+                        name = paste0(labs$discharge.type, ':')) +
       scale_x_date(date_breaks = "1 month", date_labels = "%b") +
       labs(title = year,
            subtitle = paste(begin.date, "-", end.date, clipped.remark),

@@ -4,7 +4,7 @@
 #'
 #' @return Generates a new out working directory with detailed reports
 #' @export
-report_basins <- function(wd, year = NULL, map = FALSE){
+report_basins <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
   # list basins
   old = setwd(wd)
   on.exit(setwd(old))
@@ -18,7 +18,7 @@ report_basins <- function(wd, year = NULL, map = FALSE){
     gauges = list.dirs(recursive = FALSE, full.names = FALSE)
     
     for (gauge in gauges)
-      grwat::report_gauge(gauge, year, map)
+      grwat::report_gauge(gauge, year, map, locale, pdf)
   } 
 }
 
@@ -28,7 +28,7 @@ report_basins <- function(wd, year = NULL, map = FALSE){
 #'
 #' @return
 #' @export
-report_gauge <- function(wd, year = NULL, map = FALSE){
+report_gauge <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
   oldwd = setwd(wd)
   on.exit(setwd(oldwd))
   
@@ -36,8 +36,11 @@ report_gauge <- function(wd, year = NULL, map = FALSE){
   
   t1 = Sys.time()
   
-  rmarkdown::render(input = system.file('reports', 'Report.Rmd', package = 'grwat'), 
-                    output_file = 'report.pdf',
+  template = ifelse(pdf, 'Report_PDF.Rmd', 'Report_HTML.Rmd')
+  outfile = ifelse(pdf, 'report.pdf', 'report.html')
+  
+  rmarkdown::render(input = system.file('reports', template, package = 'grwat'), 
+                    output_file = outfile,
                     output_dir = fullpath,
                     knit_root_dir = fullpath,
                     encoding = 'UTF-8',
@@ -45,7 +48,8 @@ report_gauge <- function(wd, year = NULL, map = FALSE){
                     params = list(name = basename(fullpath),
                                   fixedyear = !is.null(year),
                                   year = year,
-                                  map = map))
+                                  map = map,
+                                  locale = locale))
   t2 = Sys.time()
   
   message('Elapsed time: ', format(.POSIXct(t2 - t1, tz = "GMT"), "%H:%M:%S"))
@@ -170,7 +174,7 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
   
   pvalues = data.frame(
     N = 1:nn,
-    Value = desc,
+    Variable = desc,
     Mann.Kendall = sapply(mkt, function(X) X$p.value %>% round(5)),
     Pettitt = sapply(ptt, function(X) X$p.value %>% round(5)),
     Student = sapply(tt, function(X) X$p.value %>% round(5)),
@@ -196,7 +200,7 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
 #'
 #' @return kabled version of p-values table coloured
 #' @export
-kable_tests <- function(tests, locale = 'EN'){
+kable_tests <- function(tests, locale = 'EN', format = 'latex'){
   gcolor = '#99cc00'
   ycolor = '#e6e600'
   rcolor = '#ff9966'
@@ -204,25 +208,37 @@ kable_tests <- function(tests, locale = 'EN'){
   labs = get_plot_labels(locale)
   
   pvalues = tests$pvalues %>% dplyr::mutate(
-    Mann.Kendall = kableExtra::cell_spec(Mann.Kendall, "latex", 
+    Mann.Kendall = kableExtra::cell_spec(Mann.Kendall, format, 
                              background = ifelse(Mann.Kendall < 0.01, gcolor, 
                                                  ifelse(Mann.Kendall < 0.05, ycolor, rcolor))),
-    Pettitt = kableExtra::cell_spec(Pettitt, "latex", 
+    Pettitt = kableExtra::cell_spec(Pettitt, format, 
                         background = ifelse(Pettitt < 0.01, gcolor, 
                                             ifelse(Pettitt < 0.05, ycolor, rcolor))),
-    Student = kableExtra::cell_spec(Student, "latex", 
+    Student = kableExtra::cell_spec(Student, format, 
                         background = ifelse(Student < 0.01, gcolor, 
                                             ifelse(Student < 0.05, ycolor, rcolor))),
-    Fisher = kableExtra::cell_spec(Fisher, "latex", 
+    Fisher = kableExtra::cell_spec(Fisher, format, 
                        background = ifelse(Fisher < 0.01, gcolor, 
                                            ifelse(Fisher < 0.05, ycolor, rcolor)))
   )
   
-  knitr::kable(pvalues, booktabs = T, longtable = T, escape = FALSE, format = "latex",
-               caption = labs$pheader) %>% 
-               kableExtra::kable_styling(font_size = 11,
-                                        repeat_header_text = "",
-                                        latex_options = c("striped", "repeat_header"))
+  if (locale == 'RU')
+    pvalues = pvalues %>%
+      dplyr::rename(Переменная = Variable,
+                   `Манн-Кендалл` = Mann.Kendall,
+                   Петтитт = Pettitt,
+                   Стьюдент = Student,
+                   Фишер = Fisher)
+    
+  tab = knitr::kable(pvalues, booktabs = T, longtable = T, escape = FALSE, format = format,
+               caption = labs$pheader)
+  if (format == 'latex')
+     kableExtra::kable_styling(tab, font_size = 11,
+                               repeat_header_text = "",
+                               latex_options = c("striped", "repeat_header"))
+  else
+    kableExtra::kable_styling(tab,
+                              bootstrap_options = "striped")
 }
 
 #' Gete hydrograph parameters list

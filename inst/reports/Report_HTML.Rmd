@@ -1,0 +1,152 @@
+---
+params:
+    name: "Хопёр"
+    file_tot: "Total.txt"
+    file_sep: "AllGrWat.txt"
+    locale: "EN"
+    map: false
+    year: 1978
+    fixedyear: false
+date: "`r Sys.Date()`"
+title: "`r params$name`"
+author: "`r switch(params$locale, 'EN' = 'Report produced by grwat R package', 'RU' = 'Отчет подготовлен с помощью пакета R grwat')`"
+output: 
+  html_document:
+    # toc: true
+    # number_sections: true
+    # toc_float:
+    #   collapsed: false
+    #   smooth_scroll: false
+documentclass: report
+classoption: landscape
+geometry: "left=1cm,right=1cm,top=1cm,bottom=2cm"
+header-includes:
+   #- \usepackage[T2A]{fontenc}
+   - \usepackage[utf8]{inputenc}
+   #- \usepackage[russian]{babel}
+   - \usepackage[fontsize=16pt]{scrextend}
+   - \usepackage[table]{xcolor}
+   - \usepackage{longtable}
+   - \usepackage{booktabs}
+#mainfont: Open Sans
+---
+
+<!-- Settings -->
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(include=FALSE)
+```
+
+# {.tabset}
+```{r, include=TRUE, warning=FALSE, message=FALSE, }
+message('\nGenerating hydrograph separation report for ', params$name, '\n')
+if (params$map) {
+  if (params$locale =='EN') {
+    knitr::asis_output("## Input data")
+  } else {
+    knitr::asis_output("## Входные данные {#input}")
+  }
+}
+```
+
+```{r, include=TRUE, warning=FALSE, message=FALSE, }
+if (params$map) {
+  if (params$locale == 'EN') {
+    knitr::asis_output("Reanalysis data inside the basin")
+  } else {
+    knitr::asis_output("Данные реанализа в пределах бассейна")
+  }
+}
+```
+
+```{r, include=TRUE, warning=FALSE, message=FALSE, out.height='7in'}
+if (params$map) {
+  message(' > Plotting a map...\n')
+  pngfile = stringr::str_interp("${knitr::opts_knit$get('root.dir')}/${list.files('.', '*.png')[1]}")
+  knitr::include_graphics(pngfile)
+}
+```
+
+```{r, include=TRUE}
+if (params$locale == 'EN') {
+  knitr::asis_output("## Hydrograph separation")
+} else {
+  knitr::asis_output("## Расчленение гидрографа {#separation}")
+}
+```
+
+
+```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
+message(' > Plotting separation...\n')
+params$file_sep %>% 
+  grwat::read_separation() %>% 
+  grwat::plot_separation(layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
+                         locale = params$locale,
+                         pagebreak = FALSE)
+```
+
+
+<!-- Main plots -->
+```{r, include=TRUE}
+if (params$locale == 'EN') {
+  knitr::asis_output("## Interannual changes")
+} else {
+  knitr::asis_output("## Межгодичные изменения {#interannual}")
+}
+```
+
+
+```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
+total = grwat::read_variables(params$file_tot)
+
+message(' > Testing variables...\n')
+tests = grwat::test_variables(total, year = params$year, locale = params$locale)
+
+message(' > Plotting interannual changes...\n')
+grwat::plot_variables(total, 
+                      tests = tests,
+                      layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
+                      locale = params$locale,
+                      pagebreak = FALSE)
+```
+
+```{r, include=TRUE}
+if (params$locale == 'EN') {
+  knitr::asis_output("## Long-term changes")
+} else {
+  knitr::asis_output("## Долгопериодные изменения {#longterm}")
+}
+```
+
+
+```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
+message(' > Plotting long-term changes...\n')
+grwat::plot_minmonth(total, year = 1978, locale = params$locale, pagebreak = FALSE)
+```
+```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
+grwat::plot_periods(total,
+                    tests = tests,
+                    layout = matrix(1:8, nrow=4, byrow=TRUE),
+                    locale = params$locale,
+                    pagebreak = FALSE)
+```
+
+<!-- Stats -->
+```{r, include=TRUE}
+if (params$locale == 'EN') {
+  knitr::asis_output("## Statistical tests")
+} else {
+  knitr::asis_output("## Тесты {#tests}")
+}
+```
+
+<!-- Knit table to PDF -->
+```{r, include = TRUE, results='asis', warning=FALSE, message=FALSE}
+message(' > Kabling statistical tests...\n')
+grwat::kable_tests(tests, format = 'html', locale = params$locale)
+```
+
+<!-- Write stats to table -->
+```{r}
+tests$pvalues %>% writexl::write_xlsx(paste('pvalues_', params$name, '.xlsx', sep=''))
+```
