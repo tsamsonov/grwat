@@ -210,7 +210,9 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
     if (!is.null(tests)) {
       
       if (!is.null(tests$ptt[[i]])) { # if test for this variable was successfull
-        ltype = ifelse(tests$ptt[[i]]$p.value > 0.05, 'dashed', 'solid')
+        
+        ltype = ifelse(tests$fixed_year, 'dotted', 
+                ifelse(tests$ptt[[i]]$p.value > 0.05, 'dashed', 'solid'))
         g = g +       
           geom_vline(xintercept = tests$year[i], color = "red", 
                      size=0.5, linetype = ltype) +
@@ -226,11 +228,14 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
                     color = 'red', size=1, linetype = ts_ltype)
       }
       
-      g = g +
-        labs(subtitle = paste0(labs$pettitt.u, ' = ',  ifelse(is.null(tests$ptt[[i]]), 'NA', 
+      fixedstr = ifelse(tests$fixed_year, '',
+                        paste0(labs$pettitt.u, ' = ',  ifelse(is.null(tests$ptt[[i]]), 'NA', 
                                                               round(tests$ptt[[i]]$statistic, 3)), ', ',
                                labs$label.p, ' = ', ifelse(is.null(tests$ptt[[i]]), 'NA', 
-                                                           round(tests$ptt[[i]]$p.value, 5)), '\n',
+                                                           round(tests$ptt[[i]]$p.value, 5)), '\n'))
+      
+      g = g +
+        labs(subtitle = paste0(fixedstr, 
                                labs$kendall.z, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
                                                              round(tests$mkt[[i]]$statistic, 3)), ', ',
                                labs$label.p, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',

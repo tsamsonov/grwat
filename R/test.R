@@ -23,6 +23,8 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
     dplyr::filter(Name %in% fields) %>% 
     dplyr::slice(match(fields, Name))
   
+  fixed = !is.null(year)
+  
   desc = switch(locale,
                 'RU' = prms$Desc,
                 'EN' = prms$Descen)
@@ -46,8 +48,6 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
   
   bar = progress::progress_bar$new(total = nn)
   bar$tick(0)
-  
-  damaged = 
   
   for (i in 1:nn) {
     
@@ -140,6 +140,7 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
               ts_fit = ts_fit,
               tt = tt,
               ft = ft,
+              fixed_year = fixed,
               year = ch_year,
               maxval = maxval,
               pvalues = pvalues))
