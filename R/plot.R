@@ -209,26 +209,34 @@ plot_variables <- function(df, ..., tests = NULL, smooth = TRUE, layout = as.mat
     
     if (!is.null(tests)) {
       
-      ltype="solid"
-      ts_ltype="solid"
+      if (!is.null(tests$ptt[[i]])) { # if test for this variable was successfull
+        ltype = ifelse(tests$ptt[[i]]$p.value > 0.05, 'dashed', 'solid')
+        g = g +       
+          geom_vline(xintercept = tests$year[i], color = "red", 
+                     size=0.5, linetype = ltype) +
+          annotate("text", label = tests$year[i], 
+                   x = tests$year[i] + 4, y = tests$maxval[[i]], 
+                   size = 4, colour = "red")
+      }
       
-      if (tests$ptt[[i]]$p.value > 0.05) ltype = 'dashed'
-      if (tests$tst[[i]]$p.value > 0.05) ts_ltype = 'dashed' 
+      if(!is.null(tests$tst[[i]]) && !is.null(tests$ts_fit[[i]])) {
+        ts_ltype = ifelse(tests$tst[[i]]$p.value > 0.05, 'dashed', 'solid')
+        
+        g = g + geom_abline(intercept = coef(tests$ts_fit[[i]])[1], slope = coef(tests$ts_fit[[i]])[2], 
+                    color = 'red', size=1, linetype = ts_ltype)
+      }
       
-      g = g +       
-        geom_abline(intercept = coef(tests$ts_fit[[i]])[1], slope = coef(tests$ts_fit[[i]])[2], 
-                                color = 'red', size=1, linetype = ts_ltype) +
-        geom_vline(xintercept = tests$year[i], color = "red", 
-                   size=0.5, linetype = ltype) +
-        annotate("text", label = tests$year[i], 
-                 x = tests$year[i] + 4, y = tests$maxval[[i]], 
-                 size = 4, colour = "red") +
-        labs(title = stringr::str_wrap(desc[i], width=labs$wraplength),
-             subtitle = paste0(labs$pettitt.u, ' = ',  round(tests$ptt[[i]]$statistic, 3), ', ',
-                               labs$label.p, ' = ', round(tests$ptt[[i]]$p.value, 5), '\n',
-                               labs$kendall.z, ' = ', round(tests$mkt[[i]]$statistic, 3), ', ',
-                               labs$label.p, ' = ', round(tests$mkt[[i]]$p.value, 5), '. ',
-                               labs$theil.i, ' = ', round(coef(tests$ts_fit[[i]])[2], 5)))
+      g = g +
+        labs(subtitle = paste0(labs$pettitt.u, ' = ',  ifelse(is.null(tests$ptt[[i]]), 'NA', 
+                                                              round(tests$ptt[[i]]$statistic, 3)), ', ',
+                               labs$label.p, ' = ', ifelse(is.null(tests$ptt[[i]]), 'NA', 
+                                                           round(tests$ptt[[i]]$p.value, 5)), '\n',
+                               labs$kendall.z, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
+                                                             round(tests$mkt[[i]]$statistic, 3)), ', ',
+                               labs$label.p, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
+                                                           round(tests$mkt[[i]]$p.value, 5)), '. ',
+                               labs$theil.i, ' = ', ifelse(is.null(tests$ts_fit[[i]]), 'NA', 
+                                                           round(coef(tests$ts_fit[[i]])[2], 5))))
     }
     
     date_labels = "%d-%b"
@@ -375,7 +383,7 @@ plot_periods <- function(df, ..., year = NULL, tests = NULL, layout = as.matrix(
     periodtitle2 = paste0(labs$aftertitle, year)
     
     df.plot = data.frame(Value = d, 
-                        Period = c(rep(periodtitle1, n1), 
+                         Period = c(rep(periodtitle1, n1), 
                                    rep(periodtitle2, n2)))
     
     g = ggplot() + 
@@ -424,13 +432,17 @@ plot_periods <- function(df, ..., year = NULL, tests = NULL, layout = as.matrix(
       
       g = g + 
         geom_point(data = pt.df, aes(x = Period, y = Value), colour="steelblue", shape=20, size=3) +
-        labs(subtitle = paste0(labs$student.t, ' = ', round(tests$tt[[i]]$statistic, 3), ', ',
-                               labs$label.p, ' = ', round(tests$tt[[i]]$p.value, 5), ', ',
+        labs(subtitle = paste0(labs$student.t, ' = ', ifelse(is.null(tests$tt[[i]]), 'NA',
+                                                             round(tests$tt[[i]]$statistic, 3)), ', ',
+                               labs$label.p, ' = ', ifelse(is.null(tests$tt[[i]]), 'NA', 
+                                                           round(tests$tt[[i]]$p.value, 5)), ', ',
                                'm1 = ', mean1, ', ', 
                                'm2 = ', mean2,
                                '\n',
-                               labs$fisher.f, ' = ', round(tests$ft[[i]]$statistic, 3), ', ',
-                               labs$label.p, ' = ', round(tests$ft[[i]]$p.value, 5), ', ',
+                               labs$fisher.f, ' = ', ifelse(is.null(tests$ft[[i]]), 'NA', 
+                                                            round(tests$ft[[i]]$statistic, 3)), ', ',
+                               labs$label.p, ' = ', ifelse(is.null(tests$ft[[i]]), 'NA',
+                                                           round(tests$ft[[i]]$p.value, 5)), ', ',
                                'cv1 = ', rsd1, ', ',
                                'cv2 = ', rsd2))
     }
