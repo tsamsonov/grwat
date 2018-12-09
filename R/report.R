@@ -5,6 +5,9 @@
 #' @return Generates a new out working directory with detailed reports
 #' @export
 report_basins <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
+  
+  t1 = Sys.time()
+  
   # list basins
   old = setwd(wd)
   on.exit(setwd(old))
@@ -20,6 +23,10 @@ report_basins <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FAL
     for (gauge in gauges)
       grwat::report_gauge(gauge, year, map, locale, pdf)
   } 
+  
+  t2 = Sys.time()
+  
+  message('Total elapsed time: ', format(.POSIXct(difftime(t2, t1, units = "secs"), tz = "GMT"), "%H:%M:%S"))
 }
 
 #' Generate report for the specified gauge folder
@@ -29,12 +36,13 @@ report_basins <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FAL
 #' @return
 #' @export
 report_gauge <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
+  
+  t1 = Sys.time()
+  
   oldwd = setwd(wd)
   on.exit(setwd(oldwd))
   
   fullpath = getwd()
-  
-  t1 = Sys.time()
   
   template = ifelse(pdf, 'Report_PDF.Rmd', 'Report_HTML.Rmd')
   outfile = ifelse(pdf, 'report.pdf', 'report.html')
@@ -52,7 +60,7 @@ report_gauge <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FALS
                                   locale = locale))
   t2 = Sys.time()
   
-  message('Elapsed time: ', format(.POSIXct(t2 - t1, tz = "GMT"), "%H:%M:%S"))
+  message('Elapsed time: ', format(.POSIXct(difftime(t2, t1, units = "secs"), tz = "GMT"), "%H:%M:%S"))
 }
 
 #' Kable p-values table by coloring it using green-yellow-red palette
@@ -105,15 +113,4 @@ kable_tests <- function(tests, locale = 'EN', format = 'latex'){
   else
     kableExtra::kable_styling(tab,
                               bootstrap_options = "striped")
-}
-
-#' Gete hydrograph parameters list
-#'
-#' @return data.frame of parameters
-#' @export
-#'
-#' @examples
-#' grwat::get_variables()
-get_variables <- function(){
-  return(params_out)
 }

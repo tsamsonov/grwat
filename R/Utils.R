@@ -79,3 +79,14 @@ get_col_type = function(s) {
          double = readr::col_double(),
          integer = readr::col_integer())
 }
+
+#' Get hydrograph parameters list
+#'
+#' @return data.frame of parameters
+#' @export
+#'
+#' @examples
+#' grwat::get_variables()
+get_variables <- function(){
+  return(params_out)
+}
