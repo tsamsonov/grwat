@@ -1,6 +1,10 @@
 #' Generate reports with detailed hydrograph analysis
 #'
-#' @param wd Character. A path to a working directory with specified structure
+#' @param wd character string. A path to a working directory with specified structure
+#' @param year integer. A fixed value for separation year 
+#' @param map TRUE/FALSE. If `map = TRUE` then map of source data is included in report. Default value is FALSE
+#' @param locale character string. Currently English (`'EN'`) and Russian (`'RU'`) locales are supported for HTML output. PDF is always rendered in English 
+#' @param pdf TRUE/FALSE. If `pdf = TRUE` then ouput is rendered as a single PDF file. Otherwise the output is rendered as single HTML file. Default is FALSE 
 #'
 #' @return Generates a new out working directory with detailed reports
 #' @export
@@ -32,6 +36,10 @@ report_basins <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FAL
 #' Generate report for the specified gauge folder
 #'
 #' @param wd A path to a gauge directory
+#' @param year integer. A fixed value for separation year 
+#' @param map TRUE/FALSE. If `map = TRUE` then map of source data is included in report. Default value is FALSE
+#' @param locale character string. Currently English (`'EN'`) and Russian (`'RU'`) locales are supported for HTML output. PDF is always rendered in English 
+#' @param pdf TRUE/FALSE. If `pdf = TRUE` then ouput is rendered as a single PDF file. Otherwise the output is rendered as single HTML file. Default is FALSE 
 #'
 #' @return
 #' @export
@@ -66,6 +74,8 @@ report_gauge <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FALS
 #' Kable p-values table by coloring it using green-yellow-red palette
 #'
 #' @param tests Test result returned by `test_variables()` function
+#' @param locale character string. Currently English (`'EN'`) and Russian (`'RU'`) locales are supported for HTML output. PDF is always rendered in English
+#' @param format character string. Currently `'latex'` or `'html'` are supported
 #'
 #' @return kabled version of p-values table coloured
 #' @export

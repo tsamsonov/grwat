@@ -477,7 +477,7 @@ plot_periods <- function(df, ..., year = NULL, tests = NULL, layout = as.matrix(
 #' Plot histogram of minimum discharge month for two periods
 #'
 #' @param df data.frame produced by description function (read by `read_variables()`)
-#' @param change_year change year value to separate two periods
+#' @param year change year value to separate two periods
 #' @param locale string locale. Currently only English locale is supported. Defaults to 'EN'. 
 #'
 #' @return ggplot2 objects

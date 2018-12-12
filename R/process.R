@@ -21,8 +21,8 @@ st_buffer_geo <- function(g, bufsize){
 #' Join ERA-INTERIM data to hydrological level series
 #'
 #' @param hdata Water discharge series. Data frame containing 4 columns: YYYY, MM, DD and water level
-#' @param buffer Region to select reanalysis data
 #' @param rean List. Contains three components: days series, values and location points
+#' @param buffer Region to select reanalysis data
 #'
 #' @return List of two components: water level table enriched with reanalysis data
 #'   and selected points
@@ -194,6 +194,7 @@ process_gauge <- function(wd, rean, bufsize=50000){
 #' Join reanalysis data based on geographic location and time
 #'
 #' @param wd Path to a working directory with specified structure
+#' @param rean Reanalysis data (as read by `read_interim()`)
 #' @param bufsize Size of a buffer that is used to select reanalysis data
 #'   around each basin
 #' @param clear Boolean. Whether to remove out directory before processing. Defaults to TRUE
