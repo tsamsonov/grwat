@@ -4,10 +4,19 @@
 \alias{report_basins}
 \title{Generate reports with detailed hydrograph analysis}
 \usage{
-report_basins(wd)
+report_basins(wd, year = NULL, map = FALSE, locale = "EN",
+  pdf = FALSE)
 }
 \arguments{
-\item{wd}{Character. A path to a working directory with specified structure}
+\item{wd}{character string. A path to a working directory with specified structure}
+
+\item{year}{integer. A fixed value for separation year}
+
+\item{map}{TRUE/FALSE. If `map = TRUE` then map of source data is included in report. Default value is FALSE}
+
+\item{locale}{character string. Currently English (`'EN'`) and Russian (`'RU'`) locales are supported for HTML output. PDF is always rendered in English}
+
+\item{pdf}{TRUE/FALSE. If `pdf = TRUE` then ouput is rendered as a single PDF file. Otherwise the output is rendered as single HTML file. Default is FALSE}
 }
 \value{
 Generates a new out working directory with detailed reports

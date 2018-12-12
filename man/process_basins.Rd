@@ -9,6 +9,8 @@ process_basins(wd, rean, bufsize = 50000, clear = TRUE)
 \arguments{
 \item{wd}{Path to a working directory with specified structure}
 
+\item{rean}{Reanalysis data (as read by `read_interim()`)}
+
 \item{bufsize}{Size of a buffer that is used to select reanalysis data
 around each basin}
 

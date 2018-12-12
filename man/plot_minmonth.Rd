@@ -4,12 +4,12 @@
 \alias{plot_minmonth}
 \title{Plot histogram of minimum discharge month for two periods}
 \usage{
-plot_minmonth(df, change_year = NULL, pagebreak = FALSE, locale = "EN")
+plot_minmonth(df, year = NULL, pagebreak = FALSE, locale = "EN")
 }
 \arguments{
 \item{df}{data.frame produced by description function (read by `read_variables()`)}
 
-\item{change_year}{change year value to separate two periods}
+\item{year}{change year value to separate two periods}
 
 \item{locale}{string locale. Currently only English locale is supported. Defaults to 'EN'.}
 }

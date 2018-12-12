@@ -7,7 +7,7 @@
 read_separation(file_sep)
 }
 \arguments{
-\item{file_sep}{Path to a file}
+\item{file_sep}{Path to a file with hydrograph separation data}
 }
 \value{
 data.frame

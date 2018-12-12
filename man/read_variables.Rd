@@ -7,7 +7,7 @@
 read_variables(file_tot)
 }
 \arguments{
-\item{total_file}{Path to a file}
+\item{total_file}{Path to a file with hydrograph characteristics variables}
 }
 \value{
 data.frame
