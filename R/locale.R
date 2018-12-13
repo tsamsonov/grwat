@@ -25,6 +25,7 @@ get_plot_labels <- function(locale = 'EN'){
            thaw = 'Thaw',
            ground = 'Ground',
            discharge.type = 'Discharge',
+           year.density = 'Change year distribution density',
            wraplength = 60 # row wrap length for long titles
          ),
          'RU' = list(
@@ -52,6 +53,7 @@ get_plot_labels <- function(locale = 'EN'){
            thaw = 'Талый',
            ground = 'Грунтовый',
            discharge.type = 'Сток',
+           year.density = 'Плотность распределения значения переломного года',
            wraplength = 50 # row wrap length for long titles
          )
   )

@@ -589,15 +589,38 @@ plot_minmonth <- function(df, year = NULL, pagebreak = FALSE, locale='EN'){
 }
 
 
-#' Title
+#' Plot change year density
 #'
 #' @param tests result of `test_variables()`
+#' @param locale 
 #'
 #' @return plots density plot for change year
 #' @export
 #'
 #' @examples
-plot_tests <- function(tests) {
-  ggplot(as_tibble(year = tests$year)) +
-    geom_density()
+plot_tests <- function(tests, locale = 'EN') {
+  
+  labs = get_plot_labels(locale)
+  
+  years = tests$year[!is.na(tests$year)]
+  dens = density(years, from = min(years), to = max(years), n = max(years) - min(years) + 1)
+  ddf = tibble::tibble(year = dens$x, dens = dens$y)
+  # modeval = as.integer(round(modes::modes(tests$year, nmore = 1)[1,1], 0))
+  
+  modeval = as.integer(dens$x[which.max(dens$y)])
+  
+  ggplot() +
+    # geom_density(data = tibble::tibble(year = tests$year), 
+    #              aes(x = year), color = 'black', fill = 'gray75', alpha = 0.5) +       
+    geom_line(data = ddf, aes(x = year, y = dens), color = 'black') +
+    geom_area(data = ddf, aes(x = year, y = dens), alpha = 0.2) +
+    geom_vline(xintercept = modeval, color = "steelblue4", size = 1) +
+    annotate("text", label = modeval, 
+             x = modeval + 0.05 * (max(dens$x) - min(dens$x)), y = 0.01, 
+             size = 5, colour = "steelblue4") +
+    labs(title = labs$year.density,
+         x = labs$subtitle,
+         y = NULL) +
+    theme_minimal()
+  
 }

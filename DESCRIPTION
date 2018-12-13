@@ -45,7 +45,8 @@ Imports:
     tidyr,
     progress,
     magrittr,
-    rlang
+    rlang,
+    modes
 LinkingTo: Rcpp
 SystemRequirements: pandoc
 RoxygenNote: 6.1.1

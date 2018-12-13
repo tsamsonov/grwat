@@ -31,7 +31,7 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
   
   nn = nrow(prms)
   
-  ch_year = vector(mode = 'integer', length = nn) # change years
+  ch_year = rep(NA, nn) # change years
   maxval = vector(mode = 'list', length = nn) # maximum values
   
   ptt = vector(mode = 'list', length = nn) # Pettitt test

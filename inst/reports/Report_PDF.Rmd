@@ -117,6 +117,7 @@ knitr::asis_output("# Statistical tests")
 ```{r, include = TRUE, results='asis', warning=FALSE, message=FALSE}
 message(' > Kabling statistical tests...\n')
 grwat::kable_tests(tests)
+grwat::plot_tests(tests)
 ```
 
 <!-- Write stats to table -->

@@ -144,6 +144,7 @@ if (params$locale == 'EN') {
 ```{r, include = TRUE, results='asis', warning=FALSE, message=FALSE}
 message(' > Kabling statistical tests...\n')
 grwat::kable_tests(tests, format = 'html', locale = params$locale)
+grwat::plot_tests(tests, locale = params$locale)
 ```
 
 <!-- Write stats to table -->

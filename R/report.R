@@ -83,7 +83,7 @@ kable_tests <- function(tests, locale = 'EN', format = 'latex'){
   gcolor = '#99cc00' # green
   ycolor = '#e6e600' # yellow
   rcolor = '#ff9966' # red
-  ncolor = '#999999' # no
+  ncolor = '#FFFFFF' # no
   ucolor = '#FFC0CB' # up
   dcolor = '#ADD8E6' # down
   zcolor = '#D3D3D3' # zero
@@ -91,9 +91,10 @@ kable_tests <- function(tests, locale = 'EN', format = 'latex'){
   labs = get_plot_labels(locale)
   
   pvalues = tests$pvalues %>% dplyr::mutate(
-    Trend = dplyr::case_when(!is.na(Trend) ~ kableExtra::cell_spec(Trend, format, 
-            background = ifelse(abs(Trend) < 1e-4, zcolor,
-                         ifelse(Trend < 0, dcolor, ucolor)))),
+    Trend = dplyr::case_when(!is.na(Trend) ~ kableExtra::cell_spec(Trend, format,
+            background = ifelse(is.na(Trend), ncolor,
+                         ifelse(abs(Trend) < 1e-4, zcolor,
+                         ifelse(Trend < 0, dcolor, ucolor))))),
     Mann.Kendall = dplyr::case_when(!is.na(Mann.Kendall) ~ kableExtra::cell_spec(Mann.Kendall, format, 
                    background = ifelse(is.na(Mann.Kendall), ncolor,
                                 ifelse(Mann.Kendall < 0.01, gcolor, 
