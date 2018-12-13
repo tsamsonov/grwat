@@ -126,6 +126,8 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
   pvalues = data.frame(
     N = 1:nn,
     Variable = desc,
+    Change.Year = ch_year,
+    Trend = sapply(ts_fit, function(X) { if(is.null(X)) NA else round(coef(X)[2], 5) }), 
     Mann.Kendall = sapply(mkt, function(X) { if(is.null(X)) NA else round(X$p.value, 5) }),
     Pettitt = sapply(ptt, function(X) { if(is.null(X)) NA else round(X$p.value, 5) }),
     Student = sapply(tt, function(X) { if(is.null(X)) NA else round(X$p.value, 5) }),

@@ -587,3 +587,17 @@ plot_minmonth <- function(df, year = NULL, pagebreak = FALSE, locale='EN'){
   multiplot(plotlist = list(g.summer, g.winter))
   if (pagebreak) cat("\n\n\\pagebreak\n")
 }
+
+
+#' Title
+#'
+#' @param tests result of `test_variables()`
+#'
+#' @return plots density plot for change year
+#' @export
+#'
+#' @examples
+plot_tests <- function(tests) {
+  ggplot(as_tibble(year = tests$year)) +
+    geom_density()
+}

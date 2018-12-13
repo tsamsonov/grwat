@@ -80,14 +80,20 @@ report_gauge <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FALS
 #' @return kabled version of p-values table coloured
 #' @export
 kable_tests <- function(tests, locale = 'EN', format = 'latex'){
-  gcolor = '#99cc00'
-  ycolor = '#e6e600'
-  rcolor = '#ff9966'
-  ncolor = '#999999'
+  gcolor = '#99cc00' # green
+  ycolor = '#e6e600' # yellow
+  rcolor = '#ff9966' # red
+  ncolor = '#999999' # no
+  ucolor = '#FFC0CB' # up
+  dcolor = '#ADD8E6' # down
+  zcolor = '#D3D3D3' # zero
   
   labs = get_plot_labels(locale)
   
   pvalues = tests$pvalues %>% dplyr::mutate(
+    Trend = dplyr::case_when(!is.na(Trend) ~ kableExtra::cell_spec(Trend, format, 
+            background = ifelse(abs(Trend) < 1e-4, zcolor,
+                         ifelse(Trend < 0, dcolor, ucolor)))),
     Mann.Kendall = dplyr::case_when(!is.na(Mann.Kendall) ~ kableExtra::cell_spec(Mann.Kendall, format, 
                    background = ifelse(is.na(Mann.Kendall), ncolor,
                                 ifelse(Mann.Kendall < 0.01, gcolor, 
@@ -109,6 +115,8 @@ kable_tests <- function(tests, locale = 'EN', format = 'latex'){
   if (locale == 'RU')
     pvalues = pvalues %>%
       dplyr::rename(Переменная = Variable,
+                   `Переломный год` = Change.Year,
+                    Тренд = Trend,
                    `Манн-Кендалл` = Mann.Kendall,
                     Петтитт = Pettitt,
                     Стьюдент = Student,
