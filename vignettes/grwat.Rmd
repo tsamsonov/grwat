@@ -38,7 +38,7 @@ You can join reanalysis and water level data for a single gauge as follows:
 library(sf)
 library(grwat)
 
-wd = "/Volumes/Data/Work/_grwat/Mezen_Malonisog/"
+wd = "/Volumes/Work/_grwat/Mezen_Malonisog/"
 
 setwd(wd)
 
@@ -99,7 +99,7 @@ An example of specified directory structure is provided in the picture below:
 
 The processing of this folder structure is performed by `process_basins()` function:
 ```{r, eval=FALSE}
-wd = "/Volumes/Data/Work/_grwat/2018/"
+wd = "/Volumes/Work/_grwat/2018/"
 grwat::process_basins(wd, rean, bufsize = 50000) # process single folder
 ```
 
@@ -150,7 +150,7 @@ These functions from grwat package allow you to:
 To plot separation of hydrograph you need results of a separation procedure which are saved as _AllGrWat.txt_ text file (see previous section). This file is read by `read_separation()` function:
 
 ```{r, message=FALSE}
-setwd("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
+setwd("/Volumes/Work/_grwat/Mezen_Malonisog/")
 
 sep = grwat::read_separation('AllGrWat.txt')#
 head(sep)
@@ -168,7 +168,7 @@ grwat::plot_separation(sep, 1994:1997, # plot four years on the same page
 
 Interannual changes of parameters are read from _Total.txt_ file using `read_variables()` function:
 ```{r, message=FALSE}
-setwd("/Volumes/Data/Work/_grwat/Mezen_Malonisog/")
+setwd("/Volumes/Work/_grwat/Mezen_Malonisog/")
 
 df = grwat::read_variables('Total.txt') # read parameters file
 head(df)
@@ -231,7 +231,7 @@ grwat::plot_variables(df, tests = test_variables(df))
 
 Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using `plot_periods()` function. The syntax is similar to `plot_variables()` except that you must provide either `tests` or `year` parameter. If both are supplied then `tests` is prioritized (you can also supply a fixed year when testing variables:
 ```{r}
-grwat::plot_periods(df, Qy, change_year = 1978)
+grwat::plot_periods(df, Qy, year = 1978)
 grwat::plot_periods(df, Qy, tests = test_variables(df, Qy))
 ```
 
@@ -249,7 +249,7 @@ grwat::plot_periods(df, tests = test_variables(df))
 
 There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:
 ```{r, message=FALSE}
-grwat::plot_minmonth(df, change_year = 1978)
+grwat::plot_minmonth(df, year = 1978)
 ```
 
 # Report
@@ -261,8 +261,8 @@ The final feature of grwat package is reporting. Previous sections demonstrated 
 
 The syntax of these functions is straightforward:
 ```{r, eval = FALSE}
-grwat::report_gauge("/Volumes/Data/Work/_grwat/2018/out/1_Sever/Mezen_Malonisog")
-grwat::report_basins("/Volumes/Data/Work/_grwat/2018/out/")
+grwat::report_gauge("/Volumes/Work/_grwat/2018/out/1_Sever/Mezen_Malonisog")
+grwat::report_basins("/Volumes/Work/_grwat/2018/out/")
 ```
 
 As a result of reporting each gauge folder gains _report.pdf_ (report) and _pvalues<gaugename>.xlsx_ (p-values of statistical tests) files:

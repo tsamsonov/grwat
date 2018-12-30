@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read file with hydrograph separation — read_separation • grwat</title>
+<title>Plot change year density — plot_tests • grwat</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Read file with hydrograph separation — read_separation" />
+<meta property="og:title" content="Plot change year density — plot_tests" />
 
-<meta property="og:description" content="Read file with hydrograph separation" />
+<meta property="og:description" content="Plot change year density" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,31 +102,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read file with hydrograph separation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/read.R'><code>R/read.R</code></a></small>
-    <div class="hidden name"><code>read_separation.Rd</code></div>
+    <h1>Plot change year density</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/plot.R'><code>R/plot.R</code></a></small>
+    <div class="hidden name"><code>plot_tests.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Read file with hydrograph separation</p>
+    <p>Plot change year density</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_separation</span>(<span class='no'>file_sep</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_tests</span>(<span class='no'>tests</span>, <span class='kw'>locale</span> <span class='kw'>=</span> <span class='st'>"EN"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file_sep</th>
-      <td><p>Path to a file with hydrograph separation data</p></td>
+      <th>tests</th>
+      <td><p>result of `test_variables()`</p></td>
+    </tr>
+    <tr>
+      <th>locale</th>
+      <td></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>plots density plot for change year</p>
     
 
   </div>
