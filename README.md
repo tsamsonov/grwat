@@ -14,7 +14,7 @@ To use grwat on your machine you need to install:
 1. devtools package
 2. command-line development tools _(Windows and macOS users only)_
 3. grwat package itself
-4. TeX distribution _(only if you need reporting)_
+4. TeX distribution _(only if you need PDF reporting)_
 
 ### Install devtools package
 
