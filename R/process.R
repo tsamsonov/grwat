@@ -50,7 +50,7 @@ join_interim <- function(hdata, rean, buffer){
   # frame for visualizing points
   frame = sf::st_bbox(buffer) %>% as.numeric()
   frame_sf = sf::st_bbox(buffer) %>% st_as_sfc()
-  
+   
   # Select points
   pts.selected = rean$pts[buffer, ]
   npts = nrow(pts.selected)

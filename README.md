@@ -54,7 +54,11 @@ devtools::install_github("tsamsonov/grwat")
 
 ### Install TeX distribution
 
-If you want to use grwat reporting functionality, you need to have TeX distribution installed. The easiest way to get TeX is to use [__tinytex__](https://yihui.name/tinytex/) package. It provides a small TeX distribution that installs LaTeX packages automatically as soon as they are needed.
+One of the key features of __grwat__ is reporting. Reports are generated in HTML by default. PDF reporting is also supported, but this requires installed TeX distribution. 
+
+> TeX is not required if you use report generation in HTML format
+
+The easiest way to get TeX is to use [__tinytex__](https://yihui.name/tinytex/) package. It provides a small TeX distribution that installs LaTeX packages automatically as soon as they are needed.
 
 The following commands will install tinytex package and TeX distribution underlying it:
 ```r
@@ -68,6 +72,14 @@ tinytex:::is_tinytex()
 [1] TRUE
 ```
 
+> Currently only English locale is supported in PDF reports. Russian locale is unavailable due to TeX limitaions
+
 ## Using
 
 Check out the __Get started__ vignette at the top of the page.
+
+## Acknowledgment
+
+The main separation algoritm grwat package was developed with financial support of RFBR (Project [16-35-60080](http://www.rfbr.ru/rffi/ru/project_search/o_2031785)).
+
+The mountain block of the program was created with support of Russian Scientific Foundation (Project [17-77-10169](http://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf)).

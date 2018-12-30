@@ -4,10 +4,12 @@
 \alias{plot_tests}
 \title{Plot change year density}
 \usage{
-plot_tests(tests)
+plot_tests(tests, locale = "EN")
 }
 \arguments{
 \item{tests}{result of `test_variables()`}
+
+\item{locale}{}
 }
 \value{
 plots density plot for change year
