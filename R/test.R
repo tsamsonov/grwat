@@ -32,6 +32,15 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
   nn = nrow(prms)
   
   ch_year = rep(NA, nn) # change years
+  
+  mean1 = vector(mode = 'list', length = nn) # means for first period
+  mean2 = vector(mode = 'list', length = nn) # means for second period
+  
+  mratio = rep(NA, nn) # variance for first period
+  
+  sd1 = rep(NA, nn) # variance for first period
+  sd2 = rep(NA, nn) # variance for first period
+  
   maxval = vector(mode = 'list', length = nn) # maximum values
   
   ptt = vector(mode = 'list', length = nn) # Pettitt test
@@ -118,6 +127,29 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
     d1 = vl_int[df$Year1 < ch_year[i]]
     d2 = vl_int[df$Year1 >= ch_year[i]]
     
+    mean1[[i]] = round(mean(d1, na.rm = TRUE), 5)
+    mean2[[i]] = round(mean(d2, na.rm = TRUE), 5)
+    
+    sd1[i] = round(sd(d1, na.rm = TRUE), 5)
+    sd2[i] = round(sd(d2, na.rm = TRUE), 5)
+    
+    if(isdate) {
+      
+      mean1[[i]] = mean1[[i]] %>% as.integer() %>% as.Date(origin = '1970-01-01')
+      mean2[[i]] = mean2[[i]] %>% as.integer() %>% as.Date(origin = '1970-01-01')
+      
+      mratio[i] = lubridate::yday(mean2[[i]]) - lubridate::yday(mean1[[i]])
+      
+      mean1[[i]] = mean1[[i]] %>% format("%d-%b")
+      mean2[[i]] = mean2[[i]] %>% format("%d-%b")
+      
+      sd1[i] = as.integer(sd1[i])
+      sd2[i] = as.integer(sd2[i])
+      
+    } else {
+      mratio[i] = round(100 * (mean2[[i]] - mean1[[i]]) / mean1[[i]], 1)
+    }
+
     tt[[i]] = t.test(d1, d2)
     ft[[i]] = var.test(d1, d2)
     
@@ -127,7 +159,13 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
     N = 1:nn,
     Variable = desc,
     Change.Year = ch_year,
-    Trend = sapply(ts_fit, function(X) { if(is.null(X)) NA else round(coef(X)[2], 5) }), 
+    Trend = sapply(ts_fit, function(X) { if(is.null(X)) NA else round(coef(X)[2], 5) }),
+    M1 = sapply(mean1, function(X) { if(is.null(X)) NA else X }),
+    M2 = sapply(mean2, function(X) { if(is.null(X)) NA else X }),
+    MeanRatio = mratio,
+    sd1 = sd1,
+    sd2 = sd2,
+    sdRatio = round(100 * (sd2 - sd1) / sd1, 1),
     Mann.Kendall = sapply(mkt, function(X) { if(is.null(X)) NA else round(X$p.value, 5) }),
     Pettitt = sapply(ptt, function(X) { if(is.null(X)) NA else round(X$p.value, 5) }),
     Student = sapply(tt, function(X) { if(is.null(X)) NA else round(X$p.value, 5) }),
