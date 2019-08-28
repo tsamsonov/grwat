@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>grwat R package</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Тимофей Самсонов" />
+    <meta name="date" content="2019-08-28" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# grwat R package
+## Текущее состояние и план развития
+### Тимофей Самсонов
+### 2019-08-28
+
+---
+
+
+
+
+## Пакет grwat
+
+[https://tsamsonov.github.io/grwat](https://tsamsonov.github.io/grwat)
+
+![](img/grwat.png)
+
+---
+
+## Текущая функциональность
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Function &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Description &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;get_variables()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Get hydrograph parameters list &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;join_interim()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Join ERA-INTERIM data to hydrological level series &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;kable_tests()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Kable p-values table by coloring it using green-yellow-red palette &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;map()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Map reanalysis and basin data &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;plot_minmonth()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Plot histogram of minimum discharge month for two periods &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;plot_periods()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Plot long-term changes of hydrograph variables for two periods &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;plot_separation()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Plot hydrograph separation &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;plot_tests()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Plot change year density &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;plot_variables()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Plot interannual parameters &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;process_basins()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Join reanalysis data based on geographic location and time &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;process_gauge()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Process gauge directory &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;read_interim()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Read ERA-INTERIM reanalysis NetCDF files with temperature and precipitation &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;read_separation()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Read file with hydrograph separation &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;read_variables()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Read file with hydrograph variables &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;report_basins()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Generate reports with detailed hydrograph analysis &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;report_gauge()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Generate report for the specified gauge folder &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;st_buffer_geo()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Buffer sf objects in geographic coordinates through conic projection &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     color: steelblue !important;" &gt;test_variables()&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Run various tests on interannual characteristics. &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
