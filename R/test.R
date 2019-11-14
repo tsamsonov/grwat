@@ -56,7 +56,6 @@ test_variables <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     dplyr::filter(!(Year1 %in% exclude)) %>% 
     dplyr::mutate_if(params_out$Winter == 1, 
                      replace_year)
-    
   
   bar = progress::progress_bar$new(total = nn)
   bar$tick(0)
