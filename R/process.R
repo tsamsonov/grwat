@@ -18,6 +18,21 @@ st_buffer_geo <- function(g, bufsize){
     sf::st_transform(4326)
 }
 
+#' Fill missing water discharge data using linear interpolation
+#'
+#' @param hdata Water discharge series. Data frame containing 4 columns: YYYY, MM, DD and water level
+#' @param autocorr Autocorrelation value that defines possible length of the period
+#' @param nobserv A number of obsrvations to fill
+#' @param expand Should the algorithm insert missing dates?
+#'
+#' @return filled discharge values
+#' @export
+#'
+#' @examples
+fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE) {
+  
+}
+
 #' Join ERA-INTERIM data to hydrological level series
 #'
 #' @param hdata Water discharge series. Data frame containing 4 columns: YYYY, MM, DD and water level
