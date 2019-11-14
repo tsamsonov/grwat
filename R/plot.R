@@ -170,7 +170,7 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
     dplyr::mutate_if(params_out$Winter == 1, replace_year) %>% 
     dplyr::mutate_at(dplyr::vars(-Year1), function(X) {
       ifelse(df$Year1 %in% exclude, NA, X)
-    })# EXCLUDE YEARS
+    }) # EXCLUDE YEARS
   
   minyear = min(df$Year1)
   maxyear = max(df$Year1)
@@ -207,6 +207,11 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
             panel.background = element_rect(fill = prms$Color[i],
                                             colour = prms$Color[i],
                                             size = 0.5, linetype = "solid"))
+    if (!is.null(exclude)) {
+      g = g + 
+        labs(caption = paste('Excluded years: ', paste(exclude, collapse = ', '))) +
+        theme(plot.caption = element_text(hjust = 0))
+    }
     
     if (smooth) {
       g = g + geom_smooth(method = 'loess', formula = y ~ x)
@@ -253,7 +258,7 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
 
     # PLOT TYPE
     if (prms$Chart[i] == 'line') {
-      g = g + geom_line() + geom_area(alpha = 0.3)
+      g = g + geom_line() + geom_ribbon(aes_string(ymin = 0, ymax = prms$Name[i]), alpha = 0.3)
     } else if (prms$Chart[i] == 'point') {
       g = g + geom_point(size = 1.5) + geom_line(size = 0.2)
       date_labels = "%b"
@@ -408,6 +413,11 @@ plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, lay
             panel.background = element_rect(fill = prms$Color[i],
                                             colour = prms$Color[i],
                                             size = 0.5, linetype = "solid"))
+    if (!is.null(exclude)) {
+      g = g + 
+        labs(caption = paste('Excluded years: ', paste(exclude, collapse = ', '))) +
+        theme(plot.caption = element_text(hjust = 0))
+    }
     
     if (!is.null(tests)) {
       
@@ -577,6 +587,12 @@ plot_minmonth <- function(df, year = NULL, exclude = FALSE, pagebreak = FALSE, l
          x = labs$monthtitle, 
          y = "%")
   
+  if (!is.null(exclude)) {
+    g.summer = g.summer + 
+      labs(caption = paste('Excluded years: ', paste(exclude, collapse = ', '))) +
+      theme(plot.caption = element_text(hjust = 0))
+  }
+  
   g.winter = ggplot() +
     geom_col(data = df.winter, 
              aes(x = wintermonth, y = perc, fill = old), 
@@ -593,6 +609,13 @@ plot_minmonth <- function(df, year = NULL, exclude = FALSE, pagebreak = FALSE, l
     labs(title = labs$bartitle.win,
          x = labs$monthtitle, 
          y = "%")
+  
+  if (!is.null(exclude)) {
+    g.winter = g.winter + 
+      labs(caption = paste('Excluded years: ', paste(exclude, collapse = ', '))) +
+      theme(plot.caption = element_text(hjust = 0))
+  }
+  
   multiplot(plotlist = list(g.summer, g.winter))
   if (pagebreak) cat("\n\n\\pagebreak\n")
 }
