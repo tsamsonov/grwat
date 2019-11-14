@@ -4,13 +4,15 @@
 \alias{report_gauge}
 \title{Generate report for the specified gauge folder}
 \usage{
-report_gauge(wd, year = NULL, map = FALSE, locale = "EN",
-  pdf = FALSE)
+report_gauge(wd, year = NULL, exclude = NULL, map = FALSE,
+  locale = "EN", pdf = FALSE)
 }
 \arguments{
 \item{wd}{A path to a gauge directory}
 
 \item{year}{integer. A fixed value for separation year}
+
+\item{exclude}{integer vector. A vector of years to be excluded from tests}
 
 \item{map}{TRUE/FALSE. If `map = TRUE` then map of source data is included in report. Default value is FALSE}
 

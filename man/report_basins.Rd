@@ -4,13 +4,15 @@
 \alias{report_basins}
 \title{Generate reports with detailed hydrograph analysis}
 \usage{
-report_basins(wd, year = NULL, map = FALSE, locale = "EN",
-  pdf = FALSE)
+report_basins(wd, year = NULL, exclude = NULL, map = FALSE,
+  locale = "EN", pdf = FALSE)
 }
 \arguments{
 \item{wd}{character string. A path to a working directory with specified structure}
 
 \item{year}{integer. A fixed value for separation year}
+
+\item{exclude}{integer vector. A vector of years to be excluded from tests}
 
 \item{map}{TRUE/FALSE. If `map = TRUE` then map of source data is included in report. Default value is FALSE}
 

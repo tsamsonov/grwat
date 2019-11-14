@@ -6,7 +6,7 @@
 Required number of observations for various tests: 
 Pettitt > 0, Mann.Kendall > 2, Theil-Sen slope > 1, Student > 1,}
 \usage{
-test_variables(df, ..., year = NULL, locale = "EN")
+test_variables(df, ..., year = NULL, exclude = NULL, locale = "EN")
 }
 \arguments{
 \item{df}{data.frame produced by separation function}
@@ -14,6 +14,8 @@ test_variables(df, ..., year = NULL, locale = "EN")
 \item{...}{fields (quoted)}
 
 \item{year}{fixed year value for long-term changes estimation}
+
+\item{exclude}{integer vector. A vector of years to be excluded from tests}
 
 \item{locale}{locale for p-value table}
 }
