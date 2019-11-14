@@ -6,6 +6,7 @@ params:
     locale: "EN"
     map: false
     year: 1978
+    exclude: NULL
     fixedyear: false
 date: "`r Sys.Date()`"
 title: "`r params$name`"
@@ -100,7 +101,7 @@ if (params$locale == 'EN') {
 total = grwat::read_variables(params$file_tot)
 
 message(' > Testing variables...\n')
-tests = grwat::test_variables(total, year = params$year, locale = params$locale)
+tests = grwat::test_variables(total, year = params$year, exclude = params$exclude, locale = params$locale)
 
 message(' > Plotting interannual changes...\n')
 grwat::plot_variables(total, 

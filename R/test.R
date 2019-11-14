@@ -4,7 +4,7 @@
 #' 
 #' @param df data.frame produced by separation function
 #' @param year fixed year value for long-term changes estimation
-#' @param exclude a vector of years to exclude from testing
+#' @param exclude integer vector. A vector of years to be excluded from tests
 #' @param locale locale for p-value table
 #' @param ... fields (quoted)
 #'
@@ -53,14 +53,13 @@ test_variables <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
   ft = vector(mode = 'list', length = nn) # Fisher F test for periods
   
   df = df %>% 
+    dplyr::filter(!(Year1 %in% exclude)) %>% 
     dplyr::mutate_if(params_out$Winter == 1, 
-                     replace_year) %>% 
+                     replace_year)
     
   
   bar = progress::progress_bar$new(total = nn)
   bar$tick(0)
-  
-  
   
   for (i in 1:nn) {
     

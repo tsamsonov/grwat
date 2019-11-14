@@ -2,13 +2,14 @@
 #'
 #' @param wd character string. A path to a working directory with specified structure
 #' @param year integer. A fixed value for separation year 
+#' @param exclude integer vector. A vector of years to be excluded from tests
 #' @param map TRUE/FALSE. If `map = TRUE` then map of source data is included in report. Default value is FALSE
 #' @param locale character string. Currently English (`'EN'`) and Russian (`'RU'`) locales are supported for HTML output. PDF is always rendered in English 
 #' @param pdf TRUE/FALSE. If `pdf = TRUE` then ouput is rendered as a single PDF file. Otherwise the output is rendered as single HTML file. Default is FALSE 
 #'
 #' @return Generates a new out working directory with detailed reports
 #' @export
-report_basins <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
+report_basins <- function(wd, year = NULL, exclude = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
   
   t1 = Sys.time()
   
@@ -25,7 +26,7 @@ report_basins <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FAL
     gauges = list.dirs(recursive = FALSE, full.names = FALSE)
     
     for (gauge in gauges)
-      grwat::report_gauge(gauge, year, map, locale, pdf)
+      grwat::report_gauge(gauge, year, exclude, map, locale, pdf)
   } 
   
   t2 = Sys.time()
@@ -36,14 +37,15 @@ report_basins <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FAL
 #' Generate report for the specified gauge folder
 #'
 #' @param wd A path to a gauge directory
-#' @param year integer. A fixed value for separation year 
+#' @param year integer. A fixed value for separation year
+#' @param exclude integer vector. A vector of years to be excluded from tests
 #' @param map TRUE/FALSE. If `map = TRUE` then map of source data is included in report. Default value is FALSE
 #' @param locale character string. Currently English (`'EN'`) and Russian (`'RU'`) locales are supported for HTML output. PDF is always rendered in English 
 #' @param pdf TRUE/FALSE. If `pdf = TRUE` then ouput is rendered as a single PDF file. Otherwise the output is rendered as single HTML file. Default is FALSE 
 #'
 #' @return
 #' @export
-report_gauge <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
+report_gauge <- function(wd, year = NULL, exclude = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
   
   t1 = Sys.time()
   
@@ -64,6 +66,7 @@ report_gauge <- function(wd, year = NULL, map = FALSE, locale = 'EN', pdf = FALS
                     params = list(name = basename(fullpath),
                                   fixedyear = !is.null(year),
                                   year = year,
+                                  exclude = exclude,
                                   map = map,
                                   locale = locale))
   t2 = Sys.time()
