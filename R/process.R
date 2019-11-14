@@ -174,16 +174,24 @@ process_gauge <- function(wd, rean, bufsize=50000){
         # write output files
         sum.table.with.dates %>% 
           dplyr::select(`T`, P) %>% 
-          readr::write_delim(path = paste(input_name, "_rean.txt", sep = ""),
-                      delim = " ",
-                      col_names = FALSE
-          )
+          # readr::write_delim(path = paste(input_name, "_rean.txt", sep = ""),
+          #                    delim = " ",
+          #                    col_names = FALSE)
+          write.table(file = paste(input_name, "_rean.txt", sep = ""), 
+                      sep = " ",
+                      eol = "\r\n",
+                      row.names = FALSE,
+                      col.names = FALSE)
         sum.table.with.dates %>% 
           dplyr::select(D, M, Y, `T`, P) %>% 
-          readr::write_delim(path = paste(input_name, "_rean_ymd.txt", sep = ""),
-                      delim = " ",
-                      col_names = FALSE
-          )
+          # readr::write_delim(path = paste(input_name, "_rean_ymd.txt", sep = ""),
+          #             delim = " ",
+          #             col_names = FALSE)
+          write.table(file = paste(input_name, "_rean_ymd.txt", sep = ""), 
+                      sep = " ",
+                      eol = "\r\n",
+                      row.names = FALSE,
+                      col.names = FALSE)
       } 
     }
   }

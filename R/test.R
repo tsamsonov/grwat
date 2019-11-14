@@ -4,12 +4,13 @@
 #' 
 #' @param df data.frame produced by separation function
 #' @param year fixed year value for long-term changes estimation
+#' @param exclude a vector of years to exclude from testing
 #' @param locale locale for p-value table
 #' @param ... fields (quoted)
 #'
 #' @return List of testing results
 #' @export
-test_variables <- function(df, ..., year = NULL, locale='EN'){
+test_variables <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
   
   fields = rlang::exprs(...) %>% as.character()
   
@@ -53,10 +54,13 @@ test_variables <- function(df, ..., year = NULL, locale='EN'){
   
   df = df %>% 
     dplyr::mutate_if(params_out$Winter == 1, 
-                     replace_year)
+                     replace_year) %>% 
+    
   
   bar = progress::progress_bar$new(total = nn)
   bar$tick(0)
+  
+  
   
   for (i in 1:nn) {
     
