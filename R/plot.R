@@ -168,7 +168,7 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
   
   df = df %>% 
     dplyr::mutate_if(params_out$Winter == 1, replace_year) %>% 
-    dplyr::mutate_at(dplyr::vars(-Year1), function(X) {
+    dplyr::mutate_at(dplyr::vars(-Year1, -Year2), function(X) {
       ifelse(df$Year1 %in% exclude, NA, X)
     }) # EXCLUDE YEARS
   
@@ -209,7 +209,7 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
                                             size = 0.5, linetype = "solid"))
     if (!is.null(exclude)) {
       g = g + 
-        labs(caption = paste('Excluded years: ', paste(exclude, collapse = ', '))) +
+        labs(caption = paste('Excluded years:', paste(exclude, collapse = ', '))) +
         theme(plot.caption = element_text(hjust = 0))
     }
     
@@ -415,7 +415,7 @@ plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, lay
                                             size = 0.5, linetype = "solid"))
     if (!is.null(exclude)) {
       g = g + 
-        labs(caption = paste('Excluded years: ', paste(exclude, collapse = ', '))) +
+        labs(caption = paste('Excluded years:', paste(exclude, collapse = ', '))) +
         theme(plot.caption = element_text(hjust = 0))
     }
     
@@ -612,7 +612,7 @@ plot_minmonth <- function(df, year = NULL, exclude = FALSE, pagebreak = FALSE, l
   
   if (!is.null(exclude)) {
     g.winter = g.winter + 
-      labs(caption = paste('Excluded years: ', paste(exclude, collapse = ', '))) +
+      labs(caption = paste('Excluded years:', paste(exclude, collapse = ', '))) +
       theme(plot.caption = element_text(hjust = 0))
   }
   

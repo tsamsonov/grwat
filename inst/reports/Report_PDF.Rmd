@@ -84,7 +84,8 @@ message(' > Testing variables...\n')
 tests = grwat::test_variables(total, year = params$year, exclude = params$exclude)
 
 message(' > Plotting interannual changes...\n')
-grwat::plot_variables(total, 
+grwat::plot_variables(total,
+                      exclude = params$exclude,
                       tests = tests,
                       layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
                       locale = params$locale,
