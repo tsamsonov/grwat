@@ -74,7 +74,8 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
       dplyr::filter(dplyr::between(Date, begin.date, end.date)) %>% 
       tidyr::gather(key="Runtype", value="Runoff", 
              Qthaw, Qpav, Qpol, Qgr,
-             factor_key=TRUE)
+             factor_key=TRUE) %>% 
+      dplyr::mutate(Runoff = if_else(Runoff < 0, 0, Runoff))
     
     graphdata$Runtype = factor(graphdata$Runtype,
                                levels = c("Qpav", "Qpol", "Qthaw", "Qgr"),
