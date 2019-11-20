@@ -4,7 +4,7 @@
 \alias{plot_minmonth}
 \title{Plot histogram of minimum discharge month for two periods}
 \usage{
-plot_minmonth(df, year = NULL, exclude = FALSE, pagebreak = FALSE,
+plot_minmonth(df, year = NULL, exclude = NULL, pagebreak = FALSE,
   locale = "EN")
 }
 \arguments{

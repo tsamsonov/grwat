@@ -82,7 +82,9 @@ knitr::asis_output("# Interannual changes")
 total = grwat::read_variables(params$file_tot)
 
 message(' > Testing variables...\n')
-tests = grwat::test_variables(total, year = params$year, exclude = params$exclude)
+tests = grwat::test_variables(total, 
+                              year = params$year, 
+                              exclude = params$exclude)
 
 message(' > Plotting interannual changes...\n')
 grwat::plot_variables(total,
@@ -100,7 +102,11 @@ knitr::asis_output("# Long-term changes")
 
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting long-term changes...\n')
-grwat::plot_minmonth(total, year = params$year, exclude = params$exclude, locale = params$locale, pagebreak = TRUE)
+grwat::plot_minmonth(total, 
+                     year = params$year, 
+                     exclude = params$exclude, 
+                     locale = params$locale, 
+                     pagebreak = TRUE)
 ```
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 grwat::plot_periods(total,

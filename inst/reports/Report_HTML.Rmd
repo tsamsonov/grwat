@@ -102,7 +102,10 @@ if (params$locale == 'EN') {
 total = grwat::read_variables(params$file_tot)
 
 message(' > Testing variables...\n')
-tests = grwat::test_variables(total, year = params$year, exclude = params$exclude, locale = params$locale)
+tests = grwat::test_variables(total, 
+                              year = params$year, 
+                              exclude = params$exclude, 
+                              locale = params$locale)
 
 message(' > Plotting interannual changes...\n')
 grwat::plot_variables(total, 
@@ -124,8 +127,11 @@ if (params$locale == 'EN') {
 
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting long-term changes...\n')
-grwat::plot_minmonth(total, year = params$year, exclude = params$exclude, 
-                     exclude = params$exclude, locale = params$locale, pagebreak = FALSE)
+grwat::plot_minmonth(total, 
+                     year = params$year, 
+                     exclude = params$exclude, 
+                     locale = params$locale, 
+                     pagebreak = FALSE)
 ```
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 grwat::plot_periods(total,
@@ -148,8 +154,11 @@ if (params$locale == 'EN') {
 <!-- Knit table to PDF -->
 ```{r, include = TRUE, results='asis', warning=FALSE, message=FALSE}
 message(' > Kabling statistical tests...\n')
-grwat::kable_tests(tests, format = 'html', locale = params$locale)
-grwat::plot_tests(tests, locale = params$locale)
+grwat::kable_tests(tests, 
+                   format = 'html', 
+                   locale = params$locale)
+grwat::plot_tests(tests, 
+                  locale = params$locale)
 ```
 
 <!-- Write stats to table -->

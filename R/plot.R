@@ -161,15 +161,15 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
       dplyr::pull(Name)
   
   prms = params_out %>% 
-            dplyr::filter(Name %in% fields) %>% 
-            dplyr::slice(match(fields, Name))
+    dplyr::filter(Name %in% fields) %>% 
+    dplyr::slice(match(fields, Name))
   
   nn = nrow(prms)
   
   df = df %>% 
     dplyr::mutate_if(params_out$Winter == 1, replace_year) %>% 
     dplyr::mutate_at(dplyr::vars(-Year1, -Year2), function(X) {
-      ifelse(df$Year1 %in% exclude, NA, X)
+      structure(ifelse(df$Year1 %in% exclude, NA, X), class = class(X))
     }) # EXCLUDE YEARS
   
   minyear = min(df$Year1)
@@ -217,40 +217,41 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
       g = g + geom_smooth(method = 'loess', formula = y ~ x)
     }
     
+    # TEST
     if (!is.null(tests)) {
       
       if (!is.null(tests$ptt[[i]])) { # if test for this variable was successfull
-        
-        ltype = ifelse(tests$fixed_year, 'dotted', 
-                ifelse(tests$ptt[[i]]$p.value > 0.05, 'dashed', 'solid'))
-        g = g +       
-          geom_vline(xintercept = tests$year[i], color = "red", 
+
+        ltype = ifelse(tests$fixed_year, 'dotted',
+                       ifelse(tests$ptt[[i]]$p.value > 0.05, 'dashed', 'solid'))
+        g = g +
+          geom_vline(xintercept = tests$year[i], color = "red",
                      size=0.5, linetype = ltype) +
-          annotate("text", label = tests$year[i], 
-                   x = tests$year[i] + 4, y = tests$maxval[[i]], 
+          annotate("text", label = tests$year[i],
+                   x = tests$year[i] + 4, y = tests$maxval[[i]],
                    size = 4, colour = "red")
       }
-      
+
       if(!is.null(tests$tst[[i]]) && !is.null(tests$ts_fit[[i]])) {
         ts_ltype = ifelse(tests$tst[[i]]$p.value > 0.05, 'dashed', 'solid')
         
-        g = g + geom_abline(intercept = coef(tests$ts_fit[[i]])[1], slope = coef(tests$ts_fit[[i]])[2], 
-                    color = 'red', size=1, linetype = ts_ltype)
+        g = g + geom_abline(intercept = coef(tests$ts_fit[[i]])[1], slope = coef(tests$ts_fit[[i]])[2],
+                            color = 'red', size=1, linetype = ts_ltype)
       }
-      
+
       fixedstr = ifelse(tests$fixed_year, '',
-                        paste0(labs$pettitt.u, ' = ',  ifelse(is.null(tests$ptt[[i]]), 'NA', 
+                        paste0(labs$pettitt.u, ' = ',  ifelse(is.null(tests$ptt[[i]]), 'NA',
                                                               round(tests$ptt[[i]]$statistic, 3)), ', ',
-                               labs$label.p, ' = ', ifelse(is.null(tests$ptt[[i]]), 'NA', 
+                               labs$label.p, ' = ', ifelse(is.null(tests$ptt[[i]]), 'NA',
                                                            round(tests$ptt[[i]]$p.value, 5)), '\n'))
-      
+
       g = g +
-        labs(subtitle = paste0(fixedstr, 
+        labs(subtitle = paste0(fixedstr,
                                labs$kendall.z, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
                                                              round(tests$mkt[[i]]$statistic, 3)), ', ',
                                labs$label.p, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
                                                            round(tests$mkt[[i]]$p.value, 5)), '. ',
-                               labs$theil.i, ' = ', ifelse(is.null(tests$ts_fit[[i]]), 'NA', 
+                               labs$theil.i, ' = ', ifelse(is.null(tests$ts_fit[[i]]), 'NA',
                                                            round(coef(tests$ts_fit[[i]])[2], 5))))
     }
     
@@ -276,21 +277,23 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
     }
     
     # SPECIAL AXES FOR DATES
-    if(prms$Units[i] %in% c('Date', 'Month')){
+    if(prms$Unitsen[i] %in% c('Date', 'Month')) {
       if(prms$Winter[i] != 1) {
         g = g +
-          scale_y_date(date_labels = date_labels, 
-                       date_breaks = "2 month", 
+          scale_y_date(date_labels = date_labels,
+                       date_breaks = "2 month",
                        limits = c(lubridate::ymd(20000101), lubridate::ymd(20001231))) +
           expand_limits(y = c(lubridate::ymd(20000101), lubridate::ymd(20001231)))
       } else {
         g = g +
-          scale_y_date(date_labels = date_labels, 
-                       date_breaks = "2 month", 
+          scale_y_date(date_labels = date_labels,
+                       date_breaks = "2 month",
                        limits = c(lubridate::ymd(20000701), lubridate::ymd(20010630))) +
           expand_limits(y = c(lubridate::ymd(20000701), lubridate::ymd(20010630)))
       }
     }
+    
+    # g = g + labs(subtitle = prms$Unitsen[i])
     
     plotlist[[j]] = g
     j = j+1
@@ -500,7 +503,7 @@ plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, lay
 #'
 #' @return ggplot2 objects
 #' @export
-plot_minmonth <- function(df, year = NULL, exclude = FALSE, pagebreak = FALSE, locale='EN'){
+plot_minmonth <- function(df, year = NULL, exclude = NULL, pagebreak = FALSE, locale='EN'){
   
   # TODO: make variable parameter
  
