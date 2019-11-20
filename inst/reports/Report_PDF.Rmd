@@ -103,7 +103,8 @@ knitr::asis_output("# Long-term changes")
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting long-term changes...\n')
 grwat::plot_minmonth(total, 
-                     year = params$year, 
+                     year = params$year,
+                     tests = tests,
                      exclude = params$exclude, 
                      locale = params$locale, 
                      pagebreak = TRUE)

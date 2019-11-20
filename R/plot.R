@@ -503,12 +503,18 @@ plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, lay
 #'
 #' @return ggplot2 objects
 #' @export
-plot_minmonth <- function(df, year = NULL, exclude = NULL, pagebreak = FALSE, locale='EN'){
+plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, pagebreak = FALSE, locale='EN'){
   
-  # TODO: make variable parameter
- 
-  if(is.null(year))
-    stop('You must supply change_year parameter')
+  year_summer = year
+  year_winter = year
+  
+  if(is.null(year)) {
+    if (!is.null(tests)) {
+      year_summer = tests[['year']]['monmmsummer']
+      year_winter = tests[['year']]['nommwin']
+    }
+    else stop('You must supply either year or tests parameter')
+  }
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -525,8 +531,11 @@ plot_minmonth <- function(df, year = NULL, exclude = NULL, pagebreak = FALSE, lo
   
   labs = get_plot_labels(locale)
   
-  periodtitle1 = paste0(labs$beforetitle, year)
-  periodtitle2 = paste0(labs$aftertitle, year)
+  periodtitle1_summer = paste0(labs$beforetitle, year_summer)
+  periodtitle2_summer = paste0(labs$aftertitle, year_summer)
+  
+  periodtitle1_winter = paste0(labs$beforetitle, year_winter)
+  periodtitle2_winter = paste0(labs$aftertitle, year_winter)
   
   chart.data = df %>% 
     dplyr::filter(!(Year1 %in% exclude)) %>% 
@@ -534,11 +543,16 @@ plot_minmonth <- function(df, year = NULL, exclude = NULL, pagebreak = FALSE, lo
     dplyr::filter(!is.na(monmmsummer) & !is.na(nommwin)) %>% 
     dplyr::mutate(summermonth = lubridate::month(monmmsummer),
                   wintermonth = lubridate::month(nommwin),
-                  old = as.integer(Year1 >= year))
+                  old_summer = as.integer(Year1 >= year_summer),
+                  old_winter = as.integer(Year1 >= year_winter))
   
-  chart.data$old = factor(chart.data$old, 
+  chart.data$old_summer = factor(chart.data$old_summer, 
                           levels = c(0,1), 
-                          labels = c(periodtitle1, periodtitle2))
+                          labels = c(periodtitle1_summer, periodtitle2_summer))
+  
+  chart.data$old_winter = factor(chart.data$old_winter, 
+                                 levels = c(0,1), 
+                                 labels = c(periodtitle1_winter, periodtitle2_winter))
   
   month.names = format(ISOdate(2017,1:12,1),"%m")
   winterlabels = month.names[c(7:12, 1:6)]
@@ -552,15 +566,15 @@ plot_minmonth <- function(df, year = NULL, exclude = NULL, pagebreak = FALSE, lo
                                    labels = winterlabels)
   
   df.summer = chart.data %>% 
-    dplyr::group_by(old, summermonth) %>% 
+    dplyr::group_by(old_summer, summermonth) %>% 
     dplyr::tally() %>% 
-    tidyr::complete(summermonth, tidyr::nesting(old), fill=list(n=0)) %>%  
+    tidyr::complete(summermonth, tidyr::nesting(old_summer), fill=list(n=0)) %>%  
     dplyr::mutate(perc = 100*n/sum(n))
   
   df.winter = chart.data %>% 
-    dplyr::group_by(old, wintermonth) %>% 
+    dplyr::group_by(old_winter, wintermonth) %>% 
     dplyr::tally() %>% 
-    tidyr::complete(wintermonth, tidyr::nesting(old), fill=list(n=0)) %>%  
+    tidyr::complete(wintermonth, tidyr::nesting(old_winter), fill=list(n=0)) %>%  
     dplyr::mutate(perc = 100*n/sum(n))
   
   df.summer.all = chart.data %>% 
@@ -575,13 +589,13 @@ plot_minmonth <- function(df, year = NULL, exclude = NULL, pagebreak = FALSE, lo
   
   g.summer = ggplot() +
     geom_col(data = df.summer, 
-             aes(x = summermonth, y = perc, fill = old), 
+             aes(x = summermonth, y = perc, fill = old_summer), 
              position = "dodge") +
     geom_col(data = df.summer.all, 
              aes(x = summermonth, y = perc), 
-             colour="black", 
+             colour = "black", 
              fill = NA, 
-             size=1) +
+             size = 1) +
     theme(plot.title = element_text(face="bold")) +
     scale_x_discrete(drop = FALSE) +
     scale_fill_manual(values=c("indianred1", "deepskyblue4"), 
@@ -598,13 +612,13 @@ plot_minmonth <- function(df, year = NULL, exclude = NULL, pagebreak = FALSE, lo
   
   g.winter = ggplot() +
     geom_col(data = df.winter, 
-             aes(x = wintermonth, y = perc, fill = old), 
+             aes(x = wintermonth, y = perc, fill = old_winter), 
              position = "dodge") +
     geom_col(data = df.winter.all, 
              aes(x = wintermonth, y = perc), 
              colour="black", 
              fill = NA, 
-             size=1) +
+             size = 1) +
     theme(plot.title = element_text(face="bold")) +
     scale_x_discrete(drop = FALSE) +
     scale_fill_manual(values=c("indianred1", "deepskyblue4"), 

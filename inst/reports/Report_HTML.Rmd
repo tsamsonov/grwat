@@ -130,6 +130,7 @@ message(' > Plotting long-term changes...\n')
 grwat::plot_minmonth(total, 
                      year = params$year, 
                      exclude = params$exclude, 
+                     tests = tests,
                      locale = params$locale, 
                      pagebreak = FALSE)
 ```

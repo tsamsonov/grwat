@@ -32,25 +32,25 @@ test_variables <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
   
   nn = nrow(prms)
   
-  ch_year = rep(NA, nn) # change years
+  ch_year = setNames(rep(NA, nn), prms$Name) # change years
   
-  mean1 = vector(mode = 'list', length = nn) # means for first period
-  mean2 = vector(mode = 'list', length = nn) # means for second period
+  mean1 = setNames(vector(mode = 'list', length = nn), prms$Name) # means for first period
+  mean2 = setNames(vector(mode = 'list', length = nn), prms$Name) # means for second period
   
-  mratio = rep(NA, nn) # variance for first period
+  mratio = setNames(rep(NA, nn), prms$Name) # variance for first period
   
-  sd1 = rep(NA, nn) # variance for first period
-  sd2 = rep(NA, nn) # variance for first period
+  sd1 = setNames(rep(NA, nn), prms$Name) # variance for first period
+  sd2 = setNames(rep(NA, nn), prms$Name) # variance for first period
   
-  maxval = vector(mode = 'list', length = nn) # maximum values
+  maxval = setNames(vector(mode = 'list', length = nn), prms$Name) # maximum values
   
-  ptt = vector(mode = 'list', length = nn) # Pettitt test
-  mkt = vector(mode = 'list', length = nn) # Mann-Kendall test
-  tst = vector(mode = 'list', length = nn) # Theil-Sen slope estimation
-  ts_fit = vector(mode = 'list', length = nn) # Theil-Sen regression
+  ptt = setNames(vector(mode = 'list', length = nn), prms$Name) # Pettitt test
+  mkt = setNames(vector(mode = 'list', length = nn), prms$Name) # Mann-Kendall test
+  tst = setNames(vector(mode = 'list', length = nn), prms$Name) # Theil-Sen slope estimation
+  ts_fit = setNames(vector(mode = 'list', length = nn), prms$Name) # Theil-Sen regression
   
-  tt = vector(mode = 'list', length = nn) # Student t test for periods
-  ft = vector(mode = 'list', length = nn) # Fisher F test for periods
+  tt = setNames(vector(mode = 'list', length = nn), prms$Name) # Student t test for periods
+  ft = setNames(vector(mode = 'list', length = nn), prms$Name) # Fisher F test for periods
   
   df = df %>% 
     dplyr::filter(!(Year1 %in% exclude)) %>% 
@@ -176,14 +176,16 @@ test_variables <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
   
   row.names(pvalues) = 1:nn
   
-  return(list(ptt = ptt,
-              mkt = mkt,
-              tst = tst,
-              ts_fit = ts_fit,
-              tt = tt,
-              ft = ft,
-              fixed_year = fixed,
-              year = ch_year,
-              maxval = maxval,
-              pvalues = pvalues))
+  tests = list(ptt = ptt,
+               mkt = mkt,
+               tst = tst,
+               ts_fit = ts_fit,
+               tt = tt,
+               ft = ft,
+               year = ch_year,
+               maxval = maxval,
+               fixed_year = fixed,
+               pvalues = pvalues)
+  
+  return(tests)
 }
