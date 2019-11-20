@@ -4,7 +4,7 @@
 \alias{process_basins}
 \title{Join reanalysis data based on geographic location and time}
 \usage{
-process_basins(wd, rean, bufsize = 50000, clear = TRUE)
+process_basins(wd, rean, bufsize = 50000, eol = "\\n", clear = TRUE)
 }
 \arguments{
 \item{wd}{Path to a working directory with specified structure}
@@ -13,6 +13,8 @@ process_basins(wd, rean, bufsize = 50000, clear = TRUE)
 
 \item{bufsize}{Size of a buffer that is used to select reanalysis data
 around each basin}
+
+\item{eol}{The symbol used to specify end of line. Defaults to "\\n", which will work well on most of the systems. On some Windows setups, an alternative "\\r\\n" must be used if the standard option does not work.}
 
 \item{clear}{Boolean. Whether to remove out directory before processing. Defaults to TRUE}
 }
