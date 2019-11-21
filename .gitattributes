@@ -1,1 +1,3 @@
-docs/* linguist-documentation
+docs/* linguist-vendored
+docs/reference/* linguist-vendored
+docs/articles/* linguist-vendored
