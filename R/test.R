@@ -93,11 +93,14 @@ test_variables <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     
     # MANN-KENDALL TEST FOR TREND SIGNIFICANCE
     
-    if(isdate){
-      mkt[[i]] = trend::mk.test(vl[vl_cmp] %>% as.integer())
-    } else {
-      mkt[[i]] = trend::mk.test(vl[vl_cmp])
+    if(length(vl_cmp) > 2) { # mk.test requires at least 3 observations
+      if(isdate){
+        mkt[[i]] = trend::mk.test(vl[vl_cmp] %>% as.integer())
+      } else {
+        mkt[[i]] = trend::mk.test(vl[vl_cmp])
+      }
     }
+    
     
     # THEIL-SEN SLOPE ESTIMATION
     
@@ -116,10 +119,12 @@ test_variables <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     frml = substitute(y ~ x,
                       list(y = as.name(prms$Name[i]),
                            x = as.name('Year1')))
-    ts_fit[[i]] <- mblm::mblm(eval(frml),
-                              data = df.theil)
     
-    tst[[i]] = trend::sens.slope(values)
+    if (length(values) > 1) { # slope testing requires at least two observations
+      ts_fit[[i]]= mblm::mblm(eval(frml), data = df.theil)
+      tst[[i]] = trend::sens.slope(values)
+    }
+    
     
     # PERIOD TESTS
     
@@ -151,10 +156,12 @@ test_variables <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     } else {
       mratio[i] = round(100 * (mean2[[i]] - mean1[[i]]) / mean1[[i]], 1)
     }
-
-    tt[[i]] = t.test(d1, d2)
-    ft[[i]] = var.test(d1, d2)
     
+    # Student and Fisher tests requre at least two observations in each sample
+    if (length(d1) > 1 & length(d2) > 1) { 
+      tt[[i]] = t.test(d1, d2)
+      ft[[i]] = var.test(d1, d2)
+    }
   }
   
   pvalues = data.frame(
