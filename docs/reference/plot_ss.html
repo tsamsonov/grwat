@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read file with hydrograph variables — read_variables • grwat</title>
+<title>Plot scale-space tree of hydrograph — plot_ss • grwat</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Read file with hydrograph variables — read_variables" />
-<meta property="og:description" content="Read file with hydrograph variables" />
+<meta property="og:title" content="Plot scale-space tree of hydrograph — plot_ss" />
+<meta property="og:description" content="Plot scale-space tree of hydrograph" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,29 +108,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read file with hydrograph variables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/read.R'><code>R/read.R</code></a></small>
-    <div class="hidden name"><code>read_variables.Rd</code></div>
+    <h1>Plot scale-space tree of hydrograph</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/plot.R'><code>R/plot.R</code></a></small>
+    <div class="hidden name"><code>plot_ss.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Read file with hydrograph variables</p>
+    <p>Plot scale-space tree of hydrograph</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_variables</span>(<span class='no'>file_tot</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_ss</span>(<span class='no'>sstree</span>, <span class='kw'>df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>total_file</th>
-      <td><p>Path to a file with hydrograph characteristics variables</p></td>
+      <th>sstree</th>
+      <td><p>scale-space tree data frame resulting from `ss_tree()` function</p></td>
+    </tr>
+    <tr>
+      <th>df</th>
+      <td><p>hydrograph data frame containing Date and Qin columns</p></td>
+    </tr>
+    <tr>
+      <th>year</th>
+      <td><p>year to be analyzed (must be the same as used for sstree generation)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>ggplot2 object</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
