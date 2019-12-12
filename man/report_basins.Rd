@@ -4,8 +4,14 @@
 \alias{report_basins}
 \title{Generate reports with detailed hydrograph analysis}
 \usage{
-report_basins(wd, year = NULL, exclude = NULL, map = FALSE,
-  locale = "EN", pdf = FALSE)
+report_basins(
+  wd,
+  year = NULL,
+  exclude = NULL,
+  map = FALSE,
+  locale = "EN",
+  pdf = FALSE
+)
 }
 \arguments{
 \item{wd}{character string. A path to a working directory with specified structure}

@@ -4,8 +4,16 @@
 \alias{plot_variables}
 \title{Plot interannual parameters}
 \usage{
-plot_variables(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
-  layout = as.matrix(1), pagebreak = FALSE, locale = "EN")
+plot_variables(
+  df,
+  ...,
+  tests = NULL,
+  exclude = NULL,
+  smooth = TRUE,
+  layout = as.matrix(1),
+  pagebreak = FALSE,
+  locale = "EN"
+)
 }
 \arguments{
 \item{df}{data.frame produced by separation function (read by `read_separation()`)}
@@ -23,6 +31,9 @@ plot_variables(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
 \item{pagebreak}{logical. Whether to break page between plots (needed for reporting). Defaults to FALSE}
 
 \item{locale}{string locale. Currently only English locale is supported. Defaults to 'EN'.}
+}
+\value{
+
 }
 \description{
 Plot interannual parameters

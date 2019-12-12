@@ -4,8 +4,14 @@
 \alias{report_gauge}
 \title{Generate report for the specified gauge folder}
 \usage{
-report_gauge(wd, year = NULL, exclude = NULL, map = FALSE,
-  locale = "EN", pdf = FALSE)
+report_gauge(
+  wd,
+  year = NULL,
+  exclude = NULL,
+  map = FALSE,
+  locale = "EN",
+  pdf = FALSE
+)
 }
 \arguments{
 \item{wd}{A path to a gauge directory}
@@ -19,6 +25,9 @@ report_gauge(wd, year = NULL, exclude = NULL, map = FALSE,
 \item{locale}{character string. Currently English (`'EN'`) and Russian (`'RU'`) locales are supported for HTML output. PDF is always rendered in English}
 
 \item{pdf}{TRUE/FALSE. If `pdf = TRUE` then ouput is rendered as a single PDF file. Otherwise the output is rendered as single HTML file. Default is FALSE}
+}
+\value{
+
 }
 \description{
 Generate report for the specified gauge folder

@@ -4,8 +4,16 @@
 \alias{plot_periods}
 \title{Plot long-term changes of hydrograph variables for two periods}
 \usage{
-plot_periods(df, ..., year = NULL, exclude = NULL, tests = NULL,
-  layout = as.matrix(1), pagebreak = FALSE, locale = "EN")
+plot_periods(
+  df,
+  ...,
+  year = NULL,
+  exclude = NULL,
+  tests = NULL,
+  layout = as.matrix(1),
+  pagebreak = FALSE,
+  locale = "EN"
+)
 }
 \arguments{
 \item{df}{data.frame produced by description function (read by `read_variables()`)}
