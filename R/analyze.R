@@ -1,6 +1,6 @@
 #' Perform scale-space transform of hydrograph
 #'
-#' @param df data frame containing Date and Qin columns
+#' @param df hydrograph data frame containing Date and Qin columns
 #' @param year year to be analyzed (will be used to filter Date)
 #' @param sigma maximum sigma used for scale-space smoothing
 #'

@@ -7,7 +7,7 @@
 ss_transform(df, year = NULL, sigma = NULL)
 }
 \arguments{
-\item{df}{data frame containing Date and Qin columns}
+\item{df}{hydrograph data frame containing Date and Qin columns}
 
 \item{year}{year to be analyzed (will be used to filter Date)}
 

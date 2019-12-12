@@ -673,3 +673,47 @@ plot_tests <- function(tests, locale = 'EN') {
     theme_minimal()
   
 }
+
+#' Plot scale-space tree of hydrograph
+#'
+#' @param sstree scale-space tree data frame resulting from `ss_tree()` function
+#' @param df hydrograph data frame containing Date and Qin columns
+#' @param year year to be analyzed (must be the same as used for sstree generation)
+#'
+#' @return ggplot2 object
+#' @export
+#'
+#' @examples
+plot_ss = function(sstree, df = NULL, year = NULL) {
+  
+  tab = NULL
+  scale = 1
+  
+  if (!is.null(df)) {
+    if (is.null(year))
+      year = lubridate::year(min(df$Date))
+    
+    tab = df %>%
+      dplyr::filter(lubridate::year(Date) == year) %>% 
+      dplyr::select(Date, Qin) %>% 
+      dplyr::mutate(Date = as.integer(Date))
+    
+    scale = max(tab$Qin)
+  }
+  
+  ssplot = ggplot() +
+    geom_ribbon(sstree, 
+                mapping = aes(x = day, 
+                              ymin = scale * log(smin) / log(max(smax)), 
+                              ymax = scale * log(smax) / log(max(smax)), 
+                              fill = type_position, group = idrect), 
+                color = 'black', size = 0.1) +
+    scale_fill_manual(values = c('darkgoldenrod1', 'bisque1', 'bisque1',
+                                 'darkslategray3', 'darkslategray1', 'darkslategray1',
+                                 'deepskyblue1', 'lightblue1', 'lightblue1'))
+  if (!is.null(tab)) {
+    ssplot = ssplot + geom_line(tab, mapping = aes(1:N, Qin))
+  }
+   
+  return(ssplot)
+}
