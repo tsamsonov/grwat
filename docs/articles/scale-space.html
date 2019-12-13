@@ -92,12 +92,50 @@
 
     
     
-<p><strong>grwat</strong> package contains tools for performing scale space analysis of hydrograph. Initially developed by <span class="citation">(Witkin <a href="#ref-witkin:1984" role="doc-biblioref">1984</a>)</span>, this method allows decomposition of a signal into hierarchically arranged multiscale components.</p>
+<div id="grwat-tools-for-scale-space-transform" class="section level2">
+<h2 class="hasAnchor">
+<a href="#grwat-tools-for-scale-space-transform" class="anchor"></a>grwat tools for scale space transform</h2>
+<p><strong>grwat</strong> package contains tools for performing scale space analysis of hydrograph. Initially developed by <span class="citation">Witkin (<a href="#ref-witkin:1984" role="doc-biblioref">1984</a>)</span>, scale space transformation allows decomposition of a signal into hierarchically arranged multiscale components. You can use this tool to decompose, classify and compare hydrographs.</p>
 <p>Currently <strong>grwat</strong> depends on <a href="https://bioconductor.org/packages/release/bioc/html/Scale4C.html">Scale4C</a> <span class="citation">(Walter <a href="#ref-R-Scale4C" role="doc-biblioref">2019</a>)</span> package from Biconductor.</p>
+<p><strong>First</strong>, use <code><a href="../reference/ss_transform.html">grwat::ss_transform()</a></code> to get scale-space transformation for selected year and sigma (which is interpreted as maximum standard deviation in day units used for smoothing):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(grwat)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt; Загрузка требуемого пакета: magrittr</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; Загрузка требуемого пакета: ggplot2</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; Welcome to grwat package for hydrograph separation and analysis</span></span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; Welcome to grwat package for hydrograph separation and analysis</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a>tab =<span class="st"> </span><span class="kw"><a href="../reference/read_separation.html">read_separation</a></span>(<span class="st">'/Volumes/Work/_grwat/2018/out/1_Sever/Mezen_Malonisog/AllGrWat.txt'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7"></a>(<span class="dt">ssp =</span> <span class="kw"><a href="../reference/ss_transform.html">ss_transform</a></span>(tab, <span class="dt">year =</span> <span class="dv">1978</span>, <span class="dt">sigma =</span> <span class="dv">365</span>))</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; The viewpoint seems to be close to the start of the chromosome, please check if the data is correct</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; 4C-seq scale space data</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt; Type: Scale4C </span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt; Viewpoint:  1978 : 1 </span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt; Number of total fragments:  365 </span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt; Points of interest:  0 </span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt; Maximum sigma of fingerprint map:  365 </span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt; Number of singularities:  28</span></span></code></pre></div>
+<p><strong>Second</strong>, use <code><a href="../reference/ss_tree.html">grwat::ss_tree()</a></code> to obtain a scale-space tree as a <code>tibble</code> object suited for visualization and analysis:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>(<span class="dt">tree =</span> <span class="kw"><a href="../reference/ss_tree.html">ss_tree</a></span>(ssp))</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; # A tibble: 168 x 8</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt;       id position idrect   type           type_position          day  smin  smax</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;  * &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;                &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;  1     1 left     1_left   tracking prob… tracking problem_le…    24     0     1</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;  2     1 left     1_left   tracking prob… tracking problem_le…    34     0     1</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;  3     1 center   1_center tracking prob… tracking problem_ce…    34     0     1</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;  4     1 center   1_center tracking prob… tracking problem_ce…    36     0     1</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt;  5     1 right    1_right  tracking prob… tracking problem_ri…    36     0     1</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt;  6     1 right    1_right  tracking prob… tracking problem_ri…    46     0     1</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt;  7     2 left     2_left   valley         valley_left             24     0     1</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;  8     2 left     2_left   valley         valley_left             37     0     1</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt;  9     2 center   2_center peak           peak_center             37     0     1</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; 10     2 center   2_center peak           peak_center             39     0     1</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt; # … with 158 more rows</span></span></code></pre></div>
+<p><strong>Third</strong>, use <code><a href="../reference/plot_ss.html">grwat::plot_ss()</a></code> to plot resulting scale-space tree over the initial hydrograph:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/plot_ss.html">plot_ss</a></span>(tree, tab, <span class="dt">year =</span> <span class="dv">1978</span>)</span></code></pre></div>
+<p><img src="scale-space_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references">
 <div id="ref-R-Scale4C">
 <p>Walter, Carolin. 2019. <em>Scale4C: An R/Bioconductor Package for Scale-Space Transformation of 4C-Seq Data</em>.</p>
@@ -106,10 +144,19 @@
 <p>Witkin, A. 1984. “Scale-Space Filtering: A New Approach to Multi-Scale Description.” In <em>ICASSP ’84. IEEE International Conference on Acoustics, Speech, and Signal Processing</em>, 9:150–53. San Diego, CA, USA: Institute of Electrical and Electronics Engineers. <a href="https://doi.org/10.1109/ICASSP.1984.1172729">https://doi.org/10.1109/ICASSP.1984.1172729</a>.</p>
 </div>
 </div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
 
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#grwat-tools-for-scale-space-transform">grwat tools for scale space transform</a></li>
+      <li><a href="#references">References</a></li>
+      </ul>
+</div>
       </div>
 
 </div>
