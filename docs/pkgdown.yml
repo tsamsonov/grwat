@@ -3,4 +3,5 @@ pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   grwat: grwat.html
+  scale-space: scale-space.html
 

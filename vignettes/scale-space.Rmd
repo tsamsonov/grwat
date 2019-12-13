@@ -1,0 +1,26 @@
+---
+title: "Scale space hydrograph analysis"
+output: rmarkdown::html_vignette
+bibliography: [references.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{scale-space}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+ __grwat__ package contains tools for performing scale space analysis of hydrograph. Initially developed by [@witkin:1984], this method allows decomposition of a signal into hierarchically arranged multiscale components. 
+
+Currently __grwat__ depends on [Scale4C](https://bioconductor.org/packages/release/bioc/html/Scale4C.html) [@R-Scale4C] package from Biconductor.
+
+```{r setup}
+library(grwat)
+```
