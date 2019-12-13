@@ -684,10 +684,10 @@ plot_tests <- function(tests, locale = 'EN') {
 #' @export
 #'
 #' @examples
-plot_ss = function(sstree, df = NULL, year = NULL) {
+plot_ss = function(sstree, df = NULL, year = NULL, inverse = FALSE) {
   
   tab = NULL
-  scale = 1
+  scale = max(sstree$smax)
   
   if (!is.null(df)) {
     if (is.null(year))
@@ -701,11 +701,14 @@ plot_ss = function(sstree, df = NULL, year = NULL) {
     scale = max(tab$Qin)
   }
   
+  up = ifelse(inverse, scale, 0)
+  k = ifelse(inverse, -1, 1)
+  
   ssplot = ggplot() +
     geom_ribbon(sstree, 
                 mapping = aes(x = day, 
-                              ymin = scale * log(smin) / log(max(smax)), 
-                              ymax = scale * log(smax) / log(max(smax)), 
+                              ymin = up + k * scale * log(smin) / log(max(smax)), 
+                              ymax = up + k * scale * log(smax) / log(max(smax)), 
                               fill = type_position, group = idrect), 
                 color = 'black', size = 0.1) +
     scale_fill_manual(values = c('darkgoldenrod1', 'bisque1', 'bisque1',
