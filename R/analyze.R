@@ -27,18 +27,18 @@ ss_transform <- function(df, year = NULL, sigma = NULL){
     stopifnot(sigma > 0)
   else stop('sigma must be a positive numeric value')
   
-  ranges = GenomicRanges::GRanges(rep(year, N),
+  ranges = GenomicRanges::GRanges(rep(as.character(year), N),
                                   IRanges::IRanges(1:N, 1:N),
                                   reads = tab$Qin,
                                   meanPosition = 1:N)
   
   ssdata = Scale4C::Scale4C(rawData = ranges, 
                             viewpoint = 1, 
-                            viewpointChromosome = year)
+                            viewpointChromosome = as.character(year))
   
-  scaleSpace(ssdata) = Scale4C::calculateScaleSpace(ssdata, maxSQSigma = sigma)
+  Scale4C::scaleSpace(ssdata) = Scale4C::calculateScaleSpace(ssdata, maxSQSigma = sigma)
   ssdata = Scale4C::calculateFingerprintMap(ssdata, maxSQSigma = sigma)
-  singularities(ssdata) = Scale4C::findSingularities(ssdata, 1, guessViewpoint = FALSE)
+  Scale4C::singularities(ssdata) = Scale4C::findSingularities(ssdata, 1, guessViewpoint = FALSE)
   
   return(ssdata)
   
@@ -56,10 +56,10 @@ ss_tree = function(ssdata) {
   tree = Scale4C::outputScaleSpaceTree(ssdata, outputPeaks = FALSE, useLog = FALSE)
   
   sstree = tree %>%
-    mutate(id = row_number()) %>% 
-    rowwise() %>% 
-    do({
-      tibble(id = .$id,
+    dplyr::mutate(id = dplyr::row_number()) %>% 
+    dplyr::rowwise() %>% 
+    dplyr::do({
+      tibble::tibble(id = .$id,
              position = rep(c('left','center','right'), each = 2),
              idrect = paste(id, position, sep = '_'),
              type = rep(c(.$left_type, .$centre_type, .$right_type), each = 2),
@@ -74,7 +74,7 @@ ss_tree = function(ssdata) {
                                  .$centre_maxSSQ, .$centre_maxSSQ, 
                                  .$right_maxSSQ, .$right_maxSSQ)))
     }) %>% 
-    ungroup()
+    dplyr::ungroup()
   
   return(sstree)
 }

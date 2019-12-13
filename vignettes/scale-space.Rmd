@@ -10,17 +10,36 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
- __grwat__ package contains tools for performing scale space analysis of hydrograph. Initially developed by [@witkin:1984], this method allows decomposition of a signal into hierarchically arranged multiscale components. 
+## grwat tools for scale space transform
+
+ __grwat__ package contains tools for performing scale space analysis of hydrograph. Initially developed by @witkin:1984, scale space transformation allows decomposition of a signal into hierarchically arranged multiscale components. You can use this tool to decompose, classify and compare hydrographs.
 
 Currently __grwat__ depends on [Scale4C](https://bioconductor.org/packages/release/bioc/html/Scale4C.html) [@R-Scale4C] package from Biconductor.
 
-```{r setup}
+__First__, use `grwat::ss_transform()` to get scale-space transformation for selected year and sigma (which is interpreted as maximum standard deviation in day units used for smoothing):
+
+```{r}
 library(grwat)
+
+tab = read_separation('/Volumes/Work/_grwat/2018/out/1_Sever/Mezen_Malonisog/AllGrWat.txt')
+(ssp = ss_transform(tab, year = 1978, sigma = 365))
 ```
+
+__Second__, use `grwat::ss_tree()` to obtain a scale-space tree as a `tibble` object suited for visualization and analysis:
+```{r}
+(tree = ss_tree(ssp))
+```
+
+__Third__, use `grwat::plot_ss()` to plot resulting scale-space tree over the initial hydrograph:
+```{r, fig.width=8, fig.height=4}
+plot_ss(tree, tab, year = 1978)
+```
+
+## References

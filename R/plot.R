@@ -712,7 +712,7 @@ plot_ss = function(sstree, df = NULL, year = NULL) {
                                  'darkslategray3', 'darkslategray1', 'darkslategray1',
                                  'deepskyblue1', 'lightblue1', 'lightblue1'))
   if (!is.null(tab)) {
-    ssplot = ssplot + geom_line(tab, mapping = aes(1:N, Qin))
+    ssplot = ssplot + geom_line(tab, mapping = aes(1:nrow(tab), Qin))
   }
    
   return(ssplot)
