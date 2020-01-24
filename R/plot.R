@@ -245,7 +245,7 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
                                labs$label.p, ' = ', ifelse(is.null(tests$ptt[[i]]), 'NA',
                                                            round(tests$ptt[[i]]$p.value, 5))))
 
-      g = g +
+      g = g + #labs(subtitle = as.expression(bquote(bold(.(labs$kendall.z))~'=')))
         labs(subtitle = paste0(labs$kendall.z, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
                                                              round(tests$mkt[[i]]$statistic, 3)), ', ',
                                labs$label.p, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
