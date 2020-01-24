@@ -233,7 +233,7 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
       }
 
       if(!is.null(tests$tst[[i]]) && !is.null(tests$ts_fit[[i]])) {
-        ts_ltype = ifelse(tests$tst[[i]]$p.value > 0.05, 'dashed', 'solid')
+        ts_ltype = ifelse(mblm::summary.mblm(tests$ts_fit[[i]])$coefficients[2, 4] > 0.05, 'dashed', 'solid')
         
         g = g + geom_abline(intercept = coef(tests$ts_fit[[i]])[1], slope = coef(tests$ts_fit[[i]])[2],
                             color = 'red', size=1, linetype = ts_ltype)
@@ -243,16 +243,18 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
                         paste0(labs$pettitt.u, ' = ',  ifelse(is.null(tests$ptt[[i]]), 'NA',
                                                               round(tests$ptt[[i]]$statistic, 3)), ', ',
                                labs$label.p, ' = ', ifelse(is.null(tests$ptt[[i]]), 'NA',
-                                                           round(tests$ptt[[i]]$p.value, 5)), '\n'))
+                                                           round(tests$ptt[[i]]$p.value, 5))))
 
       g = g +
-        labs(subtitle = paste0(fixedstr,
-                               labs$kendall.z, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
+        labs(subtitle = paste0(labs$kendall.z, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
                                                              round(tests$mkt[[i]]$statistic, 3)), ', ',
                                labs$label.p, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
-                                                           round(tests$mkt[[i]]$p.value, 5)), '. ',
+                                                           round(tests$mkt[[i]]$p.value, 5)), '\n',
                                labs$theil.i, ' = ', ifelse(is.null(tests$ts_fit[[i]]), 'NA',
-                                                           round(coef(tests$ts_fit[[i]])[2], 5))))
+                                                           round(coef(tests$ts_fit[[i]])[2], 5)), ', ',
+                               labs$label.p, ' = ', ifelse(is.null(tests$ts_fit[[i]]), 'NA',
+                                                           round(mblm::summary.mblm(tests$ts_fit[[i]])$coefficients[2, 4], 5)), '. ',
+                               fixedstr))
     }
     
     date_labels = "%d-%b"

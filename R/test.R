@@ -121,7 +121,7 @@ test_variables <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
                            x = as.name('Year1')))
     
     if (length(values) > 1) { # slope testing requires at least two observations
-      ts_fit[[i]]= mblm::mblm(eval(frml), data = df.theil)
+      ts_fit[[i]]= mblm::mblm(eval(frml), data = df.theil, repeated = FALSE)
       tst[[i]] = trend::sens.slope(values)
     }
     
