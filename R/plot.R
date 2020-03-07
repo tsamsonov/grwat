@@ -656,7 +656,6 @@ plot_tests <- function(tests, locale = 'EN') {
   years = tests$year[!is.na(tests$year)]
   dens = density(years, from = min(years), to = max(years), n = max(years) - min(years) + 1)
   ddf = tibble::tibble(year = dens$x, dens = dens$y)
-  # modeval = as.integer(round(modes::modes(tests$year, nmore = 1)[1,1], 0))
   
   modeval = as.integer(dens$x[which.max(dens$y)])
   

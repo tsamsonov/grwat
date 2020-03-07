@@ -46,7 +46,6 @@ Imports:
     progress,
     magrittr,
     rlang,
-    modes,
     BiocManager
 LinkingTo: Rcpp
 SystemRequirements: pandoc

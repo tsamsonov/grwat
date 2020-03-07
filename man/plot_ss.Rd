@@ -4,7 +4,7 @@
 \alias{plot_ss}
 \title{Plot scale-space tree of hydrograph}
 \usage{
-plot_ss(sstree, df = NULL, year = NULL)
+plot_ss(sstree, df = NULL, year = NULL, inverse = FALSE)
 }
 \arguments{
 \item{sstree}{scale-space tree data frame resulting from `ss_tree()` function}
