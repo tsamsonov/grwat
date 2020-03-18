@@ -4,16 +4,16 @@
 \alias{fill_gaps}
 \title{Fill missing water discharge data using linear interpolation}
 \usage{
-fill_gaps(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE)
+fill_gaps(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, dates = FALSE)
 }
 \arguments{
-\item{hdata}{Water discharge series. Data frame containing 4 columns: YYYY, MM, DD and water level}
+\item{hdata}{Water discharge series. Data frame containing 4 columns: year (YYYY), montth (MM), day (DD) and level (water level)}
 
 \item{autocorr}{Autocorrelation value that defines possible length of the period}
 
-\item{nobserv}{A number of obsrvations to fill}
-
 \item{expand}{Should the algorithm insert missing dates?}
+
+\item{max_dur}{A number of obsrvations to fill}
 }
 \value{
 filled discharge values

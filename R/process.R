@@ -20,16 +20,53 @@ st_buffer_geo <- function(g, bufsize){
 
 #' Fill missing water discharge data using linear interpolation
 #'
-#' @param hdata Water discharge series. Data frame containing 4 columns: YYYY, MM, DD and water level
+#' @param hdata Water discharge series. Data frame containing 4 columns: year (YYYY), montth (MM), day (DD) and level (water level)
 #' @param autocorr Autocorrelation value that defines possible length of the period
-#' @param nobserv A number of obsrvations to fill
+#' @param max_dur A number of obsrvations to fill
 #' @param expand Should the algorithm insert missing dates?
 #'
 #' @return filled discharge values
 #' @export
 #'
 #' @examples
-fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE) {
+fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, dates = FALSE) {
+  
+  tab = hdata
+  
+  if (!dates) {
+    tab = hdata %>%
+      mutate(Date = ymd(paste(year, month, day))) %>% 
+      dplyr::filter(!is.na(Date)) %>% 
+      complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
+  }
+  
+  # Calculate via autocorrelation
+  if (is.null(nobserv)) {
+    
+    timerep = tab %>% 
+      mutate(type = if_else(is.na(level), 'gap', 'data'),
+             num = with(rle(type), rep(seq_along(lengths), lengths))) %>% 
+      group_by(num) %>% 
+      summarise(start_date = min(Date),
+                end_date = max(Date),
+                duration = end_date - start_date + 1,
+                type = first(type))
+    
+    max_period = dplyr::filter(timerep, type == 'data', duration == max(duration))
+    
+    afun = tab %>% 
+      filter(between(Date, max_period$start_date, max_period$end_date)) %>% 
+      pull(level) %>% 
+      acf()
+    
+    nobserv = purrr::detect_index(afun$acf, ~ .x < autocorr) 
+  
+  }
+  
+  tab_interp = tab %>% 
+    mutate(level_interp = zoo::na.approx(level, maxgap = nobserv) %>% round(1))
+  
+  return(tab_interp)
   
 }
 

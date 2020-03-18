@@ -46,7 +46,8 @@ Imports:
     progress,
     magrittr,
     rlang,
-    BiocManager
+    BiocManager,
+    zoo
 LinkingTo: Rcpp
 SystemRequirements: pandoc
 RoxygenNote: 7.0.2
