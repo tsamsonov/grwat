@@ -6,6 +6,7 @@ NULL
 usethis::use_package('Rcpp')
 usethis::use_package('sf')
 usethis::use_package('zoo')
+usethis::use_package('shiny')
 usethis::use_package('grid')
 usethis::use_package('ncdf4')
 usethis::use_package('lubridate')

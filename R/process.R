@@ -21,9 +21,10 @@ st_buffer_geo <- function(g, bufsize){
 #' Fill missing water discharge data using linear interpolation
 #'
 #' @param hdata Water discharge series. Data frame containing 4 columns: year (YYYY), montth (MM), day (DD) and level (water level)
-#' @param autocorr Autocorrelation value that defines possible length of the period
-#' @param max_dur A number of obsrvations to fill
+#' @param autocorr Autocorrelation value that defines possible length of the period. Defaults to 0.7.  If `nobserv` parameter is set, then this parameter is ignored. If both parameters are `NULL`, then all gaps are filled disregard of their lengths (not recommended).
+#' @param nobserv Maximum number of contiguous observations that can be filled. Defaults to `NULL`. If this parameter is set by the user, then `autocorr` parameter is ignored. If both parameters are `NULL`, then all gaps are filled disregard of their lengths (not recommended).
 #' @param expand Should the algorithm insert missing dates?
+#' @param dates 
 #'
 #' @return filled discharge values
 #' @export

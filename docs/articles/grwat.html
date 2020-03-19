@@ -85,7 +85,7 @@
       <h1>Introduction to grwat R package</h1>
                         <h4 class="author">Timofey Samsonov</h4>
             
-            <h4 class="date">2019-12-13</h4>
+            <h4 class="date">2020-03-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/master/vignettes/grwat.Rmd"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="hidden name"><code>grwat.Rmd</code></div>
@@ -349,11 +349,11 @@
 <span id="cb11-47"><a href="#cb11-47"></a><span class="co">#&gt; $ts_fit$Qmax</span></span>
 <span id="cb11-48"><a href="#cb11-48"></a><span class="co">#&gt; </span></span>
 <span id="cb11-49"><a href="#cb11-49"></a><span class="co">#&gt; Call:</span></span>
-<span id="cb11-50"><a href="#cb11-50"></a><span class="co">#&gt; mblm::mblm(formula = eval(frml), dataframe = df.theil)</span></span>
+<span id="cb11-50"><a href="#cb11-50"></a><span class="co">#&gt; mblm::mblm(formula = eval(frml), dataframe = df.theil, repeated = FALSE)</span></span>
 <span id="cb11-51"><a href="#cb11-51"></a><span class="co">#&gt; </span></span>
 <span id="cb11-52"><a href="#cb11-52"></a><span class="co">#&gt; Coefficients:</span></span>
 <span id="cb11-53"><a href="#cb11-53"></a><span class="co">#&gt; (Intercept)        Year1  </span></span>
-<span id="cb11-54"><a href="#cb11-54"></a><span class="co">#&gt;    20499.42       -10.05  </span></span>
+<span id="cb11-54"><a href="#cb11-54"></a><span class="co">#&gt;   19013.714       -9.286  </span></span>
 <span id="cb11-55"><a href="#cb11-55"></a><span class="co">#&gt; </span></span>
 <span id="cb11-56"><a href="#cb11-56"></a><span class="co">#&gt; </span></span>
 <span id="cb11-57"><a href="#cb11-57"></a><span class="co">#&gt; </span></span>
@@ -402,8 +402,8 @@
 <span id="cb11-100"><a href="#cb11-100"></a><span class="co">#&gt; [1] FALSE</span></span>
 <span id="cb11-101"><a href="#cb11-101"></a><span class="co">#&gt; </span></span>
 <span id="cb11-102"><a href="#cb11-102"></a><span class="co">#&gt; $pvalues</span></span>
-<span id="cb11-103"><a href="#cb11-103"></a><span class="co">#&gt;   N                                            Variable Change.Year     Trend</span></span>
-<span id="cb11-104"><a href="#cb11-104"></a><span class="co">#&gt; 1 1 Maximum annual discharge during seasonal flood wave        1981 -10.04891</span></span>
+<span id="cb11-103"><a href="#cb11-103"></a><span class="co">#&gt;   N                                            Variable Change.Year    Trend</span></span>
+<span id="cb11-104"><a href="#cb11-104"></a><span class="co">#&gt; 1 1 Maximum annual discharge during seasonal flood wave        1981 -9.28571</span></span>
 <span id="cb11-105"><a href="#cb11-105"></a><span class="co">#&gt;         M1       M2 MeanRatio      sd1      sd2 sdRatio Mann.Kendall Pettitt</span></span>
 <span id="cb11-106"><a href="#cb11-106"></a><span class="co">#&gt; 1 1104.302 578.1875     -47.6 687.4269 418.2687   -39.2        4e-05 0.00051</span></span>
 <span id="cb11-107"><a href="#cb11-107"></a><span class="co">#&gt;   Student  Fisher</span></span>
@@ -416,9 +416,9 @@
 <span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt; 2 2                   First date of 10-day window discharge during winter</span></span>
 <span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt; 3 3                Seasonal flood runoff (with groundwater and rainwater)</span></span>
 <span id="cb12-7"><a href="#cb12-7"></a><span class="co">#&gt;   Change.Year    Trend       M1       M2 MeanRatio      sd1      sd2 sdRatio</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#&gt; 1        1975  0.58472 27.17243 51.91974      91.1  5.45524 16.05091   194.2</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="co">#&gt; 2        1971 -0.31776   30-Dec   02-Dec     -28.0 39.00000 59.00000    51.3</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a><span class="co">#&gt; 3        1981 -0.01983  2.92196  1.84939     -36.7  1.64315  1.02748   -37.5</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#&gt; 1        1975  0.56385 27.17243 51.91974      91.1  5.45524 16.05091   194.2</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a><span class="co">#&gt; 2        1971 -0.27660   30-Dec   02-Dec     -28.0 39.00000 59.00000    51.3</span></span>
+<span id="cb12-10"><a href="#cb12-10"></a><span class="co">#&gt; 3        1981 -0.02026  2.92196  1.84939     -36.7  1.64315  1.02748   -37.5</span></span>
 <span id="cb12-11"><a href="#cb12-11"></a><span class="co">#&gt;   Mann.Kendall Pettitt Student  Fisher</span></span>
 <span id="cb12-12"><a href="#cb12-12"></a><span class="co">#&gt; 1      0.00000 0.00000 0.00000 0.00000</span></span>
 <span id="cb12-13"><a href="#cb12-13"></a><span class="co">#&gt; 2      0.27215 0.21652 0.01556 0.01852</span></span>

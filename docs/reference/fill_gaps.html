@@ -129,26 +129,30 @@
     <p>Fill missing water discharge data using linear interpolation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fill_gaps</span>(<span class='no'>hdata</span>, <span class='kw'>autocorr</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>nobserv</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>fill_gaps</span>(<span class='no'>hdata</span>, <span class='kw'>autocorr</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>nobserv</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dates</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>hdata</th>
-      <td><p>Water discharge series. Data frame containing 4 columns: YYYY, MM, DD and water level</p></td>
+      <td><p>Water discharge series. Data frame containing 4 columns: year (YYYY), montth (MM), day (DD) and level (water level)</p></td>
     </tr>
     <tr>
       <th>autocorr</th>
-      <td><p>Autocorrelation value that defines possible length of the period</p></td>
+      <td><p>Autocorrelation value that defines possible length of the period. Defaults to 0.7.  If `nobserv` parameter is set, then this parameter is ignored. If both parameters are `NULL`, then all gaps are filled disregard of their lengths (not recommended).</p></td>
     </tr>
     <tr>
       <th>nobserv</th>
-      <td><p>A number of obsrvations to fill</p></td>
+      <td><p>Maximum number of contiguous observations that can be filled. Defaults to `NULL`. If this parameter is set by the user, then `autocorr` parameter is ignored. If both parameters are `NULL`, then all gaps are filled disregard of their lengths (not recommended).</p></td>
     </tr>
     <tr>
       <th>expand</th>
       <td><p>Should the algorithm insert missing dates?</p></td>
+    </tr>
+    <tr>
+      <th>dates</th>
+      <td></td>
     </tr>
     </table>
 
