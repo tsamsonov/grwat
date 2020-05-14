@@ -72,8 +72,10 @@ tinytex:::is_tinytex()
 
 Check out the __Get started__ vignette at the top of the page.
 
-## Acknowledgments
+## Funding
 
-The main separation algoritm grwat package was developed with financial support of RFBR (Project [16-35-60080](http://www.rfbr.ru/rffi/ru/project_search/o_2031785)).
+__grwat__ package is being developed with financial support of Russian Science Foundation (Project [19-77-10032](https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf)).
 
-The mountain block of the program was created with support of Russian Scientific Foundation (Project [17-77-10169](http://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf)).
+The main separation algoritm was developed in 2016-2018 with financial support of RFBR (Project [16-35-60080](http://www.rfbr.ru/rffi/ru/project_search/o_2031785)).
+
+The mountain block of the main separation algoritm was developed in 2018-2019 with financial support of Russian Science Foundation (Project [17-77-10169](http://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf)).

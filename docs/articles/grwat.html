@@ -6,19 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Introduction to grwat R package • grwat</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to grwat R package">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="grwat">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -64,7 +64,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/tsamsonov/grwat">
+  <a href="https://github.com/tsamsonov/grwat/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -82,10 +82,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Introduction to grwat R package</h1>
+      <h1 data-toc-skip>Introduction to grwat R package</h1>
                         <h4 class="author">Timofey Samsonov</h4>
             
-            <h4 class="date">2020-03-19</h4>
+            <h4 class="date">2020-05-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/master/vignettes/grwat.Rmd"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="hidden name"><code>grwat.Rmd</code></div>
@@ -112,40 +112,40 @@
 <h2 class="hasAnchor">
 <a href="#manual-preprocessing" class="anchor"></a>Manual preprocessing</h2>
 <p>You can join reanalysis and water level data for a single gauge as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sf)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(grwat)</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>wd =<span class="st"> "/Volumes/Work/_grwat/Mezen_Malonisog/"</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(wd)</span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a>hdata =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">'in_Mezen_Malonisog.txt'</span>,</span>
-<span id="cb1-9"><a href="#cb1-9"></a>                 <span class="dt">header =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb1-10"><a href="#cb1-10"></a>                 <span class="dt">sep =</span> <span class="st">' '</span>) <span class="co"># read gauge data</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(hdata)</span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt;   V1 V2   V3  V4</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt; 1 11  5 1945 142</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt; 2 12  5 1945 146</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt; 3 13  5 1945 148</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt; 4 14  5 1945 158</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt; 5 15  5 1945 175</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; 6 16  5 1945 212</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a></span>
-<span id="cb1-20"><a href="#cb1-20"></a>basin =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(<span class="st">'Mezen_Malonisog.gpkg'</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>) <span class="co"># read basin region</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a>basin_pr =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/st_buffer_geo.html">st_buffer_geo</a></span>(basin, <span class="dv">50000</span>)  <span class="co"># buffer region by 50 km</span></span>
-<span id="cb1-22"><a href="#cb1-22"></a></span>
-<span id="cb1-23"><a href="#cb1-23"></a>rean =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/read_interim.html">read_interim</a></span>(<span class="st">'prec.nc'</span>, <span class="st">'temp.nc'</span>) <span class="co"># read reanalysis data</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a>hdata_rean =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/join_interim.html">join_interim</a></span>(hdata, rean, basin_pr) <span class="co"># join reanalysis data to hydrological series</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(hdata_rean<span class="op">$</span>df)</span>
-<span id="cb1-26"><a href="#cb1-26"></a><span class="co">#&gt;       N    Y M  D     T     P   L</span></span>
-<span id="cb1-27"><a href="#cb1-27"></a><span class="co">#&gt; 1 23872 1945 5 11 -3.61 1.081 142</span></span>
-<span id="cb1-28"><a href="#cb1-28"></a><span class="co">#&gt; 2 23873 1945 5 12 -0.41 3.266 146</span></span>
-<span id="cb1-29"><a href="#cb1-29"></a><span class="co">#&gt; 3 23874 1945 5 13 -0.05 5.723 148</span></span>
-<span id="cb1-30"><a href="#cb1-30"></a><span class="co">#&gt; 4 23875 1945 5 14 -0.19 1.774 158</span></span>
-<span id="cb1-31"><a href="#cb1-31"></a><span class="co">#&gt; 5 23876 1945 5 15 -0.26 1.690 175</span></span>
-<span id="cb1-32"><a href="#cb1-32"></a><span class="co">#&gt; 6 23877 1945 5 16 -0.89 1.648 212</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">grwat</span>)
+
+<span class="no">wd</span> <span class="kw">=</span> <span class="st">"/Volumes/Work/_grwat/Mezen_Malonisog/"</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">wd</span>)
+
+<span class="no">hdata</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">'in_Mezen_Malonisog.txt'</span>,
+                 <span class="kw">header</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
+                 <span class="kw">sep</span> <span class="kw">=</span> <span class="st">' '</span>) <span class="co"># read gauge data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">hdata</span>)
+<span class="co">#&gt;   V1 V2   V3  V4</span>
+<span class="co">#&gt; 1 11  5 1945 142</span>
+<span class="co">#&gt; 2 12  5 1945 146</span>
+<span class="co">#&gt; 3 13  5 1945 148</span>
+<span class="co">#&gt; 4 14  5 1945 158</span>
+<span class="co">#&gt; 5 15  5 1945 175</span>
+<span class="co">#&gt; 6 16  5 1945 212</span>
+
+<span class="no">basin</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(<span class="st">'Mezen_Malonisog.gpkg'</span>, <span class="kw">quiet</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="co"># read basin region</span>
+<span class="no">basin_pr</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/st_buffer_geo.html">st_buffer_geo</a></span>(<span class="no">basin</span>, <span class="fl">50000</span>)  <span class="co"># buffer region by 50 km</span>
+
+<span class="no">rean</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/read_interim.html">read_interim</a></span>(<span class="st">'prec.nc'</span>, <span class="st">'temp.nc'</span>) <span class="co"># read reanalysis data</span>
+<span class="no">hdata_rean</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/join_interim.html">join_interim</a></span>(<span class="no">hdata</span>, <span class="no">rean</span>, <span class="no">basin_pr</span>) <span class="co"># join reanalysis data to hydrological series</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">hdata_rean</span>$<span class="no">df</span>)
+<span class="co">#&gt;       N    Y M  D     T     P   L</span>
+<span class="co">#&gt; 1 23872 1945 5 11 -3.61 1.081 142</span>
+<span class="co">#&gt; 2 23873 1945 5 12 -0.41 3.266 146</span>
+<span class="co">#&gt; 3 23874 1945 5 13 -0.05 5.723 148</span>
+<span class="co">#&gt; 4 23875 1945 5 14 -0.19 1.774 158</span>
+<span class="co">#&gt; 5 23876 1945 5 15 -0.26 1.690 175</span>
+<span class="co">#&gt; 6 23877 1945 5 16 -0.89 1.648 212</span></pre></body></html></div>
 <p>After reanalysis data are joined you can easily plot a map of the derived spatial configuration with</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/map.html">map</a></span>(rean<span class="op">$</span>pts, hdata_rean<span class="op">$</span>pts, basin, basin_pr) <span class="co"># plot spatial configuration</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">rean</span>$<span class="no">pts</span>, <span class="no">hdata_rean</span>$<span class="no">pts</span>, <span class="no">basin</span>, <span class="no">basin_pr</span>) <span class="co"># plot spatial configuration</span></pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 </div>
 <div id="gauge-folder" class="section level2">
@@ -159,7 +159,7 @@
 <p>The name of the file is not restricted, only the extension and the format. Here is an example:</p>
 <p><img src="in_gauge.png"></p>
 <p>Reanalysis data should be read before using <code><a href="../reference/read_interim.html">read_interim()</a></code> function from grwat package. Having these prerequisities satisfied, the command is:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/process_gauge.html">process_gauge</a></span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/process_gauge.html">process_gauge</a></span>(<span class="no">wd</span>, <span class="no">rean</span>, <span class="kw">bufsize</span> <span class="kw">=</span> <span class="fl">50000</span>) <span class="co"># process single folder</span></pre></body></html></div>
 <p>The value returned by this function is a number of reanalysis points extracted by buffered basin region. As a result of the execution of this function the folder receives two enriched data files and a map of the spatial configuration:</p>
 <p><img src="out_gauge.png"></p>
 <blockquote>
@@ -180,8 +180,8 @@
 <p>An example of specified directory structure is provided in the picture below:</p>
 <p><img src="in_folder.png"></p>
 <p>The processing of this folder structure is performed by <code><a href="../reference/process_basins.html">process_basins()</a></code> function:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>wd =<span class="st"> "/Volumes/Work/_grwat/2018/"</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/process_basins.html">process_basins</a></span>(wd, rean, <span class="dt">bufsize =</span> <span class="dv">50000</span>) <span class="co"># process single folder</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">wd</span> <span class="kw">=</span> <span class="st">"/Volumes/Work/_grwat/2018/"</span>
+<span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/process_basins.html">process_basins</a></span>(<span class="no">wd</span>, <span class="no">rean</span>, <span class="kw">bufsize</span> <span class="kw">=</span> <span class="fl">50000</span>) <span class="co"># process single folder</span></pre></body></html></div>
 <p>It works in a following way:</p>
 <ol style="list-style-type: decimal">
 <li><p><code><a href="../reference/process_basins.html">process_basins()</a></code> takes <strong>in</strong> folder inside folder specified by <code>wd</code> parameter and copies its content to a new <strong>out</strong> folder in the same directory. All the following procedures are executed inside <strong>out</strong> folder, which allows easy removal of results and rexecution of the processing if some parameters should be changed.</p></li>
@@ -230,271 +230,271 @@
 <h2 class="hasAnchor">
 <a href="#plot-separation-of-hydrograph" class="anchor"></a>Plot separation of hydrograph</h2>
 <p>To plot separation of hydrograph you need results of a separation procedure which are saved as <em>AllGrWat.txt</em> text file (see previous section). This file is read by <code><a href="../reference/read_separation.html">read_separation()</a></code> function:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"/Volumes/Work/_grwat/Mezen_Malonisog/"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>sep =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/read_separation.html">read_separation</a></span>(<span class="st">'AllGrWat.txt'</span>)<span class="co">#</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(sep)</span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; # A tibble: 6 x 8</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt;   Date         Qin   Qgr  Qpol  Qpav Qthaw   Tin   Pin</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; 1 1938-03-23  43.3  43.3   0       0     0  9999  9999</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 2 1938-03-24  56.9  39.7  17.2     0     0  9999  9999</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; 3 1938-03-25  77.7  36.1  41.6     0     0  9999  9999</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; 4 1938-03-26 150    32.5 118.      0     0  9999  9999</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="co">#&gt; 5 1938-03-27 334    28.9 305.      0     0  9999  9999</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="co">#&gt; 6 1938-03-28 429    25.3 404.      0     0  9999  9999</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"/Volumes/Work/_grwat/Mezen_Malonisog/"</span>)
+
+<span class="no">sep</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/read_separation.html">read_separation</a></span>(<span class="st">'AllGrWat.txt'</span>)<span class="co">#</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">sep</span>)
+<span class="co">#&gt; # A tibble: 6 x 8</span>
+<span class="co">#&gt;   Date         Qin   Qgr  Qpol  Qpav Qthaw   Tin   Pin</span>
+<span class="co">#&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 1938-03-23  43.3  43.3   0       0     0  9999  9999</span>
+<span class="co">#&gt; 2 1938-03-24  56.9  39.7  17.2     0     0  9999  9999</span>
+<span class="co">#&gt; 3 1938-03-25  77.7  36.1  41.6     0     0  9999  9999</span>
+<span class="co">#&gt; 4 1938-03-26 150    32.5 118.      0     0  9999  9999</span>
+<span class="co">#&gt; 5 1938-03-27 334    28.9 305.      0     0  9999  9999</span>
+<span class="co">#&gt; 6 1938-03-28 429    25.3 404.      0     0  9999  9999</span></pre></body></html></div>
 <p>You can then plot separations for selected years using <code><a href="../reference/plot_separation.html">plot_separation()</a></code> function:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_separation.html">plot_separation</a></span>(sep, <span class="dv">1978</span>) <span class="co"># plot single year</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_separation.html">plot_separation</a></span>(<span class="no">sep</span>, <span class="fl">1978</span>) <span class="co"># plot single year</span></pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_separation.html">plot_separation</a></span>(sep, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1994</span>, <span class="dv">2001</span>)) <span class="co"># plot two years sequentially</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_separation.html">plot_separation</a></span>(<span class="no">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1994</span>, <span class="fl">2001</span>)) <span class="co"># plot two years sequentially</span></pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-7-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_separation.html">plot_separation</a></span>(sep, <span class="dv">1994</span><span class="op">:</span><span class="dv">1997</span>, <span class="co"># plot four years on the same page</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>                       <span class="dt">layout =</span> <span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="dt">nrow=</span><span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_separation.html">plot_separation</a></span>(<span class="no">sep</span>, <span class="fl">1994</span>:<span class="fl">1997</span>, <span class="co"># plot four years on the same page</span>
+                       <span class="kw">layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>), <span class="kw">nrow</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">byrow</span><span class="kw">=</span><span class="fl">TRUE</span>))</pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-7-4.png" width="700"></p>
 </div>
 <div id="read-and-test-hydrograph-variables" class="section level2">
 <h2 class="hasAnchor">
 <a href="#read-and-test-hydrograph-variables" class="anchor"></a>Read and test hydrograph variables</h2>
 <p>Interannual changes of parameters are read from <em>Total.txt</em> file using <code><a href="../reference/read_variables.html">read_variables()</a></code> function:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"/Volumes/Work/_grwat/Mezen_Malonisog/"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a>df =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/read_variables.html">read_variables</a></span>(<span class="st">'Total.txt'</span>) <span class="co"># read parameters file</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; Warning: 3 failed to parse.</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(df)</span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt; # A tibble: 6 x 57</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt;   year_number Year1 Year2 datestart  datepolend    Qy  Qmax datemax     Qygr</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt;         &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;date&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt;</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; 1           1  1938  1939 2000-03-23 2000-06-08  98.1   747 2000-04-03  19.9</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; 2           2  1939  1940 2000-03-16 2000-07-11  66.9   487 2000-04-28  14.8</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; 3           3  1940  1941 2000-03-09 2000-07-12  97.4   995 2000-04-28  18.9</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; 4           4  1941  1942 2000-03-24 2000-07-21 214.   2030 2000-05-01  31.4</span></span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="co">#&gt; 5           5  1942  1943 2000-04-02 2000-07-31 242.   2790 2000-05-08  26.9</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt; 6           6  1943  1944 2000-03-24 2000-06-15  71.3   451 2000-05-02  26.5</span></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="co">#&gt; # … with 48 more variables: Qmmsummer &lt;dbl&gt;, monmmsummer &lt;date&gt;, Qmmwin &lt;dbl&gt;,</span></span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt; #   nommwin &lt;date&gt;, Q30s &lt;dbl&gt;, date30s1 &lt;date&gt;, date30s2 &lt;date&gt;, Q30w &lt;dbl&gt;,</span></span>
-<span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt; #   date30w1 &lt;date&gt;, date30w2 &lt;date&gt;, Q10s &lt;dbl&gt;, date10s1 &lt;date&gt;,</span></span>
-<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt; #   date10s2 &lt;date&gt;, Q10w &lt;dbl&gt;, date10w1 &lt;date&gt;, date10w2 &lt;date&gt;, Q5s &lt;dbl&gt;,</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt; #   date5s1 &lt;date&gt;, date5s2 &lt;date&gt;, Q5w &lt;dbl&gt;, date5w1 &lt;date&gt;, date5w2 &lt;date&gt;,</span></span>
-<span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt; #   Wy &lt;dbl&gt;, Wgr &lt;dbl&gt;, Wpol1 &lt;dbl&gt;, Wpol2 &lt;dbl&gt;, Wpol3 &lt;dbl&gt;, Wpavs1 &lt;dbl&gt;,</span></span>
-<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt; #   Wpavs2 &lt;dbl&gt;, Wpavthaw1 &lt;dbl&gt;, Wpavthaw2 &lt;dbl&gt;, WgrS &lt;dbl&gt;, WS &lt;dbl&gt;,</span></span>
-<span id="cb9-22"><a href="#cb9-22"></a><span class="co">#&gt; #   WgrW &lt;dbl&gt;, WW &lt;dbl&gt;, Qmaxpavs &lt;dbl&gt;, datemaxpavs &lt;date&gt;,</span></span>
-<span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt; #   Qmaxpavthaw &lt;dbl&gt;, datemaxpavthaw &lt;date&gt;, SumProd &lt;int&gt;, DaysPavsSum &lt;dbl&gt;,</span></span>
-<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt; #   WinProd &lt;int&gt;, DaysThawWin &lt;dbl&gt;, CvWin &lt;dbl&gt;, CvSum &lt;dbl&gt;,</span></span>
-<span id="cb9-25"><a href="#cb9-25"></a><span class="co">#&gt; #   CountPavs &lt;int&gt;, CountThaws &lt;int&gt;, PolProd &lt;int&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"/Volumes/Work/_grwat/Mezen_Malonisog/"</span>)
+
+<span class="no">df</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/read_variables.html">read_variables</a></span>(<span class="st">'Total.txt'</span>) <span class="co"># read parameters file</span>
+<span class="co">#&gt; Warning: 3 failed to parse.</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">df</span>)
+<span class="co">#&gt; # A tibble: 6 x 57</span>
+<span class="co">#&gt;   year_number Year1 Year2 datestart  datepolend    Qy  Qmax datemax     Qygr</span>
+<span class="co">#&gt;         &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;date&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1           1  1938  1939 2000-03-23 2000-06-08  98.1   747 2000-04-03  19.9</span>
+<span class="co">#&gt; 2           2  1939  1940 2000-03-16 2000-07-11  66.9   487 2000-04-28  14.8</span>
+<span class="co">#&gt; 3           3  1940  1941 2000-03-09 2000-07-12  97.4   995 2000-04-28  18.9</span>
+<span class="co">#&gt; 4           4  1941  1942 2000-03-24 2000-07-21 214.   2030 2000-05-01  31.4</span>
+<span class="co">#&gt; 5           5  1942  1943 2000-04-02 2000-07-31 242.   2790 2000-05-08  26.9</span>
+<span class="co">#&gt; 6           6  1943  1944 2000-03-24 2000-06-15  71.3   451 2000-05-02  26.5</span>
+<span class="co">#&gt; # … with 48 more variables: Qmmsummer &lt;dbl&gt;, monmmsummer &lt;date&gt;, Qmmwin &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   nommwin &lt;date&gt;, Q30s &lt;dbl&gt;, date30s1 &lt;date&gt;, date30s2 &lt;date&gt;, Q30w &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   date30w1 &lt;date&gt;, date30w2 &lt;date&gt;, Q10s &lt;dbl&gt;, date10s1 &lt;date&gt;,</span>
+<span class="co">#&gt; #   date10s2 &lt;date&gt;, Q10w &lt;dbl&gt;, date10w1 &lt;date&gt;, date10w2 &lt;date&gt;, Q5s &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   date5s1 &lt;date&gt;, date5s2 &lt;date&gt;, Q5w &lt;dbl&gt;, date5w1 &lt;date&gt;, date5w2 &lt;date&gt;,</span>
+<span class="co">#&gt; #   Wy &lt;dbl&gt;, Wgr &lt;dbl&gt;, Wpol1 &lt;dbl&gt;, Wpol2 &lt;dbl&gt;, Wpol3 &lt;dbl&gt;, Wpavs1 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   Wpavs2 &lt;dbl&gt;, Wpavthaw1 &lt;dbl&gt;, Wpavthaw2 &lt;dbl&gt;, WgrS &lt;dbl&gt;, WS &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   WgrW &lt;dbl&gt;, WW &lt;dbl&gt;, Qmaxpavs &lt;dbl&gt;, datemaxpavs &lt;date&gt;,</span>
+<span class="co">#&gt; #   Qmaxpavthaw &lt;dbl&gt;, datemaxpavthaw &lt;date&gt;, SumProd &lt;int&gt;, DaysPavsSum &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   WinProd &lt;int&gt;, DaysThawWin &lt;dbl&gt;, CvWin &lt;dbl&gt;, CvSum &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   CountPavs &lt;int&gt;, CountThaws &lt;int&gt;, PolProd &lt;int&gt;</span></pre></body></html></div>
 <p>To get the detailed description of available variables you can invoke <code>get_parameters()</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/get_variables.html">get_variables</a></span>()</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; # A tibble: 57 x 19</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="co">#&gt;       ID Position Width Source Name  Units Unitsen Readtype Type   Test Desc </span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt;  1     1        1     7      1 year… &lt;NA&gt;  &lt;NA&gt;    integer  inte…     0 Номе…</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt;  2     2        8    10      1 Year1 Год   Year    integer  inte…     0 Год,…</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt;  3     3       18    10      1 Year2 Год   Year    integer  inte…     0 Год,…</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt;  4     4       28    15      1 date… Дата  Date    Date     Date      1 Дата…</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a><span class="co">#&gt;  5     5       43    15      1 date… Дата  Date    Date     Date      1 Дата…</span></span>
-<span id="cb10-10"><a href="#cb10-10"></a><span class="co">#&gt;  6     6       58    10      1 Qy    м^3/с m^3/s   double   doub…     1 Сред…</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a><span class="co">#&gt;  7     7       68    10      1 Qmax  м^3/с m^3/s   double   doub…     1 Макс…</span></span>
-<span id="cb10-12"><a href="#cb10-12"></a><span class="co">#&gt;  8     8       78    15      1 date… Дата  Date    Date     Date      1 Дата…</span></span>
-<span id="cb10-13"><a href="#cb10-13"></a><span class="co">#&gt;  9     9       93    10      1 Qygr  м^3/с m^3/s   double   doub…     1 Сред…</span></span>
-<span id="cb10-14"><a href="#cb10-14"></a><span class="co">#&gt; 10    10      103    10      1 Qmms… м^3/с m^3/s   double   doub…     1 Мини…</span></span>
-<span id="cb10-15"><a href="#cb10-15"></a><span class="co">#&gt; # … with 47 more rows, and 8 more variables: Descen &lt;chr&gt;, Group &lt;chr&gt;,</span></span>
-<span id="cb10-16"><a href="#cb10-16"></a><span class="co">#&gt; #   Winter &lt;dbl&gt;, Chart &lt;chr&gt;, Color &lt;chr&gt;, Order &lt;dbl&gt;, Range &lt;chr&gt;,</span></span>
-<span id="cb10-17"><a href="#cb10-17"></a><span class="co">#&gt; #   Problems &lt;chr&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/get_variables.html">get_variables</a></span>()
+<span class="co">#&gt; # A tibble: 57 x 19</span>
+<span class="co">#&gt;       ID Position Width Source Name  Units Unitsen Readtype Type   Test Desc </span>
+<span class="co">#&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1     1        1     7      1 year… &lt;NA&gt;  &lt;NA&gt;    integer  inte…     0 Номе…</span>
+<span class="co">#&gt;  2     2        8    10      1 Year1 Год   Year    integer  inte…     0 Год,…</span>
+<span class="co">#&gt;  3     3       18    10      1 Year2 Год   Year    integer  inte…     0 Год,…</span>
+<span class="co">#&gt;  4     4       28    15      1 date… Дата  Date    Date     Date      1 Дата…</span>
+<span class="co">#&gt;  5     5       43    15      1 date… Дата  Date    Date     Date      1 Дата…</span>
+<span class="co">#&gt;  6     6       58    10      1 Qy    м^3/с m^3/s   double   doub…     1 Сред…</span>
+<span class="co">#&gt;  7     7       68    10      1 Qmax  м^3/с m^3/s   double   doub…     1 Макс…</span>
+<span class="co">#&gt;  8     8       78    15      1 date… Дата  Date    Date     Date      1 Дата…</span>
+<span class="co">#&gt;  9     9       93    10      1 Qygr  м^3/с m^3/s   double   doub…     1 Сред…</span>
+<span class="co">#&gt; 10    10      103    10      1 Qmms… м^3/с m^3/s   double   doub…     1 Мини…</span>
+<span class="co">#&gt; # … with 47 more rows, and 8 more variables: Descen &lt;chr&gt;, Group &lt;chr&gt;,</span>
+<span class="co">#&gt; #   Winter &lt;dbl&gt;, Chart &lt;chr&gt;, Color &lt;chr&gt;, Order &lt;dbl&gt;, Range &lt;chr&gt;,</span>
+<span class="co">#&gt; #   Problems &lt;chr&gt;</span></pre></body></html></div>
 <p>Parameters can be statistically tested using <code><a href="../reference/test_variables.html">test_variables(df, ..., year = NULL, locale='EN')</a></code> function. Names of the parameters are passed comma-separated in place of <code>...</code>. They are quoted, so you do not need to pass them as character strings, just write their names:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/test_variables.html">test_variables</a></span>(df, Qmax)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; $ptt</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; $ptt$Qmax</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt; </span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt;  Pettitt's test for single change-point detection</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt; </span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt; data:  vl[vl_cmp]</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#&gt; U* = 768, p-value = 0.000508</span></span>
-<span id="cb11-9"><a href="#cb11-9"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a><span class="co">#&gt; probable change point at time K </span></span>
-<span id="cb11-12"><a href="#cb11-12"></a><span class="co">#&gt;                              44 </span></span>
-<span id="cb11-13"><a href="#cb11-13"></a><span class="co">#&gt; </span></span>
-<span id="cb11-14"><a href="#cb11-14"></a><span class="co">#&gt; </span></span>
-<span id="cb11-15"><a href="#cb11-15"></a><span class="co">#&gt; </span></span>
-<span id="cb11-16"><a href="#cb11-16"></a><span class="co">#&gt; $mkt</span></span>
-<span id="cb11-17"><a href="#cb11-17"></a><span class="co">#&gt; $mkt$Qmax</span></span>
-<span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; </span></span>
-<span id="cb11-19"><a href="#cb11-19"></a><span class="co">#&gt;  Mann-Kendall trend test</span></span>
-<span id="cb11-20"><a href="#cb11-20"></a><span class="co">#&gt; </span></span>
-<span id="cb11-21"><a href="#cb11-21"></a><span class="co">#&gt; data:  vl[vl_cmp]</span></span>
-<span id="cb11-22"><a href="#cb11-22"></a><span class="co">#&gt; z = -4.1079, n = 75, p-value = 3.993e-05</span></span>
-<span id="cb11-23"><a href="#cb11-23"></a><span class="co">#&gt; alternative hypothesis: true S is not equal to 0</span></span>
-<span id="cb11-24"><a href="#cb11-24"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb11-25"><a href="#cb11-25"></a><span class="co">#&gt;             S          varS           tau </span></span>
-<span id="cb11-26"><a href="#cb11-26"></a><span class="co">#&gt;  -899.0000000 47787.6666667    -0.3241977 </span></span>
-<span id="cb11-27"><a href="#cb11-27"></a><span class="co">#&gt; </span></span>
-<span id="cb11-28"><a href="#cb11-28"></a><span class="co">#&gt; </span></span>
-<span id="cb11-29"><a href="#cb11-29"></a><span class="co">#&gt; </span></span>
-<span id="cb11-30"><a href="#cb11-30"></a><span class="co">#&gt; $tst</span></span>
-<span id="cb11-31"><a href="#cb11-31"></a><span class="co">#&gt; $tst$Qmax</span></span>
-<span id="cb11-32"><a href="#cb11-32"></a><span class="co">#&gt; </span></span>
-<span id="cb11-33"><a href="#cb11-33"></a><span class="co">#&gt;  Sen's slope</span></span>
-<span id="cb11-34"><a href="#cb11-34"></a><span class="co">#&gt; </span></span>
-<span id="cb11-35"><a href="#cb11-35"></a><span class="co">#&gt; data:  values</span></span>
-<span id="cb11-36"><a href="#cb11-36"></a><span class="co">#&gt; z = -4.1079, n = 75, p-value = 3.993e-05</span></span>
-<span id="cb11-37"><a href="#cb11-37"></a><span class="co">#&gt; alternative hypothesis: true z is not equal to 0</span></span>
-<span id="cb11-38"><a href="#cb11-38"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb11-39"><a href="#cb11-39"></a><span class="co">#&gt;  -15.516129  -4.285714</span></span>
-<span id="cb11-40"><a href="#cb11-40"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb11-41"><a href="#cb11-41"></a><span class="co">#&gt; Sen's slope </span></span>
-<span id="cb11-42"><a href="#cb11-42"></a><span class="co">#&gt;   -9.285714 </span></span>
-<span id="cb11-43"><a href="#cb11-43"></a><span class="co">#&gt; </span></span>
-<span id="cb11-44"><a href="#cb11-44"></a><span class="co">#&gt; </span></span>
-<span id="cb11-45"><a href="#cb11-45"></a><span class="co">#&gt; </span></span>
-<span id="cb11-46"><a href="#cb11-46"></a><span class="co">#&gt; $ts_fit</span></span>
-<span id="cb11-47"><a href="#cb11-47"></a><span class="co">#&gt; $ts_fit$Qmax</span></span>
-<span id="cb11-48"><a href="#cb11-48"></a><span class="co">#&gt; </span></span>
-<span id="cb11-49"><a href="#cb11-49"></a><span class="co">#&gt; Call:</span></span>
-<span id="cb11-50"><a href="#cb11-50"></a><span class="co">#&gt; mblm::mblm(formula = eval(frml), dataframe = df.theil, repeated = FALSE)</span></span>
-<span id="cb11-51"><a href="#cb11-51"></a><span class="co">#&gt; </span></span>
-<span id="cb11-52"><a href="#cb11-52"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb11-53"><a href="#cb11-53"></a><span class="co">#&gt; (Intercept)        Year1  </span></span>
-<span id="cb11-54"><a href="#cb11-54"></a><span class="co">#&gt;   19013.714       -9.286  </span></span>
-<span id="cb11-55"><a href="#cb11-55"></a><span class="co">#&gt; </span></span>
-<span id="cb11-56"><a href="#cb11-56"></a><span class="co">#&gt; </span></span>
-<span id="cb11-57"><a href="#cb11-57"></a><span class="co">#&gt; </span></span>
-<span id="cb11-58"><a href="#cb11-58"></a><span class="co">#&gt; $tt</span></span>
-<span id="cb11-59"><a href="#cb11-59"></a><span class="co">#&gt; $tt$Qmax</span></span>
-<span id="cb11-60"><a href="#cb11-60"></a><span class="co">#&gt; </span></span>
-<span id="cb11-61"><a href="#cb11-61"></a><span class="co">#&gt;  Welch Two Sample t-test</span></span>
-<span id="cb11-62"><a href="#cb11-62"></a><span class="co">#&gt; </span></span>
-<span id="cb11-63"><a href="#cb11-63"></a><span class="co">#&gt; data:  d1 and d2</span></span>
-<span id="cb11-64"><a href="#cb11-64"></a><span class="co">#&gt; t = 4.1012, df = 70.533, p-value = 0.0001086</span></span>
-<span id="cb11-65"><a href="#cb11-65"></a><span class="co">#&gt; alternative hypothesis: true difference in means is not equal to 0</span></span>
-<span id="cb11-66"><a href="#cb11-66"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb11-67"><a href="#cb11-67"></a><span class="co">#&gt;  270.2942 781.9355</span></span>
-<span id="cb11-68"><a href="#cb11-68"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb11-69"><a href="#cb11-69"></a><span class="co">#&gt; mean of x mean of y </span></span>
-<span id="cb11-70"><a href="#cb11-70"></a><span class="co">#&gt; 1104.3023  578.1875 </span></span>
-<span id="cb11-71"><a href="#cb11-71"></a><span class="co">#&gt; </span></span>
-<span id="cb11-72"><a href="#cb11-72"></a><span class="co">#&gt; </span></span>
-<span id="cb11-73"><a href="#cb11-73"></a><span class="co">#&gt; </span></span>
-<span id="cb11-74"><a href="#cb11-74"></a><span class="co">#&gt; $ft</span></span>
-<span id="cb11-75"><a href="#cb11-75"></a><span class="co">#&gt; $ft$Qmax</span></span>
-<span id="cb11-76"><a href="#cb11-76"></a><span class="co">#&gt; </span></span>
-<span id="cb11-77"><a href="#cb11-77"></a><span class="co">#&gt;  F test to compare two variances</span></span>
-<span id="cb11-78"><a href="#cb11-78"></a><span class="co">#&gt; </span></span>
-<span id="cb11-79"><a href="#cb11-79"></a><span class="co">#&gt; data:  d1 and d2</span></span>
-<span id="cb11-80"><a href="#cb11-80"></a><span class="co">#&gt; F = 2.7011, num df = 42, denom df = 31, p-value = 0.004993</span></span>
-<span id="cb11-81"><a href="#cb11-81"></a><span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span></span>
-<span id="cb11-82"><a href="#cb11-82"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb11-83"><a href="#cb11-83"></a><span class="co">#&gt;  1.362952 5.175132</span></span>
-<span id="cb11-84"><a href="#cb11-84"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb11-85"><a href="#cb11-85"></a><span class="co">#&gt; ratio of variances </span></span>
-<span id="cb11-86"><a href="#cb11-86"></a><span class="co">#&gt;           2.701111 </span></span>
-<span id="cb11-87"><a href="#cb11-87"></a><span class="co">#&gt; </span></span>
-<span id="cb11-88"><a href="#cb11-88"></a><span class="co">#&gt; </span></span>
-<span id="cb11-89"><a href="#cb11-89"></a><span class="co">#&gt; </span></span>
-<span id="cb11-90"><a href="#cb11-90"></a><span class="co">#&gt; $year</span></span>
-<span id="cb11-91"><a href="#cb11-91"></a><span class="co">#&gt; Qmax </span></span>
-<span id="cb11-92"><a href="#cb11-92"></a><span class="co">#&gt; 1981 </span></span>
-<span id="cb11-93"><a href="#cb11-93"></a><span class="co">#&gt; </span></span>
-<span id="cb11-94"><a href="#cb11-94"></a><span class="co">#&gt; $maxval</span></span>
-<span id="cb11-95"><a href="#cb11-95"></a><span class="co">#&gt; $maxval$Qmax</span></span>
-<span id="cb11-96"><a href="#cb11-96"></a><span class="co">#&gt; [1] 2790</span></span>
-<span id="cb11-97"><a href="#cb11-97"></a><span class="co">#&gt; </span></span>
-<span id="cb11-98"><a href="#cb11-98"></a><span class="co">#&gt; </span></span>
-<span id="cb11-99"><a href="#cb11-99"></a><span class="co">#&gt; $fixed_year</span></span>
-<span id="cb11-100"><a href="#cb11-100"></a><span class="co">#&gt; [1] FALSE</span></span>
-<span id="cb11-101"><a href="#cb11-101"></a><span class="co">#&gt; </span></span>
-<span id="cb11-102"><a href="#cb11-102"></a><span class="co">#&gt; $pvalues</span></span>
-<span id="cb11-103"><a href="#cb11-103"></a><span class="co">#&gt;   N                                            Variable Change.Year    Trend</span></span>
-<span id="cb11-104"><a href="#cb11-104"></a><span class="co">#&gt; 1 1 Maximum annual discharge during seasonal flood wave        1981 -9.28571</span></span>
-<span id="cb11-105"><a href="#cb11-105"></a><span class="co">#&gt;         M1       M2 MeanRatio      sd1      sd2 sdRatio Mann.Kendall Pettitt</span></span>
-<span id="cb11-106"><a href="#cb11-106"></a><span class="co">#&gt; 1 1104.302 578.1875     -47.6 687.4269 418.2687   -39.2        4e-05 0.00051</span></span>
-<span id="cb11-107"><a href="#cb11-107"></a><span class="co">#&gt;   Student  Fisher</span></span>
-<span id="cb11-108"><a href="#cb11-108"></a><span class="co">#&gt; 1 0.00011 0.00499</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qmax</span>)
+<span class="co">#&gt; $ptt</span>
+<span class="co">#&gt; $ptt$Qmax</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Pettitt's test for single change-point detection</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  vl[vl_cmp]</span>
+<span class="co">#&gt; U* = 768, p-value = 0.000508</span>
+<span class="co">#&gt; alternative hypothesis: two.sided</span>
+<span class="co">#&gt; sample estimates:</span>
+<span class="co">#&gt; probable change point at time K </span>
+<span class="co">#&gt;                              44 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mkt</span>
+<span class="co">#&gt; $mkt$Qmax</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Mann-Kendall trend test</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  vl[vl_cmp]</span>
+<span class="co">#&gt; z = -4.1079, n = 75, p-value = 3.993e-05</span>
+<span class="co">#&gt; alternative hypothesis: true S is not equal to 0</span>
+<span class="co">#&gt; sample estimates:</span>
+<span class="co">#&gt;             S          varS           tau </span>
+<span class="co">#&gt;  -899.0000000 47787.6666667    -0.3241977 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $tst</span>
+<span class="co">#&gt; $tst$Qmax</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Sen's slope</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  values</span>
+<span class="co">#&gt; z = -4.1079, n = 75, p-value = 3.993e-05</span>
+<span class="co">#&gt; alternative hypothesis: true z is not equal to 0</span>
+<span class="co">#&gt; 95 percent confidence interval:</span>
+<span class="co">#&gt;  -15.516129  -4.285714</span>
+<span class="co">#&gt; sample estimates:</span>
+<span class="co">#&gt; Sen's slope </span>
+<span class="co">#&gt;   -9.285714 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $ts_fit</span>
+<span class="co">#&gt; $ts_fit$Qmax</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; mblm::mblm(formula = eval(frml), dataframe = df.theil, repeated = FALSE)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt; (Intercept)        Year1  </span>
+<span class="co">#&gt;   19013.714       -9.286  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $tt</span>
+<span class="co">#&gt; $tt$Qmax</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Welch Two Sample t-test</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  d1 and d2</span>
+<span class="co">#&gt; t = 4.1012, df = 70.533, p-value = 0.0001086</span>
+<span class="co">#&gt; alternative hypothesis: true difference in means is not equal to 0</span>
+<span class="co">#&gt; 95 percent confidence interval:</span>
+<span class="co">#&gt;  270.2942 781.9355</span>
+<span class="co">#&gt; sample estimates:</span>
+<span class="co">#&gt; mean of x mean of y </span>
+<span class="co">#&gt; 1104.3023  578.1875 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $ft</span>
+<span class="co">#&gt; $ft$Qmax</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  F test to compare two variances</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  d1 and d2</span>
+<span class="co">#&gt; F = 2.7011, num df = 42, denom df = 31, p-value = 0.004993</span>
+<span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span>
+<span class="co">#&gt; 95 percent confidence interval:</span>
+<span class="co">#&gt;  1.362952 5.175132</span>
+<span class="co">#&gt; sample estimates:</span>
+<span class="co">#&gt; ratio of variances </span>
+<span class="co">#&gt;           2.701111 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $year</span>
+<span class="co">#&gt; Qmax </span>
+<span class="co">#&gt; 1981 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $maxval</span>
+<span class="co">#&gt; $maxval$Qmax</span>
+<span class="co">#&gt; [1] 2790</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $fixed_year</span>
+<span class="co">#&gt; [1] FALSE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $pvalues</span>
+<span class="co">#&gt;   N                                            Variable Change.Year    Trend</span>
+<span class="co">#&gt; 1 1 Maximum annual discharge during seasonal flood wave        1981 -9.28571</span>
+<span class="co">#&gt;         M1       M2 MeanRatio      sd1      sd2 sdRatio Mann.Kendall Pettitt</span>
+<span class="co">#&gt; 1 1104.302 578.1875     -47.6 687.4269 418.2687   -39.2        4e-05 0.00051</span>
+<span class="co">#&gt;   Student  Fisher</span>
+<span class="co">#&gt; 1 0.00011 0.00499</span></pre></body></html></div>
 <p>This is an example with three variables selected:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>tests =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/test_variables.html">test_variables</a></span>(df, Qygr, date10w1, Wpol3)</span>
-<span id="cb12-2"><a href="#cb12-2"></a>tests<span class="op">$</span>pvalues</span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">#&gt;   N                                                              Variable</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; 1 1 Annual groundwater discharge ("baseflow") during water-resources year</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt; 2 2                   First date of 10-day window discharge during winter</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt; 3 3                Seasonal flood runoff (with groundwater and rainwater)</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="co">#&gt;   Change.Year    Trend       M1       M2 MeanRatio      sd1      sd2 sdRatio</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#&gt; 1        1975  0.56385 27.17243 51.91974      91.1  5.45524 16.05091   194.2</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="co">#&gt; 2        1971 -0.27660   30-Dec   02-Dec     -28.0 39.00000 59.00000    51.3</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a><span class="co">#&gt; 3        1981 -0.02026  2.92196  1.84939     -36.7  1.64315  1.02748   -37.5</span></span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="co">#&gt;   Mann.Kendall Pettitt Student  Fisher</span></span>
-<span id="cb12-12"><a href="#cb12-12"></a><span class="co">#&gt; 1      0.00000 0.00000 0.00000 0.00000</span></span>
-<span id="cb12-13"><a href="#cb12-13"></a><span class="co">#&gt; 2      0.27215 0.21652 0.01556 0.01852</span></span>
-<span id="cb12-14"><a href="#cb12-14"></a><span class="co">#&gt; 3      0.00246 0.01007 0.00090 0.00780</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">tests</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qygr</span>, <span class="no">date10w1</span>, <span class="no">Wpol3</span>)
+<span class="no">tests</span>$<span class="no">pvalues</span>
+<span class="co">#&gt;   N                                                              Variable</span>
+<span class="co">#&gt; 1 1 Annual groundwater discharge ("baseflow") during water-resources year</span>
+<span class="co">#&gt; 2 2                   First date of 10-day window discharge during winter</span>
+<span class="co">#&gt; 3 3                Seasonal flood runoff (with groundwater and rainwater)</span>
+<span class="co">#&gt;   Change.Year    Trend       M1       M2 MeanRatio      sd1      sd2 sdRatio</span>
+<span class="co">#&gt; 1        1975  0.56385 27.17243 51.91974      91.1  5.45524 16.05091   194.2</span>
+<span class="co">#&gt; 2        1971 -0.27660   30-Dec   02-Dec     -28.0 39.00000 59.00000    51.3</span>
+<span class="co">#&gt; 3        1981 -0.02026  2.92196  1.84939     -36.7  1.64315  1.02748   -37.5</span>
+<span class="co">#&gt;   Mann.Kendall Pettitt Student  Fisher</span>
+<span class="co">#&gt; 1      0.00000 0.00000 0.00000 0.00000</span>
+<span class="co">#&gt; 2      0.27215 0.21652 0.01556 0.01852</span>
+<span class="co">#&gt; 3      0.00246 0.01007 0.00090 0.00780</span></pre></body></html></div>
 <p>If you want to test all parameters, just skip variable names:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>tests =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/test_variables.html">test_variables</a></span>(df)</span>
-<span id="cb13-2"><a href="#cb13-2"></a>tests<span class="op">$</span>change_year</span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co">#&gt; NULL</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">tests</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>)
+<span class="no">tests</span>$<span class="no">change_year</span>
+<span class="co">#&gt; NULL</span></pre></body></html></div>
 <p>Long-term changes are tested against breaking year, which is calculated for each variable using Pettitt test. However, if you want to use a fixed year, you should pass the desired breaking year into <code>change_year</code> parameter:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>tests =<span class="st"> </span>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/test_variables.html">test_variables</a></span>(df, Qmax, Qygr, <span class="dt">change_year =</span> <span class="dv">1987</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>tests<span class="op">$</span>ft <span class="co"># Fisher F tests to compare two variances</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="co">#&gt; $Qmax</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt; </span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt;  F test to compare two variances</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt; </span></span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt; data:  d1 and d2</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt; F = 2.7011, num df = 42, denom df = 31, p-value = 0.004993</span></span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt;  1.362952 5.175132</span></span>
-<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#&gt; ratio of variances </span></span>
-<span id="cb14-14"><a href="#cb14-14"></a><span class="co">#&gt;           2.701111 </span></span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="co">#&gt; </span></span>
-<span id="cb14-16"><a href="#cb14-16"></a><span class="co">#&gt; </span></span>
-<span id="cb14-17"><a href="#cb14-17"></a><span class="co">#&gt; $Qygr</span></span>
-<span id="cb14-18"><a href="#cb14-18"></a><span class="co">#&gt; </span></span>
-<span id="cb14-19"><a href="#cb14-19"></a><span class="co">#&gt;  F test to compare two variances</span></span>
-<span id="cb14-20"><a href="#cb14-20"></a><span class="co">#&gt; </span></span>
-<span id="cb14-21"><a href="#cb14-21"></a><span class="co">#&gt; data:  d1 and d2</span></span>
-<span id="cb14-22"><a href="#cb14-22"></a><span class="co">#&gt; F = 0.11551, num df = 36, denom df = 37, p-value = 2.678e-09</span></span>
-<span id="cb14-23"><a href="#cb14-23"></a><span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span></span>
-<span id="cb14-24"><a href="#cb14-24"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb14-25"><a href="#cb14-25"></a><span class="co">#&gt;  0.0598440 0.2236352</span></span>
-<span id="cb14-26"><a href="#cb14-26"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb14-27"><a href="#cb14-27"></a><span class="co">#&gt; ratio of variances </span></span>
-<span id="cb14-28"><a href="#cb14-28"></a><span class="co">#&gt;          0.1155124</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">tests</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qmax</span>, <span class="no">Qygr</span>, <span class="kw">change_year</span> <span class="kw">=</span> <span class="fl">1987</span>)
+<span class="no">tests</span>$<span class="no">ft</span> <span class="co"># Fisher F tests to compare two variances</span>
+<span class="co">#&gt; $Qmax</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  F test to compare two variances</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  d1 and d2</span>
+<span class="co">#&gt; F = 2.7011, num df = 42, denom df = 31, p-value = 0.004993</span>
+<span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span>
+<span class="co">#&gt; 95 percent confidence interval:</span>
+<span class="co">#&gt;  1.362952 5.175132</span>
+<span class="co">#&gt; sample estimates:</span>
+<span class="co">#&gt; ratio of variances </span>
+<span class="co">#&gt;           2.701111 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Qygr</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  F test to compare two variances</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  d1 and d2</span>
+<span class="co">#&gt; F = 0.11551, num df = 36, denom df = 37, p-value = 2.678e-09</span>
+<span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span>
+<span class="co">#&gt; 95 percent confidence interval:</span>
+<span class="co">#&gt;  0.0598440 0.2236352</span>
+<span class="co">#&gt; sample estimates:</span>
+<span class="co">#&gt; ratio of variances </span>
+<span class="co">#&gt;          0.1155124</span></pre></body></html></div>
 </div>
 <div id="plot-interannual-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-interannual-changes" class="anchor"></a>Plot interannual changes</h2>
 <p>Interannual changes are visualized using <code><a href="../reference/plot_variables.html">plot_variables()</a></code> function. Its syntax is similar to <code><a href="../reference/test_variables.html">test_variables()</a></code> and <code><a href="../reference/plot_separation.html">plot_separation()</a></code>:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_variables.html">plot_variables</a></span>(df, Qmax) <span class="co"># plot one selected variable</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_variables.html">plot_variables</a></span>(<span class="no">df</span>, <span class="no">Qmax</span>) <span class="co"># plot one selected variable</span></pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_variables.html">plot_variables</a></span>(df, date10w1, Wpol3) <span class="co"># plot two variables sequentially</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_variables.html">plot_variables</a></span>(<span class="no">df</span>, <span class="no">date10w1</span>, <span class="no">Wpol3</span>) <span class="co"># plot two variables sequentially</span></pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-14-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-14-3.png" width="700"></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_variables.html">plot_variables</a></span>(df, Qmax, Qygr, date10w1, Wpol3, <span class="co"># plot four variables in matrix layout</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>                      <span class="dt">layout =</span> <span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="dt">nrow=</span><span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_variables.html">plot_variables</a></span>(<span class="no">df</span>, <span class="no">Qmax</span>, <span class="no">Qygr</span>, <span class="no">date10w1</span>, <span class="no">Wpol3</span>, <span class="co"># plot four variables in matrix layout</span>
+                      <span class="kw">layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>), <span class="kw">nrow</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">byrow</span><span class="kw">=</span><span class="fl">TRUE</span>))</pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-14-4.png" width="700"></p>
 <p>You can add the results of statistical tests to the plot by specifying the result of <code><a href="../reference/test_variables.html">test_variables()</a></code> function to the <code>tests</code> parameter. In that case the subtitle with test results will be added, Theil-Sen slope and Pettitt test breaking year are drawn as solid (<span class="math inline">\(p \leq 0.05\)</span>) or dashed (<span class="math inline">\(p &gt; 0.05\)</span>) lines:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_variables.html">plot_variables</a></span>(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs,</span>
-<span id="cb18-2"><a href="#cb18-2"></a>                      <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) <span class="co"># add test information</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_variables.html">plot_variables</a></span>(<span class="no">df</span>, <span class="no">date10w1</span>, <span class="no">Wpol3</span>, <span class="no">DaysThawWin</span>, <span class="no">Qmaxpavs</span>,
+                      <span class="kw">tests</span> <span class="kw">=</span> <span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">date10w1</span>, <span class="no">Wpol3</span>, <span class="no">DaysThawWin</span>, <span class="no">Qmaxpavs</span>)) <span class="co"># add test information</span></pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-15-1.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-15-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-15-3.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-15-4.png" width="700"></p>
 <blockquote>
 <p>Note that <code>tests</code> parameter of <code><a href="../reference/plot_variables.html">plot_variables()</a></code> expects the tests for the same variables as those selected for plotting. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other</p>
 </blockquote>
 <p>Finally, you can plot all variables by not supplying column names to <code><a href="../reference/plot_variables.html">plot_variables()</a></code> function. In that case tests (if you want to plot them too) should also be calculated for all variables:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_variables.html">plot_variables</a></span>(df, <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df))</span></code></pre></div>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_variables.html">plot_variables</a></span>(<span class="no">df</span>, <span class="kw">tests</span> <span class="kw">=</span> <span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>))</pre></body></html></div>
 </div>
 <div id="plot-long-term-period-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-long-term-period-changes" class="anchor"></a>Plot long-term period changes</h2>
 <p>Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using <code><a href="../reference/plot_periods.html">plot_periods()</a></code> function. The syntax is similar to <code><a href="../reference/plot_variables.html">plot_variables()</a></code> except that you must provide either <code>tests</code> or <code>year</code> parameter. If both are supplied then <code>tests</code> is prioritized (you can also supply a fixed year when testing variables:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_periods.html">plot_periods</a></span>(df, Qy, <span class="dt">year =</span> <span class="dv">1978</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_periods.html">plot_periods</a></span>(<span class="no">df</span>, <span class="no">Qy</span>, <span class="kw">year</span> <span class="kw">=</span> <span class="fl">1978</span>)</pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_periods.html">plot_periods</a></span>(df, Qy, <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df, Qy))</span></code></pre></div>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_periods.html">plot_periods</a></span>(<span class="no">df</span>, <span class="no">Qy</span>, <span class="kw">tests</span> <span class="kw">=</span> <span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qy</span>))</pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-17-2.png" width="700"></p>
 <p>Multiple plots can be combined on one page using <code>layout</code> parameter:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_periods.html">plot_periods</a></span>(df, Qy, Qmax, </span>
-<span id="cb22-2"><a href="#cb22-2"></a>                    <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df, Qy, Qmax),</span>
-<span id="cb22-3"><a href="#cb22-3"></a>                    <span class="dt">layout =</span> <span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_periods.html">plot_periods</a></span>(<span class="no">df</span>, <span class="no">Qy</span>, <span class="no">Qmax</span>,
+                    <span class="kw">tests</span> <span class="kw">=</span> <span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qy</span>, <span class="no">Qmax</span>),
+                    <span class="kw">layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>)))</pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p>To plot long-term changes for all variables just skip variable names in function call:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_periods.html">plot_periods</a></span>(df, <span class="dt">tests =</span> <span class="kw"><a href="../reference/test_variables.html">test_variables</a></span>(df))</span></code></pre></div>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_periods.html">plot_periods</a></span>(<span class="no">df</span>, <span class="kw">tests</span> <span class="kw">=</span> <span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>))</pre></body></html></div>
 <p>There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/plot_minmonth.html">plot_minmonth</a></span>(df, <span class="dt">year =</span> <span class="dv">1978</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_minmonth.html">plot_minmonth</a></span>(<span class="no">df</span>, <span class="kw">year</span> <span class="kw">=</span> <span class="fl">1978</span>)</pre></body></html></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
 </div>
@@ -509,8 +509,8 @@
 <code><a href="../reference/report_basins.html">report_basins()</a></code> generates multiple reports for the hierarchy of basin and gauge folders. It actually runs <code><a href="../reference/report_gauge.html">report_gauge()</a></code> for every leaf subdirectory in the provided path.</li>
 </ul>
 <p>The syntax of these functions is straightforward:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/report_gauge.html">report_gauge</a></span>(<span class="st">"/Volumes/Work/_grwat/2018/out/1_Sever/Mezen_Malonisog"</span>)</span>
-<span id="cb25-2"><a href="#cb25-2"></a>grwat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/grwat/man/report_basins.html">report_basins</a></span>(<span class="st">"/Volumes/Work/_grwat/2018/out/"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/report_gauge.html">report_gauge</a></span>(<span class="st">"/Volumes/Work/_grwat/2018/out/1_Sever/Mezen_Malonisog"</span>)
+<span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/report_basins.html">report_basins</a></span>(<span class="st">"/Volumes/Work/_grwat/2018/out/"</span>)</pre></body></html></div>
 <p>As a result of reporting each gauge folder gains <em>report.pdf</em> (report) and <em>pvalues<gaugename>.xlsx</gaugename></em> (p-values of statistical tests) files:</p>
 <p><img src="report_folder.png"></p>
 <p>A report file contains 5 sections:</p>
@@ -535,32 +535,11 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li>
-<a href="#preprocess">Preprocess</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#manual-preprocessing">Manual preprocessing</a></li>
-      <li><a href="#gauge-folder">Gauge folder</a></li>
-      <li><a href="#basins-folder">Basins folder</a></li>
-      </ul>
-</li>
-      <li><a href="#separate">Separate and describe</a></li>
-      <li>
-<a href="#plot-and-test">Plot and test</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#plot-separation-of-hydrograph">Plot separation of hydrograph</a></li>
-      <li><a href="#read-and-test-hydrograph-variables">Read and test hydrograph variables</a></li>
-      <li><a href="#plot-interannual-changes">Plot interannual changes</a></li>
-      <li><a href="#plot-long-term-period-changes">Plot long-term period changes</a></li>
-      </ul>
-</li>
-      <li><a href="#report">Report</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -571,7 +550,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
 </div>
 
       </footer>

@@ -37,7 +37,7 @@ get_separation_params <- function(type = 'Midplain') {
 set_separation_params <- function(params) {
   app = shiny::shinyApp(
     ui = shiny::fluidPage(
-      h3("Set hydrograph separation parameters"),
+      shiny::h3("Set hydrograph separation parameters"),
       purrr::imap(params, function(value, param) {
         shiny::fluidRow(
           shiny::column(2, shiny::numericInput(param, label = NULL, value)),
