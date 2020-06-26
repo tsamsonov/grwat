@@ -1,14 +1,26 @@
+# This is a technical function to update grwat core from a separate project
+update_core <- function() {
+  file.copy('../grwat-core/grwat_core.cpp', 'src/grwat_core.cpp', overwrite = TRUE)
+}
+
 #' Separates river hydrograph
 #'
 #' @param df data frame with six columns: year, month, date, discharge, temperature, precipitation
 #' @param params list of separation parameters
+#' @param order order, in which the columns are placed in data frame. Defaults to 'ymdqtp'
 #'
 #' @return
 #' @export
 #'
 #' @examples
-separate <- function(df, params) {
-  return(df)
+separate <- function(df, params = grwat::get_separation_params(), order = 'dmyqtp') {
+  separate_cpp(df[[stringr::str_locate(order, 'y')[1, 1]]], 
+               df[[stringr::str_locate(order, 'm')[1, 1]]],
+               df[[stringr::str_locate(order, 'd')[1, 1]]],
+               df[[stringr::str_locate(order, 'q')[1, 1]]],
+               df[[stringr::str_locate(order, 't')[1, 1]]],
+               df[[stringr::str_locate(order, 'p')[1, 1]]],
+               params)
 }
 
 #' Get default separation parameters for selected region
