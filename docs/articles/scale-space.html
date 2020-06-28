@@ -79,7 +79,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="scale-space_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Scale space hydrograph analysis</h1>
@@ -96,7 +96,7 @@
 <h2 class="hasAnchor">
 <a href="#grwat-tools-for-scale-space-transform" class="anchor"></a>grwat tools for scale space transform</h2>
 <p><strong>grwat</strong> package contains tools for performing scale space analysis of hydrograph. Initially developed by <span class="citation">Witkin (<a href="#ref-witkin:1984" role="doc-biblioref">1984</a>)</span>, scale space transformation allows decomposition of a signal into hierarchically arranged multiscale components. You can use this tool to decompose, classify and compare hydrographs.</p>
-<p>Currently <strong>grwat</strong> depends on <a href="https://bioconductor.org/packages/release/bioc/html/Scale4C.html">Scale4C</a> <span class="citation">(Walter <a href="#ref-R-Scale4C" role="doc-biblioref">2019</a>)</span> package from Biconductor.</p>
+<p>Currently <strong>grwat</strong> depends on <a href="https://bioconductor.org/packages/release/bioc/html/Scale4C.html">Scale4C</a> <span class="citation">(Walter <a href="#ref-R-Scale4C" role="doc-biblioref">2020</a>)</span> package from Biconductor.</p>
 <p><strong>First</strong>, use <code><a href="../reference/ss_transform.html">grwat::ss_transform()</a></code> to get scale-space transformation for selected year and sigma (which is interpreted as maximum standard deviation in day units used for smoothing):</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">grwat</span>)
 <span class="co">#&gt; Загрузка требуемого пакета: magrittr</span>
@@ -117,7 +117,7 @@
 <div class="sourceCode" id="cb2"><html><body><pre class="r">(<span class="no">tree</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ss_tree.html">ss_tree</a></span>(<span class="no">sst</span>))
 <span class="co">#&gt; # A tibble: 204 x 8</span>
 <span class="co">#&gt;       id position idrect   type           type_position          day  smin  smax</span>
-<span class="co">#&gt;  * &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;                &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;                &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt;  1     1 left     1_left   tracking prob… tracking problem_le…   140     0     1</span>
 <span class="co">#&gt;  2     1 left     1_left   tracking prob… tracking problem_le…   144     0     1</span>
 <span class="co">#&gt;  3     1 center   1_center tracking prob… tracking problem_ce…   144     0     1</span>
@@ -147,7 +147,7 @@
 <a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references">
 <div id="ref-R-Scale4C">
-<p>Walter, Carolin. 2019. <em>Scale4C: An R/Bioconductor Package for Scale-Space Transformation of 4C-Seq Data</em>.</p>
+<p>Walter, Carolin. 2020. <em>Scale4C: An R/Bioconductor Package for Scale-Space Transformation of 4C-Seq Data</em>.</p>
 </div>
 <div id="ref-witkin:1984">
 <p>Witkin, A. 1984. “Scale-Space Filtering: A New Approach to Multi-Scale Description.” In <em>ICASSP ’84. IEEE International Conference on Acoustics, Speech, and Signal Processing</em>, 9:150–53. San Diego, CA, USA: Institute of Electrical and Electronics Engineers. <a href="https://doi.org/10.1109/ICASSP.1984.1172729">https://doi.org/10.1109/ICASSP.1984.1172729</a>.</p>
@@ -171,7 +171,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

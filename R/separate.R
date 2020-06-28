@@ -20,7 +20,24 @@ separate <- function(df, params = grwat::get_separation_params(), order = 'dmyqt
                df[[stringr::str_locate(order, 'q')[1, 1]]],
                df[[stringr::str_locate(order, 't')[1, 1]]],
                df[[stringr::str_locate(order, 'p')[1, 1]]],
-               params)
+               params,
+               niter = 100)
+}
+
+#' Extracts baseflow for discharge
+#'
+#' @param Q daily discharge vector 
+#' @param alpha filtering parameter. Defaults to 0.925
+#' @param padding number of elements padded at the beginning and ending of discharge vector to reduce boundary effects
+#' @param passes number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3
+#' @param method baseflow filtering method. Currently only `method = LYNE` is supported which corresponds to Lyne-Hollick (1979)
+#'
+#' @return baseflow vector
+#' @export
+#'
+#' @examples
+get_baseflow <- function(Q, alpha = 0.925, padding = 30, passes = 3, method = 'LYNE') {
+  get_baseflow_cpp(Q, alpha, padding, passes, method)
 }
 
 #' Get default separation parameters for selected region

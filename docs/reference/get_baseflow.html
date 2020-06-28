@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read file with hydrograph separation — read_separation • grwat</title>
+<title>Extracts baseflow for discharge — get_baseflow • grwat</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Read file with hydrograph separation — read_separation" />
-<meta property="og:description" content="Read file with hydrograph separation" />
+<meta property="og:title" content="Extracts baseflow for discharge — get_baseflow" />
+<meta property="og:description" content="Extracts baseflow for discharge" />
 
 
 
@@ -123,29 +123,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read file with hydrograph separation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/read.R'><code>R/read.R</code></a></small>
-    <div class="hidden name"><code>read_separation.Rd</code></div>
+    <h1>Extracts baseflow for discharge</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/separate.R'><code>R/separate.R</code></a></small>
+    <div class="hidden name"><code>get_baseflow.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Read file with hydrograph separation</p>
+    <p>Extracts baseflow for discharge</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_separation</span>(<span class='no'>file_sep</span>)</pre>
+    <pre class="usage"><span class='fu'>get_baseflow</span>(<span class='no'>Q</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.925</span>, <span class='kw'>padding</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>passes</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"LYNE"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file_sep</th>
-      <td><p>Path to a file with hydrograph separation data</p></td>
+      <th>Q</th>
+      <td><p>daily discharge vector</p></td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td><p>filtering parameter. Defaults to 0.925</p></td>
+    </tr>
+    <tr>
+      <th>padding</th>
+      <td><p>number of elements padded at the beginning and ending of discharge vector to reduce boundary effects</p></td>
+    </tr>
+    <tr>
+      <th>passes</th>
+      <td><p>number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>baseflow filtering method. Currently only `method = LYNE` is supported which corresponds to Lyne-Hollick (1979)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>baseflow vector</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

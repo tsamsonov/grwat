@@ -79,13 +79,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="grwat_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to grwat R package</h1>
                         <h4 class="author">Timofey Samsonov</h4>
             
-            <h4 class="date">2020-05-14</h4>
+            <h4 class="date">2020-06-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/master/vignettes/grwat.Rmd"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="hidden name"><code>grwat.Rmd</code></div>
@@ -301,6 +301,10 @@
 <span class="co">#&gt; #   Problems &lt;chr&gt;</span></pre></body></html></div>
 <p>Parameters can be statistically tested using <code><a href="../reference/test_variables.html">test_variables(df, ..., year = NULL, locale='EN')</a></code> function. Names of the parameters are passed comma-separated in place of <code>...</code>. They are quoted, so you do not need to pass them as character strings, just write their names:</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qmax</span>)
+<span class="co">#&gt; Warning: `select_()` is deprecated as of dplyr 0.7.0.</span>
+<span class="co">#&gt; Please use `select()` instead.</span>
+<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
+<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
 <span class="co">#&gt; $ptt</span>
 <span class="co">#&gt; $ptt$Qmax</span>
 <span class="co">#&gt; </span>
@@ -550,7 +554,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

@@ -39,8 +39,17 @@ grwat::parameters set_params(List params) {
 }
 
 // [[Rcpp::export]]
+std::vector<double> get_baseflow_cpp(const std::vector<double> &Qin, 
+                                     const double& alpha,
+                                     const int& padding,
+                                     const int& passes,
+                                     std::string method) {
+  return grwat::get_baseflow(Qin, alpha, padding, passes, grwat::LYNE);
+}
+
+// [[Rcpp::export]]
 DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon, const std::vector<int> &Day,
-                       const std::vector<double> &Qin, const std::vector<double> &Tin, const std::vector<double> &Pin, List params) {
+                       const std::vector<double> &Qin, const std::vector<double> &Tin, const std::vector<double> &Pin, List params, int niter) {
   
   auto n = Qin.size();
   std::vector<double> Qgr(n, 0);
@@ -51,7 +60,7 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
   
   auto p = set_params(params);
   
-  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qgr, Qpol, Qpav, Qthaw, Qpb, p);
+  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qgr, Qpol, Qpav, Qthaw, Qpb, p, niter);
   
   DataFrame df = DataFrame::create(Named("Qgr") = Qgr, 
                                    Named("Qpol") = Qpol,
@@ -61,3 +70,4 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
   
   return df;
 }
+

@@ -4,12 +4,14 @@
 \alias{separate}
 \title{Separates river hydrograph}
 \usage{
-separate(df, params)
+separate(df, params = grwat::get_separation_params(), order = "dmyqtp")
 }
 \arguments{
 \item{df}{data frame with six columns: year, month, date, discharge, temperature, precipitation}
 
 \item{params}{list of separation parameters}
+
+\item{order}{order, in which the columns are placed in data frame. Defaults to 'ymdqtp'}
 }
 \value{
 

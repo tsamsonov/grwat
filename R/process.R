@@ -25,27 +25,28 @@ st_buffer_geo <- function(g, bufsize){
 #' @param nobserv Maximum number of contiguous observations that can be filled. Defaults to `NULL`. If this parameter is set by the user, then `autocorr` parameter is ignored. If both parameters are `NULL`, then all gaps are filled disregard of their lengths (not recommended).
 #' @param expand Should the algorithm insert missing dates?
 #' @param dates 
+#' @param order 
 #'
 #' @return filled discharge values
 #' @export
 #'
 #' @examples
-fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, dates = FALSE) {
+fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, dates = FALSE, order = 'dmyq') {
   
   tab = hdata
   
   if (!dates) {
     tab = hdata %>%
-      mutate(Date = ymd(paste(year, month, day))) %>% 
+      dplyr::mutate(Date = lubridate::ymd(paste(Year, Month, Day))) %>% 
       dplyr::filter(!is.na(Date)) %>% 
-      complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
+      tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
   }
   
   # Calculate via autocorrelation
   if (is.null(nobserv)) {
     
     timerep = tab %>% 
-      mutate(type = if_else(is.na(level), 'gap', 'data'),
+      mutate(type = if_else(is.na(Q), 'gap', 'data'),
              num = with(rle(type), rep(seq_along(lengths), lengths))) %>% 
       group_by(num) %>% 
       summarise(start_date = min(Date),
@@ -56,18 +57,18 @@ fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, date
     max_period = dplyr::filter(timerep, type == 'data', duration == max(duration))
     
     afun = tab %>% 
-      filter(between(Date, max_period$start_date, max_period$end_date)) %>% 
-      pull(level) %>% 
+      dplyr::filter(between(Date, max_period$start_date, max_period$end_date)) %>% 
+      pull(Q) %>% 
       acf()
     
     nobserv = purrr::detect_index(afun$acf, ~ .x < autocorr) 
   
   }
   
-  tab_interp = tab %>% 
-    mutate(level_interp = zoo::na.approx(level, maxgap = nobserv) %>% round(1))
+  tab = tab %>% 
+    mutate(Q = zoo::na.approx(Q, maxgap = nobserv) %>% round(1))
   
-  return(tab_interp)
+  return(tab)
   
 }
 

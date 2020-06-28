@@ -5,9 +5,24 @@
 
 using namespace Rcpp;
 
+// get_baseflow_cpp
+std::vector<double> get_baseflow_cpp(const std::vector<double>& Qin, const double& alpha, const int& padding, const int& passes, std::string method);
+RcppExport SEXP _grwat_get_baseflow_cpp(SEXP QinSEXP, SEXP alphaSEXP, SEXP paddingSEXP, SEXP passesSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type Qin(QinSEXP);
+    Rcpp::traits::input_parameter< const double& >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< const int& >::type padding(paddingSEXP);
+    Rcpp::traits::input_parameter< const int& >::type passes(passesSEXP);
+    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_baseflow_cpp(Qin, alpha, padding, passes, method));
+    return rcpp_result_gen;
+END_RCPP
+}
 // separate_cpp
-DataFrame separate_cpp(const std::vector<int>& Year, const std::vector<int>& Mon, const std::vector<int>& Day, const std::vector<double>& Qin, const std::vector<double>& Tin, const std::vector<double>& Pin, List params);
-RcppExport SEXP _grwat_separate_cpp(SEXP YearSEXP, SEXP MonSEXP, SEXP DaySEXP, SEXP QinSEXP, SEXP TinSEXP, SEXP PinSEXP, SEXP paramsSEXP) {
+DataFrame separate_cpp(const std::vector<int>& Year, const std::vector<int>& Mon, const std::vector<int>& Day, const std::vector<double>& Qin, const std::vector<double>& Tin, const std::vector<double>& Pin, List params, int niter);
+RcppExport SEXP _grwat_separate_cpp(SEXP YearSEXP, SEXP MonSEXP, SEXP DaySEXP, SEXP QinSEXP, SEXP TinSEXP, SEXP PinSEXP, SEXP paramsSEXP, SEXP niterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,13 +33,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::vector<double>& >::type Tin(TinSEXP);
     Rcpp::traits::input_parameter< const std::vector<double>& >::type Pin(PinSEXP);
     Rcpp::traits::input_parameter< List >::type params(paramsSEXP);
-    rcpp_result_gen = Rcpp::wrap(separate_cpp(Year, Mon, Day, Qin, Tin, Pin, params));
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    rcpp_result_gen = Rcpp::wrap(separate_cpp(Year, Mon, Day, Qin, Tin, Pin, params, niter));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_grwat_separate_cpp", (DL_FUNC) &_grwat_separate_cpp, 7},
+    {"_grwat_get_baseflow_cpp", (DL_FUNC) &_grwat_get_baseflow_cpp, 5},
+    {"_grwat_separate_cpp", (DL_FUNC) &_grwat_separate_cpp, 8},
     {NULL, NULL, 0}
 };
 
