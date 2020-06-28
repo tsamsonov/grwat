@@ -59,5 +59,5 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
                                    Named("Qthaw") = Qthaw,
                                    Named("Qpb") = Qpb);
   
-  return 2;
+  return df;
 }
