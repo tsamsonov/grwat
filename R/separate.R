@@ -7,14 +7,14 @@ update_core <- function() {
 #'
 #' @param df data frame with six columns: year, month, date, discharge, temperature, precipitation
 #' @param params list of separation parameters
-#' @param order order, in which the columns are placed in data frame. Defaults to 'ymdqtp'
+#' @param order order, in which the columns are placed in data frame. Defaults to 'dmyqtp'
 #'
 #' @return
 #' @export
 #'
 #' @examples
 separate <- function(df, params = grwat::get_separation_params(), order = 'dmyqtp') {
-  separate_cpp(df[[stringr::str_locate(order, 'y')[1, 1]]], 
+  sep = separate_cpp(df[[stringr::str_locate(order, 'y')[1, 1]]], 
                df[[stringr::str_locate(order, 'm')[1, 1]]],
                df[[stringr::str_locate(order, 'd')[1, 1]]],
                df[[stringr::str_locate(order, 'q')[1, 1]]],
@@ -22,6 +22,7 @@ separate <- function(df, params = grwat::get_separation_params(), order = 'dmyqt
                df[[stringr::str_locate(order, 'p')[1, 1]]],
                params,
                niter = 100)
+  bind_cols(df, sep)
 }
 
 #' Extracts baseflow for discharge
@@ -36,7 +37,7 @@ separate <- function(df, params = grwat::get_separation_params(), order = 'dmyqt
 #' @export
 #'
 #' @examples
-get_baseflow <- function(Q, alpha = 0.925, padding = 30, passes = 3, method = 'LYNE') {
+get_baseflow <- function(Q, alpha = 0.925, padding = 30, passes = 3, method = 'Lyne-Hollick') {
   get_baseflow_cpp(Q, alpha, padding, passes, method)
 }
 

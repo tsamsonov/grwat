@@ -44,7 +44,8 @@ std::vector<double> get_baseflow_cpp(const std::vector<double> &Qin,
                                      const int& padding,
                                      const int& passes,
                                      std::string method) {
-  return grwat::get_baseflow(Qin, alpha, padding, passes, grwat::LYNE);
+  auto gmethod = grwat::LYNE; // currently only Line-Hollick method is available
+  return grwat::get_baseflow(Qin, alpha, padding, passes, gmethod);
 }
 
 // [[Rcpp::export]]
