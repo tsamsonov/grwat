@@ -183,10 +183,12 @@ namespace grwat {
             i++;
         }
 
-        // Initialize vectors
+        // WATER-RESOURCE YEARS
 
         auto years = year_limits(Year);
         auto nyears = years.size();
+        auto ndays = Qin.size();
+
         vector<int> iy(nyears, -99); // indices of water resource years starts
         vector<int> donep(3, -1); // three criteria of seasonal discharge beginning
         vector<int> sumdonep(3, 0); // sum that is used to assess the effectiveness of each donep in jittering
@@ -328,8 +330,103 @@ namespace grwat {
         } else {
             cout << endl << "NO GAPS DETECTED" << endl;
         }
+
+        std::vector<double> deltaQ(ndays, 0);
+        std::vector<double> gradQ(ndays, 0);
+        std::vector<int> polend(nyears, 0);
+
+        double dQabs = 0.0, dQgr = 0.0, dQgr1 = 0.0, dQgr2 = 0.0, dQgr2abs = 0.0, Qgrlast = 0.0, Qgrlast1 = 0;
+        int nlast = 0;
+
+        std::cout << "SEPARATING GROUNDWATER" << std::endl;
+
+        for (auto i = 0; i < nyears; ++i) { // main cycle along water-resource years
+            auto start = (i > 0) ? iy[i] : 0;
+            auto end = (i < nyears-1) ? iy[i+1] : ndays-1;
+            auto ny = end - start;
+
+            std::cout << "Year " << i + 1 << " from " << nyears << std::endl;
+
+            // position of the maximum discharge inside year
+            auto nmax = distance(Qin.begin(), max_element(Qin.begin() + start, Qin.begin() + end));
+            auto Qmax = Qin[nmax];
+            int ngrpor = 0;
+
+            // GROUNDWATER DISCHARGE
+            for (int n = start; n < end; ++n) {
+                deltaQ[n] = Qin[n+1] - Qin[n];
+                gradQ[n] = 100 * deltaQ[n] / Qin[n];
+
+                if (n == start or n == end-1) { // ground in first and last is equal to Qin
+                    Qgr[n] = Qin[n];
+                    Qgrlast1 = Qin[n];
+                    Qgrlast = Qin[n];
+                    nlast = n;
+                } else {
+                    if (!par.ModeMountain && n == nmax) { // TODO: replace with curved interp
+                        Qgr[n] = 0;
+                    }
+
+                    dQ = 100 * abs(Qin[n - 1] - Qin[n]) / Qin[n - 1];
+                    dQabs = abs(Qin[n - 1] - Qin[n]);
+                    dQgr = -100 * (Qgrlast - Qin[n]) / Qgrlast;
+                    dQgr1 = -100 * (Qgrlast1 - Qin[n]) / Qgrlast1;
+                    dQgr2 = abs(100 * (Qgrlast - Qin[n]) / ((n - nlast + 1) * Qgrlast));
+                    dQgr2abs = abs((Qgrlast - Qin[n]) / (n - nlast + 1));
+
+
+                    if (Qin[n] > Qgrlast or n > (nlast + 20)) {
+                        auto con1 = (n - nmax > par.prodspada) and
+                                    (dQ > par.grad or dQgr1 > par.kdQgr1 or dQgr2 > par.grad or
+                                     dQabs > par.gradabs or dQgr2abs > par.gradabs);
+                        auto con2 = dQ > par.grad1 or dQgr2 > par.grad1 or dQgr1 > par.kdQgr1 or
+                                    dQabs > par.gradabs or dQgr2abs > par.gradabs;
+                        if (con1 or con2)
+                            continue;
+                    } else {
+                        auto con1 = dQ > 20 * par.grad or dQgr1 > 20 * par.kdQgr1 or dQgr2 > 20 * par.grad;
+                        auto con2 = abs(Qin[n + 1] - Qin[n - 1]) < abs(Qin[n + 1] - Qin[n]);
+                        if (con1 and con2)
+                            continue;
+                    }
+
+                    Qgr[n] = Qin[n];
+                    if (n > nmax)
+                        ngrpor++;
+
+                    if (ngrpor == 1)
+                        polend[i] = n;
+
+                    Qgrlast = Qin[n];
+                    nlast = n;
+                }
+            }
+
+            // linear interpolation of Qgr
+            std::vector<double> Qy(ny, 0);
+            std::vector<double> Qygr(ny, 0);
+
+            for (int k = start; k < end; ++k) {
+                if (Qgr[k] == 0) {
+                    for (int kk = k; kk < end; ++kk) {
+                        if (Qgr[kk] > 0) {
+                            Qgr[k] = Qgr[k - 1] + (Qgr[kk] - Qgr[k - 1]) / (kk - k + 1);
+                            break;
+                        }
+                    }
+                    dQ = 100 * abs(Qin[k - 1] - Qin[k]) / Qin[k - 1];
+
+                    auto con1 = Qgr[k] > Qin[k];
+                    auto con2 = dQ > 20 * par.grad;
+                    auto con3 = abs(Qin[k + 1] - Qin[k - 1]) < abs(Qin[k + 1] - Qin[k]);
+
+                    if (con1 and not (con2 and con3))
+                        Qgr[k] = Qin[k];
+                }
+
+                Qygr[i] = Qygr[i] + Qgr[k] / ny;
+                Qy[i] = Qy[i] + Qin[k] / ny;
+            }
+        }
     }
 }
-
-
-
