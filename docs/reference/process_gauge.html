@@ -132,7 +132,7 @@
     <p>Process gauge directory</p>
     </div>
 
-    <pre class="usage"><span class='fu'>process_gauge</span>(<span class='no'>wd</span>, <span class='no'>rean</span>, <span class='kw'>bufsize</span> <span class='kw'>=</span> <span class='fl'>50000</span>, <span class='kw'>eol</span> <span class='kw'>=</span> <span class='st'>"\n"</span>)</pre>
+    <pre class="usage"><span class='fu'>process_gauge</span>(<span class='no'>wd</span>, <span class='no'>rean</span>, <span class='kw'>bufsize</span> <span class='kw'>=</span> <span class='fl'>50000</span>, <span class='kw'>eol</span> <span class='kw'>=</span> <span class='st'>"\n"</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"in.txt"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,6 +152,10 @@
     <tr>
       <th>eol</th>
       <td><p>The symbol used to specify end of line. Defaults to "\n", which will work well on most of the systems. On some Windows setups, an alternative "\r\n" must be used if the standard option does not work.</p></td>
+    </tr>
+    <tr>
+      <th>filename</th>
+      <td><p>name of the hydro file. Defaults to `in.txt`</p></td>
     </tr>
     </table>
 

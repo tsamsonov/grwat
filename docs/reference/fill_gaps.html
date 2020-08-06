@@ -132,7 +132,14 @@
     <p>Fill missing water discharge data using linear interpolation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fill_gaps</span>(<span class='no'>hdata</span>, <span class='kw'>autocorr</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>nobserv</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dates</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>fill_gaps</span>(
+  <span class='no'>hdata</span>,
+  <span class='kw'>autocorr</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
+  <span class='kw'>nobserv</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>dates</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>order</span> <span class='kw'>=</span> <span class='st'>"dmyq"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,6 +162,10 @@
     </tr>
     <tr>
       <th>dates</th>
+      <td></td>
+    </tr>
+    <tr>
+      <th>order</th>
       <td></td>
     </tr>
     </table>
