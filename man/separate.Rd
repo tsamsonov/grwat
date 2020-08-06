@@ -11,7 +11,7 @@ separate(df, params = grwat::get_separation_params(), order = "dmyqtp")
 
 \item{params}{list of separation parameters}
 
-\item{order}{order, in which the columns are placed in data frame. Defaults to 'ymdqtp'}
+\item{order}{order, in which the columns are placed in data frame. Defaults to 'dmyqtp'}
 }
 \value{
 

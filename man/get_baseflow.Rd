@@ -4,7 +4,13 @@
 \alias{get_baseflow}
 \title{Extracts baseflow for discharge}
 \usage{
-get_baseflow(Q, alpha = 0.925, padding = 30, passes = 3, method = "LYNE")
+get_baseflow(
+  Q,
+  alpha = 0.925,
+  padding = 30,
+  passes = 3,
+  method = "Lyne-Hollick"
+)
 }
 \arguments{
 \item{Q}{daily discharge vector}

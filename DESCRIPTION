@@ -51,7 +51,7 @@ Imports:
     shiny
 LinkingTo: Rcpp
 SystemRequirements: pandoc
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

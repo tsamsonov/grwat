@@ -4,7 +4,14 @@
 \alias{fill_gaps}
 \title{Fill missing water discharge data using linear interpolation}
 \usage{
-fill_gaps(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, dates = FALSE)
+fill_gaps(
+  hdata,
+  autocorr = 0.7,
+  nobserv = NULL,
+  expand = TRUE,
+  dates = FALSE,
+  order = "dmyq"
+)
 }
 \arguments{
 \item{hdata}{Water discharge series. Data frame containing 4 columns: year (YYYY), montth (MM), day (DD) and level (water level)}
@@ -16,6 +23,8 @@ fill_gaps(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, dates = FALSE)
 \item{expand}{Should the algorithm insert missing dates?}
 
 \item{dates}{}
+
+\item{order}{}
 }
 \value{
 filled discharge values

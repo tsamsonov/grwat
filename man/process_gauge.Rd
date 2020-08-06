@@ -4,7 +4,7 @@
 \alias{process_gauge}
 \title{Process gauge directory}
 \usage{
-process_gauge(wd, rean, bufsize = 50000, eol = "\\n")
+process_gauge(wd, rean, bufsize = 50000, eol = "\\n", filename = "in.txt")
 }
 \arguments{
 \item{wd}{Path to a directory containing water level series data and basin region}
@@ -14,6 +14,8 @@ process_gauge(wd, rean, bufsize = 50000, eol = "\\n")
 \item{bufsize}{Buffer distance to select additional points around basin region}
 
 \item{eol}{The symbol used to specify end of line. Defaults to "\\n", which will work well on most of the systems. On some Windows setups, an alternative "\\r\\n" must be used if the standard option does not work.}
+
+\item{filename}{name of the hydro file. Defaults to `in.txt`}
 }
 \value{
 Number of reanalysis points processed for buffered basin. All other
