@@ -73,6 +73,10 @@ replace_year <- function(d) {
   # return(do.call(c, dates)) # if simply unlist then dates are killed, so using the c() function
 }
 
+get_idx <- function(s, x) {
+  stringr::str_locate(s, x)[1, 1]
+}
+
 get_col_type = function(s) {
   switch(s,
          Date = readr::col_date(format = "%d%.%m%.%Y"),

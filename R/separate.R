@@ -13,16 +13,18 @@ update_core <- function() {
 #' @export
 #'
 #' @examples
-separate <- function(df, params = grwat::get_separation_params(), order = 'dmyqtp') {
-  sep = separate_cpp(df[[stringr::str_locate(order, 'y')[1, 1]]], 
-               df[[stringr::str_locate(order, 'm')[1, 1]]],
-               df[[stringr::str_locate(order, 'd')[1, 1]]],
-               df[[stringr::str_locate(order, 'q')[1, 1]]],
-               df[[stringr::str_locate(order, 't')[1, 1]]],
-               df[[stringr::str_locate(order, 'p')[1, 1]]],
+separate <- function(df, params = grwat::get_separation_params(), niter = 100, cols = 'dmyqtp') {
+  separate_cpp(df[[get_idx(cols, 'y')]], 
+               df[[get_idx(cols, 'm')]],
+               df[[get_idx(cols, 'd')]],
+               df[[get_idx(cols, 'q')]],
+               df[[get_idx(cols, 't')]],
+               df[[get_idx(cols, 'p')]],
                params,
-               niter = 100)
-  bind_cols(df, sep)
+               niter) %>% 
+    bind_cols(df) %>% 
+    dplyr::mutate(Date = lubridate::make_date(Year, Month, Day)) %>% 
+    select(Date, Qin = Q, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Tin, Pin)
 }
 
 #' Extracts baseflow for discharge

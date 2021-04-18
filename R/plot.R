@@ -30,8 +30,8 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
   }
   
   yrs = df %>% dplyr::group_by(Year) %>% 
-    dplyr::summarise(nydate = Date[which(Qpol>0)[1]],
-                     datepolend = max(Date[which(Qpol>0)])) %>% 
+    dplyr::summarise(nydate = Date[which(Qseas>0)[1]],
+                     datepolend = max(Date[which(Qseas>0)])) %>% 
     dplyr::filter(!is.na(nydate))
   
   n = nrow(yrs)
@@ -73,12 +73,12 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
     graphdata = df %>%  
       dplyr::filter(dplyr::between(Date, begin.date, end.date)) %>% 
       tidyr::gather(key="Runtype", value="Runoff", 
-             Qthaw, Qpav, Qpol, Qgr,
+             Qthaw, Qrain, Qseas, Qbase,
              factor_key=TRUE) %>% 
       dplyr::mutate(Runoff = ifelse(Runoff < 0, 0, Runoff))
     
     graphdata$Runtype = factor(graphdata$Runtype,
-                               levels = c("Qpav", "Qpol", "Qthaw", "Qgr"),
+                               levels = c("Qrain", "Qseas", "Qthaw", "Qbase"),
                                labels = c(labs$rain, labs$seasonal, labs$thaw, labs$ground))
     
     g = ggplot(graphdata, aes(x = Date, y = Runoff, fill = Runtype)) + 

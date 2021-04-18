@@ -30,6 +30,7 @@ usethis::use_package('magrittr')
 usethis::use_package('ggplot2', 'Depends')
 usethis::use_package('progress')
 usethis::use_package('BiocManager')
+usethis::use_package('crayon')
 
 .onAttach <- function(libname, pkgname) {
   if (!requireNamespace("Scale4C", quietly = TRUE))

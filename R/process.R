@@ -31,16 +31,23 @@ st_buffer_geo <- function(g, bufsize){
 #' @export
 #'
 #' @examples
-fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, dates = FALSE, order = 'dmyq') {
+fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, cols = 'dmyqtp', vars = 'q') {
+  
+  no_dates = is.na(get_idx(cols, 'D'))
   
   tab = hdata
   
-  if (!dates) {
-    tab = hdata %>%
-      dplyr::mutate(Date = lubridate::ymd(paste(Year, Month, Day))) %>% 
-      dplyr::filter(!is.na(Date)) %>% 
-      tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
+  if (no_dates) {
+   tab = tab %>% 
+     dplyr::mutate(Date = lubridate::make_date(Year, Month, Day))
   }
+  
+  tab = tab %>% 
+    dplyr::filter(!is.na(Date)) %>% 
+    tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day')) %>% 
+    mutate(Day = lubridate::day(Date),
+           Month = lubridate::month(Date),
+           Year = lubridate::year(Date))
   
   # Calculate via autocorrelation
   if (is.null(nobserv)) {
@@ -59,14 +66,27 @@ fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, date
     afun = tab %>% 
       dplyr::filter(between(Date, max_period$start_date, max_period$end_date)) %>% 
       pull(Q) %>% 
-      acf()
+      acf(plot = FALSE)
     
     nobserv = purrr::detect_index(afun$acf, ~ .x < autocorr) 
   
   }
   
+  Qrep = zoo::na.approx(tab$Q, maxgap = nobserv) %>% round(1)
+  Trep = zoo::na.approx(tab$Pin, maxgap = nobserv) %>% round(1)
+  Prep = zoo::na.approx(tab$Tin, maxgap = nobserv) %>% round(1)
+  
+  message(crayon::white$bold('grwat:'), ' filled ', sum(is.na(tab$Q)) - sum(is.na(Qrep)), ' observations using ', nobserv, ' days window')
+  
   tab = tab %>% 
-    mutate(Q = zoo::na.approx(Q, maxgap = nobserv) %>% round(1))
+    mutate(Q = Qrep,
+           Tin = Trep,
+           Pin = Prep)
+  
+  if (no_dates) {
+    tab = tab %>% 
+      select(-Date)
+  }
   
   return(tab)
   

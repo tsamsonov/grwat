@@ -48,7 +48,8 @@ Imports:
     rlang,
     BiocManager,
     zoo,
-    shiny
+    shiny,
+    crayon
 LinkingTo: Rcpp
 SystemRequirements: pandoc
 RoxygenNote: 7.1.1
