@@ -73,8 +73,8 @@ grw_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, 
   }
   
   Qrep = zoo::na.approx(tab$Q, maxgap = nobserv) %>% round(1)
-  Trep = zoo::na.approx(tab$Pin, maxgap = nobserv) %>% round(1)
-  Prep = zoo::na.approx(tab$Tin, maxgap = nobserv) %>% round(1)
+  Trep = zoo::na.approx(tab$Tin, maxgap = nobserv) %>% round(1)
+  Prep = zoo::na.approx(tab$Pin, maxgap = nobserv) %>% round(1)
   
   message(crayon::white$bold('grwat:'), ' filled ', sum(is.na(tab$Q)) - sum(is.na(Qrep)), ' observations using ', nobserv, ' days window')
   

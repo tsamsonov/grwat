@@ -59,17 +59,19 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
   std::vector<double> Qrain(n, 0);
   std::vector<double> Qthaw(n, 0);
   std::vector<double> Qpb(n, 0);
+  std::vector<int> Qtype(n, 0);
   
   auto p = set_params(params);
   
-  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, p, niter);
+  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Qtype, p, niter);
   
   DataFrame df = DataFrame::create(Named("Qbase") = Qbase,
                                    Named("Quick") = Quick,
                                    Named("Qseas") = Qseas,
                                    Named("Qrain") = Qrain, 
                                    Named("Qthaw") = Qthaw,
-                                   Named("Qpb") = Qpb);
+                                   Named("Qpb") = Qpb,
+                                   Named("Qtype") = Qtype);
   
   return df;
 }
