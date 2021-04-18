@@ -316,6 +316,41 @@ grw_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, 
   }
 }
 
+#' Animate discharge through years
+#'
+#' @param df data.framewith discarge values in Qin variable
+#' @param locale 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+grw_animate <- function(df, locale = 'EN') {
+  tab = df %>% 
+    mutate(Date = lubridate::make_date(Year, Month, Day),
+           yDate = Date)
+  
+  year(tab$yDate) <- 2000 # fake year for animations
+  
+  anim = ggplot2::ggplot(tab, mapping = aes(x = yDate, y = Q)) +
+            ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = Q), alpha = 0.5) +
+            ggplot2::geom_line() +
+            ggplot2::scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+            ggplot2::labs(title = "Discharge animation",
+                 subtitle = 'Year: {closest_state}') +
+            ggplot2::xlab('Date') +
+            ggplot2::ylab('m3/s') +
+            ggplot2::theme(text = ggplot2::element_text(size = 18, family = 'Open Sans')) +
+            gganimate::transition_states(Year, state_length = 0) +
+            gganimate::view_follow(fixed_y = TRUE)
+  
+  gganimate::animate(anim, 
+              fps = 20,                                  
+              nframes = 10 * length(unique(tab$Year)),
+              width = 800, 
+              height = 600)
+}
+
 #' Plot long-term changes of hydrograph variables for two periods
 #'
 #' @param df data.frame produced by description function (read by `read_variables()`)
