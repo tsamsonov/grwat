@@ -7,7 +7,7 @@
 #'
 #' @return plot object
 #' @export
-map <- function(pts, pts_sel, region, buffer = NULL){
+grw_map <- function(pts, pts_sel, region, buffer = NULL){
   
   if(!is.null(buffer)){
     plot(buffer %>% st_geometry(), 

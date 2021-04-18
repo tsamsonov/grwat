@@ -11,7 +11,7 @@
 #' \dontrun{
 #' grwat::read_interim("rean/prec.nc", "rean/temp.nc")
 #' }
-read_interim <- function(file_prec, file_temp){
+grw_read_interim <- function(file_prec, file_temp){
   # Read NetCDF data
   precip = ncdf4::nc_open(file_prec)
   temps = ncdf4::nc_open(file_temp)
@@ -47,7 +47,7 @@ read_interim <- function(file_prec, file_temp){
 #'
 #' @return data.frame
 #' @export
-read_variables <- function(file_tot){
+grw_read_vars <- function(file_tot){
   
   params = params_out %>% 
     dplyr::filter(Source == 1) %>% 
@@ -85,7 +85,7 @@ read_variables <- function(file_tot){
 #'
 #' @return data.frame
 #' @export
-read_separation <- function(file_sep){
+grw_read_sep <- function(file_sep){
   readr::read_fwf(file = file_sep, 
            skip = 1,
            readr::fwf_widths(c(16, rep(10, 7)), 

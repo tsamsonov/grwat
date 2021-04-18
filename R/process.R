@@ -31,7 +31,7 @@ st_buffer_geo <- function(g, bufsize){
 #' @export
 #'
 #' @examples
-fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, cols = 'dmyqtp', vars = 'q') {
+grw_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, cols = 'dmyqtp', vars = 'q') {
   
   no_dates = is.na(get_idx(cols, 'D'))
   
@@ -106,7 +106,7 @@ fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, cols
 #' \dontrun{
 #' grwat::process(hdata, rean, buffer)
 #' }
-join_interim <- function(hdata, rean, buffer){
+grw_join_interim <- function(hdata, rean, buffer){
   
   hdata = hdata[, 1:4]
   colnames(hdata) <- c('D', 'M', 'Y', 'L')
@@ -194,7 +194,7 @@ join_interim <- function(hdata, rean, buffer){
 #' \dontrun{
 #' grwat::process_gauge(wd, rean, 50000)
 #' }
-process_gauge <- function(wd, rean, bufsize=50000, eol="\n", filename='in.txt'){
+grw_proc_gauge <- function(wd, rean, bufsize=50000, eol="\n", filename='in.txt'){
   
   oldwd = setwd(wd)
   on.exit(setwd(oldwd), add = TRUE)
@@ -223,7 +223,7 @@ process_gauge <- function(wd, rean, bufsize=50000, eol="\n", filename='in.txt'){
       # buffer region to select more points
       buffer = grwat::st_buffer_geo(region, bufsize)
       
-      results = grwat::join_interim(hdata, rean, buffer) # TODO: nice processing here
+      results = grw_joininterim(hdata, rean, buffer) # TODO: nice processing here
       
       sum.table.with.dates = results[[1]]
       pts.selected = results[[2]]
@@ -241,7 +241,7 @@ process_gauge <- function(wd, rean, bufsize=50000, eol="\n", filename='in.txt'){
         par_default = par(no.readonly = TRUE)
         par(mfrow = c(1,1))
         
-        grwat::map(rean$pts, pts.selected, region, buffer)
+        grw_map(rean$pts, pts.selected, region, buffer)
         
         par(par_default)
         
@@ -292,7 +292,7 @@ process_gauge <- function(wd, rean, bufsize=50000, eol="\n", filename='in.txt'){
 #' \dontrun{
 #' grwat::process_basins(wd, rean, bufsize=50000, clear=TRUE)
 #' }
-process_basins <- function(wd, rean, bufsize=50000, eol="\n", clear=TRUE){
+grw_proc_basins <- function(wd, rean, bufsize=50000, eol="\n", clear=TRUE){
   
   old = setwd(wd)
   on.exit(setwd(old), add = TRUE)
@@ -330,7 +330,7 @@ process_basins <- function(wd, rean, bufsize=50000, eol="\n", clear=TRUE){
     pb$tick(0)
     
     for (gauge in gauges){
-      reanpts[j] = grwat::process_gauge(gauge, rean, bufsize, eol) # TODO: correct working directory
+      reanpts[j] = grw_proc_gauge(gauge, rean, bufsize, eol) # TODO: correct working directory
       j = j + 1
       pb$tick()
     }

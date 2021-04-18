@@ -13,7 +13,7 @@ update_core <- function() {
 #' @export
 #'
 #' @examples
-separate <- function(df, params = grwat::get_separation_params(), niter = 100, cols = 'dmyqtp') {
+grw_separate <- function(df, params = grw_get_params(), niter = 100, cols = 'dmyqtp') {
   separate_cpp(df[[get_idx(cols, 'y')]], 
                df[[get_idx(cols, 'm')]],
                df[[get_idx(cols, 'd')]],
@@ -39,7 +39,7 @@ separate <- function(df, params = grwat::get_separation_params(), niter = 100, c
 #' @export
 #'
 #' @examples
-get_baseflow <- function(Q, alpha = 0.925, padding = 30, passes = 3, method = 'Lyne-Hollick') {
+grw_baseflow <- function(Q, alpha = 0.925, padding = 30, passes = 3, method = 'Lyne-Hollick') {
   get_baseflow_cpp(Q, alpha, padding, passes, method)
 }
 
@@ -51,7 +51,7 @@ get_baseflow <- function(Q, alpha = 0.925, padding = 30, passes = 3, method = 'L
 #' @export
 #'
 #' @examples
-get_separation_params <- function(type = 'Midplain') {
+grw_params <- function(type = 'Midplain') {
   params_in %>% 
     dplyr::filter(region == type) %>% 
     dplyr::select(-1) %>%
@@ -66,7 +66,7 @@ get_separation_params <- function(type = 'Midplain') {
 #' @export
 #'
 #' @examples
-set_separation_params <- function(params) {
+grw_set_params <- function(params) {
   app = shiny::shinyApp(
     ui = shiny::fluidPage(
       shiny::h3("Set hydrograph separation parameters"),

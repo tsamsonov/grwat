@@ -9,7 +9,7 @@
 #'
 #' @return Generates a new out working directory with detailed reports
 #' @export
-report_basins <- function(wd, year = NULL, exclude = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
+grw_report_basins <- function(wd, year = NULL, exclude = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
   
   t1 = Sys.time()
   
@@ -26,7 +26,7 @@ report_basins <- function(wd, year = NULL, exclude = NULL, map = FALSE, locale =
     gauges = list.dirs(recursive = FALSE, full.names = FALSE)
     
     for (gauge in gauges)
-      grwat::report_gauge(gauge, year, exclude, map, locale, pdf)
+      grw_report_gauge(gauge, year, exclude, map, locale, pdf)
   } 
   
   t2 = Sys.time()
@@ -45,7 +45,7 @@ report_basins <- function(wd, year = NULL, exclude = NULL, map = FALSE, locale =
 #'
 #' @return
 #' @export
-report_gauge <- function(wd, year = NULL, exclude = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
+grw_report_gauge <- function(wd, year = NULL, exclude = NULL, map = FALSE, locale = 'EN', pdf = FALSE){
   
   t1 = Sys.time()
   
@@ -82,7 +82,7 @@ report_gauge <- function(wd, year = NULL, exclude = NULL, map = FALSE, locale = 
 #'
 #' @return kabled version of p-values table coloured
 #' @export
-kable_tests <- function(tests, locale = 'EN', format = 'latex'){
+grw_kable_tests <- function(tests, locale = 'EN', format = 'latex'){
   gcolor = '#99cc00' # green
   ycolor = '#e6e600' # yellow
   rcolor = '#ff9966' # red

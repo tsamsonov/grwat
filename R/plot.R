@@ -8,7 +8,7 @@
 #'
 #' @return ggplot2 objects
 #' @export
-plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+grw_plot_sep <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -26,7 +26,9 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
   df = df %>% dplyr::mutate(Year = lubridate::year(Date))
   
   if(!is.null(years)){
-    df = df %>% dplyr::filter(Year %in% years)
+    df = df %>% dplyr::filter(Year %in% unique(c(years, years + 1)))
+  } else {
+    years = df %>% pull(Year) %>% unique() %>% order()
   }
   
   yrs = df %>% dplyr::group_by(Year) %>% 
@@ -34,7 +36,7 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
                      datepolend = max(Date[which(Qseas>0)])) %>% 
     dplyr::filter(!is.na(nydate))
   
-  n = nrow(yrs)
+  n = length(yrs)
   
   max.runoff = max(df$Qin)
   
@@ -48,7 +50,9 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
   for (i in 1:n) {
     
     bar$tick()
-    #Sys.sleep(0.01)
+    
+    if (!(yrs$Year[i] %in% years)) 
+      next
     
     begin.date = yrs$nydate[i]
     end.date = lubridate::ceiling_date(begin.date, "year") - lubridate::days(1) # Initialize by the end of the year
@@ -137,7 +141,7 @@ plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak =
 #' @export
 #'
 #' @examples
-plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+grw_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -325,7 +329,7 @@ plot_variables <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
 #'
 #' @return ggplot2 objects
 #' @export
-plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+grw_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
   if(is.null(year) & is.null(tests))
     stop('You must provide year or tests parameter')
@@ -505,7 +509,7 @@ plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, lay
 #'
 #' @return ggplot2 objects
 #' @export
-plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, pagebreak = FALSE, locale='EN'){
+grw_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, pagebreak = FALSE, locale='EN'){
   
   year_summer = year
   year_winter = year
@@ -649,7 +653,7 @@ plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, pagebre
 #' @export
 #'
 #' @examples
-plot_tests <- function(tests, locale = 'EN') {
+grw_plot_tests <- function(tests, locale = 'EN') {
   
   labs = get_plot_labels(locale)
   
@@ -685,7 +689,7 @@ plot_tests <- function(tests, locale = 'EN') {
 #' @export
 #'
 #' @examples
-plot_ss = function(sstree, df = NULL, year = NULL, inverse = FALSE) {
+grw_plot_ss = function(sstree, df = NULL, year = NULL, inverse = FALSE) {
   
   tab = NULL
   scale = max(sstree$smax)
