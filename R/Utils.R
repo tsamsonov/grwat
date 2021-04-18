@@ -91,6 +91,6 @@ get_col_type = function(s) {
 #'
 #' @examples
 #' grwat::get_variables()
-grw_get_variables <- function(){
+grw_get_vars <- function(){
   return(params_out)
 }

@@ -7,8 +7,8 @@ Authors@R: c(
     person("Timofey", "Samsonov",, "tsamsonov@geogr.msu.ru", role = c("aut", "cre"), 
       comment = c(ORCID = "0000-0001-5994-0302")
     ),
-    person("Ekaterina", "Retz", role = "aut", comment = c(ORCID = "0000-0002-4505-1173")),
-    person("Maria", "Kireeva", role = "aut", comment = c(ORCID = "0000-0002-8285-9761"))
+    person("Ekaterina", "Retz", role = "ctb", comment = c(ORCID = "0000-0002-4505-1173")),
+    person("Maria", "Kireeva", role = "ctb", comment = c(ORCID = "0000-0002-8285-9761"))
     )
 Description: R package for hydrograph separation and analysis based on water level, 
     temperature and percipitation data. It makes use of geographic data processing 
