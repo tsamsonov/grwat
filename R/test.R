@@ -10,7 +10,7 @@
 #'
 #' @return List of testing results
 #' @export
-grw_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
+gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
   
   fields = rlang::exprs(...) %>% as.character()
   

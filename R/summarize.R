@@ -30,7 +30,7 @@ condrollmeanidx = function(values, needed, w) {
 #' @export
 #'
 #' @examples
-grw_summarize <- function(tab) {
+gr_summarize <- function(tab) {
   
   secday = 86400
   kmyr = secday / 10e9

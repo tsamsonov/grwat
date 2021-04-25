@@ -6,17 +6,20 @@
 using namespace Rcpp;
 
 // get_baseflow_cpp
-std::vector<double> get_baseflow_cpp(const std::vector<double>& Qin, const double& alpha, const int& padding, const int& passes, std::string method);
-RcppExport SEXP _grwat_get_baseflow_cpp(SEXP QinSEXP, SEXP alphaSEXP, SEXP paddingSEXP, SEXP passesSEXP, SEXP methodSEXP) {
+std::vector<double> get_baseflow_cpp(const std::vector<double>& Qin, const double& a, const double& k, const double& C, const double& aq, const int& passes, const int& padding, std::string method);
+RcppExport SEXP _grwat_get_baseflow_cpp(SEXP QinSEXP, SEXP aSEXP, SEXP kSEXP, SEXP CSEXP, SEXP aqSEXP, SEXP passesSEXP, SEXP paddingSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::vector<double>& >::type Qin(QinSEXP);
-    Rcpp::traits::input_parameter< const double& >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< const int& >::type padding(paddingSEXP);
+    Rcpp::traits::input_parameter< const double& >::type a(aSEXP);
+    Rcpp::traits::input_parameter< const double& >::type k(kSEXP);
+    Rcpp::traits::input_parameter< const double& >::type C(CSEXP);
+    Rcpp::traits::input_parameter< const double& >::type aq(aqSEXP);
     Rcpp::traits::input_parameter< const int& >::type passes(passesSEXP);
+    Rcpp::traits::input_parameter< const int& >::type padding(paddingSEXP);
     Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_baseflow_cpp(Qin, alpha, padding, passes, method));
+    rcpp_result_gen = Rcpp::wrap(get_baseflow_cpp(Qin, a, k, C, aq, passes, padding, method));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -40,7 +43,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_grwat_get_baseflow_cpp", (DL_FUNC) &_grwat_get_baseflow_cpp, 5},
+    {"_grwat_get_baseflow_cpp", (DL_FUNC) &_grwat_get_baseflow_cpp, 8},
     {"_grwat_separate_cpp", (DL_FUNC) &_grwat_separate_cpp, 8},
     {NULL, NULL, 0}
 };

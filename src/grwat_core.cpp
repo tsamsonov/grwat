@@ -42,28 +42,111 @@ namespace grwat {
     };
 
     enum basefilter {
-        CHAPMAN,
-        BOUGHTON,
-        JAKEMAN,
-        LYNE,
-        MAU,
-        FUREY
+        MAXWELL = 1,
+        BOUGHTON = 2,
+        JAKEMAN = 3,
+        LYNE = 4,
+        CHAPMAN = 5,
+        FUREY = 6
     };
 
-    static vector<double> get_baseflow(const vector<double>& Qin,
-                                       const double& alpha = 0.925,
-                                       const int& padding = 30,
-                                       const int& passes = 3,
-                                       basefilter method = LYNE) {
+    static double baseflow_lyne(const double& Qfi_1,
+                                const double& Qi,
+                                const double& Qi_1,
+                                const double& alpha = 0.925) {
+        return Qfi_1 * alpha + 0.5 * (Qi - Qi_1) * (1 + alpha);
+    }
 
+    static double baseflow_chapman(const double& Qfi_1,
+                                   const double& Qi,
+                                   const double& Qi_1,
+                                   const double& alpha = 0.925) {
+        return Qfi_1 * (3 * alpha - 1) / (3 - alpha) + 2 * (Qi - alpha * Qi_1) / (3 - alpha);
+    }
 
+    static double baseflow_maxwell(const double& Qbi_1,
+                                   const double& Qi,
+                                   const double& Qi_1,
+                                   const double& k = 0.925,
+                                   const double& C = 1,
+                                   const double& alpha = 1) {
+        return Qbi_1 * k / (2 - k) + Qi * (1 - k) / (2 - k);
+    }
 
+    static double baseflow_boughton(const double& Qbi_1,
+                                    const double& Qi,
+                                    const double& Qi_1,
+                                    const double& k = 0.925,
+                                    const double& C = 1,
+                                    const double& alpha = 1) {
+        return Qbi_1 * k / (1 + C) + Qi * C / (1 + C);
+    }
+
+    static double baseflow_jakeman(const double& Qbi_1,
+                                   const double& Qi,
+                                   const double& Qi_1,
+                                   const double& k = 0.925,
+                                   const double& C = 1,
+                                   const double& alpha = 1) {
+        return Qbi_1 * k / (1 + C) + (Qi + alpha * Qi_1) * C / (1 + C);
+    }
+
+    static vector<double> pad_vector(const vector<double>& Qin, const int& padding) {
         vector<double> Q(Qin.begin(), Qin.end()); {
             Q.insert(Q.begin(), Q.begin() + 1, Q.begin() + padding + 1);
             Q.insert(Q.end(), Q.end() - padding - 1, Q.end() - 1);
             std::reverse(Q.begin(), Q.begin() + padding);
             std::reverse(Q.end() - padding, Q.end());
         }
+        return Q;
+    }
+
+    static vector<double> get_baseflow_singlepass(const vector<double>& Qin,
+                                                 const double& k = 0.975,
+                                                 const double& C = 0.05,
+                                                 const double& alpha = -0.5,
+                                                 const int& padding = 30,
+                                                 basefilter method = MAXWELL) {
+        map<basefilter, std::function<double(const double&,
+                const double&,
+                const double&,
+                const double&,
+                const double&,
+                const double&)>> baseflow_singlepass = {
+            {MAXWELL, baseflow_maxwell},
+            {BOUGHTON, baseflow_boughton},
+            {JAKEMAN, baseflow_jakeman}
+        };
+
+        auto Q = pad_vector(Qin, padding);
+        auto n = Q.size();
+
+        auto Qb = vector<double>(n, 0);
+        Qb[0] = Q[0];
+
+        for (auto i = 1; i < n; i += 1) {
+            Qb[i] = baseflow_singlepass[method](Qb[i-1], Q[i], Q[i-1], k, C, alpha);
+        }
+
+        return vector<double>(Qb.begin() + padding, Qb.end() - padding);
+    }
+
+    static vector<double> get_baseflow_recursive(const vector<double>& Qin,
+                                       const double& alpha = 0.925,
+                                       const int& padding = 30,
+                                       const int& passes = 3,
+                                       basefilter method = LYNE) {
+
+        map<basefilter, std::function<double(
+                const double&,
+                const double&,
+                const double&,
+                const double&)>> baseflow_recursive = {
+                {CHAPMAN, baseflow_chapman},
+                {LYNE, baseflow_lyne}
+        };
+
+        auto Q = pad_vector(Qin, padding);
 
         auto n = Q.size();
         vector<double> Qf(n, 0);    // quick flow
@@ -81,7 +164,8 @@ namespace grwat {
             Qf[begin] = Q[begin];
             auto Qbase = vector<double>(n, 0);
             for (auto i = begin + delta; inside(i); i += delta) {
-                Qf[i] = alpha * Qf[i-delta] + 0.5 * (1 + alpha) * (Q[i] - Q[i-delta]);
+//                Qf[i] = alpha * Qf[i-delta] + 0.5 * (1 + alpha) * (Q[i] - Q[i-delta]);
+                Qf[i] = baseflow_recursive[method](Qf[i-delta], Q[i], Q[i-delta], alpha);
                 Qbase[i] = (Qf[i] > 0) ? Q[i] - Qf[i] : Q[i];
             }
             std::swap(begin, end);

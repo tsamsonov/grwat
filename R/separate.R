@@ -13,10 +13,29 @@ update_core <- function() {
 #' @export
 #'
 #' @examples
-grw_separate <- function(df, params = grw_get_params(), niter = 100, cols = 'dmyqtp') {
-  separate_cpp(df[[get_idx(cols, 'y')]], 
-               df[[get_idx(cols, 'm')]],
-               df[[get_idx(cols, 'd')]],
+gr_separate <- function(df, params = grw_get_params(), cols = 'dmyqtp', niter = 100) {
+  
+  if (nchar(cols) != length(df))
+    stop(crayon::white$bold('grwat:'), ' the number of columns in data frame (', length(df), ') is not equal to the length of `col` parameter (', nchar(cols), ')')
+  
+  col_vec = strsplit(cols, '')[[1]]
+  
+  if (length(intersect(col_vec, c('q', 't', 'p'))) != 3)
+    stop(crayon::white$bold('grwat:'), ' the `col` parameter does not contain all of qtp values')
+  
+  if (length(intersect(col_vec, c('d', 'm', 'y'))) == 3) {
+    y = df[[get_idx(cols, 'y')]]
+    m = df[[get_idx(cols, 'm')]]
+    d = df[[get_idx(cols, 'd')]]
+  } else if (grepl('D', cols)) {
+    y = lubridate::year(df[[get_idx(cols, 'D')]])
+    m = lubridate::month(df[[get_idx(cols, 'D')]])
+    d = lubridate::day(df[[get_idx(cols, 'D')]])
+  } else {
+    stop(crayon::white$bold('grwat:'), ' the `col` parameter must contain either date (D) or separate day, month and year columns (dmy) in any order')
+  }
+  
+  separate_cpp(y, m, d,
                df[[get_idx(cols, 'q')]],
                df[[get_idx(cols, 't')]],
                df[[get_idx(cols, 'p')]],
@@ -39,8 +58,9 @@ grw_separate <- function(df, params = grw_get_params(), niter = 100, cols = 'dmy
 #' @export
 #'
 #' @examples
-grw_baseflow <- function(Q, alpha = 0.925, padding = 30, passes = 3, method = 'Lyne-Hollick') {
-  get_baseflow_cpp(Q, alpha, padding, passes, method)
+gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5, 
+                        passes = 3, padding = 30, method = 'lynehollick') {
+  get_baseflow_cpp(Q, a, k, C, aq, passes, padding, method)
 }
 
 #' Get default separation parameters for selected region
@@ -51,7 +71,7 @@ grw_baseflow <- function(Q, alpha = 0.925, padding = 30, passes = 3, method = 'L
 #' @export
 #'
 #' @examples
-grw_params <- function(type = 'Midplain') {
+gr_get_params <- function(type = 'Midplain') {
   params_in %>% 
     dplyr::filter(region == type) %>% 
     dplyr::select(-1) %>%
@@ -66,7 +86,7 @@ grw_params <- function(type = 'Midplain') {
 #' @export
 #'
 #' @examples
-grw_set_params <- function(params) {
+gr_set_params <- function(params) {
   app = shiny::shinyApp(
     ui = shiny::fluidPage(
       shiny::h3("Set hydrograph separation parameters"),

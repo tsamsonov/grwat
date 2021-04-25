@@ -8,7 +8,7 @@
 #'
 #' @return ggplot2 objects
 #' @export
-grw_plot_sep <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+gr_plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -141,7 +141,7 @@ grw_plot_sep <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FA
 #' @export
 #'
 #' @examples
-grw_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -325,7 +325,7 @@ grw_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, 
 #' @export
 #'
 #' @examples
-grw_animate <- function(df, locale = 'EN') {
+gr_animate <- function(df, locale = 'EN') {
   tab = df %>% 
     mutate(Date = lubridate::make_date(Year, Month, Day),
            yDate = Date)
@@ -364,7 +364,7 @@ grw_animate <- function(df, locale = 'EN') {
 #'
 #' @return ggplot2 objects
 #' @export
-grw_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
   if(is.null(year) & is.null(tests))
     stop('You must provide year or tests parameter')
@@ -544,7 +544,7 @@ grw_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
 #'
 #' @return ggplot2 objects
 #' @export
-grw_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, pagebreak = FALSE, locale='EN'){
+gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, pagebreak = FALSE, locale='EN'){
   
   year_summer = year
   year_winter = year
@@ -688,7 +688,7 @@ grw_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, pag
 #' @export
 #'
 #' @examples
-grw_plot_tests <- function(tests, locale = 'EN') {
+gr_plot_tests <- function(tests, locale = 'EN') {
   
   labs = get_plot_labels(locale)
   
@@ -724,7 +724,7 @@ grw_plot_tests <- function(tests, locale = 'EN') {
 #' @export
 #'
 #' @examples
-grw_plot_ss = function(sstree, df = NULL, year = NULL, inverse = FALSE) {
+gr_plot_ss = function(sstree, df = NULL, year = NULL, inverse = FALSE) {
   
   tab = NULL
   scale = max(sstree$smax)

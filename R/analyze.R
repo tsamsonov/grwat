@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-grw_ss <- function(df, year = NULL, sigma = NULL){
+gr_ss <- function(df, year = NULL, sigma = NULL){
   
   # select the first year if not provided
   if (is.null(year))
@@ -52,7 +52,7 @@ grw_ss <- function(df, year = NULL, sigma = NULL){
 #' @export
 #'
 #' @examples
-grw_ss_tree = function(ssdata) {
+gr_ss_tree = function(ssdata) {
   tree = Scale4C::outputScaleSpaceTree(ssdata, outputPeaks = FALSE, useLog = FALSE)
   
   sstree = tree %>%

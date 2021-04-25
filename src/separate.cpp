@@ -38,14 +38,35 @@ grwat::parameters set_params(List params) {
   return p;
 }
 
+std::map<std::string, grwat::basefilter> baseflow_methods = {
+  {"maxwell", grwat::MAXWELL},
+  {"boughton", grwat::BOUGHTON},
+  {"jakeman", grwat::JAKEMAN},
+  {"lynehollick", grwat::LYNE},
+  {"chapman", grwat::CHAPMAN},
+  {"furey", grwat::FUREY},
+};
+
 // [[Rcpp::export]]
 std::vector<double> get_baseflow_cpp(const std::vector<double> &Qin, 
-                                     const double& alpha,
-                                     const int& padding,
+                                     const double& a,
+                                     const double& k,
+                                     const double& C,
+                                     const double& aq,
                                      const int& passes,
+                                     const int& padding,
                                      std::string method) {
-  auto gmethod = grwat::LYNE; // currently only Line-Hollick method is available
-  return grwat::get_baseflow(Qin, alpha, padding, passes, gmethod);
+  auto b = baseflow_methods[method];
+  switch (b) 
+  {
+    case grwat::MAXWELL:
+    case grwat::BOUGHTON:
+    case grwat::JAKEMAN:
+      return grwat::get_baseflow_singlepass(Qin, k, C, aq, padding, b);
+    case grwat::LYNE:
+    case grwat::CHAPMAN:
+      return grwat::get_baseflow_recursive(Qin, a, padding, passes, b);
+  }
 }
 
 // [[Rcpp::export]]

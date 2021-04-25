@@ -31,7 +31,7 @@ st_buffer_geo <- function(g, bufsize){
 #' @export
 #'
 #' @examples
-grw_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, cols = 'dmyqtp', vars = 'q') {
+gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, cols = 'dmyqtp', vars = 'q') {
   
   no_dates = is.na(get_idx(cols, 'D'))
   
@@ -106,7 +106,7 @@ grw_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, 
 #' \dontrun{
 #' grwat::process(hdata, rean, buffer)
 #' }
-grw_join_interim <- function(hdata, rean, buffer){
+gr_join_interim <- function(hdata, rean, buffer){
   
   hdata = hdata[, 1:4]
   colnames(hdata) <- c('D', 'M', 'Y', 'L')
@@ -194,7 +194,7 @@ grw_join_interim <- function(hdata, rean, buffer){
 #' \dontrun{
 #' grwat::process_gauge(wd, rean, 50000)
 #' }
-grw_proc_gauge <- function(wd, rean, bufsize=50000, eol="\n", filename='in.txt'){
+gr_proc_gauge <- function(wd, rean, bufsize=50000, eol="\n", filename='in.txt'){
   
   oldwd = setwd(wd)
   on.exit(setwd(oldwd), add = TRUE)
@@ -292,7 +292,7 @@ grw_proc_gauge <- function(wd, rean, bufsize=50000, eol="\n", filename='in.txt')
 #' \dontrun{
 #' grwat::process_basins(wd, rean, bufsize=50000, clear=TRUE)
 #' }
-grw_proc_basins <- function(wd, rean, bufsize=50000, eol="\n", clear=TRUE){
+gr_proc_basins <- function(wd, rean, bufsize=50000, eol="\n", clear=TRUE){
   
   old = setwd(wd)
   on.exit(setwd(old), add = TRUE)
