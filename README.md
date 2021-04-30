@@ -74,7 +74,7 @@ tinytex:::is_tinytex()
 
 ## Using
 
-Check out the __Get started__ vignette at the top of the page.
+> grwat api has been reworked significantly in April 2021. The vignettes and reference will be updated soon. Stay tuned.
 
 ## Funding
 
