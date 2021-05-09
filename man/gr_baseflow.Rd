@@ -6,22 +6,25 @@
 \usage{
 gr_baseflow(
   Q,
-  alpha = 0.925,
-  padding = 30,
+  a = 0.925,
+  k = 0.975,
+  C = 0.05,
+  aq = -0.5,
   passes = 3,
-  method = "Lyne-Hollick"
+  padding = 30,
+  method = "lynehollick"
 )
 }
 \arguments{
 \item{Q}{daily discharge vector}
 
-\item{alpha}{filtering parameter. Defaults to 0.925}
+\item{passes}{number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3}
 
 \item{padding}{number of elements padded at the beginning and ending of discharge vector to reduce boundary effects}
 
-\item{passes}{number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3}
-
 \item{method}{baseflow filtering method. Currently only `method = LYNE` is supported which corresponds to Lyne-Hollick (1979)}
+
+\item{alpha}{filtering parameter. Defaults to 0.925}
 }
 \value{
 baseflow vector

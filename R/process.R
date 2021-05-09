@@ -8,9 +8,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' st_buffer_geo(basin, 50000)
+#' gr_buffer_geo(basin, 50000)
 #' }
-st_buffer_geo <- function(g, bufsize){
+gr_buffer_geo <- function(g, bufsize){
   # TODO: create geodetic buffering instead
   g %>% 
     st_transform_opt() %>%

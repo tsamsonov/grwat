@@ -4,7 +4,7 @@
 \alias{gr_separate}
 \title{Separates river hydrograph}
 \usage{
-gr_separate(df, params = grw_get_params(), niter = 100, cols = "dmyqtp")
+gr_separate(df, params = grw_get_params(), cols = "dmyqtp", niter = 100)
 }
 \arguments{
 \item{df}{data frame with six columns: year, month, date, discharge, temperature, precipitation}
