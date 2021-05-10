@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -49,23 +49,11 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/scale-space.html">Scale space hydrograph analysis</a>
-    </li>
-  </ul>
-</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/tsamsonov/grwat/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -79,13 +67,19 @@
 
       
 
-      </header><script src="grwat_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="grwat_files/header-attrs-2.7/header-attrs.js"></script><script src="grwat_files/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="grwat_files/jquery-1.12.4/jquery.min.js"></script><link href="grwat_files/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="grwat_files/leaflet-1.3.1/leaflet.js"></script><link href="grwat_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="grwat_files/proj4-2.6.2/proj4.min.js"></script><script src="grwat_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script><link href="grwat_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="grwat_files/leaflet-binding-2.0.4.1/leaflet.js"></script><script src="grwat_files/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script><script src="grwat_files/leaflet-providers-plugin-2.0.4.1/leaflet-providers-plugin.js"></script><link href="grwat_files/HomeButton-0.0.1/home-button.css" rel="stylesheet">
+<script src="grwat_files/HomeButton-0.0.1/home-button.js"></script><script src="grwat_files/HomeButton-0.0.1/easy-button-src.min.js"></script><script src="grwat_files/clipboard-0.0.1/setClipboardText.js"></script><link href="grwat_files/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet">
+<link href="grwat_files/mapviewCSS-0.0.1/mapview.css" rel="stylesheet">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to grwat R package</h1>
                         <h4 class="author">Timofey Samsonov</h4>
             
-            <h4 class="date">2020-08-06</h4>
+            <h4 class="date">2021-05-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/master/vignettes/grwat.Rmd"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="hidden name"><code>grwat.Rmd</code></div>
@@ -94,124 +88,254 @@
 
     
     
-<p><strong>grwat</strong> is an R package for automated multi-year hydrograph analysis that provides functions to</p>
-<ol style="list-style-type: decimal">
-<li>Preprocess hydrological data to enrich them with meteorological variables.</li>
-<li>Separate hydrograph into ground, seasonal, thaw and rain discharge.</li>
-<li>Describe obtained separation with multiple variables.</li>
-<li>Perform statistical tests on hydrograph variables.</li>
-<li>Plot interannual and long-term changes of hydrograph variables.</li>
-<li>Generate high-quality report files containing the full information gained during analysis.</li>
-</ol>
-<p>This vignette contains a brief introduction to solving all these tasks with grwat.</p>
-<div id="preprocess" class="section level1">
+<div id="read-and-preprocess-the-source-data" class="section level1">
 <h1 class="hasAnchor">
-<a href="#preprocess" class="anchor"></a>Preprocess</h1>
-<p>Preprocessing joins reanalysis data to raw hydrological data on time and geographic location. It can be made using grwat in three regimes: manual, gauge folder processing and basins folder processing.</p>
-<div id="manual-preprocessing" class="section level2">
+<a href="#read-and-preprocess-the-source-data" class="anchor"></a>Read and preprocess the source data</h1>
+<div id="read-raw-discharge-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#manual-preprocessing" class="anchor"></a>Manual preprocessing</h2>
-<p>You can join reanalysis and water level data for a single gauge as follows:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">grwat</span>)
+<a href="#read-raw-discharge-data" class="anchor"></a>Read raw discharge data</h2>
+<p>The starting point for hydrograph analysis is to obtain the source data. Let’s see how it goes with sample <code>spas-zagorye.txt</code> discharge data for <span class="math inline">\(1956-2020\)</span> year range provided with grwat. This data is for <a href="https://allrivers.info/gauge/protva-obninsk">Spas-Zogorye</a> gauge on <a href="https://en.wikipedia.org/wiki/Protva">Protva</a> river in Central European plane:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span> <span class="co"># reading and manipulating spatial data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># general data wrangling</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/mapview">mapview</a></span><span class="op">)</span> <span class="co"># interactive mapping of spatial data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bluegreen-labs/ecmwfr">ecmwfr</a></span><span class="op">)</span> <span class="co"># this is to access ERA5 reanalysis data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat">grwat</a></span><span class="op">)</span>
 
-<span class="no">wd</span> <span class="kw">=</span> <span class="st">"/Volumes/Work/_grwat/Mezen_Malonisog/"</span>
+<span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapviewOptions.html">mapviewOptions</a></span><span class="op">(</span>fgb <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">wd</span>)
+<span class="co"># this is path to sample data installed with grwat</span>
+<span class="va">path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"spas-zagorye.txt"</span>, package <span class="op">=</span> <span class="st">"grwat"</span><span class="op">)</span>
 
-<span class="no">hdata</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">'in_Mezen_Malonisog.txt'</span>,
-                 <span class="kw">header</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-                 <span class="kw">sep</span> <span class="kw">=</span> <span class="st">' '</span>) <span class="co"># read gauge data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">hdata</span>)
-<span class="co">#&gt;   V1 V2   V3  V4</span>
-<span class="co">#&gt; 1 11  5 1945 142</span>
-<span class="co">#&gt; 2 12  5 1945 146</span>
-<span class="co">#&gt; 3 13  5 1945 148</span>
-<span class="co">#&gt; 4 14  5 1945 158</span>
-<span class="co">#&gt; 5 15  5 1945 175</span>
-<span class="co">#&gt; 6 16  5 1945 212</span>
+<span class="co"># for your own data just provide the full path:</span>
+<span class="co"># path = /this/is/the/path/to/discharge/discharge.csv</span>
 
-<span class="no">basin</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(<span class="st">'Mezen_Malonisog.gpkg'</span>, <span class="kw">quiet</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="co"># read basin region</span>
-<span class="no">basin_pr</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/st_buffer_geo.html">st_buffer_geo</a></span>(<span class="no">basin</span>, <span class="fl">50000</span>)  <span class="co"># buffer region by 50 km</span>
+<span class="va">hdata</span> <span class="op">=</span> <span class="fu">read_delim</span><span class="op">(</span><span class="va">path</span>, col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'d'</span>, <span class="st">'m'</span>, <span class="st">'y'</span>, <span class="st">'q'</span><span class="op">)</span>, col_types <span class="op">=</span> <span class="st">'iiid'</span>, delim <span class="op">=</span> <span class="st">' '</span><span class="op">)</span> <span class="co"># read gauge data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">hdata</span><span class="op">)</span> <span class="co"># see the data</span>
+<span class="co">#&gt; # A tibble: 6 x 4</span>
+<span class="co">#&gt;       d     m     y     q</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1     1  1956  5.18</span>
+<span class="co">#&gt; 2     2     1  1956  5.18</span>
+<span class="co">#&gt; 3     3     1  1956  5.44</span>
+<span class="co">#&gt; 4     4     1  1956  5.44</span>
+<span class="co">#&gt; 5     5     1  1956  5.44</span>
+<span class="co">#&gt; 6     6     1  1956  5.58</span></code></pre></div>
+<p>This example contains the minimum amount of data needed to use the grwat. The first three columns encode the date, and the last column is the main variable — discharge. If the date is encoded as a single column instead of three separate columns, this is also perfect for grwat as input:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">hdata_alt</span> <span class="op">=</span> <span class="va">hdata</span> <span class="op">%&gt;%</span> 
+  <span class="fu">transmute</span><span class="op">(</span>D <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="http://lubridate.tidyverse.org/reference/make_datetime.html">make_date</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">m</span>, <span class="va">d</span><span class="op">)</span>, 
+            Q <span class="op">=</span> <span class="va">q</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">hdata_alt</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 2</span>
+<span class="co">#&gt;   D              Q</span>
+<span class="co">#&gt;   &lt;date&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 1956-01-01  5.18</span>
+<span class="co">#&gt; 2 1956-01-02  5.18</span>
+<span class="co">#&gt; 3 1956-01-03  5.44</span>
+<span class="co">#&gt; 4 1956-01-04  5.44</span>
+<span class="co">#&gt; 5 1956-01-05  5.44</span>
+<span class="co">#&gt; 6 1956-01-06  5.58</span></code></pre></div>
+</div>
+<div id="join-meteorological-variables" class="section level2">
+<h2 class="hasAnchor">
+<a href="#join-meteorological-variables" class="anchor"></a>Join meteorological variables</h2>
+<p>A sole discharge data is enough to separate the hydrograph into quickflow and baseflow, but is not sufficient to predict the genesis of quickflow cases. Was it due to rain or thaw? To answer such questions you also need precipitation and temperature data. Ideally, these must be measured at the gauge. But often such data is not available. In this case you need to mine this data from external sources.</p>
+<p>One of the ways to obtain the temperature and precipitation data is to use reanalyses such as <a href="https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era5">ERA5</a>. Reanalysis data is arranged as regular grids with specific resolution. In particular, the ERA5 data has <span class="math inline">\(31\)</span> km or <span class="math inline">\(0.28125\)</span> degrees resolution. To use such data you must tolerate the fact that none of the reanalysis grid nodes will coincide with your gauge. Instead, you have to use the data, which is either</p>
+<ul>
+<li>the closest reanalysis point</li>
+<li>all points falling within the buffer zone of the gauge</li>
+<li>all points falling within the basin of the the gauge.</li>
+<li>all points falling within the buffer zone of the basin of the the gauge.</li>
+</ul>
+<p>The last two options are the most adequate. Let’s see how it can be done.</p>
+<div id="basin-buffered-basin-or-buffered-gauge" class="section level3">
+<h3 class="hasAnchor">
+<a href="#basin-buffered-basin-or-buffered-gauge" class="anchor"></a>Basin, buffered basin or buffered gauge</h3>
+<p>First, we need to read the basin spatial data:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># this is path to sample basin geopackage installed with grwat</span>
+<span class="va">path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"spas-zagorye.gpkg"</span>, package <span class="op">=</span> <span class="st">"grwat"</span><span class="op">)</span>
 
-<span class="no">rean</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/read_interim.html">read_interim</a></span>(<span class="st">'prec.nc'</span>, <span class="st">'temp.nc'</span>) <span class="co"># read reanalysis data</span>
-<span class="no">hdata_rean</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/join_interim.html">join_interim</a></span>(<span class="no">hdata</span>, <span class="no">rean</span>, <span class="no">basin_pr</span>) <span class="co"># join reanalysis data to hydrological series</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">hdata_rean</span>$<span class="no">df</span>)
-<span class="co">#&gt;       N    Y M  D     T     P   L</span>
-<span class="co">#&gt; 1 23872 1945 5 11 -3.61 1.081 142</span>
-<span class="co">#&gt; 2 23873 1945 5 12 -0.41 3.266 146</span>
-<span class="co">#&gt; 3 23874 1945 5 13 -0.05 5.723 148</span>
-<span class="co">#&gt; 4 23875 1945 5 14 -0.19 1.774 158</span>
-<span class="co">#&gt; 5 23876 1945 5 15 -0.26 1.690 175</span>
-<span class="co">#&gt; 6 23877 1945 5 16 -0.89 1.648 212</span></pre></body></html></div>
+<span class="co"># for your own data just provide the full path:</span>
+<span class="co"># path = /this/is/the/path/to/discharge/basin.shp</span>
+
+<span class="va">basin</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="va">path</span>, layer <span class="op">=</span> <span class="st">'basin'</span><span class="op">)</span> <span class="co"># read basin region</span>
+<span class="co">#&gt; Reading layer `basin' from data source `/private/var/folders/5s/rkxr4m8j24569d_p6nj9ld200000gn/T/RtmpNilAIo/temp_libpath1362e34590714/grwat/extdata/spas-zagorye.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 1 feature and 7 fields</span>
+<span class="co">#&gt; Geometry type: MULTIPOLYGON</span>
+<span class="co">#&gt; Dimension:     XY</span>
+<span class="co">#&gt; Bounding box:  xmin: 35.41204 ymin: 54.88195 xmax: 36.84138 ymax: 55.57005</span>
+<span class="co">#&gt; Geodetic CRS:  WGS 84</span>
+<span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html">mapview</a></span><span class="op">(</span><span class="va">basin</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-5f7ace02e054fafd8609" style="width:700px;height:432.632880098888px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5f7ace02e054fafd8609">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"createMapPane","args":["polygon",420]},{"method":"addPolygons","args":[[[[{"lng":[36.6088901420001,36.5618489030001,36.5348765900001,36.5106145230001,36.4913687390001,36.464825159,36.423703726,36.3956008220001,36.389866628,36.363767571,36.3685600630001,36.3629076450001,36.3710665620001,36.3641753090001,36.3339301460001,36.315078998,36.292156682,36.28207544,36.2663148460001,36.2342840700001,36.23377615,36.172974815,36.1605429900001,36.130713805,36.100166646,36.0611088860001,36.0491819600001,36.0414776470001,36.040186679,36.0074581740001,36.0054157550001,36.0017013730001,36.0065802990001,35.9715582810001,35.921639027,35.8917643570001,35.8322921810001,35.806402314,35.8235805360001,35.8108736250001,35.798426229,35.7815032070001,35.770076524,35.759138482,35.765119364,35.790541836,35.7938589280001,35.7386811170001,35.709806255,35.6941583710001,35.6769202670001,35.674498246,35.661038626,35.630804766,35.6167181170001,35.5886454700001,35.5646123120001,35.5429347580001,35.5193935070001,35.5035278440001,35.5304211340001,35.538391888,35.490686257,35.4673806540001,35.4640086700001,35.5098014750001,35.4915062420001,35.4869952,35.4814073310001,35.4603536270001,35.4475815010001,35.428022727,35.412044753,35.4139032100001,35.4372619750001,35.4356714420001,35.441223849,35.473255631,35.4754719750001,35.470249331,35.50305107,35.574634256,35.6016433190001,35.615138013,35.633129427,35.6517740560001,35.6824930180001,35.712557056,35.7276611280001,35.7578861650001,35.7898758100001,35.821917308,35.8531405250001,35.864701284,35.920480943,35.9283097320001,35.91484316,35.947288842,35.975198113,35.9779060270001,35.9751878930001,35.9835205640001,35.992499631,36.0400457690001,36.0705161700001,36.0924880540001,36.1128410600001,36.1276019630001,36.1490983830001,36.170910055,36.2028425280001,36.2146706390001,36.2272497440001,36.240669268,36.2699018390001,36.318034094,36.348989483,36.3661477700001,36.3821023630001,36.3946780050001,36.4441732540001,36.468267763,36.461438023,36.4667327180001,36.4863272490001,36.485562272,36.4619281880001,36.4687966380001,36.4822759090001,36.4740701900001,36.4769545140001,36.475389464,36.477612316,36.4714282030001,36.476611216,36.4940915400001,36.513077778,36.5242365180001,36.5495314460001,36.5872525560001,36.626233116,36.646449234,36.6551762760001,36.660088,36.711348362,36.721495141,36.765595832,36.759351741,36.7755668250001,36.8135284690001,36.8341254960001,36.841381647,36.8114118780001,36.7841277310001,36.7717105420001,36.7589540860001,36.7477780880001,36.740307129,36.725524283,36.696979851,36.668082887,36.6522544970001,36.630587652,36.6219846450001,36.632330041,36.627261257,36.6376590620001,36.6396521890001,36.644839318,36.635182715,36.617839222,36.6022965870001,36.5907225510001,36.6059648350001,36.6088901420001],"lat":[54.975788234,54.9889356240001,54.9752093640001,54.9802978110001,54.977108652,54.9807484560001,54.966360728,54.991061847,54.9848431560001,54.9697496650001,54.960629612,54.9474412100001,54.931905525,54.9198403080001,54.9125669590001,54.8920327750001,54.8865070860001,54.881949584,54.8921215560001,54.8867298060001,54.8952039810001,54.9129174720001,54.929261345,54.912597986,54.905181482,54.9043848210001,54.898958194,54.9046743260001,54.9113568510001,54.9229601500001,54.933482127,54.9427919500001,54.957110814,54.9595344960001,54.9822309420001,54.986964991,55.0055764470001,55.0353138200001,55.05890321,55.0633606110001,55.0521376670001,55.0510642770001,55.0689802140001,55.072809573,55.088315621,55.08992836,55.1054892670001,55.1141346430001,55.131731997,55.137189597,55.1449295200001,55.1567978570001,55.1614839490001,55.175032494,55.1732085840001,55.1857683430001,55.194103904,55.211370366,55.2284176900001,55.241027586,55.2599231630001,55.2671343740001,55.283607713,55.3020832700001,55.318097009,55.3435090230001,55.368220326,55.3896671890001,55.402523457,55.399785121,55.399600993,55.4295046290001,55.434981436,55.4580177670001,55.474379438,55.478159168,55.4789400320001,55.4730464360001,55.482035308,55.493530252,55.494422291,55.4709418840001,55.458438093,55.4603177290001,55.4583441440001,55.460936082,55.4508085510001,55.4368359870001,55.438926667,55.424856832,55.4353965230001,55.4279852590001,55.4216282190001,55.4080904730001,55.397582894,55.402770918,55.4155081930001,55.4308526720001,55.432280506,55.4492834750001,55.4554700130001,55.4691234910001,55.4873059230001,55.481930898,55.4800268000001,55.4620730410001,55.4754646550001,55.4891012460001,55.490167506,55.499495671,55.493409398,55.5096778400001,55.5347799890001,55.5380167610001,55.534656641,55.550954748,55.564101185,55.5649195010001,55.5700504540001,55.5641024810001,55.547411938,55.5324422640001,55.521012759,55.4966853870001,55.4894330230001,55.4721427920001,55.4325272580001,55.4295186350001,55.4245210270001,55.4107559650001,55.3820699500001,55.365851488,55.359617633,55.3413011760001,55.317340818,55.2974766550001,55.2951187940001,55.2963546460001,55.2936788850001,55.3117338580001,55.3143192860001,55.3285922360001,55.34313846,55.362147184,55.3587147710001,55.3103559790001,55.2855342780001,55.2674275110001,55.260226512,55.2459399100001,55.2157792460001,55.16626797,55.1576068520001,55.1679015,55.173430432,55.1644242930001,55.155097384,55.1498155370001,55.1374660660001,55.1313128630001,55.13223522,55.1273830860001,55.125945533,55.1119701750001,55.1080819810001,55.093153494,55.077997845,55.0685295280001,55.0536782450001,55.045567535,55.033226588,55.020150238,55.011901014,54.989668948,54.975788234]}]]],null,"basin",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":0.5,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6,"smoothFactor":1,"noClip":false},"<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>1&emsp;<\/td><\/tr><tr><td>1<\/td><th>OBJECTID_1&emsp;<\/th><td>118&emsp;<\/td><\/tr><tr><td>2<\/td><th>OBJECTID&emsp;<\/th><td>118&emsp;<\/td><\/tr><tr><td>3<\/td><th>Id&emsp;<\/th><td>118&emsp;<\/td><\/tr><tr><td>4<\/td><th>gridcode&emsp;<\/th><td>75389&emsp;<\/td><\/tr><tr><td>5<\/td><th>Shape_Leng&emsp;<\/th><td>347628.7&emsp;<\/td><\/tr><tr><td>6<\/td><th>Shape_Le_1&emsp;<\/th><td>4.332997&emsp;<\/td><\/tr><tr><td>7<\/td><th>Shape_Area&emsp;<\/th><td>0.5485463&emsp;<\/td><\/tr><tr><td>8<\/td><th>geom&emsp;<\/th><td>sfc_MULTIPOLYGON&emsp;<\/td><\/tr><\/table><\/div>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":1,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[35.412044753,54.881949584,36.841381647,55.5700504540001,"basin","Zoom to basin","<strong> basin <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],"basin",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["basin"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"basin"}]}],"limits":{"lat":[54.881949584,55.5700504540001],"lng":[35.412044753,36.841381647]},"fitBounds":[54.881949584,35.412044753,55.5700504540001,36.841381647,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script><p>Next, we can buffer the data on the specified distance to catch more reanalysis data:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">basin_buffer</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_buffer_geo.html">gr_buffer_geo</a></span><span class="op">(</span><span class="va">basin</span>, <span class="fl">25000</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html">mapview</a></span><span class="op">(</span><span class="va">basin_buffer</span>, col.regions <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html">mapview</a></span><span class="op">(</span><span class="va">basin</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-429c806577520fd78a50" style="width:700px;height:432.632880098888px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-429c806577520fd78a50">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"createMapPane","args":["polygon",420]},{"method":"addPolygons","args":[[[[{"lng":[35.0700617856249,35.0693870304027,35.0598240650087,35.0511783253928,35.0434727609081,35.0367279016185,35.0309618007514,35.0261899832461,35.0224254005744,35.0196783920001,35.0179566524268,35.0172652069714,35.0176063923855,35.0193296196566,35.0207713110928,35.0233164734973,35.0269585412865,35.0316878551033,35.0374916826612,35.0443542484664,35.0522567724014,35.0611775171283,35.0710918442378,35.0819722790435,35.0874445024834,35.0976185281935,35.1087404907385,35.1207542873558,35.1336275112962,35.1473253680807,35.1618107684666,35.1770444282705,35.1929849747894,35.2095890595315,35.2096837878207,35.222812245772,35.2392727834112,35.2563680487379,35.274051237614,35.2922738890939,35.3109860203606,35.3301362663805,35.3496720238603,35.3695395990696,35.389684359077,35.4100508859342,35.430583133328,35.4512245852126,35.4841361360671,35.5047172283463,35.5252937833084,35.5458097674086,35.566209316986,35.5864368948901,35.6064374460875,35.6261565517651,35.6455405814516,35.6645368426871,35.6830937277819,35.7011608572179,35.7225346330733,35.7380115197,35.7576213291091,35.7739581501906,35.7766080587552,35.7939799977845,35.811883021706,35.8302693561311,35.8490898989181,35.8682943540121,35.887831368909,35.9076486753363,35.9276932327291,35.9479113740684,35.9682489536383,35.9834421303147,35.999483991529,36.0167880594941,36.0346758108812,36.0530977805952,36.0720029827653,36.0854564531023,36.1056425996884,36.1262368085722,36.1413650380632,36.1445942232014,36.1621082831175,36.1801089344724,36.1985494094165,36.2173817635697,36.2365570034214,36.2449056152361,36.2627675494733,36.2828575910499,36.3032256727438,36.3238147585979,36.3445671752105,36.3654247779132,36.3863291184621,36.4072216137051,36.4280437146823,36.4487370756173,36.469243722255,36.4895062190048,36.5094678343562,36.5290727040362,36.5482659913936,36.5669940445017,36.5852045494887,36.6028466796213,36.6198712396812,36.6219880052845,36.6470184535881,36.6634492626532,36.6793492046911,36.6946799474796,36.7094045696363,36.723487650342,36.7368953550195,36.7609786347779,36.7747577811504,36.7876600310793,36.7996488581875,36.8106903943933,36.8207535236682,36.8298099672983,36.8378343604462,36.844804319842,36.8507005024615,36.8555066550847,36.8590323244824,36.8595875508102,36.8789317546147,36.8977942142643,36.9161208357791,36.9338591057325,36.9509582443365,36.96736935292,36.9830455553479,36.9979421329556,37.0120166525982,37.0252290874451,37.0375419301761,37.0489202982695,37.0593320311002,37.0687477786008,37.0771410812665,37.0844884413212,37.0907693848898,37.0959665150572,37.0962445092321,37.1055601503511,37.1121672853564,37.1202587959547,37.1325389452164,37.143974112248,37.1545343792759,37.1641921823956,37.1729223815227,37.1807023234618,37.2011598067488,37.207559701187,37.2130945619143,37.2177519713707,37.2215215597399,37.2243950253129,37.2263661499141,37.2333366380851,37.2344419566641,37.2345001718593,37.2335116681832,37.2314796148534,37.2284099516489,37.224311367489,37.2191952718521,37.2130757591657,37.2059695663197,37.197896023465,37.1888769982787,37.1789368338876,37.1681022806541,37.1564024220414,37.143868594785,37.130534303606,37.1164351307121,37.1016086403388,37.0860942785925,37.0699332688606,37.0531685030626,37.0358444290198,37.0180069342256,37.0018191642326,36.9995775926575,36.9993538191146,36.996940858551,36.9934685566541,36.9889469307428,36.9833888441622,36.9768099656718,36.96922872148,36.9606662401079,36.9511462902872,36.9406952121042,36.929341841622,36.9171174292202,36.9040555519064,36.8901920198596,36.875564777481,36.86021379923,36.8441809805348,36.8275100240733,36.8102463217235,36.7924368324917,36.774129956729,36.7553754069511,36.7362240755808,36.7167278999352,36.6969397247825,36.6769131627937,36.6567024532212,36.6363623191302,36.6224305346467,36.6209826491165,36.612779053015,36.6006539205579,36.5861058038356,36.570803548171,36.5547899837968,36.5381098745952,36.5208097939669,36.5029379962732,36.4845442841911,36.4807559192252,36.4723971740862,36.4544201455618,36.4359820336207,36.4171322551266,36.3979212977753,36.3784005880378,36.3586223569519,36.3386395040739,36.3185054599063,36.2982740471181,36.2779993408745,36.2577355285927,36.2375367694452,36.217457053925,36.197550063795,36.1914775589684,36.1829637411171,36.1629141856028,36.1430558027257,36.1234418116595,36.1041247959149,36.0985729924828,36.0840657402244,36.0635637045115,36.0430222379983,36.0224976596615,36.0020462435597,35.9817240691416,35.9615868720079,35.9416898954722,35.9220877432714,35.9028342337686,35.8839822559971,35.8655836278855,35.8476889570085,35.8303475042006,35.8136070503703,35.7975137668472,35.7821120895926,35.767444597597,35.7535518957856,35.7529642133157,35.7521716109647,35.7367062402646,35.7220074072559,35.7081170306155,35.6950747863382,35.6854175248258,35.6453717087826,35.6281696094271,35.6114884160501,35.5953708516942,35.579858236333,35.5649903822099,35.5508054925582,35.5373400639517,35.5246287925292,35.51270448433,35.5015979699769,35.4913380239317,35.481951288545,35.4791946625349,35.4744684865334,35.4619205128468,35.4502716331734,35.4395550287834,35.4334583826584,35.4265551244927,35.4162278492663,35.406812449914,35.3983343911726,35.3965614899189,35.3915493681512,35.3750983591712,35.3653914330246,35.361291388977,35.3446270731723,35.3285170139116,35.3130019739723,35.2981212526163,35.2839125869547,35.2704120567868,35.2576539931483,35.2456708907983,35.2291692828209,35.211135532316,35.2004437501403,35.1845495134969,35.172960108827,35.1622676834623,35.1525016628331,35.1436889953772,35.1358540757639,35.1290186745678,35.1232018746259,35.1184200142959,35.1168082776939,35.1084577869212,35.1007271603876,35.0939260482184,35.0880721406487,35.0831807487809,35.0792647614371,35.076334607897,35.0728710034521,35.0709175639375,35.0699860671103,35.0700617856249],"lat":[55.3230784489873,55.3237125955284,55.3338307947853,55.3442130175187,55.3548321384405,55.3656604094766,55.3766695320326,55.3878307307357,55.3991148284626,55.4104923224596,55.4219334613586,55.433408322888,55.4448868920774,55.4679242178972,55.4797777121493,55.4915697403168,55.5032672230993,55.5148373414028,55.5262476285669,55.537466061656,55.5484611515559,55.5592020316203,55.5696585446136,55.5798013277026,55.5843406148455,55.5944565294165,55.604282339207,55.6137653227072,55.6228797127545,55.6316007407706,55.6399047044362,55.6477690324819,55.655172346413,55.6620945189962,55.662129851487,55.6684162649499,55.675495350315,55.6820774315772,55.6881445246701,55.69368005128,55.6986688844787,55.7030973903726,55.7069534656513,55.710226570928,55.7129077597786,55.7149897033945,55.7164667107827,55.7173347444519,55.7182276484366,55.7184813540179,55.7181296874708,55.7171735996413,55.7156156756047,55.7134601276171,55.7107127836302,55.7073810714021,55.7034739982493,55.6990021264958,55.6939775446895,55.6884138346659,55.6814154547319,55.6796924259445,55.6769135434237,55.67408911623,55.6751220657665,55.6811708399184,55.6867043968351,55.6917080235101,55.6961684150593,55.7000737103721,55.7034135239018,55.706178973506,55.7083627042621,55.70995890819,55.710963339829,55.7112688357052,55.7180141510769,55.7245198309302,55.7305026736709,55.7359461862561,55.7408353613363,55.7440750187531,55.7485694366131,55.75243218974,55.7547583737356,55.755921602784,55.7615440249669,55.7666558271555,55.7712437827918,55.775296020016,55.7788020526263,55.7800676987422,55.7835476481972,55.7868030873435,55.7894558750107,55.7914986305055,55.7929256702223,55.793733023588,55.7939184442038,55.7934814161476,55.7924231554222,55.7907466065434,55.7884564342772,55.7855590105522,55.7820623965833,55.7779763202589,55.7733121488571,55.7680828571705,55.7623029911302,55.7559886270351,55.7491573265045,55.7482091909637,55.7397743209836,55.733921263873,55.7276195050654,55.7208842099852,55.7137315860327,55.7061788433191,55.6982441529868,55.6832647020796,55.6742153941811,55.6647622042391,55.6549320555261,55.6447529414566,55.634253845476,55.6234646581571,55.6124160917473,55.601139592413,55.5896672504374,55.5780317086304,55.5668296345206,55.5667116790564,55.5619190241191,55.5565462882656,55.5506088168193,55.5441235668423,55.5371090583442,55.5295853210093,55.5215738366012,55.5130974772139,55.5041804395521,55.4948481754338,55.4851273187198,55.4750456088848,55.4646318114545,55.4539156355394,55.4429276487095,55.4316991894556,55.4202622774915,55.4086495221603,55.4078524511502,55.3993132519492,55.3924878870022,55.3870552184774,55.3778929811839,55.3683825676749,55.3585490635074,55.3484184031929,55.3380173014817,55.3273731826162,55.2972017279589,55.2870350909445,55.2767034839383,55.2662307850044,55.2556411949944,55.2449591814961,55.234209422196,55.1846941257553,55.1730962897138,55.1614798637783,55.1498757856598,55.1383149554359,55.1268281532964,55.1154459576588,55.1041986638703,55.0931162037116,55.0822280659151,55.0715632179067,55.0611500289762,55.0510161950786,55.041188665462,55.0316935713135,55.0225561566093,55.0138007113471,55.0054505073356,54.997527736705,54.9900534532986,54.9830475170955,54.9765285418064,54.9705138457794,54.9650194063375,54.9603359282283,54.9574208292168,54.9554645358243,54.9437506529387,54.9321239306845,54.9206161385438,54.909258716155,54.8980826875825,54.8871185767732,54.8763963244262,54.8659452065,54.8557937545765,54.845969678295,54.836499790063,54.8274099322449,54.8187249070235,54.8104684091174,54.8026629615363,54.7953298545407,54.7884890879692,54.782159317084,54.7763578020775,54.7711003613716,54.7664013288337,54.7622735150185,54.7587281725401,54.755774965662,54.7534219441854,54.7516755217037,54.7505404582797,54.7501853922475,54.7494182088437,54.7455171935475,54.7376346644142,54.7291258260215,54.721072637163,54.7134976168481,54.7064219447331,54.6998654023249,54.6938463180893,54.6883815166097,54.6873986658903,54.6845384314383,54.6790937803323,54.6741955672474,54.6698569775789,54.666089689545,54.662903843023,54.6603080124973,54.6583091841882,54.6569127374202,54.6561224302775,54.6559403895841,54.6563671052328,54.6574014288797,54.6590405770053,54.6612801383363,54.6621547782981,54.6626772002859,54.6645212447978,54.6669650560643,54.6700020434413,54.6736240162569,54.6748527445752,54.6738779177544,54.6731289240389,54.6730039224183,54.6735032579814,54.6746255522221,54.6763677068101,54.6787249120651,54.6816906601134,54.6852567626911,54.6894133735485,54.6941490153955,54.6994506113175,54.7053035205792,54.7116915787207,54.7185971418413,54.726001134953,54.7338831042748,54.7422212733306,54.7509926026992,54.751405178497,54.7517781409346,54.7598842709547,54.7684544978669,54.7774644350568,54.7868884416485,54.7946827948068,54.8072261699057,54.8129406445927,54.8191498924282,54.82583797307,54.8329877154136,54.8405807613492,54.8485976125623,54.8570176802612,54.8658193377086,54.8749799754268,54.8844760589389,54.8942831889027,54.9043761634859,54.9075288784841,54.9107665482692,54.920351609507,54.9303058012438,54.9406010035235,54.947231649561,54.9532126235399,54.9632458456349,54.9735712289685,54.9841612205157,54.9867148385235,54.9886179198889,54.9955962791999,54.9999413652539,55.0013643679544,55.0074809041082,55.0140705801393,55.021116695956,55.0286013930778,55.0365056995765,55.0448095778381,55.0534919750291,55.0625308761442,55.0756445653047,55.0886782418606,55.0967695291052,55.1093721026315,55.1190807580745,55.1291214288893,55.1394667641622,55.150088579233,55.1609579321577,55.1720452022698,55.1833201706307,55.194752102154,55.1997423548245,55.209617776877,55.2200705356284,55.2307314684079,55.2415734763861,55.2525689965325,55.2636900715093,55.2749084206054,55.2909202499919,55.3023318551549,55.3137840710039,55.3230784489873]}]]],null,"basin_buffer",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":0.5,"opacity":0.9,"fill":true,"fillColor":"#FF0000","fillOpacity":0.6,"smoothFactor":1,"noClip":false},"<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>1&emsp;<\/td><\/tr><tr><td>1<\/td><th>OBJECTID_1&emsp;<\/th><td>118&emsp;<\/td><\/tr><tr><td>2<\/td><th>OBJECTID&emsp;<\/th><td>118&emsp;<\/td><\/tr><tr><td>3<\/td><th>Id&emsp;<\/th><td>118&emsp;<\/td><\/tr><tr><td>4<\/td><th>gridcode&emsp;<\/th><td>75389&emsp;<\/td><\/tr><tr><td>5<\/td><th>Shape_Leng&emsp;<\/th><td>347628.7&emsp;<\/td><\/tr><tr><td>6<\/td><th>Shape_Le_1&emsp;<\/th><td>4.332997&emsp;<\/td><\/tr><tr><td>7<\/td><th>Shape_Area&emsp;<\/th><td>0.5485463&emsp;<\/td><\/tr><tr><td>8<\/td><th>geom&emsp;<\/th><td>sfc_POLYGON&emsp;<\/td><\/tr><\/table><\/div>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":1,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[35.0172652069714,54.6559403895841,37.2345001718593,55.7939184442038,"basin_buffer","Zoom to basin_buffer","<strong> basin_buffer <\/strong>","bottomright"]},{"method":"addLegend","args":[{"colors":["#FF0000"],"labels":["basin_buffer"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"basin_buffer"}]},{"method":"addPolygons","args":[[[[{"lng":[36.6088901420001,36.5618489030001,36.5348765900001,36.5106145230001,36.4913687390001,36.464825159,36.423703726,36.3956008220001,36.389866628,36.363767571,36.3685600630001,36.3629076450001,36.3710665620001,36.3641753090001,36.3339301460001,36.315078998,36.292156682,36.28207544,36.2663148460001,36.2342840700001,36.23377615,36.172974815,36.1605429900001,36.130713805,36.100166646,36.0611088860001,36.0491819600001,36.0414776470001,36.040186679,36.0074581740001,36.0054157550001,36.0017013730001,36.0065802990001,35.9715582810001,35.921639027,35.8917643570001,35.8322921810001,35.806402314,35.8235805360001,35.8108736250001,35.798426229,35.7815032070001,35.770076524,35.759138482,35.765119364,35.790541836,35.7938589280001,35.7386811170001,35.709806255,35.6941583710001,35.6769202670001,35.674498246,35.661038626,35.630804766,35.6167181170001,35.5886454700001,35.5646123120001,35.5429347580001,35.5193935070001,35.5035278440001,35.5304211340001,35.538391888,35.490686257,35.4673806540001,35.4640086700001,35.5098014750001,35.4915062420001,35.4869952,35.4814073310001,35.4603536270001,35.4475815010001,35.428022727,35.412044753,35.4139032100001,35.4372619750001,35.4356714420001,35.441223849,35.473255631,35.4754719750001,35.470249331,35.50305107,35.574634256,35.6016433190001,35.615138013,35.633129427,35.6517740560001,35.6824930180001,35.712557056,35.7276611280001,35.7578861650001,35.7898758100001,35.821917308,35.8531405250001,35.864701284,35.920480943,35.9283097320001,35.91484316,35.947288842,35.975198113,35.9779060270001,35.9751878930001,35.9835205640001,35.992499631,36.0400457690001,36.0705161700001,36.0924880540001,36.1128410600001,36.1276019630001,36.1490983830001,36.170910055,36.2028425280001,36.2146706390001,36.2272497440001,36.240669268,36.2699018390001,36.318034094,36.348989483,36.3661477700001,36.3821023630001,36.3946780050001,36.4441732540001,36.468267763,36.461438023,36.4667327180001,36.4863272490001,36.485562272,36.4619281880001,36.4687966380001,36.4822759090001,36.4740701900001,36.4769545140001,36.475389464,36.477612316,36.4714282030001,36.476611216,36.4940915400001,36.513077778,36.5242365180001,36.5495314460001,36.5872525560001,36.626233116,36.646449234,36.6551762760001,36.660088,36.711348362,36.721495141,36.765595832,36.759351741,36.7755668250001,36.8135284690001,36.8341254960001,36.841381647,36.8114118780001,36.7841277310001,36.7717105420001,36.7589540860001,36.7477780880001,36.740307129,36.725524283,36.696979851,36.668082887,36.6522544970001,36.630587652,36.6219846450001,36.632330041,36.627261257,36.6376590620001,36.6396521890001,36.644839318,36.635182715,36.617839222,36.6022965870001,36.5907225510001,36.6059648350001,36.6088901420001],"lat":[54.975788234,54.9889356240001,54.9752093640001,54.9802978110001,54.977108652,54.9807484560001,54.966360728,54.991061847,54.9848431560001,54.9697496650001,54.960629612,54.9474412100001,54.931905525,54.9198403080001,54.9125669590001,54.8920327750001,54.8865070860001,54.881949584,54.8921215560001,54.8867298060001,54.8952039810001,54.9129174720001,54.929261345,54.912597986,54.905181482,54.9043848210001,54.898958194,54.9046743260001,54.9113568510001,54.9229601500001,54.933482127,54.9427919500001,54.957110814,54.9595344960001,54.9822309420001,54.986964991,55.0055764470001,55.0353138200001,55.05890321,55.0633606110001,55.0521376670001,55.0510642770001,55.0689802140001,55.072809573,55.088315621,55.08992836,55.1054892670001,55.1141346430001,55.131731997,55.137189597,55.1449295200001,55.1567978570001,55.1614839490001,55.175032494,55.1732085840001,55.1857683430001,55.194103904,55.211370366,55.2284176900001,55.241027586,55.2599231630001,55.2671343740001,55.283607713,55.3020832700001,55.318097009,55.3435090230001,55.368220326,55.3896671890001,55.402523457,55.399785121,55.399600993,55.4295046290001,55.434981436,55.4580177670001,55.474379438,55.478159168,55.4789400320001,55.4730464360001,55.482035308,55.493530252,55.494422291,55.4709418840001,55.458438093,55.4603177290001,55.4583441440001,55.460936082,55.4508085510001,55.4368359870001,55.438926667,55.424856832,55.4353965230001,55.4279852590001,55.4216282190001,55.4080904730001,55.397582894,55.402770918,55.4155081930001,55.4308526720001,55.432280506,55.4492834750001,55.4554700130001,55.4691234910001,55.4873059230001,55.481930898,55.4800268000001,55.4620730410001,55.4754646550001,55.4891012460001,55.490167506,55.499495671,55.493409398,55.5096778400001,55.5347799890001,55.5380167610001,55.534656641,55.550954748,55.564101185,55.5649195010001,55.5700504540001,55.5641024810001,55.547411938,55.5324422640001,55.521012759,55.4966853870001,55.4894330230001,55.4721427920001,55.4325272580001,55.4295186350001,55.4245210270001,55.4107559650001,55.3820699500001,55.365851488,55.359617633,55.3413011760001,55.317340818,55.2974766550001,55.2951187940001,55.2963546460001,55.2936788850001,55.3117338580001,55.3143192860001,55.3285922360001,55.34313846,55.362147184,55.3587147710001,55.3103559790001,55.2855342780001,55.2674275110001,55.260226512,55.2459399100001,55.2157792460001,55.16626797,55.1576068520001,55.1679015,55.173430432,55.1644242930001,55.155097384,55.1498155370001,55.1374660660001,55.1313128630001,55.13223522,55.1273830860001,55.125945533,55.1119701750001,55.1080819810001,55.093153494,55.077997845,55.0685295280001,55.0536782450001,55.045567535,55.033226588,55.020150238,55.011901014,54.989668948,54.975788234]}]]],null,"basin",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":0.5,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6,"smoothFactor":1,"noClip":false},"<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>1&emsp;<\/td><\/tr><tr><td>1<\/td><th>OBJECTID_1&emsp;<\/th><td>118&emsp;<\/td><\/tr><tr><td>2<\/td><th>OBJECTID&emsp;<\/th><td>118&emsp;<\/td><\/tr><tr><td>3<\/td><th>Id&emsp;<\/th><td>118&emsp;<\/td><\/tr><tr><td>4<\/td><th>gridcode&emsp;<\/th><td>75389&emsp;<\/td><\/tr><tr><td>5<\/td><th>Shape_Leng&emsp;<\/th><td>347628.7&emsp;<\/td><\/tr><tr><td>6<\/td><th>Shape_Le_1&emsp;<\/th><td>4.332997&emsp;<\/td><\/tr><tr><td>7<\/td><th>Shape_Area&emsp;<\/th><td>0.5485463&emsp;<\/td><\/tr><tr><td>8<\/td><th>geom&emsp;<\/th><td>sfc_MULTIPOLYGON&emsp;<\/td><\/tr><\/table><\/div>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":1,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addHomeButton","args":[35.412044753,54.881949584,36.841381647,55.5700504540001,"basin","Zoom to basin","<strong> basin <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],["basin_buffer","basin"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["basin"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"basin"}]},{"method":"addHomeButton","args":[35.0172652069714,54.6559403895841,37.2345001718593,55.7939184442038,null,"Zoom to full extent","<strong>Zoom full<\/strong>","bottomleft"]}],"limits":{"lat":[54.6559403895841,55.7939184442038],"lng":[35.0172652069714,37.2345001718593]},"fitBounds":[54.6559403895841,35.0172652069714,55.7939184442038,37.2345001718593,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script><p>Alternatively you can just buffer the gauge point, though it is less meaningful since you will grab reanalysis data that falls out of gauge’s basin:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gauge</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="va">path</span>, layer <span class="op">=</span> <span class="st">'gauge'</span><span class="op">)</span> <span class="co"># read gauge point</span>
+<span class="co">#&gt; Reading layer `gauge' from data source `/private/var/folders/5s/rkxr4m8j24569d_p6nj9ld200000gn/T/RtmpNilAIo/temp_libpath1362e34590714/grwat/extdata/spas-zagorye.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 1 feature and 0 fields</span>
+<span class="co">#&gt; Geometry type: POINT</span>
+<span class="co">#&gt; Dimension:     XY</span>
+<span class="co">#&gt; Bounding box:  xmin: 36.62272 ymin: 55.03669 xmax: 36.62272 ymax: 55.03669</span>
+<span class="co">#&gt; Geodetic CRS:  WGS 84</span>
+<span class="va">gauge_buffer</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_buffer_geo.html">gr_buffer_geo</a></span><span class="op">(</span><span class="va">gauge</span>, <span class="fl">50000</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html">mapview</a></span><span class="op">(</span><span class="va">gauge_buffer</span>, col.regions <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html">mapview</a></span><span class="op">(</span><span class="va">gauge</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-92abbc75d127ab3f2256" style="width:700px;height:432.632880098888px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-92abbc75d127ab3f2256">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"createMapPane","args":["polygon",420]},{"method":"addPolygons","args":[[[[{"lng":[37.4047188047078,37.4031903235025,37.3995270746178,37.3937427851768,37.3858568975711,37.3758944775103,37.3638861083632,37.3498677724636,37.3338807200616,37.3159713266057,37.296190939038,37.2745957117818,37.2512464330886,37.226208342402,37.1995509393794,37.1713477851919,37.1416762967071,37.1106175341356,37.078255982698,37.0446793288495,37.0099782315718,36.974246089221,36.9375788023955,36.9000745332662,36.8618334617901,36.8229575392076,36.7835502392055,36.7437163071129,36.703561507479,36.6631923703734,36.622715936736,36.5822395030986,36.541870365993,36.5017155663591,36.4618816342665,36.4224743342645,36.3835984116819,36.3453573402059,36.3078530710766,36.271185784251,36.2354536419002,36.2007525446226,36.1671758907741,36.1348143393365,36.1037555767649,36.0740840882802,36.0458809340926,36.01922353107,35.9941854403835,35.9708361616902,35.949240934434,35.9294605468664,35.9115511534104,35.8955641010084,35.8815457651088,35.8695373959618,35.859574975901,35.8516890882952,35.8459047988542,35.8422415499696,35.8407130687642,35.8413272895071,35.8440862910332,35.8489862497809,35.8560174090269,35.8651640648604,35.8764045693943,35.8897113516561,35.9050509565467,35.9223841021872,35.9416657559049,35.9628452290317,35.9858662906065,36.0106672999839,36.037181358263,36.0653364783505,36.0950557733762,36.1262576630775,36.1588560976667,36.1927607985929,36.2278775155073,36.2641082986416,36.3013517857098,36.3395035023504,36.3784561750371,36.4181000552993,36.4583232540213,36.4990120845145,36.5400514129992,36.581325015077,36.622715936736,36.6641068583951,36.7053804604728,36.7464197889575,36.7871086194508,36.8273318181728,36.8669756984349,36.9059283711216,36.9440800877623,36.9813235748304,37.0175543579647,37.0526710748791,37.0865757758053,37.1191742103945,37.1503761000958,37.1800953951215,37.208250515209,37.2347645734882,37.2595655828656,37.2825866444403,37.3037661175671,37.3230477712848,37.3403809169253,37.355720521816,37.3690273040778,37.3802678086116,37.3894144644452,37.3964456236911,37.4013455824388,37.404104583965,37.4047188047078],"lat":[55.0341799542375,55.010682146103,54.9872623350264,54.963984525867,54.9409122254594,54.9181082720369,54.8956346676196,54.8735524137712,54.8519213511074,54.8308000029184,54.8102454232463,54.7903130497407,54.7710565615918,54.7525277428221,54.7347763511994,54.7178499930123,54.7017940039313,54.6866513361637,54.6724624520885,54.6592652245449,54.6470948439298,54.6359837322466,54.6259614642303,54.6170546956641,54.6092870989855,54.6026793062711,54.5972488596753,54.5930101693871,54.5899744791598,54.588149839456,54.5875410882423,54.588149839456,54.5899744791598,54.5930101693871,54.5972488596753,54.6026793062711,54.6092870989855,54.6170546956641,54.6259614642303,54.6359837322466,54.6470948439298,54.6592652245449,54.6724624520885,54.6866513361637,54.7017940039313,54.7178499930123,54.7347763511994,54.752527742822,54.7710565615918,54.7903130497407,54.8102454232463,54.8308000029184,54.8519213511074,54.8735524137712,54.8956346676196,54.9181082720369,54.9409122254594,54.963984525867,54.9872623350264,55.010682146103,55.0341799542375,55.0576914296652,55.0811520929333,55.104497491757,55.1276633790334,55.1505858915173,55.1732017286484,55.1954483310033,55.2172640578347,55.2385883631496,55.2593619697701,55.2795270408133,55.2990273480242,55.317808436393,55.3358177844916,55.3530049599664,55.3693217696318,55.384722403622,55.3991635730664,55.4126046407766,55.4250077444461,55.4363379118913,55.4465631678846,55.4556546321588,55.463586608195,55.4703366624368,55.4758856936107,55.4802179918723,55.4833212875342,55.485186789176,55.4858092109797,55.485186789176,55.4833212875342,55.4802179918723,55.4758856936107,55.4703366624368,55.463586608195,55.4556546321588,55.4465631678846,55.4363379118913,55.4250077444461,55.4126046407766,55.3991635730664,55.384722403622,55.3693217696318,55.3530049599664,55.3358177844917,55.317808436393,55.2990273480242,55.2795270408133,55.2593619697701,55.2385883631496,55.2172640578347,55.1954483310033,55.1732017286484,55.1505858915173,55.1276633790334,55.104497491757,55.0811520929333,55.0576914296652,55.0341799542375]}]]],null,"gauge_buffer",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":0.5,"opacity":0.9,"fill":true,"fillColor":"#FF0000","fillOpacity":0.6,"smoothFactor":1,"noClip":false},"<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>1&emsp;<\/td><\/tr><tr><td>1<\/td><th>geom&emsp;<\/th><td>sfc_POLYGON&emsp;<\/td><\/tr><\/table><\/div>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":1,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[35.8407130687642,54.5875410882423,37.4047188047078,55.4858092109797,"gauge_buffer","Zoom to gauge_buffer","<strong> gauge_buffer <\/strong>","bottomright"]},{"method":"addLegend","args":[{"colors":["#FF0000"],"labels":["gauge_buffer"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"gauge_buffer"}]},{"method":"createMapPane","args":["point",440]},{"method":"addCircleMarkers","args":[55.0366918398792,36.622715936736,6,null,"gauge",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":1,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6},null,null,"<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>1&emsp;<\/td><\/tr><tr><td>1<\/td><th>geom&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addHomeButton","args":[36.622715936736,55.0366918398792,36.622715936736,55.0366918398792,"gauge","Zoom to gauge","<strong> gauge <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],["gauge_buffer","gauge"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["gauge"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"gauge"}]},{"method":"addHomeButton","args":[35.8407130687642,54.5875410882423,37.4047188047078,55.4858092109797,null,"Zoom to full extent","<strong>Zoom full<\/strong>","bottomleft"]}],"limits":{"lat":[54.5875410882423,55.4858092109797],"lng":[35.8407130687642,37.4047188047078]},"fitBounds":[54.5875410882423,35.8407130687642,55.4858092109797,37.4047188047078,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script><p>Finally, you need the bounding box of your buffer to query the data:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">box</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html">st_bbox</a></span><span class="op">(</span><span class="va">basin_buffer</span><span class="op">)</span>
+<span class="va">box</span>
+<span class="co">#&gt;     xmin     ymin     xmax     ymax </span>
+<span class="co">#&gt; 35.01727 54.65594 37.23450 55.79392</span></code></pre></div>
+</div>
+<div id="joining-the-east-european-plane-reanalysis" class="section level3">
+<h3 class="hasAnchor">
+<a href="#joining-the-east-european-plane-reanalysis" class="anchor"></a>Joining the East-European Plane reanalysis</h3>
+<p><strong>grwat</strong> is packaged with daily reanalysis which covers the East European territory of Russia:</p>
+<p><img src="img/reanalysis.png" width="50%"></p>
+<p>The reanalysis consists of two data files, each is about 850 Mb in size:</p>
+<p><img src="img/rean_files.png" width="100%"></p>
+<p>Download this data using the <a href="ftp://gruser@carto.geogr.msu.ru">FTP link</a> for using with grwat.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rean</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_read_rean.html">gr_read_rean</a></span><span class="op">(</span><span class="st">'/Volumes/Data/Spatial/Reanalysis/grwat/pre_1880-2021.nc'</span>,
+                    <span class="st">'/Volumes/Data/Spatial/Reanalysis/grwat/temp_1880-2021.nc'</span><span class="op">)</span> <span class="co"># read reanalysis data</span>
+<span class="va">hdata_rean</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_join_rean.html">gr_join_rean</a></span><span class="op">(</span><span class="va">hdata</span>, <span class="va">rean</span>, <span class="va">basin_buffer</span><span class="op">)</span> <span class="co"># join reanalysis data to hydrological series</span>
+<span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
+<span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
+<span class="co">#&gt; Joining, by = c("Year", "Month", "Day")</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">hdata_rean</span><span class="op">$</span><span class="va">df</span><span class="op">)</span>
+<span class="co">#&gt;   Day Month Year    Q   Temp  Prec</span>
+<span class="co">#&gt; 1   1     1 1956 5.18  -6.46 0.453</span>
+<span class="co">#&gt; 2   2     1 1956 5.18 -11.41 0.825</span>
+<span class="co">#&gt; 3   3     1 1956 5.44 -10.74 0.260</span>
+<span class="co">#&gt; 4   4     1 1956 5.44  -8.05 0.397</span>
+<span class="co">#&gt; 5   5     1 1956 5.44 -11.73 0.102</span>
+<span class="co">#&gt; 6   6     1 1956 5.58 -20.13 0.032</span></code></pre></div>
 <p>After reanalysis data are joined you can easily plot a map of the derived spatial configuration with</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">rean</span>$<span class="no">pts</span>, <span class="no">hdata_rean</span>$<span class="no">pts</span>, <span class="no">basin</span>, <span class="no">basin_pr</span>) <span class="co"># plot spatial configuration</span></pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_map.html">gr_map</a></span><span class="op">(</span><span class="va">rean</span><span class="op">$</span><span class="va">pts</span>, <span class="va">hdata_rean</span><span class="op">$</span><span class="va">pts</span>, <span class="va">basin</span>, <span class="va">basin_buffer</span><span class="op">)</span> <span class="co"># plot spatial configuration</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
-<div id="gauge-folder" class="section level2">
-<h2 class="hasAnchor">
-<a href="#gauge-folder" class="anchor"></a>Gauge folder</h2>
-<p>Grwat can preprocess hydrological data that is inside one gauge folder. That folder should contain <strong>two</strong> files:</p>
-<ul>
-<li>Text file with hydrological data in CSV format, space-separated (<code>.txt</code> extension)</li>
-<li>Spatial data file with polygon of a gauge watershed area in Geopackage (<code>.gpkg</code> extension) or Shapefile (<code>.shp</code> extension) format</li>
-</ul>
-<p>The name of the file is not restricted, only the extension and the format. Here is an example:</p>
-<p><img src="in_gauge.png"></p>
-<p>Reanalysis data should be read before using <code><a href="../reference/read_interim.html">read_interim()</a></code> function from grwat package. Having these prerequisities satisfied, the command is:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/process_gauge.html">process_gauge</a></span>(<span class="no">wd</span>, <span class="no">rean</span>, <span class="kw">bufsize</span> <span class="kw">=</span> <span class="fl">50000</span>) <span class="co"># process single folder</span></pre></body></html></div>
-<p>The value returned by this function is a number of reanalysis points extracted by buffered basin region. As a result of the execution of this function the folder receives two enriched data files and a map of the spatial configuration:</p>
-<p><img src="out_gauge.png"></p>
+<div id="joining-the-era5-reanalysis" class="section level3">
+<h3 class="hasAnchor">
+<a href="#joining-the-era5-reanalysis" class="anchor"></a>Joining the ERA5 reanalysis</h3>
 <blockquote>
-<p>We recommend using GeoPackage because it is fast and powerful <a href="https://www.geopackage.org">OGC-standardized</a> modern spatial data format that does not include any sidecar files like Esri Shapefile. You can easily convert many spatial data formats to GeoPackage by <a href="https://www.qgis.org/">QGIS</a> <em>Export &gt; Save as…</em> command in a layer context menu, using <code>st_read</code> and then <code>st_write</code> functions from <a href="https://r-spatial.github.io/sf/"><code>sf</code></a> R package, or via <a href="http://www.gdal.org">GDAL</a> utils if you prefer command line or need batch processing (which can also be automated in R). Note that if you use Shapefile format for basin border representation, you should also preserve <code>.dbf</code> and <code>.shx</code> sidecar files that store attribute information and relation between attributes and geometry. Otherwise the shapefile cannot be read correctly.</p>
+<p>To be described</p>
 </blockquote>
+<!-- ERA 5 data can be accessed via [__`ecmwfr`__](https://bluegreen-labs.github.io/ecmwfr/index.html) package. Before you access the data, you must register and obtain the Climate Data Store (CDS) API key. Please follow instructions [here](https://bluegreen-labs.github.io/ecmwfr/index.html#use-copernicus-climate-data-store-cds). -->
+<!-- First, set your key: -->
+<!-- ```{r, eval=F} -->
+<!-- wf_set_key(user = "12345", -->
+<!--            key = "XXXXXXXXXXXXXXXXXXXXXX", -->
+<!--            service = "cds") -->
+<!-- ``` -->
+<!-- ```{r, echo=FALSE, include=FALSE} -->
+<!-- wf_set_key(user = "87659", -->
+<!--            key = "df251cc6-5b0b-4100-b2ee-617fcea66b04", -->
+<!--            service = "cds") -->
+<!-- ``` -->
+<!-- Second, fill the request list: -->
+<!-- ```{r} -->
+<!-- # This is an example of a request for # downloading 'ERA-5' reanalysis data for -->
+<!-- # 2000-04-04 00:00 UTC, temperature on # 850 hectopascal for an area covering  -->
+<!-- # northern Europe. -->
+<!-- # File will be stored as "era5-demo.nc" (netcdf format). -->
+<!-- request = list("dataset_short_name" = "reanalysis-era5-single-levels", -->
+<!--                 "product_type" = "reanalysis", -->
+<!--                 "variable" = c("temperature", "total_precipitation"), -->
+<!--                 "year" = '2020', -->
+<!--                 "month" = '01', -->
+<!--                 "day" = '01', -->
+<!--                 "time" = '00:00', #seq(0, 21, by = 3), -->
+<!--                 # "area" = as.vector(box), -->
+<!--                 "area" = "70/-20/00/60", -->
+<!--                 "format" = "netcdf", -->
+<!--                 "target" = "era5.nc") -->
+<!-- request <- list("dataset_short_name" = "reanalysis-era5-pressure-levels", -->
+<!--                 "product_type" = "reanalysis", -->
+<!--                 "variable" = "temperature", -->
+<!--                 "pressure_level" = "850", -->
+<!--                 "year" = "2000", -->
+<!--                 "month" = "04", -->
+<!--                 "day" = "04", -->
+<!--                 "time" = "00:00", -->
+<!--                 "area" = "70/-20/00/60", -->
+<!--                 "format" = "netcdf", -->
+<!--                 "target" = "era5-demo.nc") -->
+<!-- ``` -->
+<!-- Then pass it to the [`wf_request()`](https://bluegreen-labs.github.io/ecmwfr/reference/wf_request.html) function -->
+<!-- ```{r, eval=F} -->
+<!-- file = wf_request(user     = "12345",   # user ID (for authentification) -->
+<!--                    request  = request,  # the request -->
+<!--                    transfer = TRUE,     # download the file -->
+<!--                    path     = ".")      # store data in current working directory -->
+<!-- ``` -->
+<!-- ```{r, include=F, echo=F} -->
+<!-- file = wf_request(user     = "87659",   # user ID (for authentification) -->
+<!--                   request  = request,  # the request -->
+<!--                   transfer = TRUE,     # download the file -->
+<!--                   path     = ".")      # store data in current working directory -->
+<!-- ``` -->
 </div>
-<div id="basins-folder" class="section level2">
-<h2 class="hasAnchor">
-<a href="#basins-folder" class="anchor"></a>Basins folder</h2>
-<p>Basins mode provides automation of reanalysis data joining across multiple basins and gauges. It is based on a fixed folder structure that should be organized by user. This structure is:</p>
-<ol style="list-style-type: decimal">
-<li>The top-level folder specified by user must contain only one folder, which is called <strong>in</strong>.</li>
-<li>This <strong>in</strong> folder contains an arbitrary number of folders (at least one), each of those corresponding to a single river <strong>basin</strong>.</li>
-<li>Each river basin folder contains an arbitrary number of folders (at least one), each of those corresponding to a single river <strong>gauge</strong>.</li>
-<li>Each gauge folder contains strictly two files: a <code>.txt</code> file with hydrological data, and <code>.gpkg</code> or <code>.shp</code> file with polygon of a gauge watershed area.</li>
-</ol>
-<p>The names of basin and gauge folders are not restricted, but we highly recommend begin with a letter and proceed with alphanumerical symbols, underscore and a hyphen from ASCII encoding (<code>a-z, A-Z, 0-9, _, -</code>)</p>
-<p>An example of specified directory structure is provided in the picture below:</p>
-<p><img src="in_folder.png"></p>
-<p>The processing of this folder structure is performed by <code><a href="../reference/process_basins.html">process_basins()</a></code> function:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">wd</span> <span class="kw">=</span> <span class="st">"/Volumes/Work/_grwat/2018/"</span>
-<span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/process_basins.html">process_basins</a></span>(<span class="no">wd</span>, <span class="no">rean</span>, <span class="kw">bufsize</span> <span class="kw">=</span> <span class="fl">50000</span>) <span class="co"># process single folder</span></pre></body></html></div>
-<p>It works in a following way:</p>
-<ol style="list-style-type: decimal">
-<li><p><code><a href="../reference/process_basins.html">process_basins()</a></code> takes <strong>in</strong> folder inside folder specified by <code>wd</code> parameter and copies its content to a new <strong>out</strong> folder in the same directory. All the following procedures are executed inside <strong>out</strong> folder, which allows easy removal of results and rexecution of the processing if some parameters should be changed.</p></li>
-<li><p>Every gauge folder is processed using <code><a href="../reference/process_gauge.html">process_gauge()</a></code> function which produces enriched data files and a map inside each gauge folder.</p></li>
-<li>
-<p><code><a href="../reference/process_basins.html">process_basins()</a></code> also produces <em>summary.txt</em> files inside each basin folder and one <em>summary.txt</em> file directly in <strong>out</strong> folder. These files contain a number of reanalysis points for each gauge’s watershed. These are two special cases:</p>
-<ul>
-<li>0 means that no reanalysis data are found inside a watershed</li>
-<li>-1 means that there were problems either reading <code>.txt</code> or <code>.gpkg</code>/<code>.shp</code> file</li>
-</ul>
-<p>In both cases the corresponding gauge folder will not contain any new files inside, and the further exploration of the problem should be taken by user. 0 means that the watershed is located outside the extent of reanalysis data or it is too small in comparison with spatial sampling of reanalysis data. Try increasing buffer size. -1 means that there are problems with your input files, and solution depends on the exact case (you must diagnose the reasons by yourself).</p>
-</li>
-</ol>
-<p>An example of resulting directory structure is provided in the picture below:</p>
-<p><img src="out_folder.png"></p>
 </div>
 </div>
 <div id="separate" class="section level1">
 <h1 class="hasAnchor">
 <a href="#separate" class="anchor"></a>Separate and describe</h1>
-<p>Currently separation and description procedures are unavalable inside grwat package and are performed using external command-line Fortran<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> program that produces two files:</p>
-<ul>
-<li>
-<em>AllGrWat.txt</em> contains hydrograph separation data</li>
-<li>
-<em>Total.txt</em> contains multiple variables describing the separated hydrograph</li>
-</ul>
-<p>These output data can be visualised and statistically assessed by grwat functions that are uncovered in the next section.</p>
-<p>We recommend placing these files in the same folder as processed data like in a picture below:</p>
-<p><img src="sep_files.png"></p>
+<p>The first stage before separation is to fill the gaps. You can limit the maximum gap extent by treshold autocorrelation value (<code>autocorr</code> parameter) or explitit number of observations (<code>nobserv</code> parameter):</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tab</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_fill_gaps.html">gr_fill_gaps</a></span><span class="op">(</span><span class="va">hdata_rean</span><span class="op">$</span><span class="va">df</span>,
+                   autocorr <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span>
+<span class="co">#&gt; grwat: filled 0 observations using 5 days window</span></code></pre></div>
+<p>The second step is to derive and set separation parameters:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Расчленение</span>
+<span class="va">p</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">p</span><span class="op">$</span><span class="va">nPav</span> <span class="op">=</span> <span class="fl">5</span>
+<span class="va">p</span><span class="op">$</span><span class="va">prodspada</span> <span class="op">=</span> <span class="fl">85</span></code></pre></div>
+<p>Next, you can separate the hydrograph</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">tab</span>, <span class="va">p</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span>
+<span class="co">#&gt;         Date Qin Qbase Quick Qseas Qrain Qthaw Qpb Qtype  Temp Prec</span>
+<span class="co">#&gt; 1 1956-01-01 5.2   5.2     0     0     0     0   0     0  -6.5  0.5</span>
+<span class="co">#&gt; 2 1956-01-02 5.2   5.2     0     0     0     0   0     0 -11.4  0.8</span>
+<span class="co">#&gt; 3 1956-01-03 5.4   5.4     0     0     0     0   0     0 -10.7  0.3</span>
+<span class="co">#&gt; 4 1956-01-04 5.4   5.4     0     0     0     0   0     0  -8.1  0.4</span>
+<span class="co">#&gt; 5 1956-01-05 5.4   5.4     0     0     0     0   0     0 -11.7  0.1</span>
+<span class="co">#&gt; 6 1956-01-06 5.6   5.6     0     0     0     0   0     0 -20.1  0.0</span></code></pre></div>
+<p>Finally, summarize the interannual changes:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 57</span>
+<span class="co">#&gt;    Year Year1 Year2 datestart  datepolend PolProd    Qy  Qmax datemax     Qygr</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1  1956  1956  1957 1956-04-08 1956-05-02      24  18.3   467 1956-04-22  7.83</span>
+<span class="co">#&gt; 2  1957  1957  1958 1957-03-31 1957-05-01      31  20.3   460 1957-04-08  8.02</span>
+<span class="co">#&gt; 3  1958  1958  1959 1958-04-06 1958-05-06      30  27.4   537 1958-04-21  8.28</span>
+<span class="co">#&gt; 4  1959  1959  1960 1959-03-31 1959-04-27      27  27.1   406 1959-04-16  7.60</span>
+<span class="co">#&gt; 5  1960  1960  1961 1960-03-30 1960-04-26      27  29.5   406 1960-04-15  9.45</span>
+<span class="co">#&gt; 6  1961  1961  1962 1961-03-12 1961-04-14      33  18.8   296 1961-04-10  9.81</span>
+<span class="co">#&gt; # … with 47 more variables: Qmmsummer &lt;dbl&gt;, monmmsummer &lt;date&gt;, Qmmwin &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   nommwin &lt;date&gt;, Q30s &lt;dbl&gt;, date30s1 &lt;date&gt;, date30s2 &lt;date&gt;, Q30w &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   date30w1 &lt;date&gt;, date30w2 &lt;date&gt;, Q10s &lt;dbl&gt;, date10s1 &lt;date&gt;,</span>
+<span class="co">#&gt; #   date10s2 &lt;date&gt;, Q10w &lt;dbl&gt;, date10w1 &lt;date&gt;, date10w2 &lt;date&gt;, Q5s &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   date5s1 &lt;date&gt;, date5s2 &lt;date&gt;, Q5w &lt;dbl&gt;, date5w1 &lt;date&gt;, date5w2 &lt;date&gt;,</span>
+<span class="co">#&gt; #   Wy &lt;dbl&gt;, Wgr &lt;dbl&gt;, Wpol2 &lt;dbl&gt;, Wpol1 &lt;dbl&gt;, Wpol3 &lt;dbl&gt;, Wpavs2 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   Wpavs1 &lt;dbl&gt;, Wpavthaw2 &lt;dbl&gt;, Wpavthaw1 &lt;dbl&gt;, WgrS &lt;dbl&gt;, WS &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   WgrW &lt;dbl&gt;, WW &lt;dbl&gt;, Qmaxpavs &lt;dbl&gt;, Qmaxpavthaw &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   datemaxpavs &lt;date&gt;, datemaxpavthaw &lt;date&gt;, SumProd &lt;int&gt;,</span>
+<span class="co">#&gt; #   DaysPavsSum &lt;int&gt;, WinProd &lt;int&gt;, DaysThawWin &lt;int&gt;, CvWin &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   CvSum &lt;dbl&gt;, CountPavs &lt;int&gt;, CountThaws &lt;int&gt;</span></code></pre></div>
 </div>
 <div id="plot-and-test" class="section level1">
 <h1 class="hasAnchor">
@@ -223,99 +347,62 @@
 <li>Plot long-term changes of key water discharge variables</li>
 <li>Perform statistical tests on all calculated variables</li>
 </ul>
-<blockquote>
-<p>Currently only English locale is provided in plots. In future releases Russian locale will also be added</p>
-</blockquote>
 <div id="plot-separation-of-hydrograph" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-separation-of-hydrograph" class="anchor"></a>Plot separation of hydrograph</h2>
-<p>To plot separation of hydrograph you need results of a separation procedure which are saved as <em>AllGrWat.txt</em> text file (see previous section). This file is read by <code><a href="../reference/read_separation.html">read_separation()</a></code> function:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"/Volumes/Work/_grwat/Mezen_Malonisog/"</span>)
-
-<span class="no">sep</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/read_separation.html">read_separation</a></span>(<span class="st">'AllGrWat.txt'</span>)<span class="co">#</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">sep</span>)
-<span class="co">#&gt; # A tibble: 6 x 8</span>
-<span class="co">#&gt;   Date         Qin   Qgr  Qpol  Qpav Qthaw   Tin   Pin</span>
-<span class="co">#&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 1938-03-23  43.3  43.3   0       0     0  9999  9999</span>
-<span class="co">#&gt; 2 1938-03-24  56.9  39.7  17.2     0     0  9999  9999</span>
-<span class="co">#&gt; 3 1938-03-25  77.7  36.1  41.6     0     0  9999  9999</span>
-<span class="co">#&gt; 4 1938-03-26 150    32.5 118.      0     0  9999  9999</span>
-<span class="co">#&gt; 5 1938-03-27 334    28.9 305.      0     0  9999  9999</span>
-<span class="co">#&gt; 6 1938-03-28 429    25.3 404.      0     0  9999  9999</span></pre></body></html></div>
-<p>You can then plot separations for selected years using <code><a href="../reference/plot_separation.html">plot_separation()</a></code> function:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_separation.html">plot_separation</a></span>(<span class="no">sep</span>, <span class="fl">1978</span>) <span class="co"># plot single year</span></pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_separation.html">plot_separation</a></span>(<span class="no">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1994</span>, <span class="fl">2001</span>)) <span class="co"># plot two years sequentially</span></pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-7-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_separation.html">plot_separation</a></span>(<span class="no">sep</span>, <span class="fl">1994</span>:<span class="fl">1997</span>, <span class="co"># plot four years on the same page</span>
-                       <span class="kw">layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>), <span class="kw">nrow</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">byrow</span><span class="kw">=</span><span class="fl">TRUE</span>))</pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-7-4.png" width="700"></p>
+<p>You can plot separations for selected years using <code><a href="../reference/gr_plot_sep.html">gr_plot_sep()</a></code> function:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1979</span><span class="op">)</span> <span class="co"># plot single year</span>
+<span class="co">#&gt; Warning: Removed 36 rows containing missing values (position_stack).</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1994</span>, <span class="fl">2001</span><span class="op">)</span><span class="op">)</span> <span class="co"># plot two years sequentially</span>
+<span class="co">#&gt; Warning: Removed 24 rows containing missing values (position_stack).</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-16-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-16-3.png" width="700"></p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1994</span><span class="op">:</span><span class="fl">1997</span>, <span class="co"># plot four years on the same page</span>
+            layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">2</span>, byrow<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Removed 24 rows containing missing values (position_stack).</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-16-4.png" width="700"></p>
 </div>
-<div id="read-and-test-hydrograph-variables" class="section level2">
+<div id="interannual-change-variables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#read-and-test-hydrograph-variables" class="anchor"></a>Read and test hydrograph variables</h2>
-<p>Interannual changes of parameters are read from <em>Total.txt</em> file using <code><a href="../reference/read_variables.html">read_variables()</a></code> function:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"/Volumes/Work/_grwat/Mezen_Malonisog/"</span>)
-
-<span class="no">df</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/read_variables.html">read_variables</a></span>(<span class="st">'Total.txt'</span>) <span class="co"># read parameters file</span>
-<span class="co">#&gt; Warning: 3 failed to parse.</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">df</span>)
-<span class="co">#&gt; # A tibble: 6 x 57</span>
-<span class="co">#&gt;   year_number Year1 Year2 datestart  datepolend    Qy  Qmax datemax     Qygr</span>
-<span class="co">#&gt;         &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;date&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1           1  1938  1939 2000-03-23 2000-06-08  98.1   747 2000-04-03  19.9</span>
-<span class="co">#&gt; 2           2  1939  1940 2000-03-16 2000-07-11  66.9   487 2000-04-28  14.8</span>
-<span class="co">#&gt; 3           3  1940  1941 2000-03-09 2000-07-12  97.4   995 2000-04-28  18.9</span>
-<span class="co">#&gt; 4           4  1941  1942 2000-03-24 2000-07-21 214.   2030 2000-05-01  31.4</span>
-<span class="co">#&gt; 5           5  1942  1943 2000-04-02 2000-07-31 242.   2790 2000-05-08  26.9</span>
-<span class="co">#&gt; 6           6  1943  1944 2000-03-24 2000-06-15  71.3   451 2000-05-02  26.5</span>
-<span class="co">#&gt; # … with 48 more variables: Qmmsummer &lt;dbl&gt;, monmmsummer &lt;date&gt;, Qmmwin &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   nommwin &lt;date&gt;, Q30s &lt;dbl&gt;, date30s1 &lt;date&gt;, date30s2 &lt;date&gt;, Q30w &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   date30w1 &lt;date&gt;, date30w2 &lt;date&gt;, Q10s &lt;dbl&gt;, date10s1 &lt;date&gt;,</span>
-<span class="co">#&gt; #   date10s2 &lt;date&gt;, Q10w &lt;dbl&gt;, date10w1 &lt;date&gt;, date10w2 &lt;date&gt;, Q5s &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   date5s1 &lt;date&gt;, date5s2 &lt;date&gt;, Q5w &lt;dbl&gt;, date5w1 &lt;date&gt;, date5w2 &lt;date&gt;,</span>
-<span class="co">#&gt; #   Wy &lt;dbl&gt;, Wgr &lt;dbl&gt;, Wpol1 &lt;dbl&gt;, Wpol2 &lt;dbl&gt;, Wpol3 &lt;dbl&gt;, Wpavs1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   Wpavs2 &lt;dbl&gt;, Wpavthaw1 &lt;dbl&gt;, Wpavthaw2 &lt;dbl&gt;, WgrS &lt;dbl&gt;, WS &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   WgrW &lt;dbl&gt;, WW &lt;dbl&gt;, Qmaxpavs &lt;dbl&gt;, datemaxpavs &lt;date&gt;,</span>
-<span class="co">#&gt; #   Qmaxpavthaw &lt;dbl&gt;, datemaxpavthaw &lt;date&gt;, SumProd &lt;int&gt;, DaysPavsSum &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   WinProd &lt;int&gt;, DaysThawWin &lt;dbl&gt;, CvWin &lt;dbl&gt;, CvSum &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   CountPavs &lt;int&gt;, CountThaws &lt;int&gt;, PolProd &lt;int&gt;</span></pre></body></html></div>
+<a href="#interannual-change-variables" class="anchor"></a>Interannual change variables</h2>
 <p>To get the detailed description of available variables you can invoke <code>get_parameters()</code>:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/get_variables.html">get_variables</a></span>()
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_help_vars.html">gr_help_vars</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 57 x 19</span>
-<span class="co">#&gt;       ID Position Width Source Name  Units Unitsen Readtype Type   Test Desc </span>
-<span class="co">#&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;</span>
-<span class="co">#&gt;  1     1        1     7      1 year… &lt;NA&gt;  &lt;NA&gt;    integer  inte…     0 Номе…</span>
-<span class="co">#&gt;  2     2        8    10      1 Year1 Год   Year    integer  inte…     0 Год,…</span>
-<span class="co">#&gt;  3     3       18    10      1 Year2 Год   Year    integer  inte…     0 Год,…</span>
-<span class="co">#&gt;  4     4       28    15      1 date… Дата  Date    Date     Date      1 Дата…</span>
-<span class="co">#&gt;  5     5       43    15      1 date… Дата  Date    Date     Date      1 Дата…</span>
-<span class="co">#&gt;  6     6       58    10      1 Qy    м^3/с m^3/s   double   doub…     1 Сред…</span>
-<span class="co">#&gt;  7     7       68    10      1 Qmax  м^3/с m^3/s   double   doub…     1 Макс…</span>
-<span class="co">#&gt;  8     8       78    15      1 date… Дата  Date    Date     Date      1 Дата…</span>
-<span class="co">#&gt;  9     9       93    10      1 Qygr  м^3/с m^3/s   double   doub…     1 Сред…</span>
-<span class="co">#&gt; 10    10      103    10      1 Qmms… м^3/с m^3/s   double   doub…     1 Мини…</span>
+<span class="co">#&gt;       ID Position Width Source Name   Units Unitsen Readtype Type   Test Desc   </span>
+<span class="co">#&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;  1     1        1     7      1 year_… &lt;NA&gt;  &lt;NA&gt;    integer  inte…     0 Номер …</span>
+<span class="co">#&gt;  2     2        8    10      1 Year1  Год   Year    integer  inte…     0 Год, к…</span>
+<span class="co">#&gt;  3     3       18    10      1 Year2  Год   Year    integer  inte…     0 Год, к…</span>
+<span class="co">#&gt;  4     4       28    15      1 dates… Дата  Date    Date     Date      1 Дата н…</span>
+<span class="co">#&gt;  5     5       43    15      1 datep… Дата  Date    Date     Date      1 Дата о…</span>
+<span class="co">#&gt;  6    57        0     0      0 PolPr… Дней  Days    integer  inte…     1 Продол…</span>
+<span class="co">#&gt;  7     6       58    10      1 Qy     м^3/с m^3/s   double   doub…     1 Средни…</span>
+<span class="co">#&gt;  8     7       68    10      1 Qmax   м^3/с m^3/s   double   doub…     1 Максим…</span>
+<span class="co">#&gt;  9     8       78    15      1 datem… Дата  Date    Date     Date      1 Дата м…</span>
+<span class="co">#&gt; 10     9       93    10      1 Qygr   м^3/с m^3/s   double   doub…     1 Средни…</span>
 <span class="co">#&gt; # … with 47 more rows, and 8 more variables: Descen &lt;chr&gt;, Group &lt;chr&gt;,</span>
 <span class="co">#&gt; #   Winter &lt;dbl&gt;, Chart &lt;chr&gt;, Color &lt;chr&gt;, Order &lt;dbl&gt;, Range &lt;chr&gt;,</span>
-<span class="co">#&gt; #   Problems &lt;chr&gt;</span></pre></body></html></div>
-<p>Parameters can be statistically tested using <code><a href="../reference/test_variables.html">test_variables(df, ..., year = NULL, locale='EN')</a></code> function. Names of the parameters are passed comma-separated in place of <code>...</code>. They are quoted, so you do not need to pass them as character strings, just write their names:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qmax</span>)
-<span class="co">#&gt; Warning: `select_()` is deprecated as of dplyr 0.7.0.</span>
+<span class="co">#&gt; #   Problems &lt;chr&gt;</span></code></pre></div>
+<p>Parameters can be statistically tested using <code>test_variables(df, ..., year = NULL, locale='EN')</code> function. Names of the parameters are passed comma-separated in place of <code>...</code>. They are quoted, so you do not need to pass them as character strings, just write their names:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qmax</span><span class="op">)</span>
+<span class="co">#&gt; Warning: `select_()` was deprecated in dplyr 0.7.0.</span>
 <span class="co">#&gt; Please use `select()` instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
 <span class="co">#&gt; $ptt</span>
 <span class="co">#&gt; $ptt$Qmax</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Pettitt's test for single change-point detection</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; data:  vl[vl_cmp]</span>
-<span class="co">#&gt; U* = 768, p-value = 0.000508</span>
+<span class="co">#&gt; U* = 479, p-value = 0.01136</span>
 <span class="co">#&gt; alternative hypothesis: two.sided</span>
 <span class="co">#&gt; sample estimates:</span>
 <span class="co">#&gt; probable change point at time K </span>
-<span class="co">#&gt;                              44 </span>
+<span class="co">#&gt;                              15 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -325,11 +412,11 @@
 <span class="co">#&gt;  Mann-Kendall trend test</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; data:  vl[vl_cmp]</span>
-<span class="co">#&gt; z = -4.1079, n = 75, p-value = 3.993e-05</span>
+<span class="co">#&gt; z = -3.3665, n = 64, p-value = 0.0007612</span>
 <span class="co">#&gt; alternative hypothesis: true S is not equal to 0</span>
 <span class="co">#&gt; sample estimates:</span>
-<span class="co">#&gt;             S          varS           tau </span>
-<span class="co">#&gt;  -899.0000000 47787.6666667    -0.3241977 </span>
+<span class="co">#&gt;            S         varS          tau </span>
+<span class="co">#&gt;  -582.000000 29784.000000    -0.289265 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -338,14 +425,14 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Sen's slope</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; data:  values</span>
-<span class="co">#&gt; z = -4.1079, n = 75, p-value = 3.993e-05</span>
+<span class="co">#&gt; data:  values[fltr]</span>
+<span class="co">#&gt; z = -3.3665, n = 64, p-value = 0.0007612</span>
 <span class="co">#&gt; alternative hypothesis: true z is not equal to 0</span>
 <span class="co">#&gt; 95 percent confidence interval:</span>
-<span class="co">#&gt;  -15.516129  -4.285714</span>
+<span class="co">#&gt;  -5.400000 -1.518519</span>
 <span class="co">#&gt; sample estimates:</span>
 <span class="co">#&gt; Sen's slope </span>
-<span class="co">#&gt;   -9.285714 </span>
+<span class="co">#&gt;   -3.455218 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -353,11 +440,12 @@
 <span class="co">#&gt; $ts_fit$Qmax</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
-<span class="co">#&gt; mblm::mblm(formula = eval(frml), dataframe = df.theil, repeated = FALSE)</span>
+<span class="co">#&gt; mblm::mblm(formula = eval(frml), dataframe = df.theil[fltr, ], </span>
+<span class="co">#&gt;     repeated = FALSE)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Coefficients:</span>
 <span class="co">#&gt; (Intercept)        Year1  </span>
-<span class="co">#&gt;   19013.714       -9.286  </span>
+<span class="co">#&gt;    7119.899       -3.455  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -367,13 +455,13 @@
 <span class="co">#&gt;  Welch Two Sample t-test</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; data:  d1 and d2</span>
-<span class="co">#&gt; t = 4.1012, df = 70.533, p-value = 0.0001086</span>
+<span class="co">#&gt; t = 3.6374, df = 19.052, p-value = 0.001747</span>
 <span class="co">#&gt; alternative hypothesis: true difference in means is not equal to 0</span>
 <span class="co">#&gt; 95 percent confidence interval:</span>
-<span class="co">#&gt;  270.2942 781.9355</span>
+<span class="co">#&gt;   74.24934 275.41809</span>
 <span class="co">#&gt; sample estimates:</span>
 <span class="co">#&gt; mean of x mean of y </span>
-<span class="co">#&gt; 1104.3023  578.1875 </span>
+<span class="co">#&gt;  419.7857  244.9520 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -383,23 +471,23 @@
 <span class="co">#&gt;  F test to compare two variances</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; data:  d1 and d2</span>
-<span class="co">#&gt; F = 2.7011, num df = 42, denom df = 31, p-value = 0.004993</span>
+<span class="co">#&gt; F = 1.2832, num df = 13, denom df = 49, p-value = 0.51</span>
 <span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span>
 <span class="co">#&gt; 95 percent confidence interval:</span>
-<span class="co">#&gt;  1.362952 5.175132</span>
+<span class="co">#&gt;  0.588173 3.525265</span>
 <span class="co">#&gt; sample estimates:</span>
 <span class="co">#&gt; ratio of variances </span>
-<span class="co">#&gt;           2.701111 </span>
+<span class="co">#&gt;           1.283207 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $year</span>
 <span class="co">#&gt; Qmax </span>
-<span class="co">#&gt; 1981 </span>
+<span class="co">#&gt; 1970 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $maxval</span>
 <span class="co">#&gt; $maxval$Qmax</span>
-<span class="co">#&gt; [1] 2790</span>
+<span class="co">#&gt; [1] 780</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $fixed_year</span>
@@ -407,45 +495,67 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $pvalues</span>
 <span class="co">#&gt;   N                                            Variable Change.Year    Trend</span>
-<span class="co">#&gt; 1 1 Maximum annual discharge during seasonal flood wave        1981 -9.28571</span>
-<span class="co">#&gt;         M1       M2 MeanRatio      sd1      sd2 sdRatio Mann.Kendall Pettitt</span>
-<span class="co">#&gt; 1 1104.302 578.1875     -47.6 687.4269 418.2687   -39.2        4e-05 0.00051</span>
+<span class="co">#&gt; 1 1 Maximum annual discharge during seasonal flood wave        1970 -3.45522</span>
+<span class="co">#&gt;         M1      M2 MeanRatio      sd1     sd2 sdRatio Mann.Kendall Pettitt</span>
+<span class="co">#&gt; 1 419.7857 244.952     -41.6 162.9446 143.844   -11.7      0.00076 0.01136</span>
 <span class="co">#&gt;   Student  Fisher</span>
-<span class="co">#&gt; 1 0.00011 0.00499</span></pre></body></html></div>
+<span class="co">#&gt; 1 0.00175 0.51001</span></code></pre></div>
 <p>This is an example with three variables selected:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">tests</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qygr</span>, <span class="no">date10w1</span>, <span class="no">Wpol3</span>)
-<span class="no">tests</span>$<span class="no">pvalues</span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tests</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, <span class="va">date10w1</span>, <span class="va">Wpol3</span><span class="op">)</span>
+<span class="va">tests</span><span class="op">$</span><span class="va">pvalues</span>
 <span class="co">#&gt;   N                                                              Variable</span>
 <span class="co">#&gt; 1 1 Annual groundwater discharge ("baseflow") during water-resources year</span>
 <span class="co">#&gt; 2 2                   First date of 10-day window discharge during winter</span>
 <span class="co">#&gt; 3 3                Seasonal flood runoff (with groundwater and rainwater)</span>
-<span class="co">#&gt;   Change.Year    Trend       M1       M2 MeanRatio      sd1      sd2 sdRatio</span>
-<span class="co">#&gt; 1        1975  0.56385 27.17243 51.91974      91.1  5.45524 16.05091   194.2</span>
-<span class="co">#&gt; 2        1971 -0.27660   30-Dec   02-Dec     -28.0 39.00000 59.00000    51.3</span>
-<span class="co">#&gt; 3        1981 -0.02026  2.92196  1.84939     -36.7  1.64315  1.02748   -37.5</span>
+<span class="co">#&gt;   Change.Year    Trend       M1       M2 MeanRatio       sd1       sd2 sdRatio</span>
+<span class="co">#&gt; 1        1977  0.10789  7.55548 13.13746      73.9   1.56682   2.32940    48.7</span>
+<span class="co">#&gt; 2        1989  0.97421   22-Apr   10-Jun      49.0 133.00000 150.00000    12.8</span>
+<span class="co">#&gt; 3        1989 -0.11508 10.30174  6.21861     -39.6   5.35720   3.76726   -29.7</span>
 <span class="co">#&gt;   Mann.Kendall Pettitt Student  Fisher</span>
-<span class="co">#&gt; 1      0.00000 0.00000 0.00000 0.00000</span>
-<span class="co">#&gt; 2      0.27215 0.21652 0.01556 0.01852</span>
-<span class="co">#&gt; 3      0.00246 0.01007 0.00090 0.00780</span></pre></body></html></div>
+<span class="co">#&gt; 1      0.00000 0.00000  0.0000 0.05866</span>
+<span class="co">#&gt; 2      0.47594 0.59462  0.1712 0.49666</span>
+<span class="co">#&gt; 3      0.00031 0.00545  0.0009 0.05696</span></code></pre></div>
 <p>If you want to test all parameters, just skip variable names:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">tests</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>)
-<span class="no">tests</span>$<span class="no">change_year</span>
-<span class="co">#&gt; NULL</span></pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tests</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span>
+<span class="va">tests</span><span class="op">$</span><span class="va">year</span> <span class="co"># this is a change year detected for each variable</span>
+<span class="co">#&gt;             Wy          Wpol2            Wgr          Wpol1         Wpavs2 </span>
+<span class="co">#&gt;           1978           1974           1977           1989           1969 </span>
+<span class="co">#&gt;         Wpavs1      Wpavthaw2      Wpavthaw1           WgrW             WW </span>
+<span class="co">#&gt;           1977           2005           1977           1978           1978 </span>
+<span class="co">#&gt;           WgrS             WS             Qy      datestart           Qygr </span>
+<span class="co">#&gt;           1977           1977           1978           1995           1977 </span>
+<span class="co">#&gt;     datepolend        PolProd           Qmax        datemax          Wpol3 </span>
+<span class="co">#&gt;           1976           1989           1970           1970           1989 </span>
+<span class="co">#&gt;         Qmmwin        nommwin      Qmmsummer    monmmsummer           Q30w </span>
+<span class="co">#&gt;           1979           1964           1979           1990           1979 </span>
+<span class="co">#&gt;       date30w1           Q30s       date30s1           Q10w       date10w1 </span>
+<span class="co">#&gt;           1977           1979           2000           1979           1989 </span>
+<span class="co">#&gt;           Q10s       date10s1            Q5w        date5w1            Q5s </span>
+<span class="co">#&gt;           1981           2000           1979           1998           1981 </span>
+<span class="co">#&gt;        date5s1    Qmaxpavthaw datemaxpavthaw     CountThaws    DaysThawWin </span>
+<span class="co">#&gt;           2000           1995           1993           1969           1984 </span>
+<span class="co">#&gt;       Qmaxpavs    datemaxpavs      CountPavs    DaysPavsSum          CvWin </span>
+<span class="co">#&gt;           1960           1965           1991           1970           1999 </span>
+<span class="co">#&gt;        WinProd          CvSum        SumProd </span>
+<span class="co">#&gt;           1968           1991           1988</span></code></pre></div>
 <p>Long-term changes are tested against breaking year, which is calculated for each variable using Pettitt test. However, if you want to use a fixed year, you should pass the desired breaking year into <code>change_year</code> parameter:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">tests</span> <span class="kw">=</span> <span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qmax</span>, <span class="no">Qygr</span>, <span class="kw">change_year</span> <span class="kw">=</span> <span class="fl">1987</span>)
-<span class="no">tests</span>$<span class="no">ft</span> <span class="co"># Fisher F tests to compare two variances</span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tests</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qmax</span>, <span class="va">Qygr</span>, change_year <span class="op">=</span> <span class="fl">1987</span><span class="op">)</span>
+<span class="va">tests</span><span class="op">$</span><span class="va">ft</span> <span class="co"># Fisher F tests to compare two variances</span>
 <span class="co">#&gt; $Qmax</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  F test to compare two variances</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; data:  d1 and d2</span>
-<span class="co">#&gt; F = 2.7011, num df = 42, denom df = 31, p-value = 0.004993</span>
+<span class="co">#&gt; F = 1.2832, num df = 13, denom df = 49, p-value = 0.51</span>
 <span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span>
 <span class="co">#&gt; 95 percent confidence interval:</span>
-<span class="co">#&gt;  1.362952 5.175132</span>
+<span class="co">#&gt;  0.588173 3.525265</span>
 <span class="co">#&gt; sample estimates:</span>
 <span class="co">#&gt; ratio of variances </span>
-<span class="co">#&gt;           2.701111 </span>
+<span class="co">#&gt;           1.283207 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $Qygr</span>
@@ -453,89 +563,78 @@
 <span class="co">#&gt;  F test to compare two variances</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; data:  d1 and d2</span>
-<span class="co">#&gt; F = 0.11551, num df = 36, denom df = 37, p-value = 2.678e-09</span>
+<span class="co">#&gt; F = 0.45242, num df = 20, denom df = 42, p-value = 0.05866</span>
 <span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span>
 <span class="co">#&gt; 95 percent confidence interval:</span>
-<span class="co">#&gt;  0.0598440 0.2236352</span>
+<span class="co">#&gt;  0.220710 1.030786</span>
 <span class="co">#&gt; sample estimates:</span>
 <span class="co">#&gt; ratio of variances </span>
-<span class="co">#&gt;          0.1155124</span></pre></body></html></div>
+<span class="co">#&gt;          0.4524249</span></code></pre></div>
 </div>
 <div id="plot-interannual-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-interannual-changes" class="anchor"></a>Plot interannual changes</h2>
-<p>Interannual changes are visualized using <code><a href="../reference/plot_variables.html">plot_variables()</a></code> function. Its syntax is similar to <code><a href="../reference/test_variables.html">test_variables()</a></code> and <code><a href="../reference/plot_separation.html">plot_separation()</a></code>:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_variables.html">plot_variables</a></span>(<span class="no">df</span>, <span class="no">Qmax</span>) <span class="co"># plot one selected variable</span></pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_variables.html">plot_variables</a></span>(<span class="no">df</span>, <span class="no">date10w1</span>, <span class="no">Wpol3</span>) <span class="co"># plot two variables sequentially</span></pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-14-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-14-3.png" width="700"></p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_variables.html">plot_variables</a></span>(<span class="no">df</span>, <span class="no">Qmax</span>, <span class="no">Qygr</span>, <span class="no">date10w1</span>, <span class="no">Wpol3</span>, <span class="co"># plot four variables in matrix layout</span>
-                      <span class="kw">layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>), <span class="kw">nrow</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">byrow</span><span class="kw">=</span><span class="fl">TRUE</span>))</pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-14-4.png" width="700"></p>
-<p>You can add the results of statistical tests to the plot by specifying the result of <code><a href="../reference/test_variables.html">test_variables()</a></code> function to the <code>tests</code> parameter. In that case the subtitle with test results will be added, Theil-Sen slope and Pettitt test breaking year are drawn as solid (<span class="math inline">\(p \leq 0.05\)</span>) or dashed (<span class="math inline">\(p &gt; 0.05\)</span>) lines:</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_variables.html">plot_variables</a></span>(<span class="no">df</span>, <span class="no">date10w1</span>, <span class="no">Wpol3</span>, <span class="no">DaysThawWin</span>, <span class="no">Qmaxpavs</span>,
-                      <span class="kw">tests</span> <span class="kw">=</span> <span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">date10w1</span>, <span class="no">Wpol3</span>, <span class="no">DaysThawWin</span>, <span class="no">Qmaxpavs</span>)) <span class="co"># add test information</span></pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-15-1.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-15-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-15-3.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-15-4.png" width="700"></p>
+<p>Interannual changes are visualized using <code><a href="../reference/gr_plot_vars.html">gr_plot_vars()</a></code> function. Its syntax is similar to <code><a href="../reference/gr_test_vars.html">gr_test_vars()</a></code> and <code><a href="../reference/gr_plot_sep.html">gr_plot_sep()</a></code>:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qmax</span><span class="op">)</span> <span class="co"># plot one selected variable</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">date10w1</span>, <span class="va">Wpol3</span><span class="op">)</span> <span class="co"># plot two variables sequentially</span>
+<span class="co">#&gt; Warning: Removed 20 rows containing non-finite values (stat_smooth).</span>
+<span class="co">#&gt; Warning: Removed 20 rows containing missing values (geom_point).</span>
+<span class="co">#&gt; Warning: Removed 2 row(s) containing missing values (geom_path).</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-22-2.png" width="700"></p>
+<pre><code>#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</code></pre>
+<p><img src="grwat_files/figure-html/unnamed-chunk-22-3.png" width="700"></p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qmax</span>, <span class="va">Qygr</span>, <span class="va">date10w1</span>, <span class="va">Wpol3</span>, <span class="co"># plot four variables in matrix layout</span>
+                      layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">2</span>, byrow<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> 
+<span class="co">#&gt; Warning: Removed 20 rows containing non-finite values (stat_smooth).</span>
+<span class="co">#&gt; Warning: Removed 20 rows containing missing values (geom_point).</span>
+<span class="co">#&gt; Warning: Removed 2 row(s) containing missing values (geom_path).</span>
+<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-22-4.png" width="700"></p>
+<p>You can add the results of statistical tests to the plot by specifying the result of <code>test_variables()</code> function to the <code>tests</code> parameter. In that case the subtitle with test results will be added, Theil-Sen slope and Pettitt test breaking year are drawn as solid (<span class="math inline">\(p \leq 0.05\)</span>) or dashed (<span class="math inline">\(p &gt; 0.05\)</span>) lines:</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">date10w1</span>, <span class="va">Wpol3</span>, <span class="va">DaysThawWin</span>, <span class="va">Qmaxpavs</span>,
+             tests <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">date10w1</span>, <span class="va">Wpol3</span>, <span class="va">DaysThawWin</span>, <span class="va">Qmaxpavs</span><span class="op">)</span><span class="op">)</span> <span class="co"># add test information</span>
+<span class="co">#&gt; Warning: Removed 20 rows containing non-finite values (stat_smooth).</span>
+<span class="co">#&gt; Warning: Removed 20 rows containing missing values (geom_point).</span>
+<span class="co">#&gt; Warning: Removed 2 row(s) containing missing values (geom_path).</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<pre><code>#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</code></pre>
+<p><img src="grwat_files/figure-html/unnamed-chunk-23-2.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-23-3.png" width="700"><img src="grwat_files/figure-html/unnamed-chunk-23-4.png" width="700"></p>
 <blockquote>
-<p>Note that <code>tests</code> parameter of <code><a href="../reference/plot_variables.html">plot_variables()</a></code> expects the tests for the same variables as those selected for plotting. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other</p>
+<p>Note that <code>tests</code> parameter of <code>plot_variables()</code> expects the tests for the same variables as those selected for plotting. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other</p>
 </blockquote>
-<p>Finally, you can plot all variables by not supplying column names to <code><a href="../reference/plot_variables.html">plot_variables()</a></code> function. In that case tests (if you want to plot them too) should also be calculated for all variables:</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_variables.html">plot_variables</a></span>(<span class="no">df</span>, <span class="kw">tests</span> <span class="kw">=</span> <span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>))</pre></body></html></div>
+<p>Finally, you can plot all variables by not supplying column names to <code>plot_variables()</code> function. In that case tests (if you want to plot them too) should also be calculated for all variables:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, tests <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="plot-long-term-period-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-long-term-period-changes" class="anchor"></a>Plot long-term period changes</h2>
-<p>Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using <code><a href="../reference/plot_periods.html">plot_periods()</a></code> function. The syntax is similar to <code><a href="../reference/plot_variables.html">plot_variables()</a></code> except that you must provide either <code>tests</code> or <code>year</code> parameter. If both are supplied then <code>tests</code> is prioritized (you can also supply a fixed year when testing variables:</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_periods.html">plot_periods</a></span>(<span class="no">df</span>, <span class="no">Qy</span>, <span class="kw">year</span> <span class="kw">=</span> <span class="fl">1978</span>)</pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_periods.html">plot_periods</a></span>(<span class="no">df</span>, <span class="no">Qy</span>, <span class="kw">tests</span> <span class="kw">=</span> <span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qy</span>))</pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-17-2.png" width="700"></p>
+<p>Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using <code><a href="../reference/gr_plot_periods.html">gr_plot_periods()</a></code> function. The syntax is similar to <code><a href="../reference/gr_plot_vars.html">gr_plot_vars()</a></code> except that you must provide either <code>tests</code> or <code>year</code> parameter. If both are supplied then <code>tests</code> is prioritized (you can also supply a fixed year when testing variables:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qy</span>, year <span class="op">=</span> <span class="fl">1978</span><span class="op">)</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qy</span>, tests <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qy</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-25-2.png" width="700"></p>
 <p>Multiple plots can be combined on one page using <code>layout</code> parameter:</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_periods.html">plot_periods</a></span>(<span class="no">df</span>, <span class="no">Qy</span>, <span class="no">Qmax</span>,
-                    <span class="kw">tests</span> <span class="kw">=</span> <span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>, <span class="no">Qy</span>, <span class="no">Qmax</span>),
-                    <span class="kw">layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>)))</pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qy</span>, <span class="va">Qmax</span>, 
+                tests <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qy</span>, <span class="va">Qmax</span><span class="op">)</span>,
+                layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 <p>To plot long-term changes for all variables just skip variable names in function call:</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_periods.html">plot_periods</a></span>(<span class="no">df</span>, <span class="kw">tests</span> <span class="kw">=</span> <span class="fu"><a href="../reference/test_variables.html">test_variables</a></span>(<span class="no">df</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">df</span>, tests <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/plot_minmonth.html">plot_minmonth</a></span>(<span class="no">df</span>, <span class="kw">year</span> <span class="kw">=</span> <span class="fl">1978</span>)</pre></body></html></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_minmonth.html">gr_plot_minmonth</a></span><span class="op">(</span><span class="va">vars</span>, year <span class="op">=</span> <span class="fl">1985</span><span class="op">)</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
 </div>
-</div>
-<div id="report" class="section level1">
-<h1 class="hasAnchor">
-<a href="#report" class="anchor"></a>Report</h1>
-<p>The final feature of grwat package is reporting. Previous sections demonstrated various functions that allow different level of data processing: from individual tables, plots and maps to fully processed folders, tests and plots of multiple variables. Reporting allows you to produce a <strong>single PDF file</strong> that provides a comprehensive overview of hydrograph separation and water discharge variables for the whole time period covered by your data. There are currently two functions that work with folder data:</p>
-<ul>
-<li>
-<code><a href="../reference/report_gauge.html">report_gauge()</a></code> generates a report for a gauge folder containing <em>separation file</em> <code>AllGrWat.txt</code>, <em>variables file</em> <code>Total.txt</code> and map file <code>*.png</code>.</li>
-<li>
-<code><a href="../reference/report_basins.html">report_basins()</a></code> generates multiple reports for the hierarchy of basin and gauge folders. It actually runs <code><a href="../reference/report_gauge.html">report_gauge()</a></code> for every leaf subdirectory in the provided path.</li>
-</ul>
-<p>The syntax of these functions is straightforward:</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/report_gauge.html">report_gauge</a></span>(<span class="st">"/Volumes/Work/_grwat/2018/out/1_Sever/Mezen_Malonisog"</span>)
-<span class="kw pkg">grwat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/report_basins.html">report_basins</a></span>(<span class="st">"/Volumes/Work/_grwat/2018/out/"</span>)</pre></body></html></div>
-<p>As a result of reporting each gauge folder gains <em>report.pdf</em> (report) and <em>pvalues<gaugename>.xlsx</gaugename></em> (p-values of statistical tests) files:</p>
-<p><img src="report_folder.png"></p>
-<p>A report file contains 5 sections:</p>
-<ol style="list-style-type: decimal">
-<li>Input data</li>
-<li>Hydrograph separation</li>
-<li>Interannual changes</li>
-<li>Long-term changes</li>
-<li>Statistical tests</li>
-</ol>
-<p>They are organized in a compact form with multiple plots per page:</p>
-<p><img src="report.png"></p>
-<blockquote>
-<p>Note that reporting is a time-consuming operation since it produces dozens of high-quality plots. Therefore it is reasonable to run reporting functions from a separate R session if you want to perform another tasks in R at the same time. Or take a cup of coffee and watch your favourite TV series.</p>
-</blockquote>
-</div>
-<div class="footnotes">
-<hr>
-<ol>
-<li id="fn1"><p>In the next release of grwat package separation stage will be rewritten in C++ using Rcpp package to provide the complete workflow inside R ecosystem<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol>
 </div>
   </div>
 
@@ -550,11 +649,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Timofey Samsonov, Ekaterina Retz, Maria Kireeva.</p>
+  <p>Developed by Timofey Samsonov.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

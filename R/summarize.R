@@ -46,24 +46,24 @@ gr_summarize <- function(tab) {
   
   tab %>% 
     mutate(Year = if_else(Date %in% limits$datestart,
-                          as.integer(year(Date)),
+                          as.integer(lubridate::year(Date)),
                           NA_integer_)) %>% 
     tidyr::fill(Year) %>% 
     filter(!is.na(Year)) %>% 
     group_by(Year) %>% 
     summarise(Year1 = min(Year),
-              Year2 = max(year(Date)),
+              Year2 = max(lubridate::year(Date)),
               datestart = min(Date),
               datepolend = max(Date[which(Qseas>0)]),
-              polprod = datepolend - datestart,
+              PolProd = as.integer(datepolend - datestart),
               Qy = mean(Qin, na.rm = TRUE),
               Qmax = max(Qin, na.rm = TRUE),
               datemax = Date[which.max(Qin)[1]],
               Qygr = mean(Qbase, na.rm = TRUE),
               Qmmsummer = min(Qin[Qtype == 1], na.rm = T),
-              monmmsummer = month(Date[which.min(Qin[Qtype == 1])]),
+              monmmsummer = lubridate::ymd(paste("2000", lubridate::month(Date[which.min(Qin[Qtype == 1])]), "01")),
               Qmmwin = min(Qin[Qtype == 2], na.rm = T),
-              nommwin = month(Date[which.min(Qin[Qtype == 2])]),
+              nommwin = lubridate::ymd(paste("2000", lubridate::month(Date[which.min(Qin[Qtype == 2])]), "01")),
               Q30s = condrollmean(Qin, Qtype == 1, 30),
               date30s1 = Date[condrollmeanidx(Qin, Qtype == 1, 30)],
               date30s2 = date30s1 + 29,
@@ -95,6 +95,10 @@ gr_summarize <- function(tab) {
               WS = sum(Qin * (Qtype == 1), na.rm = TRUE) * kmyr * n(),
               WgrW = sum(Qbase * (Qtype == 2), na.rm = TRUE) * kmyr * n(),
               WW = sum(Qin * (Qtype == 2), na.rm = TRUE) * kmyr * n(),
+              Qmaxpavs = max(Qrain, na.rm = TRUE),
+              Qmaxpavthaw = max(Qthaw, na.rm = TRUE),
+              datemaxpavs = Date[which.max(Qrain)[1]],
+              datemaxpavthaw = Date[which.max(Qthaw)[1]],
               SumProd = sum(Qtype == 1),
               DaysPavsSum = sum((Qtype == 1) & (Qrain > 0)),
               WinProd = sum(Qtype == 2),
@@ -102,9 +106,5 @@ gr_summarize <- function(tab) {
               CvWin = sd(Qin[Qtype == 2], na.rm = TRUE) / mean(Qin[Qtype == 2], na.rm = TRUE),
               CvSum = sd(Qin[Qtype == 1], na.rm = TRUE) / mean(Qin[Qtype == 1], na.rm = TRUE),
               CountPavs = sum(rle(Qrain > 0)$values),
-              CountThaws = sum(rle(Qthaw > 0)$values),
-              Qmaxpavs = max(Qrain, na.rm = TRUE),
-              Qmaxpavthaw = max(Qthaw, na.rm = TRUE),
-              datemaxpavs = Date[which.max(Qrain)[1]],
-              datemaxpavthaw = Date[which.max(Qthaw)[1]])
+              CountThaws = sum(rle(Qthaw > 0)$values))
 }

@@ -23,10 +23,13 @@ knitr::opts_chunk$set(
 The starting point for hydrograph analysis is to obtain the source data. Let's see how it goes with sample `spas-zagorye.txt` discharge data for $1956-2020$ year range provided with grwat. This data is for [Spas-Zogorye](https://allrivers.info/gauge/protva-obninsk) gauge on [Protva](https://en.wikipedia.org/wiki/Protva) river in Central European plane:
 
 ```{r, message=FALSE, warning=FALSE}
-library(sf)
-library(tidyverse)
+library(sf) # reading and manipulating spatial data
+library(tidyverse) # general data wrangling
+library(mapview) # interactive mapping of spatial data
+library(ecmwfr) # this is to access ERA5 reanalysis data
 library(grwat)
-library(mapview)
+
+mapviewOptions(fgb = FALSE)
 
 # this is path to sample data installed with grwat
 path = system.file("extdata", "spas-zagorye.txt", package = "grwat")
@@ -58,45 +61,168 @@ One of the ways to obtain the temperature and precipitation data is to use reana
 - all points falling within the basin of the the gauge.
 - all points falling within the buffer zone of the basin of the the gauge.
 
-The last two options are the most adequate. Let's see how it can be done with the buffered basin scenario. First, we need to read the basin spatial data:
+The last two options are the most adequate. Let's see how it can be done. 
+
+### Basin, buffered basin or buffered gauge
+
+First, we need to read the basin spatial data:
 
 ```{r}
-
 # this is path to sample basin geopackage installed with grwat
 path = system.file("extdata", "spas-zagorye.gpkg", package = "grwat")
 
 # for your own data just provide the full path:
 # path = /this/is/the/path/to/discharge/basin.shp
 
-basin = st_read(path) # read basin region
+basin = st_read(path, layer = 'basin') # read basin region
 mapview(basin)
 ```
 
 Next, we can buffer the data on the specified distance to catch more reanalysis data:
 ```{r}
-basin_buf = gr_buffer_geo(basin, 25000) 
-mapview(basin_buf, col.regions = 'red') +
+basin_buffer = gr_buffer_geo(basin, 25000) 
+mapview(basin_buffer, col.regions = 'red') +
   mapview(basin)
 ```
 
+Alternatively you can just buffer the gauge point, though it is less meaningful since you will grab reanalysis data that falls out of gauge's basin:
+```{r}
+gauge = st_read(path, layer = 'gauge') # read gauge point
+gauge_buffer = gr_buffer_geo(gauge, 50000) 
+mapview(gauge_buffer, col.regions = 'red') +
+  mapview(gauge)
+```
+
+Finally, you need the bounding box of your buffer to query the data:
+```{r}
+box = st_bbox(basin_buffer)
+box
+```
+
+### Joining the East-European Plane reanalysis
+
+__grwat__ is packaged with daily reanalysis which covers the East European territory of Russia:
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics('img/reanalysis.png')
+```
+
+The reanalysis consists of two data files, each is about 850 Mb in size:
+
+```{r, echo=FALSE, out.width='100%'}
+knitr::include_graphics('img/rean_files.png')
+```
+
+Download this data using the [FTP link](ftp://gruser@carto.geogr.msu.ru) for using with grwat.
+
+
+```{r}
+rean = gr_read_rean('/Volumes/Data/Spatial/Reanalysis/grwat/pre_1880-2021.nc',
+                    '/Volumes/Data/Spatial/Reanalysis/grwat/temp_1880-2021.nc') # read reanalysis data
+hdata_rean = gr_join_rean(hdata, rean, basin_buffer) # join reanalysis data to hydrological series
+
+head(hdata_rean$df)
+```
 
 After reanalysis data are joined you can easily plot a map of the derived spatial configuration with
 ```{r, message=FALSE, warning=FALSE}
-grwat::map(rean$pts, hdata_rean$pts, basin, basin_pr) # plot spatial configuration
+gr_map(rean$pts, hdata_rean$pts, basin, basin_buffer) # plot spatial configuration
 ```
+
+### Joining the ERA5 reanalysis
+
+> To be described
+
+<!-- ERA 5 data can be accessed via [__`ecmwfr`__](https://bluegreen-labs.github.io/ecmwfr/index.html) package. Before you access the data, you must register and obtain the Climate Data Store (CDS) API key. Please follow instructions [here](https://bluegreen-labs.github.io/ecmwfr/index.html#use-copernicus-climate-data-store-cds). -->
+
+<!-- First, set your key: -->
+<!-- ```{r, eval=F} -->
+<!-- wf_set_key(user = "12345", -->
+<!--            key = "XXXXXXXXXXXXXXXXXXXXXX", -->
+<!--            service = "cds") -->
+<!-- ``` -->
+
+<!-- ```{r, echo=FALSE, include=FALSE} -->
+<!-- wf_set_key(user = "87659", -->
+<!--            key = "df251cc6-5b0b-4100-b2ee-617fcea66b04", -->
+<!--            service = "cds") -->
+<!-- ``` -->
+
+<!-- Second, fill the request list: -->
+<!-- ```{r} -->
+<!-- # This is an example of a request for # downloading 'ERA-5' reanalysis data for -->
+<!-- # 2000-04-04 00:00 UTC, temperature on # 850 hectopascal for an area covering  -->
+<!-- # northern Europe. -->
+<!-- # File will be stored as "era5-demo.nc" (netcdf format). -->
+<!-- request = list("dataset_short_name" = "reanalysis-era5-single-levels", -->
+<!--                 "product_type" = "reanalysis", -->
+<!--                 "variable" = c("temperature", "total_precipitation"), -->
+<!--                 "year" = '2020', -->
+<!--                 "month" = '01', -->
+<!--                 "day" = '01', -->
+<!--                 "time" = '00:00', #seq(0, 21, by = 3), -->
+<!--                 # "area" = as.vector(box), -->
+<!--                 "area" = "70/-20/00/60", -->
+<!--                 "format" = "netcdf", -->
+<!--                 "target" = "era5.nc") -->
+
+<!-- request <- list("dataset_short_name" = "reanalysis-era5-pressure-levels", -->
+<!--                 "product_type" = "reanalysis", -->
+<!--                 "variable" = "temperature", -->
+<!--                 "pressure_level" = "850", -->
+<!--                 "year" = "2000", -->
+<!--                 "month" = "04", -->
+<!--                 "day" = "04", -->
+<!--                 "time" = "00:00", -->
+<!--                 "area" = "70/-20/00/60", -->
+<!--                 "format" = "netcdf", -->
+<!--                 "target" = "era5-demo.nc") -->
+
+<!-- ``` -->
+
+<!-- Then pass it to the [`wf_request()`](https://bluegreen-labs.github.io/ecmwfr/reference/wf_request.html) function -->
+
+<!-- ```{r, eval=F} -->
+<!-- file = wf_request(user     = "12345",   # user ID (for authentification) -->
+<!--                    request  = request,  # the request -->
+<!--                    transfer = TRUE,     # download the file -->
+<!--                    path     = ".")      # store data in current working directory -->
+<!-- ``` -->
+
+<!-- ```{r, include=F, echo=F} -->
+<!-- file = wf_request(user     = "87659",   # user ID (for authentification) -->
+<!--                   request  = request,  # the request -->
+<!--                   transfer = TRUE,     # download the file -->
+<!--                   path     = ".")      # store data in current working directory -->
+<!-- ``` -->
 
 # Separate and describe {#separate}
 
-Currently separation and description procedures are unavalable inside grwat package and are performed using external command-line Fortran^[In the next release of grwat package separation stage will be rewritten in C++ using Rcpp package to provide the complete workflow inside R ecosystem] program that produces two files:
+The first stage before separation is to fill the gaps. You can limit the maximum gap extent by treshold autocorrelation value (`autocorr` parameter) or explitit number of observations (`nobserv` parameter):
+```{r}
+tab = gr_fill_gaps(hdata_rean$df,
+                   autocorr = 0.7)
+```
 
-- _AllGrWat.txt_ contains hydrograph separation data
-- _Total.txt_ contains multiple variables describing the separated hydrograph
+The second step is to derive and set separation parameters:
+```{r}
+# Расчленение
+p = gr_get_params()
+p$nPav = 5
+p$prodspada = 85
+```
 
-These output data can be visualised and statistically assessed by grwat functions that are uncovered in the next section. 
+Next, you can separate the hydrograph
+```{r}
+sep = gr_separate(tab, p)
+head(sep)
+```
 
-We recommend placing these files in the same folder as processed data like in a picture below:
-
-![](sep_files.png)
+Finally, summarize the interannual changes:
+```{r, message=FALSE, warning=FALSE}
+vars = gr_summarize(sep)
+head(vars)
+```
 
 # Plot and test
 
@@ -107,142 +233,93 @@ These functions from grwat package allow you to:
 - Plot long-term changes of key water discharge variables
 - Perform statistical tests on all calculated variables
 
-> Currently only English locale is provided in plots. In future releases Russian locale will also be added
-
 ## Plot separation of hydrograph
 
-To plot separation of hydrograph you need results of a separation procedure which are saved as _AllGrWat.txt_ text file (see previous section). This file is read by `read_separation()` function:
-
-```{r, message=FALSE}
-setwd("/Volumes/Work/_grwat/Mezen_Malonisog/")
-
-sep = grwat::read_separation('AllGrWat.txt')#
-head(sep)
-```
-
-You can then plot separations for selected years using `plot_separation()` function:
+You can plot separations for selected years using `gr_plot_sep()` function:
 ```{r}
-grwat::plot_separation(sep, 1978) # plot single year
-grwat::plot_separation(sep, c(1994, 2001)) # plot two years sequentially
-grwat::plot_separation(sep, 1994:1997, # plot four years on the same page
-                       layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
+gr_plot_sep(sep, 1979) # plot single year
+gr_plot_sep(sep, c(1994, 2001)) # plot two years sequentially
+gr_plot_sep(sep, 1994:1997, # plot four years on the same page
+            layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
 ```
 
-## Read and test hydrograph variables
-
-Interannual changes of parameters are read from _Total.txt_ file using `read_variables()` function:
-```{r, message=FALSE}
-setwd("/Volumes/Work/_grwat/Mezen_Malonisog/")
-
-df = grwat::read_variables('Total.txt') # read parameters file
-head(df)
-```
+## Interannual change variables
 
 To get the detailed description of available variables you can invoke `get_parameters()`:
 ```{r}
-grwat::get_variables()
+gr_help_vars()
 ```
 
 Parameters can be statistically tested using `test_variables(df, ..., year = NULL, locale='EN')` function. Names of the parameters are passed comma-separated in place of `...`. They are quoted, so you do not need to pass them as character strings, just write their names:
 ```{r}
-grwat::test_variables(df, Qmax)
+gr_test_vars(vars, Qmax)
 ```
 
 This is an example with three variables selected:
 ```{r}
-tests = grwat::test_variables(df, Qygr, date10w1, Wpol3)
+tests = gr_test_vars(vars, Qygr, date10w1, Wpol3)
 tests$pvalues
 ```
 
 If you want to test all parameters, just skip variable names:
 ```{r}
-tests = grwat::test_variables(df)
-tests$change_year
+tests = gr_test_vars(vars)
+tests$year # this is a change year detected for each variable
 ```
 
 Long-term changes are tested against breaking year, which is calculated for each variable using Pettitt test. However, if you want to use a fixed year, you should pass the desired breaking year into `change_year` parameter:
 ```{r}
-tests = grwat::test_variables(df, Qmax, Qygr, change_year = 1987)
+tests = gr_test_vars(vars, Qmax, Qygr, change_year = 1987)
 tests$ft # Fisher F tests to compare two variances
 ```
 
 ## Plot interannual changes
 
-Interannual changes are visualized using `plot_variables()` function. Its syntax is similar to `test_variables()` and `plot_separation()`:
+Interannual changes are visualized using `gr_plot_vars()` function. Its syntax is similar to `gr_test_vars()` and `gr_plot_sep()`:
 
 ```{r, collapse=TRUE, message=FALSE}
-grwat::plot_variables(df, Qmax) # plot one selected variable
-grwat::plot_variables(df, date10w1, Wpol3) # plot two variables sequentially
-grwat::plot_variables(df, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
+gr_plot_vars(vars, Qmax) # plot one selected variable
+gr_plot_vars(vars, date10w1, Wpol3) # plot two variables sequentially
+gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
                       layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 
 ```
 
 You can add the results of statistical tests to the plot by specifying the result of `test_variables()` function to the `tests` parameter. In that case the subtitle with test results will be added, Theil-Sen slope and Pettitt test breaking year are drawn as solid ($p \leq 0.05$) or dashed ($p > 0.05$) lines:
 
 ```{r, collapse=TRUE, message=FALSE}
-grwat::plot_variables(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
-                      tests = test_variables(df, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) # add test information
+gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
+             tests = gr_test_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) # add test information
 ```
 
 > Note that `tests` parameter of `plot_variables()` expects the tests for the same variables as those selected for plotting. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other
 
 Finally, you can plot all variables by not supplying column names to `plot_variables()` function. In that case tests (if you want to plot them too) should also be calculated for all variables:
 ```{r, eval=FALSE}
-grwat::plot_variables(df, tests = test_variables(df))
+gr_plot_vars(vars, tests = gr_test_vars(vars))
 ```
 
 ## Plot long-term period changes 
 
-Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using `plot_periods()` function. The syntax is similar to `plot_variables()` except that you must provide either `tests` or `year` parameter. If both are supplied then `tests` is prioritized (you can also supply a fixed year when testing variables:
+Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using `gr_plot_periods()` function. The syntax is similar to `gr_plot_vars()` except that you must provide either `tests` or `year` parameter. If both are supplied then `tests` is prioritized (you can also supply a fixed year when testing variables:
+
 ```{r}
-grwat::plot_periods(df, Qy, year = 1978)
-grwat::plot_periods(df, Qy, tests = test_variables(df, Qy))
+gr_plot_periods(vars, Qy, year = 1978)
+gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy))
 ```
 
 Multiple plots can be combined on one page using `layout` parameter:
 ```{r}
-grwat::plot_periods(df, Qy, Qmax, 
-                    tests = test_variables(df, Qy, Qmax),
-                    layout = matrix(c(1,2)))
+gr_plot_periods(vars, Qy, Qmax, 
+                tests = gr_test_vars(vars, Qy, Qmax),
+                layout = matrix(c(1,2)))
 ```
 
 To plot long-term changes for all variables just skip variable names in function call:
 ```{r, eval = FALSE}
-grwat::plot_periods(df, tests = test_variables(df))
+gr_plot_periods(df, tests = gr_test_vars(df))
 ```
 
 There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:
 ```{r, message=FALSE}
-grwat::plot_minmonth(df, year = 1978)
+gr_plot_minmonth(vars, year = 1985)
 ```
-
-# Report
-
-The final feature of grwat package is reporting. Previous sections demonstrated various functions that allow different level of data processing: from individual tables, plots and maps to fully processed folders, tests and plots of multiple variables. Reporting allows you to produce a __single PDF file__ that provides a comprehensive overview of hydrograph separation and water discharge variables for the whole time period covered by your data. There are currently two functions that work with folder data:
-
-- `report_gauge()` generates a report for a gauge folder containing _separation file_ `AllGrWat.txt`, _variables file_ `Total.txt` and map file `*.png`. 
-- `report_basins()` generates multiple reports for the hierarchy of basin and gauge folders. It actually runs `report_gauge()` for every leaf subdirectory in the provided path.
-
-The syntax of these functions is straightforward:
-```{r, eval = FALSE}
-grwat::report_gauge("/Volumes/Work/_grwat/2018/out/1_Sever/Mezen_Malonisog")
-grwat::report_basins("/Volumes/Work/_grwat/2018/out/")
-```
-
-As a result of reporting each gauge folder gains _report.pdf_ (report) and _pvalues<gaugename>.xlsx_ (p-values of statistical tests) files:
-
-![](report_folder.png)
-
-A report file contains 5 sections:
-
-1. Input data
-2. Hydrograph separation
-3. Interannual changes
-4. Long-term changes
-5. Statistical tests
-
-They are organized in a compact form with multiple plots per page:
-
-![](report.png)
-
-> Note that reporting is a time-consuming operation since it produces dozens of high-quality plots. Therefore it is reasonable to run reporting functions from a separate R session if you want to perform another tasks in R at the same time. Or take a cup of coffee and watch your favourite TV series.

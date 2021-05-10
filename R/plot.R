@@ -8,7 +8,7 @@
 #'
 #' @return ggplot2 objects
 #' @export
-gr_plot_separation <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
+gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")

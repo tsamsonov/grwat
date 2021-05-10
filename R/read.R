@@ -1,4 +1,4 @@
-#' Read ERA-INTERIM reanalysis NetCDF files with temperature and precipitation
+#' Read grwat daily reanalysis
 #'
 #' @param file_prec Precipitation NetCDF file
 #' @param file_temp Temperature NetCDF file
@@ -11,7 +11,7 @@
 #' \dontrun{
 #' grwat::read_interim("rean/prec.nc", "rean/temp.nc")
 #' }
-gr_read_interim <- function(file_prec, file_temp){
+gr_read_rean <- function(file_prec, file_temp){
   # Read NetCDF data
   precip = ncdf4::nc_open(file_prec)
   temps = ncdf4::nc_open(file_temp)

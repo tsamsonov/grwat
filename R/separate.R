@@ -43,7 +43,7 @@ gr_separate <- function(df, params = grw_get_params(), cols = 'dmyqtp', niter = 
                niter) %>% 
     bind_cols(df) %>% 
     dplyr::mutate(Date = lubridate::make_date(Year, Month, Day)) %>% 
-    select(Date, Qin = Q, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Qtype, Tin, Pin)
+    select(Date, Qin = Q, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Qtype, Temp, Prec)
 }
 
 #' Extracts baseflow for discharge

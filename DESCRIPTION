@@ -60,4 +60,5 @@ Suggests: knitr,
 VignetteBuilder: knitr
 Depends: 
     magrittr,
-    ggplot2
+    ggplot2,
+    R (>= 2.10)

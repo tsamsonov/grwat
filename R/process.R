@@ -73,15 +73,15 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, c
   }
   
   Qrep = zoo::na.approx(tab$Q, maxgap = nobserv) %>% round(1)
-  Trep = zoo::na.approx(tab$Tin, maxgap = nobserv) %>% round(1)
-  Prep = zoo::na.approx(tab$Pin, maxgap = nobserv) %>% round(1)
+  Trep = zoo::na.approx(tab$Temp, maxgap = nobserv) %>% round(1)
+  Prep = zoo::na.approx(tab$Prec, maxgap = nobserv) %>% round(1)
   
   message(crayon::white$bold('grwat:'), ' filled ', sum(is.na(tab$Q)) - sum(is.na(Qrep)), ' observations using ', nobserv, ' days window')
   
   tab = tab %>% 
     mutate(Q = Qrep,
-           Tin = Trep,
-           Pin = Prep)
+           Temp = Trep,
+           Prec = Prep)
   
   if (no_dates) {
     tab = tab %>% 
@@ -106,10 +106,10 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, c
 #' \dontrun{
 #' grwat::process(hdata, rean, buffer)
 #' }
-gr_join_interim <- function(hdata, rean, buffer){
+gr_join_rean <- function(hdata, rean, buffer){
   
   hdata = hdata[, 1:4]
-  colnames(hdata) <- c('D', 'M', 'Y', 'L')
+  colnames(hdata) <- c('Day', 'Month', 'Year', 'Q')
   
   # determine the first and last date
   first = hdata[1, 1:3]
@@ -167,12 +167,17 @@ gr_join_interim <- function(hdata, rean, buffer){
       unlist() %>% 
       as.integer() %>% 
       matrix(ncol = 3, byrow = TRUE)
+      
     
     # prepare output table
     sum.table.with.dates = data.frame(sum.table[, 1], dates.matrix, sum.table[, 2:3])
-    colnames(sum.table.with.dates) <- c("N", "Y", "M", "D", "T", "P")
     
-    sum.table.with.dates = sum.table.with.dates %>% dplyr::left_join(hdata)
+    colnames(sum.table.with.dates) <- c("N", "Year", "Month", "Day", "Temp", "Prec")
+    
+    sum.table.with.dates = sum.table.with.dates %>% 
+      dplyr::left_join(hdata) %>% 
+      select(-N) %>% 
+      relocate(Day, Month, Year, Q, Temp, Prec)
   }
   
   return(list(df = sum.table.with.dates, pts = pts.selected))

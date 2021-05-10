@@ -77,6 +77,7 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     if(prms$Unitsen[i] %in% c('Date', 'Month')) {
       isdate = TRUE
       vl = as.Date(vl)
+      lubridate::year(vl) = 2000
     }
     
     vl_cmp = !is.na(vl)
@@ -104,11 +105,14 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     
     # THEIL-SEN SLOPE ESTIMATION
     
-    df.theil = df %>% dplyr::select_('Year1', prms$Name[i]) %>% na.omit()
+    df.theil = df %>% 
+      dplyr::select_('Year1', prms$Name[i]) %>% 
+      na.omit()
     
     values = df.theil[prms$Name[i]] %>% 
       as.matrix() %>%
       as.vector()
+    
     if(isdate){
       values = values %>% 
         as.Date() %>% 
@@ -121,8 +125,9 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
                            x = as.name('Year1')))
     
     if (length(values) > 1) { # slope testing requires at least two observations
-      ts_fit[[i]]= mblm::mblm(eval(frml), data = df.theil, repeated = FALSE)
-      tst[[i]] = trend::sens.slope(values)
+      fltr = ! (is.infinite(values) | is.nan(values))
+      ts_fit[[i]]= mblm::mblm(eval(frml), data = df.theil[fltr, ], repeated = FALSE)
+      tst[[i]] = trend::sens.slope(values[fltr])
     }
     
     
@@ -133,6 +138,9 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     
     d1 = vl_int[df$Year1 < ch_year[i]]
     d2 = vl_int[df$Year1 >= ch_year[i]]
+    
+    d1 = d1[!(is.infinite(d1) | is.na(d1) | is.nan(d1))]
+    d2 = d2[!(is.infinite(d2) | is.na(d2) | is.nan(d2))]
     
     mean1[[i]] = round(mean(d1, na.rm = TRUE), 5)
     mean2[[i]] = round(mean(d2, na.rm = TRUE), 5)
@@ -159,8 +167,10 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     
     # Student and Fisher tests requre at least two observations in each sample
     if (length(d1) > 1 & length(d2) > 1) { 
-      tt[[i]] = t.test(d1, d2)
-      ft[[i]] = var.test(d1, d2)
+      if ((sum(abs(diff(d1)), na.rm = T) != 0) && (sum(abs(diff(d2)), na.rm = T) != 0)) {
+        tt[[i]] = t.test(d1, d2)
+        ft[[i]] = var.test(d1, d2)
+      }
     }
   }
   
