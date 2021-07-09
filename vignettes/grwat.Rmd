@@ -2,20 +2,22 @@
 title: "Introduction to grwat R package"
 author: "Timofey Samsonov"
 date: "`r Sys.Date()`"
-output: 
-  rmarkdown::html_vignette:
-    df_print: paged
+dpi: 300
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Intro}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 7, out.width = '100%', dpi = 300, collapse = TRUE)
+Sys.setlocale("LC_TIME", "en_US.UTF-8")
 ```
 
 # Read and preprocess the source data 
@@ -69,7 +71,7 @@ The last two options are the most adequate. Let's see how it can be done.
 
 First, we need to read the basin spatial data:
 
-```{r, out.width='100%'}
+```{r, dpi = 72}
 # this is path to sample basin geopackage installed with grwat
 path = system.file("extdata", "spas-zagorye.gpkg", package = "grwat")
 
@@ -82,14 +84,14 @@ mapview(basin) + mapview(gauge)
 ```
 
 Next, we can buffer the data on the specified distance to catch more reanalysis data. For this we use `gr_buffer_geo` function, which approximates geographic buffer of the specified radius:
-```{r, out.width='100%'}
+```{r, dpi = 72}
 basin_buffer = gr_buffer_geo(basin, 25000) 
 mapview(basin_buffer, col.regions = 'red') +
   mapview(basin)
 ```
 
 Alternatively you can just buffer the gauge point, though it is less meaningful since you will grab reanalysis data that falls out of gauge's basin:
-```{r, out.width='100%'}
+```{r, dpi = 72}
 gauge_buffer = gr_buffer_geo(gauge, 50000) 
 mapview(gauge_buffer, col.regions = 'red') +
   mapview(gauge)
@@ -110,7 +112,7 @@ knitr::include_graphics('img/reanalysis.png')
 
 The reanalysis consists of two data files, each file is about 850 Mb in size:
 
-```{r, echo=FALSE, out.width='100%'}
+```{r, echo=FALSE}
 knitr::include_graphics('img/rean_files.png')
 ```
 
@@ -126,7 +128,7 @@ head(hdata_rean$df)
 
 After reanalysis data are joined you can easily plot a map of the derived spatial configuration:
 
-```{r, out.width='100%'}
+```{r, dpi = 72}
  # plot spatial configuration
 m = mapview(basin_buffer, col.regions = 'red') +
   mapview(basin) +
@@ -219,7 +221,7 @@ tab = gr_fill_gaps(hdata_rean$df,
 
 How the time window is computed in the second case? When the `autocorr` parameter is used, the ACF (autocorrelation function) is computed first, and then its values are used to obtain the time shift (in days) during which the autocorrelation is higher or equal to the specified value. For Spas-Zagorye data the time lag for $ACF \geq 0.7$ is 5 days, whoch can be extracted using the `purrr::detect_index()` function:
 
-```{r, out.width='100%', fig.width = 8, fig.height = 6, dpi = 300}
+```{r, out.width='80%'}
 afun = acf(hdata_rean$df$Q)
 abline(h = 0.7, col = 'red')
 abline(v = purrr::detect_index(afun$acf, ~ .x < 0.7), col = 'blue', lwd = 2)
@@ -231,7 +233,7 @@ abline(v = purrr::detect_index(afun$acf, ~ .x < 0.7), col = 'blue', lwd = 2)
 
 The basic separation procedure is provided by `get_baseflow()` function. One of the most commonly used approaches is the method by Lyne-Hollick (1979):
 
-```{r, out.width='100%', fig.width = 8, fig.height = 6, dpi = 300}
+```{r}
 resbase = tab %>% 
   mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
   mutate(Qbase = gr_baseflow(Q, method = 'lynehollick'))
@@ -247,7 +249,7 @@ resbase %>%
 ```
 
 The separation is mainly parameterized by smoothing parameter which is `a = 0.925` by default, and number of passes, which are `passes = 3` by default. Changing them affects the shape of a baseflow component:
-```{r, out.width='100%', fig.width = 8, fig.height = 6, dpi = 300}
+```{r}
 resbase = tab %>% 
   mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
   mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', a = 0.95, passes = 5))
@@ -261,7 +263,7 @@ resbase %>%
 
 Let's see how different separation methods act in comparison to each other:
 
-```{r, out.width='100%', fig.width = 8, fig.height = 12, dpi = 300}
+```{r, fig.height = 12}
 methods = c("maxwell",
             "boughton",
             "jakeman",
@@ -327,13 +329,13 @@ Graphical functions are based on [ggplot2](https://ggplot2.tidyverse.org) graphi
 ## Plot separation of hydrograph
 
 You can plot separations for selected years using `gr_plot_sep()` function:
-```{r, out.width='100%', fig.width = 8, fig.height = 6, dpi = 300}
+```{r}
 gr_plot_sep(sep, 1979) # plot single year
 gr_plot_sep(sep, c(1994, 2001)) # plot two years sequentially
 ```
 
 And also multiple years on the same layout:
-```{r, out.width='100%', fig.width = 8, fig.height = 6, dpi = 300}
+```{r}
 gr_plot_sep(sep, 2016:2019, # plot four years on the same page
             layout = matrix(c(1,2,3,4), ncol=2, byrow = T))
 ```
@@ -373,7 +375,7 @@ tests$ft # Fisher F tests to compare two variances
 
 Interannual changes are visualized using `gr_plot_vars()` function. Its syntax is similar to `gr_test_vars()` and `gr_plot_sep()`:
 
-```{r, , out.width='100%', fig.width = 8, dpi = 300, collapse=TRUE, message=FALSE}
+```{r}
 gr_plot_vars(vars, Qmax) # plot one selected variable
 gr_plot_vars(vars, date10w1, Wpol3) # plot two variables sequentially
 gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
@@ -382,7 +384,7 @@ gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix 
 
 You can add the results of statistical tests to the plot by specifying the result of `test_variables()` function to the `tests` parameter. In that case the subtitle with test results will be added, Theil-Sen slope and Pettitt test breaking year are drawn as solid ($p \leq 0.05$) or dashed ($p > 0.05$) lines:
 
-```{r, , out.width='100%', fig.width = 8, dpi = 300, collapse=TRUE, message=FALSE}
+```{r}
 gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
              tests = gr_test_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) # add test information
 ```
@@ -390,7 +392,7 @@ gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
 > Note that `tests` parameter of `plot_variables()` expects the tests for the same variables as those selected for plotting. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other
 
 Finally, you can plot all variables by not supplying column names to `plot_variables()` function. In that case tests (if you want to plot them too) should also be calculated for all variables:
-```{r, , out.width='100%', fig.width = 6, dpi = 300, eval=FALSE}
+```{r, eval=FALSE}
 gr_plot_vars(vars, tests = gr_test_vars(vars))
 ```
 
@@ -398,13 +400,13 @@ gr_plot_vars(vars, tests = gr_test_vars(vars))
 
 Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using `gr_plot_periods()` function. The syntax is similar to `gr_plot_vars()` except that you must provide either `tests` or `year` parameter. If both are supplied then `tests` is prioritized (you can also supply a fixed year when testing variables:
 
-```{r, out.width='100%', fig.width = 8, dpi = 300}
+```{r, fig.height = 2.5}
 gr_plot_periods(vars, Qy, year = 1978)
 gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy))
 ```
 
 Multiple plots can be combined on one page using `layout` parameter:
-```{r, out.width='100%', fig.width = 8, fig.height= 8, dpi = 300}
+```{r, fig.height=5}
 gr_plot_periods(vars, Qy, Qmax, 
                 tests = gr_test_vars(vars, Qy, Qmax),
                 layout = matrix(c(1,2)))
@@ -416,7 +418,7 @@ gr_plot_periods(vars, tests = gr_test_vars(vars))
 ```
 
 There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:
-```{r, out.width='100%', fig.width = 8, fig.height= 8, dpi = 300, message=FALSE}
+```{r, fig.height= 12, message=FALSE}
 gr_plot_minmonth(vars, year = 1985)
 ```
 
@@ -429,7 +431,4 @@ gr_report(sep, vars, output = report)
 browseURL(report)
 ```
 
-```{r, echo=FALSE}
-report = paste(getwd(), 'Spas-Zagorye.html', sep = '/')
-htmltools::includeHTML(report)
-```
+See [report](https://tsamsonov.github.io/grwat/articles/Spas-Zagorye.html) generated by this command.
