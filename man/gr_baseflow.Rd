@@ -22,7 +22,7 @@ gr_baseflow(
 
 \item{padding}{number of elements padded at the beginning and ending of discharge vector to reduce boundary effects}
 
-\item{method}{baseflow filtering method. Currently only `method = LYNE` is supported which corresponds to Lyne-Hollick (1979)}
+\item{method}{baseflow filtering method. Available methods are "maxwell", "boughton", "jakeman", "lynehollick", "chapman". Default is "lynehollick", which corresponds to Lyne-Hollick (1979) hydrograph separation method.}
 
 \item{alpha}{filtering parameter. Defaults to 0.925}
 }

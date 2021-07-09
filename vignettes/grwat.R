@@ -28,7 +28,7 @@ hdata_alt = hdata %>%
             Q = q)
 head(hdata_alt)
 
-## -----------------------------------------------------------------------------
+## ---- out.width='100%'--------------------------------------------------------
 # this is path to sample basin geopackage installed with grwat
 path = system.file("extdata", "spas-zagorye.gpkg", package = "grwat")
 
@@ -38,25 +38,21 @@ path = system.file("extdata", "spas-zagorye.gpkg", package = "grwat")
 basin = st_read(path, layer = 'basin') # read basin region
 mapview(basin)
 
-## -----------------------------------------------------------------------------
+## ---- out.width='100%'--------------------------------------------------------
 basin_buffer = gr_buffer_geo(basin, 25000) 
 mapview(basin_buffer, col.regions = 'red') +
   mapview(basin)
 
-## -----------------------------------------------------------------------------
+## ---- out.width='100%'--------------------------------------------------------
 gauge = st_read(path, layer = 'gauge') # read gauge point
 gauge_buffer = gr_buffer_geo(gauge, 50000) 
 mapview(gauge_buffer, col.regions = 'red') +
   mapview(gauge)
 
-## -----------------------------------------------------------------------------
-box = st_bbox(basin_buffer)
-box
-
-## -----------------------------------------------------------------------------
+## ---- echo=FALSE, out.width='50%'---------------------------------------------
 knitr::include_graphics('img/reanalysis.png')
 
-## -----------------------------------------------------------------------------
+## ---- echo=FALSE, out.width='100%'--------------------------------------------
 knitr::include_graphics('img/rean_files.png')
 
 ## -----------------------------------------------------------------------------
@@ -66,76 +62,52 @@ hdata_rean = gr_join_rean(hdata, rean, basin_buffer) # join reanalysis data to h
 
 head(hdata_rean$df)
 
-## ---- message=FALSE, warning=FALSE--------------------------------------------
-gr_map(rean$pts, hdata_rean$pts, basin, basin_buffer) # plot spatial configuration
+## ---- out.width='100%'--------------------------------------------------------
+ # plot spatial configuration
+m = mapview(basin_buffer, col.regions = 'red') +
+  mapview(basin) +
+  mapview(hdata_rean$pts, col.regions = 'black') +
+  mapview(rean$pts, cex = 1)
+
+box = st_bbox(basin_buffer)
+center = st_coordinates(st_centroid(basin_buffer))
+
+m@map %>% leaflet::setView(center[1], center[2], zoom = 7)
 
 ## -----------------------------------------------------------------------------
 tab = gr_fill_gaps(hdata_rean$df,
+                   nobserv = 10)
+
+tab = gr_fill_gaps(hdata_rean$df,
                    autocorr = 0.7)
 
-## -----------------------------------------------------------------------------
-# Расчленение
-p = gr_get_params()
-p$nPav = 5
-p$prodspada = 85
+## ---- out.width='100%', fig.width = 8, fig.height = 6, dpi = 300--------------
+afun = acf(hdata_rean$df$Q)
+abline(h = 0.7, col = 'red')
+abline(v = purrr::detect_index(afun$acf, ~ .x < 0.7), col = 'blue', lwd = 2)
 
-## -----------------------------------------------------------------------------
-sep = gr_separate(tab, p)
-head(sep)
+## ---- out.width='100%', fig.width = 8, fig.height = 6, dpi = 300--------------
+resbase = tab %>% 
+  mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
+  mutate(Qbase = gr_baseflow(Q, method = 'lynehollick'))
 
-## ---- message=FALSE, echo=FALSE-----------------------------------------------
-vars = gr_summarize(sep)
-head(vars)
+# quick look at the table
+head(resbase, 10)
+  
+resbase %>% 
+  filter(Year == 2020) %>% 
+  ggplot() +
+  geom_area(aes(Date, Q), fill = 'steelblue') +
+  geom_area(aes(Date, Qbase), fill = 'orangered')
 
-## -----------------------------------------------------------------------------
-gr_plot_sep(sep, 1979) # plot single year
-gr_plot_sep(sep, c(1994, 2001)) # plot two years sequentially
-gr_plot_sep(sep, 1994:1997, # plot four years on the same page
-            layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
-
-## -----------------------------------------------------------------------------
-gr_help_vars()
-
-## -----------------------------------------------------------------------------
-gr_test_vars(vars, Qmax)
-
-## -----------------------------------------------------------------------------
-tests = gr_test_vars(vars, Qygr, date10w1, Wpol3)
-tests$pvalues
-
-## -----------------------------------------------------------------------------
-tests = gr_test_vars(vars)
-tests$year # this is a change year detected for each variable
-
-## -----------------------------------------------------------------------------
-tests = gr_test_vars(vars, Qmax, Qygr, change_year = 1987)
-tests$ft # Fisher F tests to compare two variances
-
-## ---- collapse=TRUE, message=FALSE--------------------------------------------
-gr_plot_vars(vars, Qmax) # plot one selected variable
-gr_plot_vars(vars, date10w1, Wpol3) # plot two variables sequentially
-gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
-                      layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 
-
-## ---- collapse=TRUE, message=FALSE--------------------------------------------
-gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
-             tests = gr_test_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) # add test information
-
-## ---- eval=FALSE--------------------------------------------------------------
-#  gr_plot_vars(vars, tests = gr_test_vars(vars))
-
-## -----------------------------------------------------------------------------
-gr_plot_periods(vars, Qy, year = 1978)
-gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy))
-
-## -----------------------------------------------------------------------------
-gr_plot_periods(vars, Qy, Qmax, 
-                tests = gr_test_vars(vars, Qy, Qmax),
-                layout = matrix(c(1,2)))
-
-## ---- eval = FALSE------------------------------------------------------------
-#  gr_plot_periods(df, tests = gr_test_vars(df))
-
-## ---- message=FALSE-----------------------------------------------------------
-gr_plot_minmonth(vars, year = 1985)
+## ---- out.width='100%', fig.width = 8, fig.height = 6, dpi = 300--------------
+resbase = tab %>% 
+  mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
+  mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', a = 0.95, passes = 5))
+  
+resbase %>% 
+  filter(Year == 2020) %>% 
+  ggplot() +
+  geom_area(aes(Date, Q), fill = 'steelblue') +
+  geom_area(aes(Date, Qbase), fill = 'orangered')
 

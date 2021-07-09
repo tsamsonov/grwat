@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 ## Read raw discharge data
 
-The starting point for hydrograph analysis is to obtain the source data. Let's see how it goes with sample `spas-zagorye.txt` discharge data for $1956-2020$ year range provided with grwat. This data is for [Spas-Zogorye](https://allrivers.info/gauge/protva-obninsk) gauge on [Protva](https://en.wikipedia.org/wiki/Protva) river in Central European plane:
+The starting point for hydrograph analysis is to obtain the source data. Let's see how it goes with sample `spas-zagorye.txt` discharge data for $1956-2020$ year range provided with grwat. This data is for [Spas-Zagorye](https://allrivers.info/gauge/protva-obninsk) gauge on [Protva](https://en.wikipedia.org/wiki/Protva) river in Central European plane:
 
 ```{r, message=FALSE, warning=FALSE}
 library(sf) # reading and manipulating spatial data
@@ -67,7 +67,7 @@ The last two options are the most adequate. Let's see how it can be done.
 
 First, we need to read the basin spatial data:
 
-```{r}
+```{r, out.width='100%'}
 # this is path to sample basin geopackage installed with grwat
 path = system.file("extdata", "spas-zagorye.gpkg", package = "grwat")
 
@@ -75,46 +75,44 @@ path = system.file("extdata", "spas-zagorye.gpkg", package = "grwat")
 # path = /this/is/the/path/to/discharge/basin.shp
 
 basin = st_read(path, layer = 'basin') # read basin region
-mapview(basin)
+gauge = st_read(path, layer = 'gauge') # read gauge point
+mapview(basin) + mapview(gauge)
 ```
 
-Next, we can buffer the data on the specified distance to catch more reanalysis data:
-```{r}
+Next, we can buffer the data on the specified distance to catch more reanalysis data. For this we use `gr_buffer_geo` function, which approximates geographic buffer of the specified radius:
+```{r, out.width='100%'}
 basin_buffer = gr_buffer_geo(basin, 25000) 
 mapview(basin_buffer, col.regions = 'red') +
   mapview(basin)
 ```
 
 Alternatively you can just buffer the gauge point, though it is less meaningful since you will grab reanalysis data that falls out of gauge's basin:
-```{r}
-gauge = st_read(path, layer = 'gauge') # read gauge point
+```{r, out.width='100%'}
 gauge_buffer = gr_buffer_geo(gauge, 50000) 
 mapview(gauge_buffer, col.regions = 'red') +
   mapview(gauge)
 ```
 
-Finally, you need the bounding box of your buffer to query the data:
-```{r}
-box = st_bbox(basin_buffer)
-box
-```
-
 ### Joining the East-European Plane reanalysis
 
-__grwat__ is packaged with daily reanalysis which covers the East European territory of Russia:
+__grwat__ is packaged with daily reanalysis which covers the East European territory of Russia. It has a spatial resolution of $0.75^{\circ} \times 0.75^{\circ}$, and temporal resolution of $1$ (one) day. Data sources include:
+
+- [CIRES-DOE](https://psl.noaa.gov/data/gridded/data.20thC_ReanV3.html) from 01-01-1880 till 31-12-1978
+- [ERA5](https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era5) from 01-01-1979 till now.
+
+The coverage of the reanalysis is shown below:
 
 ```{r, echo=FALSE, out.width='50%'}
 knitr::include_graphics('img/reanalysis.png')
 ```
 
-The reanalysis consists of two data files, each is about 850 Mb in size:
+The reanalysis consists of two data files, each file is about 850 Mb in size:
 
 ```{r, echo=FALSE, out.width='100%'}
 knitr::include_graphics('img/rean_files.png')
 ```
 
 Download this data using the [FTP link](ftp://gruser@carto.geogr.msu.ru) for using with grwat.
-
 
 ```{r}
 rean = gr_read_rean('/Volumes/Data/Spatial/Reanalysis/grwat/pre_1880-2021.nc',
@@ -124,9 +122,19 @@ hdata_rean = gr_join_rean(hdata, rean, basin_buffer) # join reanalysis data to h
 head(hdata_rean$df)
 ```
 
-After reanalysis data are joined you can easily plot a map of the derived spatial configuration with
-```{r, message=FALSE, warning=FALSE}
-gr_map(rean$pts, hdata_rean$pts, basin, basin_buffer) # plot spatial configuration
+After reanalysis data are joined you can easily plot a map of the derived spatial configuration:
+
+```{r, out.width='100%'}
+ # plot spatial configuration
+m = mapview(basin_buffer, col.regions = 'red') +
+  mapview(basin) +
+  mapview(hdata_rean$pts, col.regions = 'black') +
+  mapview(rean$pts, cex = 1)
+
+box = st_bbox(basin_buffer)
+center = st_coordinates(st_centroid(basin_buffer))
+
+m@map %>% leaflet::setView(center[1], center[2], zoom = 7)
 ```
 
 ### Joining the ERA5 reanalysis
@@ -196,29 +204,108 @@ gr_map(rean$pts, hdata_rean$pts, basin, basin_buffer) # plot spatial configurati
 <!--                   path     = ".")      # store data in current working directory -->
 <!-- ``` -->
 
-# Separate and describe {#separate}
+# Fill gaps {#separate}
 
-The first stage before separation is to fill the gaps. You can limit the maximum gap extent by treshold autocorrelation value (`autocorr` parameter) or explitit number of observations (`nobserv` parameter):
+`gr_fill_gaps()` function allows to fill the gaps in the data using simple linear interpolation between nearest observations. You can limit the maximum gap extent by threshold autocorrelation value (`autocorr` parameter) or expliсit number of observations (`nobserv` parameter):
 ```{r}
+tab = gr_fill_gaps(hdata_rean$df,
+                   nobserv = 10)
+
 tab = gr_fill_gaps(hdata_rean$df,
                    autocorr = 0.7)
 ```
 
-The second step is to derive and set separation parameters:
+How the time window is computed in the second case? When the `autocorr` parameter is used, the ACF (autocorrelation function) is computed first, and then its values are used to obtain the time shift (in days) during which the autocorrelation is higher or equal to the specified value. For Spas-Zagorye data the time lag for $ACF \geq 0.7$ is 5 days, whoch can be extracted using the `purrr::detect_index()` function:
+
+```{r, out.width='100%', fig.width = 8, fig.height = 6, dpi = 300}
+afun = acf(hdata_rean$df$Q)
+abline(h = 0.7, col = 'red')
+abline(v = purrr::detect_index(afun$acf, ~ .x < 0.7), col = 'blue', lwd = 2)
+```
+
+# Separate and summarize {#separate}
+
+## Basic separation: quickflow and baseflow {#separate-basic}
+
+The basic separation procedure is provided by `get_baseflow()` function. One of the most commonly used approaches is the method by Lyne-Hollick (1979):
+
+```{r, out.width='100%', fig.width = 8, fig.height = 6, dpi = 300}
+resbase = tab %>% 
+  mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
+  mutate(Qbase = gr_baseflow(Q, method = 'lynehollick'))
+
+# quick look at the table
+head(resbase, 10)
+  
+resbase %>% 
+  filter(Year == 2020) %>% 
+  ggplot() +
+  geom_area(aes(Date, Q), fill = 'steelblue') +
+  geom_area(aes(Date, Qbase), fill = 'orangered')
+```
+
+The separation is mainly parameterized by smoothing parameter which is `a = 0.925` by default, and number of passes, which are `passes = 3` by default. Changing them affects the shape of a baseflow component:
+```{r, out.width='100%', fig.width = 8, fig.height = 6, dpi = 300}
+resbase = tab %>% 
+  mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
+  mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', a = 0.95, passes = 5))
+  
+resbase %>% 
+  filter(Year == 2020) %>% 
+  ggplot() +
+  geom_area(aes(Date, Q), fill = 'steelblue') +
+  geom_area(aes(Date, Qbase), fill = 'orangered')
+```
+
+Let's see how different separation methods act in comparison to each other:
+
+```{r, out.width='100%', fig.width = 8, fig.height = 12, dpi = 300}
+methods = c("maxwell",
+            "boughton",
+            "jakeman",
+            "lynehollick",
+            "chapman")
+
+plots = lapply(methods, function(m) {
+  resbase = tab %>% 
+    mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
+    mutate(Qbase = gr_baseflow(Q, method = m))
+
+  resbase %>%
+    filter(Year == 2020) %>%
+    ggplot() +
+    geom_area(aes(Date, Q), fill = 'steelblue') +
+    geom_area(aes(Date, Qbase), fill = 'orangered') +
+    labs(title = m)
+})
+
+patchwork::wrap_plots(plots, ncol = 2)
+```
+
+## Advanced separation: genetic components {#separate-advanced}
+
+Advanced separation aims at revealing the genesis of the quickflow. Was it due to a rain or snowmelting? For this, a joint analysis of discharge, temperature and precipitation time series is performed by specialized algorithm, available from `gr_separate()` function in grwat package.
+
+The genetic separation of hydrograph is controlled by more than 30 parameters. The names and meaning of these paramters can be learned thanks to `gr_help_params()` function:
+```{r}
+gr_help_params()
+```
+
+Since the number of parameters is large (31), they are organized as list, which is then fed into `gr_separate()` function. First, you get the params using the `gr_get_params()` function. The only parameter of the function is `reg``, which indicates the region for which the parameters must be extracted. After you got the parameters, they can be changed by accessing the list elements:
 ```{r}
 # Расчленение
-p = gr_get_params()
+p = gr_get_params(reg = 'Midplain')
 p$nPav = 5
 p$prodspada = 85
 ```
 
-Next, you can separate the hydrograph
+Next, you can separate the hydrograph:
 ```{r}
 sep = gr_separate(tab, p)
 head(sep)
 ```
 
-Finally, summarize the interannual changes:
+After the hydrograph is separated, it can be summarized in a set of variables:
 ```{r, message=FALSE, warning=FALSE}
 vars = gr_summarize(sep)
 head(vars)
@@ -233,19 +320,26 @@ These functions from grwat package allow you to:
 - Plot long-term changes of key water discharge variables
 - Perform statistical tests on all calculated variables
 
+Graphical functions are based on [ggplot2](https://ggplot2.tidyverse.org) graphics.
+
 ## Plot separation of hydrograph
 
 You can plot separations for selected years using `gr_plot_sep()` function:
-```{r}
+```{r, out.width='100%', fig.width = 8, fig.height = 6, dpi = 300}
 gr_plot_sep(sep, 1979) # plot single year
 gr_plot_sep(sep, c(1994, 2001)) # plot two years sequentially
-gr_plot_sep(sep, 1994:1997, # plot four years on the same page
-            layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
 ```
+
+And also multiple years on the same layout:
+```{r, out.width='100%', fig.width = 8, fig.height = 6, dpi = 300}
+gr_plot_sep(sep, 2016:2019, # plot four years on the same page
+            layout = matrix(c(1,2,3,4), ncol=2, byrow = T))
+```
+
 
 ## Interannual change variables
 
-To get the detailed description of available variables you can invoke `get_parameters()`:
+To get the detailed description of available variables you can invoke `gr_help_vars()`:
 ```{r}
 gr_help_vars()
 ```
@@ -277,7 +371,7 @@ tests$ft # Fisher F tests to compare two variances
 
 Interannual changes are visualized using `gr_plot_vars()` function. Its syntax is similar to `gr_test_vars()` and `gr_plot_sep()`:
 
-```{r, collapse=TRUE, message=FALSE}
+```{r, , out.width='100%', fig.width = 8, dpi = 300, collapse=TRUE, message=FALSE}
 gr_plot_vars(vars, Qmax) # plot one selected variable
 gr_plot_vars(vars, date10w1, Wpol3) # plot two variables sequentially
 gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
@@ -286,7 +380,7 @@ gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix 
 
 You can add the results of statistical tests to the plot by specifying the result of `test_variables()` function to the `tests` parameter. In that case the subtitle with test results will be added, Theil-Sen slope and Pettitt test breaking year are drawn as solid ($p \leq 0.05$) or dashed ($p > 0.05$) lines:
 
-```{r, collapse=TRUE, message=FALSE}
+```{r, , out.width='100%', fig.width = 8, dpi = 300, collapse=TRUE, message=FALSE}
 gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
              tests = gr_test_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) # add test information
 ```
@@ -294,7 +388,7 @@ gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
 > Note that `tests` parameter of `plot_variables()` expects the tests for the same variables as those selected for plotting. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other
 
 Finally, you can plot all variables by not supplying column names to `plot_variables()` function. In that case tests (if you want to plot them too) should also be calculated for all variables:
-```{r, eval=FALSE}
+```{r, , out.width='100%', fig.width = 6, dpi = 300, eval=FALSE}
 gr_plot_vars(vars, tests = gr_test_vars(vars))
 ```
 
@@ -302,13 +396,13 @@ gr_plot_vars(vars, tests = gr_test_vars(vars))
 
 Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using `gr_plot_periods()` function. The syntax is similar to `gr_plot_vars()` except that you must provide either `tests` or `year` parameter. If both are supplied then `tests` is prioritized (you can also supply a fixed year when testing variables:
 
-```{r}
+```{r, out.width='100%', fig.width = 8, dpi = 300}
 gr_plot_periods(vars, Qy, year = 1978)
 gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy))
 ```
 
 Multiple plots can be combined on one page using `layout` parameter:
-```{r}
+```{r, out.width='100%', fig.width = 8, fig.height= 8, dpi = 300}
 gr_plot_periods(vars, Qy, Qmax, 
                 tests = gr_test_vars(vars, Qy, Qmax),
                 layout = matrix(c(1,2)))
@@ -320,6 +414,14 @@ gr_plot_periods(df, tests = gr_test_vars(df))
 ```
 
 There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:
-```{r, message=FALSE}
+```{r, out.width='100%', fig.width = 8, fig.height= 8, dpi = 300, message=FALSE}
 gr_plot_minmonth(vars, year = 1985)
 ```
+
+# Reports
+
+To render HTML report just pass separation and variables to `gr_report()` function, and provide the output file name:
+```{r, eval = FALSE}
+gr_report(sep, vars, output = '/Volumes/Work/_grwat/Spas-Zagorye.html')
+```
+

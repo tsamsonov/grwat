@@ -1,10 +1,9 @@
 ---
 params:
     name: "Хопёр"
-    file_tot: "Total.txt"
-    file_sep: "AllGrWat.txt"
+    sep: NULL
+    vars: NULL
     locale: "EN"
-    map: false
     year: 1978
     exclude: NULL
     fixedyear: false
@@ -42,31 +41,6 @@ knitr::opts_chunk$set(include=FALSE)
 # {.tabset}
 ```{r, include=TRUE, warning=FALSE, message=FALSE, }
 message('\nGenerating hydrograph separation report for ', params$name, '\n')
-if (params$map) {
-  if (params$locale =='EN') {
-    knitr::asis_output("## Input data")
-  } else {
-    knitr::asis_output("## Входные данные {#input}")
-  }
-}
-```
-
-```{r, include=TRUE, warning=FALSE, message=FALSE, }
-if (params$map) {
-  if (params$locale == 'EN') {
-    knitr::asis_output("Reanalysis data inside the basin")
-  } else {
-    knitr::asis_output("Данные реанализа в пределах бассейна")
-  }
-}
-```
-
-```{r, include=TRUE, warning=FALSE, message=FALSE, out.height='7in'}
-if (params$map) {
-  message(' > Plotting a map...\n')
-  pngfile = stringr::str_interp("${knitr::opts_knit$get('root.dir')}/${list.files('.', '*.png')[1]}")
-  knitr::include_graphics(pngfile)
-}
 ```
 
 ```{r, include=TRUE}
@@ -80,13 +54,10 @@ if (params$locale == 'EN') {
 
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
 message(' > Plotting separation...\n')
-params$file_sep %>% 
-  grwat::read_separation() %>% 
-  grwat::plot_separation(layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
-                         locale = params$locale,
-                         pagebreak = FALSE)
+grwat::gr_plot_sep(params$sep, years = params$vars$Year, layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
+                   locale = params$locale,
+                   pagebreak = FALSE)
 ```
-
 
 <!-- Main plots -->
 ```{r, include=TRUE}
@@ -99,21 +70,19 @@ if (params$locale == 'EN') {
 
 
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
-total = grwat::read_variables(params$file_tot)
-
 message(' > Testing variables...\n')
-tests = grwat::test_variables(total, 
-                              year = params$year, 
-                              exclude = params$exclude, 
-                              locale = params$locale)
+tests = grwat::gr_test_vars(vars, 
+                            year = params$year, 
+                            exclude = params$exclude, 
+                            locale = params$locale)
 
 message(' > Plotting interannual changes...\n')
-grwat::plot_variables(total, 
-                      exclude = params$exclude,
-                      tests = tests,
-                      layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
-                      locale = params$locale,
-                      pagebreak = FALSE)
+grwat::gr_plot_vars(vars, 
+                    exclude = params$exclude,
+                    tests = tests,
+                    layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
+                    locale = params$locale,
+                    pagebreak = FALSE)
 ```
 
 ```{r, include=TRUE}
@@ -127,20 +96,20 @@ if (params$locale == 'EN') {
 
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting long-term changes...\n')
-grwat::plot_minmonth(total, 
-                     year = params$year, 
-                     exclude = params$exclude, 
-                     tests = tests,
-                     locale = params$locale, 
-                     pagebreak = FALSE)
+grwat::gr_plot_minmonth(vars, 
+                        year = params$year, 
+                        exclude = params$exclude, 
+                        tests = tests,
+                        locale = params$locale, 
+                        pagebreak = FALSE)
 ```
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
-grwat::plot_periods(total,
-                    exclude = params$exclude,
-                    tests = tests,
-                    layout = matrix(1:8, nrow=4, byrow=TRUE),
-                    locale = params$locale,
-                    pagebreak = FALSE)
+grwat::gr_plot_periods(vars,
+                       exclude = params$exclude,
+                       tests = tests,
+                       layout = matrix(1:8, nrow=4, byrow=TRUE),
+                       locale = params$locale,
+                       pagebreak = FALSE)
 ```
 
 <!-- Stats -->
@@ -155,14 +124,9 @@ if (params$locale == 'EN') {
 <!-- Knit table to PDF -->
 ```{r, include = TRUE, results='asis', warning=FALSE, message=FALSE}
 message(' > Kabling statistical tests...\n')
-grwat::kable_tests(tests, 
-                   format = 'html', 
-                   locale = params$locale)
-grwat::plot_tests(tests, 
-                  locale = params$locale)
-```
-
-<!-- Write stats to table -->
-```{r}
-tests$pvalues %>% writexl::write_xlsx(paste('pvalues_', params$name, '.xlsx', sep=''))
+grwat::gr_kable_tests(tests, 
+                      format = 'html', 
+                      locale = params$locale)
+grwat::gr_plot_tests(tests, 
+                     locale = params$locale)
 ```

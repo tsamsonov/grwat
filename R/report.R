@@ -74,6 +74,38 @@ gr_report_gauge <- function(wd, year = NULL, exclude = NULL, map = FALSE, locale
   message('Elapsed time: ', format(.POSIXct(difftime(t2, t1, units = "secs"), tz = "GMT"), "%H:%M:%S"))
 }
 
+#' Generates HTML report based on separation and variables
+#'
+#' @param sep 
+#' @param vars 
+#' @param output 
+#' @param year 
+#' @param exclude 
+#' @param locale 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = NULL, locale = 'EN') {
+  t1 = Sys.time()
+  
+  rmarkdown::render(input = system.file('reports', 'Report_HTML.Rmd', package = 'grwat'), 
+                    output_file = output,
+                    encoding = 'UTF-8',
+                    quiet = TRUE,
+                    params = list(name = basename(output),
+                                  sep = sep,
+                                  vars = vars,
+                                  fixedyear = !is.null(year),
+                                  year = year,
+                                  exclude = exclude,
+                                  locale = locale))
+  t2 = Sys.time()
+  
+  message('Elapsed time: ', format(.POSIXct(difftime(t2, t1, units = "secs"), tz = "GMT"), "%H:%M:%S"))
+}
+
 #' Kable p-values table by coloring it using green-yellow-red palette
 #'
 #' @param tests Test result returned by `test_variables()` function

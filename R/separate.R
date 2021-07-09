@@ -52,7 +52,7 @@ gr_separate <- function(df, params = grw_get_params(), cols = 'dmyqtp', niter = 
 #' @param alpha filtering parameter. Defaults to 0.925
 #' @param padding number of elements padded at the beginning and ending of discharge vector to reduce boundary effects
 #' @param passes number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3
-#' @param method baseflow filtering method. Currently only `method = LYNE` is supported which corresponds to Lyne-Hollick (1979)
+#' @param method baseflow filtering method. Available methods are "maxwell", "boughton", "jakeman", "lynehollick", "chapman". Default is "lynehollick", which corresponds to Lyne-Hollick (1979) hydrograph separation method.
 #'
 #' @return baseflow vector
 #' @export
@@ -65,17 +65,27 @@ gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5,
 
 #' Get default separation parameters for selected region
 #'
-#' @param region Name of the region
+#' @param reg Name of the region
 #'
 #' @return
 #' @export
 #'
 #' @examples
-gr_get_params <- function(type = 'Midplain') {
+gr_get_params <- function(reg = 'Midplain') {
   params_in %>% 
-    dplyr::filter(region == type) %>% 
+    dplyr::filter(region == reg) %>% 
     dplyr::select(-1) %>%
     as.list()
+}
+
+#' Get the information about parameters used to separate the hydrograph
+#'
+#' @return a table with parameter names
+#' @export
+#'
+#' @examples
+gr_help_params <- function() {
+  return(params_in_desc)
 }
 
 #' Change separation parameters through graphical interface
