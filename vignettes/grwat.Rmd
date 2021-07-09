@@ -410,7 +410,7 @@ gr_plot_periods(vars, Qy, Qmax,
 
 To plot long-term changes for all variables just skip variable names in function call:
 ```{r, eval = FALSE}
-gr_plot_periods(df, tests = gr_test_vars(df))
+gr_plot_periods(vars, tests = gr_test_vars(vars))
 ```
 
 There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:
@@ -422,6 +422,12 @@ gr_plot_minmonth(vars, year = 1985)
 
 To render HTML report just pass separation and variables to `gr_report()` function, and provide the output file name:
 ```{r, eval = FALSE}
-gr_report(sep, vars, output = '/Volumes/Work/_grwat/Spas-Zagorye.html')
+report = paste(getwd(), 'Spas-Zagorye.html', sep = '/')
+gr_report(sep, vars, output = report)
+browseURL(report)
 ```
 
+```{r, echo=FALSE, results='asis'}
+report = paste(getwd(), 'Spas-Zagorye.html', sep = '/')
+htmltools::includeHTML(report)
+```
