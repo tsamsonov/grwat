@@ -36,9 +36,9 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FAL
                      datepolend = max(Date[which(Qseas>0)])) %>% 
     dplyr::filter(!is.na(nydate))
   
-  n = length(yrs)
+  n = nrow(yrs)
   
-  max.runoff = max(df$Qin)
+  max.runoff = max(df$Qin, na.rm = T)
   
   labs = get_plot_labels(locale)
   plotlist = list()

@@ -2,7 +2,9 @@
 title: "Introduction to grwat R package"
 author: "Timofey Samsonov"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    df_print: paged
 vignette: >
   %\VignetteIndexEntry{Intro}
   %\VignetteEngine{knitr::rmarkdown}
@@ -427,7 +429,7 @@ gr_report(sep, vars, output = report)
 browseURL(report)
 ```
 
-```{r, echo=FALSE, results='asis'}
+```{r, echo=FALSE}
 report = paste(getwd(), 'Spas-Zagorye.html', sep = '/')
 htmltools::includeHTML(report)
 ```
