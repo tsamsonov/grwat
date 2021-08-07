@@ -760,3 +760,45 @@ gr_plot_ss = function(sstree, df = NULL, year = NULL, inverse = FALSE) {
    
   return(ssplot)
 }
+
+#' Plot the autocorrelation function (ACF) for hydrograph time series
+#'
+#' @param hdata a data frame with two columns: date and discharge
+#' @param autocorr 
+#'
+#' @return ACF plot
+#' @export
+#'
+#' @examples
+gr_plot_acf = function(hdata, autocorr = 0.7, max_lag = 30) {
+  
+  max_period = hdata %>% 
+    gr_get_gaps() %>% 
+    filter(type == 'data', duration == max(duration))
+  
+  acf_data = hdata %>% 
+    filter(between(.[[1]], max_period$start_date, max_period$end_date)) %>% 
+    pull(2)
+  
+  afun = acf(acf_data, lag.max = max_lag, plot = FALSE)
+    
+  tab = tibble(Days = seq_along(afun$acf), ACF = afun$acf)
+  
+  days = purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
+  
+  ggplot(tab, aes(Days, ACF)) +
+    geom_line() +
+    geom_point() +
+    geom_hline(aes(yintercept = autocorr), 
+               color = 'red') +
+    annotate("text", label = autocorr,
+             x = 0, y = autocorr + 0.05,
+             size = 4, colour = "red") +
+    geom_vline(aes(xintercept = days), 
+                   color = 'blue', size = 1) +
+    annotate("text", label = days,
+             x = days + 1, y = 1,
+             size = 4, colour = "blue") +
+    labs(title = 'Autocorrelation function (ACF)') +
+    theme(plot.title = element_text(size=12, lineheight=.8, face="bold"))
+}

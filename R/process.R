@@ -18,6 +18,29 @@ gr_buffer_geo <- function(g, bufsize){
     sf::st_transform(4326)
 }
 
+
+#' Get gaps in the data
+#'
+#' @param hdata a data frame where the first column is date, and the second column is discharge value
+#'
+#' @return a data frame with periods of data and periods of gaps
+#' @export
+#'
+#' @examples
+gr_get_gaps <- function(hdata) {
+  hdata %>% 
+    dplyr::rename(Date = 1, Q = 2) %>% 
+    dplyr::filter(!is.na(Date)) %>% 
+    tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day')) %>% 
+    mutate(type = if_else(is.na(Q), 'gap', 'data'),
+           num = with(rle(type), rep(seq_along(lengths), lengths))) %>% 
+    group_by(num) %>% 
+    summarise(start_date = min(Date),
+              end_date = max(Date),
+              duration = end_date - start_date + 1,
+              type = first(type))
+}
+  
 #' Fill missing water discharge data using linear interpolation
 #'
 #' @param hdata Water discharge series. Data frame containing 4 columns: year (YYYY), montth (MM), day (DD) and level (water level)
@@ -57,7 +80,7 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
       pull(Q) %>% 
       acf(plot = FALSE)
     
-    nobserv = purrr::detect_index(afun$acf, ~ .x < autocorr) 
+    nobserv = purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
   
   }
   
@@ -90,79 +113,62 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
 #' }
 gr_join_rean <- function(hdata, rean, buffer){
   
-  hdata = hdata[, 1:4]
-  colnames(hdata) <- c('Day', 'Month', 'Year', 'Q')
-  
   # determine the first and last date
-  first = hdata[1, 1:3]
-  last = hdata[nrow(hdata), 1:3]
-  first.date = paste(first[3], first[2], first[1], sep = "/")
-  last.date = paste(last[3], last[2], last[1], sep = "/")
+  date_first = min(hdata[[1]], na.rm = T)
+  date_last = max(hdata[[1]], na.rm = T)
   
   # generate sequence of dates
-  hdates = seq(as.Date(first.date), as.Date(last.date), "days")
+  hdates = seq(date_first, date_last, "days")
   ndates = length(hdates)
   
   # frame for visualizing points
-  frame = sf::st_bbox(buffer) %>% as.numeric()
-  frame_sf = sf::st_bbox(buffer) %>% st_as_sfc()
+  # frame = sf::st_bbox(buffer) %>% as.numeric()
+  # frame_sf = sf::st_bbox(buffer) %>% st_as_sfc()
    
   # Select points
-  pts.selected = rean$pts[buffer, ]
-  npts = nrow(pts.selected)
+  pts_selected = rean$pts[buffer, ]
+  npts = nrow(pts_selected)
   
-  sum.table.with.dates = NULL
+  sum_table_with_dates = NULL
   
   if (npts > 0){
     # Extract point numbers for subsetting ncdf array
-    pts.numbers = pts.selected %>% dplyr::select(nlon, nlat)
-    st_geometry(pts.numbers) <- NULL
+    pts_numbers = pts_selected %>% 
+      dplyr::select(nlon, nlat)
+    st_geometry(pts_numbers) <- NULL
     
     # Extract dates for subsetting ncdf array
     datevals = lubridate::ymd(18000101) + lubridate::hours(rean$vals.full)
     flt = (datevals >= hdates[1]) & (datevals <= hdates[length(hdates)]) # !!!!
-    days = (1:length(rean$vals.full))[flt]
+    days = seq_along(rean$vals.full)[flt]
     ndays = length(days)
     
     # Replicate position each day
-    pts.positions = sapply(pts.numbers, rep.int, times = ndays)
-    pts.days = rep(days, each = npts)
+    pts_positions = sapply(pts_numbers, rep.int, times = ndays)
+    pts_days = rep(days, each = npts)
     
     # Generate index table for subsetting
-    selection.table = data.frame(pts.positions, pts.days)
+    selection_table = data.frame(pts_positions, pts_days)
     
     # Subset data
-    temp.selected = rean$temp[as.matrix(selection.table)]
-    prate.selected = rean$prate[as.matrix(selection.table)]
-    result = data.frame(selection.table, temp.selected, prate.selected)
+    temp_selected = rean$temp[as.matrix(selection_table)]
+    prate_selected = rean$prate[as.matrix(selection_table)]
+    result = data.frame(selection_table, temp_selected, prate_selected)
     
     # calculate average temp and prate per day
-    sum.table = result %>%
-      dplyr::group_by(pts.days) %>% 
-      dplyr::summarise(mean_temp = mean(temp.selected) %>% round(2),
-                mean_prate = mean(prate.selected) %>% round(3))
+    sum_table = result %>%
+      dplyr::group_by(pts_days) %>% 
+      dplyr::summarise(Temp = mean(temp_selected) %>% round(2),
+                       Prec = mean(prate_selected) %>% round(3)) %>% 
+      mutate(Date = hdates) %>% 
+      rename_at(4, ~ names(hdata)[[1]]) %>% 
+      select(-1)
     
-    # split dates into three columns
-    dates.matrix = hdates %>% 
-      as.character() %>% 
-      lapply(strsplit, split = '-') %>% 
-      unlist() %>% 
-      as.integer() %>% 
-      matrix(ncol = 3, byrow = TRUE)
-      
-    
-    # prepare output table
-    sum.table.with.dates = data.frame(sum.table[, 1], dates.matrix, sum.table[, 2:3])
-    
-    colnames(sum.table.with.dates) <- c("N", "Year", "Month", "Day", "Temp", "Prec")
-    
-    sum.table.with.dates = sum.table.with.dates %>% 
-      dplyr::left_join(hdata) %>% 
-      select(-N) %>% 
-      relocate(Day, Month, Year, Q, Temp, Prec)
+    sum_table_with_dates = hdata %>%
+      dplyr::left_join(sum_table)
   }
   
-  return(list(df = sum.table.with.dates, pts = pts.selected))
+  return(sum_table_with_dates)
 }
 
 #' Process gauge directory

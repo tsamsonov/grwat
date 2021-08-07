@@ -4,14 +4,7 @@
 \alias{gr_fill_gaps}
 \title{Fill missing water discharge data using linear interpolation}
 \usage{
-gr_fill_gaps(
-  hdata,
-  autocorr = 0.7,
-  nobserv = NULL,
-  expand = TRUE,
-  cols = "dmyqtp",
-  vars = "q"
-)
+gr_fill_gaps(hdata, autocorr = 0.7, nobserv = NULL)
 }
 \arguments{
 \item{hdata}{Water discharge series. Data frame containing 4 columns: year (YYYY), montth (MM), day (DD) and level (water level)}

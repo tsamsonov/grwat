@@ -4,10 +4,10 @@
 \alias{gr_get_params}
 \title{Get default separation parameters for selected region}
 \usage{
-gr_get_params(type = "Midplain")
+gr_get_params(reg = "Midplain")
 }
 \arguments{
-\item{region}{Name of the region}
+\item{reg}{Name of the region}
 }
 \value{
 
