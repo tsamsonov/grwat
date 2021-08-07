@@ -38,7 +38,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FAL
   
   n = nrow(yrs)
   
-  max.runoff = max(df$Qin, na.rm = T)
+  max.runoff = max(df$Q, na.rm = T)
   
   labs = get_plot_labels(locale)
   plotlist = list()
@@ -171,6 +171,10 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, l
   nn = nrow(prms)
   
   df = df %>% 
+    dplyr::mutate_if(params_out$Type == 'Date', function(X) { 
+      lubridate::year(X) = 2000 
+      return(X)
+    }) %>%  
     dplyr::mutate_if(params_out$Winter == 1, replace_year) %>% 
     dplyr::mutate_at(dplyr::vars(-Year1, -Year2), function(X) {
       structure(ifelse(df$Year1 %in% exclude, NA, X), class = class(X))
@@ -318,7 +322,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, l
 
 #' Animate discharge through years
 #'
-#' @param df data.framewith discarge values in Qin variable
+#' @param df data.framewith discarge values in Q variable
 #' @param locale 
 #'
 #' @return
@@ -717,7 +721,7 @@ gr_plot_tests <- function(tests, locale = 'EN') {
 #' Plot scale-space tree of hydrograph
 #'
 #' @param sstree scale-space tree data frame resulting from `ss_tree()` function
-#' @param df hydrograph data frame containing Date and Qin columns
+#' @param df hydrograph data frame containing Date and Q columns
 #' @param year year to be analyzed (must be the same as used for sstree generation)
 #'
 #' @return ggplot2 object
@@ -735,10 +739,10 @@ gr_plot_ss = function(sstree, df = NULL, year = NULL, inverse = FALSE) {
     
     tab = df %>%
       dplyr::filter(lubridate::year(Date) == year) %>% 
-      dplyr::select(Date, Qin) %>% 
+      dplyr::select(Date, Q) %>% 
       dplyr::mutate(Date = as.integer(Date))
     
-    scale = max(tab$Qin)
+    scale = max(tab$Q)
   }
   
   up = ifelse(inverse, scale, 0)
@@ -755,7 +759,7 @@ gr_plot_ss = function(sstree, df = NULL, year = NULL, inverse = FALSE) {
                                  'darkslategray3', 'darkslategray1', 'darkslategray1',
                                  'deepskyblue1', 'lightblue1', 'lightblue1'))
   if (!is.null(tab)) {
-    ssplot = ssplot + geom_line(tab, mapping = aes(1:nrow(tab), Qin))
+    ssplot = ssplot + geom_line(tab, mapping = aes(1:nrow(tab), Q))
   }
    
   return(ssplot)

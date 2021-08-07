@@ -51,7 +51,7 @@ head(hdata_raw) # see the data
 
 ```{r}
 hdata = hdata_raw %>% 
-  transmute(D = lubridate::make_date(y, m, d), 
+  transmute(Date = lubridate::make_date(y, m, d), 
             Q = q)
 head(hdata)
 ```
@@ -70,7 +70,6 @@ gaps
 You can limit the maximum gap extent by threshold autocorrelation value (`autocorr` parameter) or expliсit number of observations (`nobserv` parameter):
 ```{r}
 fhdata = gr_fill_gaps(hdata, autocorr = 0.7)
-
 fhdata = gr_fill_gaps(hdata, nobserv = 10)
 ```
 
@@ -241,31 +240,29 @@ m@map %>% leaflet::setView(center[1], center[2], zoom = 7)
 The basic separation procedure is provided by `get_baseflow()` function. One of the most commonly used approaches is the method by Lyne-Hollick (1979):
 
 ```{r}
-resbase = tab %>% 
-  mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
+resbase = fhdata %>% 
   mutate(Qbase = gr_baseflow(Q, method = 'lynehollick'))
 
 # quick look at the table
 head(resbase, 10)
   
 resbase %>% 
-  filter(Year == 2020) %>% 
+  filter(lubridate::year(Date) == 2020) %>% 
   ggplot() +
-  geom_area(aes(Date, Q), fill = 'steelblue') +
-  geom_area(aes(Date, Qbase), fill = 'orangered')
+    geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+    geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black')
 ```
 
 The separation is mainly parameterized by smoothing parameter which is `a = 0.925` by default, and number of passes, which are `passes = 3` by default. Changing them affects the shape of a baseflow component:
 ```{r}
-resbase = tab %>% 
-  mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
+resbase = fhdata %>% 
   mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', a = 0.8, passes = 5))
   
 resbase %>% 
-  filter(Year == 2020) %>% 
+  filter(lubridate::year(Date) == 2020) %>% 
   ggplot() +
-  geom_area(aes(Date, Q), fill = 'steelblue') +
-  geom_area(aes(Date, Qbase), fill = 'orangered')
+    geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+    geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black')
 ```
 
 Let's see how different separation methods act in comparison to each other:
@@ -278,16 +275,15 @@ methods = c("maxwell",
             "chapman")
 
 plots = lapply(methods, function(m) {
-  resbase = tab %>% 
-    mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
+  resbase = fhdata %>% 
     mutate(Qbase = gr_baseflow(Q, method = m))
 
   resbase %>%
-    filter(Year == 2020) %>%
+    filter(lubridate::year(Date) == 2020) %>% 
     ggplot() +
-    geom_area(aes(Date, Q), fill = 'steelblue') +
-    geom_area(aes(Date, Qbase), fill = 'orangered') +
-    labs(title = m)
+      geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+      geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black') +
+      labs(title = m)
 })
 
 patchwork::wrap_plots(plots, ncol = 2)
@@ -302,7 +298,7 @@ The genetic separation of hydrograph is controlled by more than 30 parameters. T
 gr_help_params()
 ```
 
-Since the number of parameters is large (31), they are organized as list, which is then fed into `gr_separate()` function. First, you get the params using the `gr_get_params()` function. The only parameter of the function is `reg``, which indicates the region for which the parameters must be extracted. After you got the parameters, they can be changed by accessing the list elements:
+Since the number of parameters is large (31), they are organized as list, which is then fed into `gr_separate()` function. First, you get the params using the `gr_get_params()` function. The only parameter of the function is `reg`, which indicates the region for which the parameters must be extracted. After you got the parameters, they can be changed by accessing the list elements:
 ```{r}
 # Расчленение
 p = gr_get_params(reg = 'Midplain')
@@ -312,7 +308,7 @@ p$prodspada = 85
 
 Next, you can separate the hydrograph:
 ```{r}
-sep = gr_separate(tab, p, alpha = 0.85)
+sep = gr_separate(fhdata_rean, p, alpha = 0.85)
 head(sep)
 ```
 
@@ -343,10 +339,10 @@ gr_plot_sep(sep, c(2016, 2017)) # plot two years sequentially
 
 ```{r}
 sep %>% 
-  filter(year(Date) == 1976) %>% 
+  filter(lubridate::year(Date) == 1976) %>% 
   ggplot() +
-  geom_area(aes(Date, Qin), fill = 'steelblue') +
-  geom_area(aes(Date, Qbase), fill = 'orangered')
+  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black')
 ```
 
 And also multiple years on the same layout:
@@ -354,7 +350,6 @@ And also multiple years on the same layout:
 gr_plot_sep(sep, 1976:1979, # plot four years on the same page
             layout = matrix(c(1,2,3,4), ncol=2, byrow = T))
 ```
-
 
 ## Interannual change variables
 
@@ -392,6 +387,7 @@ Interannual changes are visualized using `gr_plot_vars()` function. Its syntax i
 
 ```{r}
 gr_plot_vars(vars, Qmax) # plot one selected variable
+gr_plot_vars(vars, datestart) # plot one selected variable
 gr_plot_vars(vars, date10w1, Wpol3) # plot two variables sequentially
 gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
                       layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 

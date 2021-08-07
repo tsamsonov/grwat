@@ -13,38 +13,22 @@ update_core <- function() {
 #' @export
 #'
 #' @examples
-gr_separate <- function(df, params = grw_get_params(), cols = 'dmyqtp', alpha = 0.925, niter = 100) {
+gr_separate <- function(df, params = grw_get_params(), alpha = 0.925, niter = 100) {
   
-  if (nchar(cols) != length(df))
-    stop(crayon::white$bold('grwat:'), ' the number of columns in data frame (', length(df), ') is not equal to the length of `col` parameter (', nchar(cols), ')')
+  if (length(df) != 4)
+    stop(crayon::white$bold('grwat:'), ' the number of columns in data frame (', length(df), 
+         ') is not equal to 4')
   
-  col_vec = strsplit(cols, '')[[1]]
+  if (!lubridate::is.Date(df[[1]]) || !is.numeric(df[[2]]) || !is.numeric(df[[3]]) || !is.numeric(df[[4]]))
+    stop(crayon::white$bold('grwat:'), ' the columns of input data frame must of Date, numeric, numeric and numeric data types')
   
-  if (length(intersect(col_vec, c('q', 't', 'p'))) != 3)
-    stop(crayon::white$bold('grwat:'), ' the `col` parameter does not contain all of qtp values')
-  
-  if (length(intersect(col_vec, c('d', 'm', 'y'))) == 3) {
-    y = df[[get_idx(cols, 'y')]]
-    m = df[[get_idx(cols, 'm')]]
-    d = df[[get_idx(cols, 'd')]]
-  } else if (grepl('D', cols)) {
-    y = lubridate::year(df[[get_idx(cols, 'D')]])
-    m = lubridate::month(df[[get_idx(cols, 'D')]])
-    d = lubridate::day(df[[get_idx(cols, 'D')]])
-  } else {
-    stop(crayon::white$bold('grwat:'), ' the `col` parameter must contain either date (D) or separate day, month and year columns (dmy) in any order')
-  }
-  
-  separate_cpp(y, m, d,
-               df[[get_idx(cols, 'q')]],
-               df[[get_idx(cols, 't')]],
-               df[[get_idx(cols, 'p')]],
-               params,
-               niter, 
-               alpha) %>% 
-    bind_cols(df) %>% 
-    dplyr::mutate(Date = lubridate::make_date(Year, Month, Day)) %>% 
-    select(Date, Qin = Q, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Qtype, Temp, Prec)
+  separate_cpp(lubridate::year(df[[1]]), 
+               lubridate::month(df[[1]]),
+               lubridate::day(df[[1]]),
+               df[[2]], df[[3]], df[[4]],
+               params, niter, alpha) %>% 
+    bind_cols(df, .) %>% 
+    relocate(Temp, Prec, .after = last_col())
 }
 
 #' Extracts baseflow for discharge
