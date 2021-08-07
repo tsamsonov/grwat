@@ -41,18 +41,43 @@ path = system.file("extdata", "spas-zagorye.txt", package = "grwat")
 # for your own data just provide the full path:
 # path = /this/is/the/path/to/discharge/discharge.csv
 
-hdata = read_delim(path, col_names = c('d', 'm', 'y', 'q'), col_types = 'iiid', delim = ' ') # read gauge data
-head(hdata) # see the data
+hdata_raw = read_delim(path, 
+                   col_names = c('d', 'm', 'y', 'q'), 
+                   col_types = 'iiid', delim = ' ') # read gauge data
+head(hdata_raw) # see the data
 ```
 
-This example contains the minimum amount of data needed to use the grwat. The first three columns encode the date, and the last column is the main variable — discharge. If the date is encoded as a single column instead of three separate columns, this is also perfect for grwat as input:
+`grwat` expects the date as a _single_ column. Therefore, in this case we have to construct it manually. For this it is convenient to use `make_date()` function from `lubridate` package: 
 
 ```{r}
-hdata_alt = hdata %>% 
+hdata = hdata_raw %>% 
   transmute(D = lubridate::make_date(y, m, d), 
             Q = q)
-head(hdata_alt)
+head(hdata)
 ```
+
+> The basic data structure for grwat separation function is a data frame (or tibble) with two columns: date (first column) and discharge (second column). The columns can have any names, not necessarily `D` and `Q`.
+
+## Fill gaps {#fill}
+
+Hydrograph data may contain empty values due to corrupted records or missed observations at specific dates. `gr_fill_gaps()` function allows filling such gaps in the data. This function first expands the date sequence if some dates are missing between the minimum and the maximum date in the table. After expansion all missing observations are filled by linear interpolation between nearest values.
+
+You can limit the maximum gap extent by threshold autocorrelation value (`autocorr` parameter) or expliсit number of observations (`nobserv` parameter):
+```{r}
+tab = gr_fill_gaps(hdata, autocorr = 0.7)
+
+tab = gr_fill_gaps(hdata, nobserv = 10)
+```
+
+How the time window is computed in the first case? When the `autocorr` parameter is used, the ACF (autocorrelation function) is computed first, and then its values are used to obtain the time shift (in days) during which the autocorrelation is higher or equal to the specified value. For Spas-Zagorye data the time lag for $ACF \geq 0.7$ is 5 days, which can be extracted using the `purrr::detect_index()` function:
+
+```{r, out.width='80%'}
+afun = acf(hdata$Q)
+abline(h = 0.7, col = 'red')
+abline(v = purrr::detect_index(afun$acf, ~ .x < 0.7), col = 'blue', lwd = 2)
+```
+
+> You don't have to name the columns exactly as `D, d, m, y, q`, these short names are used to inform `grwat` functions about the structure of input tables.
 
 ## Join meteorological variables
 
@@ -208,25 +233,6 @@ m@map %>% leaflet::setView(center[1], center[2], zoom = 7)
 <!--                   path     = ".")      # store data in current working directory -->
 <!-- ``` -->
 
-# Fill gaps {#separate}
-
-`gr_fill_gaps()` function allows to fill the gaps in the data using simple linear interpolation between nearest observations. You can limit the maximum gap extent by threshold autocorrelation value (`autocorr` parameter) or expliсit number of observations (`nobserv` parameter):
-```{r}
-tab = gr_fill_gaps(hdata_rean$df,
-                   nobserv = 10)
-
-tab = gr_fill_gaps(hdata_rean$df,
-                   autocorr = 0.7)
-```
-
-How the time window is computed in the second case? When the `autocorr` parameter is used, the ACF (autocorrelation function) is computed first, and then its values are used to obtain the time shift (in days) during which the autocorrelation is higher or equal to the specified value. For Spas-Zagorye data the time lag for $ACF \geq 0.7$ is 5 days, whoch can be extracted using the `purrr::detect_index()` function:
-
-```{r, out.width='80%'}
-afun = acf(hdata_rean$df$Q)
-abline(h = 0.7, col = 'red')
-abline(v = purrr::detect_index(afun$acf, ~ .x < 0.7), col = 'blue', lwd = 2)
-```
-
 # Separate and summarize {#separate}
 
 ## Basic separation: quickflow and baseflow {#separate-basic}
@@ -252,7 +258,7 @@ The separation is mainly parameterized by smoothing parameter which is `a = 0.92
 ```{r}
 resbase = tab %>% 
   mutate(Date = lubridate::dmy(paste(Day, Month, Year))) %>% 
-  mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', a = 0.95, passes = 5))
+  mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', a = 0.8, passes = 5))
   
 resbase %>% 
   filter(Year == 2020) %>% 
@@ -305,7 +311,7 @@ p$prodspada = 85
 
 Next, you can separate the hydrograph:
 ```{r}
-sep = gr_separate(tab, p)
+sep = gr_separate(tab, p, alpha = 0.85)
 head(sep)
 ```
 
@@ -329,14 +335,22 @@ Graphical functions are based on [ggplot2](https://ggplot2.tidyverse.org) graphi
 ## Plot separation of hydrograph
 
 You can plot separations for selected years using `gr_plot_sep()` function:
+```{r, fig.width=6, fig.height=3}
+gr_plot_sep(sep, 1976) # plot single year
+gr_plot_sep(sep, c(2016, 2017)) # plot two years sequentially
+```
+
 ```{r}
-gr_plot_sep(sep, 1979) # plot single year
-gr_plot_sep(sep, c(1994, 2001)) # plot two years sequentially
+sep %>% 
+  filter(year(Date) == 1976) %>% 
+  ggplot() +
+  geom_area(aes(Date, Qin), fill = 'steelblue') +
+  geom_area(aes(Date, Qbase), fill = 'orangered')
 ```
 
 And also multiple years on the same layout:
-```{r}
-gr_plot_sep(sep, 2016:2019, # plot four years on the same page
+```{r, fig.width=6, fig.height=4}
+gr_plot_sep(sep, 1976:1979, # plot four years on the same page
             layout = matrix(c(1,2,3,4), ncol=2, byrow = T))
 ```
 

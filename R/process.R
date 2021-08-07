@@ -31,23 +31,12 @@ gr_buffer_geo <- function(g, bufsize){
 #' @export
 #'
 #' @examples
-gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, cols = 'dmyqtp', vars = 'q') {
+gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
   
-  no_dates = is.na(get_idx(cols, 'D'))
-  
-  tab = hdata
-  
-  if (no_dates) {
-   tab = tab %>% 
-     dplyr::mutate(Date = lubridate::make_date(Year, Month, Day))
-  }
-  
-  tab = tab %>% 
-    dplyr::filter(!is.na(Date)) %>% 
-    tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day')) %>% 
-    mutate(Day = lubridate::day(Date),
-           Month = lubridate::month(Date),
-           Year = lubridate::year(Date))
+  tab = hdata %>% 
+    rename(Date = 1, Q = 2) %>% 
+    dplyr::filter(!is.na(Date), !is.na(Q)) %>% 
+    tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
   
   # Calculate via autocorrelation
   if (is.null(nobserv)) {
@@ -72,21 +61,14 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL, expand = TRUE, c
   
   }
   
-  Qrep = zoo::na.approx(tab$Q, maxgap = nobserv) %>% round(1)
-  Trep = zoo::na.approx(tab$Temp, maxgap = nobserv) %>% round(1)
-  Prep = zoo::na.approx(tab$Prec, maxgap = nobserv) %>% round(1)
+  Qrep = zoo::na.approx(tab$Q, maxgap = nobserv)
   
-  message(crayon::white$bold('grwat:'), ' filled ', sum(is.na(tab$Q)) - sum(is.na(Qrep)), ' observations using ', nobserv, ' days window')
+  message(crayon::white$bold('grwat:'), ' filled ', 
+          sum(is.na(tab$Q)) - sum(is.na(Qrep)), ' observations using ', nobserv, ' days window')
   
   tab = tab %>% 
-    mutate(Q = Qrep,
-           Temp = Trep,
-           Prec = Prep)
-  
-  if (no_dates) {
-    tab = tab %>% 
-      select(-Date)
-  }
+    mutate(Q = Qrep) %>% 
+    setNames(names(hdata))
   
   return(tab)
   

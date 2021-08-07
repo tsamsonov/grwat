@@ -47,7 +47,8 @@ namespace grwat {
         JAKEMAN = 3,
         LYNE = 4,
         CHAPMAN = 5,
-        FUREY = 6
+        FUREY = 6,
+        GRWAT = 7
     };
 
     static double baseflow_lyne(const double& Qfi_1,
@@ -248,7 +249,9 @@ namespace grwat {
                   const vector<double>& Qin, const vector<double>& Tin, const vector<double>& Pin,
                   vector<double>& Qgr, vector<double>& Quick, vector<double>& Qpol, vector<double>& Qpav,
                   vector<double>& Qthaw, vector<double>& Qpb, vector<int>& Qtype,
-                  const parameters& par, const int& niter = 100) {
+                  const parameters& par, const int& niter = 100, const double& alpha = 0.925,
+                  basefilter method = LYNE, const int& passes = 3, const double& k = 0.975,
+                  const double& C = 0.05, const int& padding = 30) {
 
         // detect gaps in data
         map<int, int> FactGapsin;
@@ -430,8 +433,8 @@ namespace grwat {
         std::vector<int> FactMinusTemp(nyears, 0); // number of thaw days
         std::vector<int> startPol(nyears, 0); // number of seasonal flood begin day
         // linear interpolation of Qgr
-        std::vector<double> Qy(nyears, 0);
-        std::vector<double> Qygr(nyears, 0);
+//        std::vector<double> Qy(nyears, 0);
+//        std::vector<double> Qygr(nyears, 0);
         std::vector<int> SummerEnd(nyears, 0);
 
         std::fill(Qgr.begin(), Qgr.end(), -1);
@@ -452,6 +455,10 @@ namespace grwat {
 
 //        std::cout << std::endl << "SEPARATING DISCHARGE" << std::endl;
 
+//        if (method != GRWAT) {
+//            Qgr =
+//        }
+
         for (auto i = 0; i < nyears; ++i) { // main cycle along water-resource years
             auto start = (i > 0) ? iy[i] : 0;
             auto end = (i < nyears-1) ? iy[i+1] : ndays-1;
@@ -466,6 +473,7 @@ namespace grwat {
 
             // GROUNDWATER DISCHARGE
 //            std::cout << "Groundwater" << std::endl;
+
             for (int n = start; n < end; ++n) {
                 deltaQ[n] = Qin[n+1] - Qin[n];
                 gradQ[n] = 100 * deltaQ[n] / Qin[n];
@@ -476,8 +484,8 @@ namespace grwat {
                     Qgrlast = Qin[n];
                     nlast = n;
                 } else {
-                    if (!par.ModeMountain && (n == nmax)) { // TODO: replace with curved interp
-                        Qgr[n] = 0;
+                    if (method == GRWAT && !par.ModeMountain && (n == nmax)) { // TODO: replace with curved interp
+//                        Qgr[n] = 0;
                     }
 
                     dQ = 100 * abs(Qin[n - 1] - Qin[n]) / Qin[n - 1];
@@ -486,7 +494,6 @@ namespace grwat {
                     dQgr1 = -100 * (Qgrlast1 - Qin[n]) / Qgrlast1;
                     dQgr2 = abs(100 * (Qgrlast - Qin[n]) / ((n - nlast + 1) * Qgrlast));
                     dQgr2abs = abs((Qgrlast - Qin[n]) / (n - nlast + 1));
-
 
                     if (Qin[n] > Qgrlast or n > (nlast + 20)) {
                         auto con1 = (n - nmax > par.prodspada) and
@@ -515,29 +522,65 @@ namespace grwat {
                 }
             }
 
-            // 508: Linear interpolation of Qgr to zero
-            for (int k = start; k < end; ++k) {
-                if (Qgr[k] < 0) {
-                    for (int kk = k; kk < end; ++kk) {
-                        if (Qgr[kk] >= 0) {
-                            Qgr[k] = Qgr[k - 1] + (Qgr[kk] - Qgr[k - 1]) / (kk - k + 2);
-                            break;
+                // 508: Linear interpolation of Qgr to zero (GRWAT)
+//                for (int k = start; k < end; ++k) {
+//                    if (Qgr[k] < 0) { // GRWAT
+//                        for (int kk = k; kk < end; ++kk) {
+//                            if (Qgr[kk] >= 0) {
+//                                Qgr[k] = Qgr[k - 1] + (Qgr[kk] - Qgr[k - 1]) / (kk - k + 2);
+//                                break;
+//                            }
+//                        }
+//                        dQ = 100 * abs(Qin[k - 1] - Qin[k]) / Qin[k - 1];
+//
+//                        auto con1 = Qgr[k] > Qin[k];
+//                        auto con2 = dQ > (20 * par.grad);
+//                        auto con3 = abs(Qin[k + 1] - Qin[k - 1]) < abs(Qin[k + 1] - Qin[k]);
+//
+//                        if (con1 and not (con2 and con3))
+//                            Qgr[k] = Qin[k];
+//                    }
+//
+//                Qygr[i] = Qygr[i] + Qgr[k] / ny;
+//                Qy[i] = Qy[i] + Qin[k] / ny;
+//                }
+
+                // 508: Smoothing of Qgr (NEW)
+                auto k = start;
+
+                while (k < end) {
+                    if (Qgr[k] < 0) { // NEW
+                        auto kk = k + 1;
+                        while (kk < end) {
+                            if (Qgr[kk] >= 0) {
+                                auto quick = std::vector<double>(Qin.begin() + k - 1, Qin.begin() + kk + 1);
+                                auto a = quick[0];
+                                auto b = quick[quick.size() - 1];
+                                auto nx = quick.size();
+                                auto dx = b - a;
+
+                                auto dquick = std::vector<double>(quick.size());
+                                for (auto x = 0; x < nx; x++) {
+                                    dquick[x] = quick[x] - quick[0] - dx * x / (nx-1);
+                                }
+
+                                auto qbaseflow = get_baseflow_recursive(dquick, alpha, 0);
+
+                                auto baseflow = std::vector<double>(quick.size());
+                                for (auto x = 0; x < nx; x++) {
+                                    baseflow[x] = qbaseflow[x] + quick[0] + dx * x / (nx-1);
+                                }
+
+                                std::copy(baseflow.begin(), baseflow.end(), Qgr.begin() + k - 1);
+                                k = kk;
+                                break;
+
+                            }
+                            kk++;
                         }
                     }
-                    dQ = 100 * abs(Qin[k - 1] - Qin[k]) / Qin[k - 1];
-
-                    auto con1 = Qgr[k] > Qin[k];
-                    auto con2 = dQ > (20 * par.grad);
-                    auto con3 = abs(Qin[k + 1] - Qin[k - 1]) < abs(Qin[k + 1] - Qin[k]);
-
-                    if (con1 and not (con2 and con3))
-                        Qgr[k] = Qin[k];
+                    k++;
                 }
-
-                Qygr[i] = Qygr[i] + Qgr[k] / ny;
-                Qy[i] = Qy[i] + Qin[k] / ny;
-            }
-
 //            std::cout << "Qgr innterpolated" << std::endl;
 
             // FLOODS AND THAWS SEPARATION

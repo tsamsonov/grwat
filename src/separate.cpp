@@ -71,7 +71,7 @@ std::vector<double> get_baseflow_cpp(const std::vector<double> &Qin,
 
 // [[Rcpp::export]]
 DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon, const std::vector<int> &Day,
-                       const std::vector<double> &Qin, const std::vector<double> &Tin, const std::vector<double> &Pin, List params, int niter) {
+                       const std::vector<double> &Qin, const std::vector<double> &Tin, const std::vector<double> &Pin, List params, int niter, double alpha) {
   
   auto n = Qin.size();
   std::vector<double> Qbase(n, 0);
@@ -84,7 +84,7 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
   
   auto p = set_params(params);
   
-  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Qtype, p, niter);
+  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Qtype, p, niter, alpha);
   
   DataFrame df = DataFrame::create(Named("Qbase") = Qbase,
                                    Named("Quick") = Quick,

@@ -94,3 +94,7 @@ get_col_type = function(s) {
 gr_help_vars <- function(){
   return(params_out)
 }
+
+gr_console <- function(...) {
+  paste(list(crayon::white$bold('grwat:'), ...), recycle = '')
+}

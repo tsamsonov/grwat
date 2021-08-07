@@ -13,7 +13,7 @@ update_core <- function() {
 #' @export
 #'
 #' @examples
-gr_separate <- function(df, params = grw_get_params(), cols = 'dmyqtp', niter = 100) {
+gr_separate <- function(df, params = grw_get_params(), cols = 'dmyqtp', alpha = 0.925, niter = 100) {
   
   if (nchar(cols) != length(df))
     stop(crayon::white$bold('grwat:'), ' the number of columns in data frame (', length(df), ') is not equal to the length of `col` parameter (', nchar(cols), ')')
@@ -40,7 +40,8 @@ gr_separate <- function(df, params = grw_get_params(), cols = 'dmyqtp', niter = 
                df[[get_idx(cols, 't')]],
                df[[get_idx(cols, 'p')]],
                params,
-               niter) %>% 
+               niter, 
+               alpha) %>% 
     bind_cols(df) %>% 
     dplyr::mutate(Date = lubridate::make_date(Year, Month, Day)) %>% 
     select(Date, Qin = Q, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Qtype, Temp, Prec)
