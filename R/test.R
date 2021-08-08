@@ -76,8 +76,10 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     isdate = FALSE
     if(prms$Unitsen[i] %in% c('Date', 'Month')) {
       isdate = TRUE
-      vl = as.Date(vl)
       lubridate::year(vl) = 2000
+      if (prms$Winter[i] == 1) {
+        vl = replace_year(vl)
+      }
     }
     
     vl_cmp = !is.na(vl)
@@ -106,28 +108,27 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     # THEIL-SEN SLOPE ESTIMATION
     
     df.theil = df %>% 
-      dplyr::select_('Year1', prms$Name[i]) %>% 
-      na.omit()
+      dplyr::select_('Year1', prms$Name[i])
     
-    values = df.theil[prms$Name[i]] %>% 
-      as.matrix() %>%
-      as.vector()
+    # values = df.theil[[prms$Name[i]]] %>% 
+      # as.matrix() %>%
+      # as.vector()
     
     if(isdate){
-      values = values %>% 
-        as.Date() %>% 
-        as.integer()
-      df.theil[prms$Name[i]] = values
+      # values = values %>% 
+      #   as.Date() %>% 
+      #   as.integer()
+      df.theil[2] = as.integer(vl)
     }
     
     frml = substitute(y ~ x,
                       list(y = as.name(prms$Name[i]),
                            x = as.name('Year1')))
     
-    if (length(values) > 1) { # slope testing requires at least two observations
-      fltr = ! (is.infinite(values) | is.nan(values))
+    if (nrow(df.theil) > 1) { # slope testing requires at least two observations
+      fltr = ! (is.infinite(df.theil[[2]]) | is.nan(df.theil[[2]]) | is.na(df.theil[[2]]))
       ts_fit[[i]]= mblm::mblm(eval(frml), data = df.theil[fltr, ], repeated = FALSE)
-      tst[[i]] = trend::sens.slope(values[fltr])
+      tst[[i]] = trend::sens.slope(df.theil[[2]][fltr])
     }
     
     

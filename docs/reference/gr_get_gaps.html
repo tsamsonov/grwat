@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get default separation parameters for selected region — gr_get_params • grwat</title>
+<title>Get gaps in the data — gr_get_gaps • grwat</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get default separation parameters for selected region — gr_get_params" />
-<meta property="og:description" content="Get default separation parameters for selected region" />
+<meta property="og:title" content="Get gaps in the data — gr_get_gaps" />
+<meta property="og:description" content="Get gaps in the data" />
 
 
 
@@ -111,31 +111,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get default separation parameters for selected region</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/separate.R'><code>R/separate.R</code></a></small>
-    <div class="hidden name"><code>gr_get_params.Rd</code></div>
+    <h1>Get gaps in the data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/process.R'><code>R/process.R</code></a></small>
+    <div class="hidden name"><code>gr_get_gaps.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get default separation parameters for selected region</p>
+    <p>Get gaps in the data</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gr_get_params</span><span class='op'>(</span>reg <span class='op'>=</span> <span class='st'>"Midplain"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gr_get_gaps</span><span class='op'>(</span><span class='va'>hdata</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>reg</th>
-      <td><p>Name of the region</p></td>
+      <th>hdata</th>
+      <td><p>a data frame where the first column is date, and the second column is discharge value</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>a data frame with periods of data and periods of gaps</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -7,7 +7,7 @@
 gr_animate(df, locale = "EN")
 }
 \arguments{
-\item{df}{data.framewith discarge values in Qin variable}
+\item{df}{data.framewith discarge values in Q variable}
 
 \item{locale}{}
 }

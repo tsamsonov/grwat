@@ -9,7 +9,7 @@ gr_plot_ss(sstree, df = NULL, year = NULL, inverse = FALSE)
 \arguments{
 \item{sstree}{scale-space tree data frame resulting from `ss_tree()` function}
 
-\item{df}{hydrograph data frame containing Date and Qin columns}
+\item{df}{hydrograph data frame containing Date and Q columns}
 
 \item{year}{year to be analyzed (must be the same as used for sstree generation)}
 }

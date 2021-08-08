@@ -4,7 +4,7 @@
 \alias{gr_plot_acf}
 \title{Plot the autocorrelation function (ACF) for hydrograph time series}
 \usage{
-gr_plot_acf(hdata, autocorr = 0.7)
+gr_plot_acf(hdata, autocorr = 0.7, max_lag = 30)
 }
 \arguments{
 \item{hdata}{a data frame with two columns: date and discharge}

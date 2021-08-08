@@ -95,6 +95,17 @@ gr_help_vars <- function(){
   return(params_out)
 }
 
+
+#' Just for fun
+#'
+#' @return mamba
+#' @export
+#'
+#' @examples
+gr_mamba <- function() {
+  beepr::beep(system.file('extdata', 'mamba.wav', package = 'grwat'))
+}
+
 gr_console <- function(...) {
   paste(list(crayon::white$bold('grwat:'), ...), recycle = '')
 }

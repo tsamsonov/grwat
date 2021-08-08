@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get default separation parameters for selected region — gr_get_params • grwat</title>
+<title>Plot the autocorrelation function (ACF) for hydrograph time series — gr_plot_acf • grwat</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get default separation parameters for selected region — gr_get_params" />
-<meta property="og:description" content="Get default separation parameters for selected region" />
+<meta property="og:title" content="Plot the autocorrelation function (ACF) for hydrograph time series — gr_plot_acf" />
+<meta property="og:description" content="Plot the autocorrelation function (ACF) for hydrograph time series" />
 
 
 
@@ -111,31 +111,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get default separation parameters for selected region</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/separate.R'><code>R/separate.R</code></a></small>
-    <div class="hidden name"><code>gr_get_params.Rd</code></div>
+    <h1>Plot the autocorrelation function (ACF) for hydrograph time series</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/plot.R'><code>R/plot.R</code></a></small>
+    <div class="hidden name"><code>gr_plot_acf.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get default separation parameters for selected region</p>
+    <p>Plot the autocorrelation function (ACF) for hydrograph time series</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gr_get_params</span><span class='op'>(</span>reg <span class='op'>=</span> <span class='st'>"Midplain"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gr_plot_acf</span><span class='op'>(</span><span class='va'>hdata</span>, autocorr <span class='op'>=</span> <span class='fl'>0.7</span>, max_lag <span class='op'>=</span> <span class='fl'>30</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>reg</th>
-      <td><p>Name of the region</p></td>
+      <th>hdata</th>
+      <td><p>a data frame with two columns: date and discharge</p></td>
+    </tr>
+    <tr>
+      <th>autocorr</th>
+      <td></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>ACF plot</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

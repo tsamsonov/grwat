@@ -728,7 +728,7 @@ gr_plot_tests <- function(tests, locale = 'EN') {
 #' @export
 #'
 #' @examples
-gr_plot_ss = function(sstree, df = NULL, year = NULL, inverse = FALSE) {
+gr_plot_ss <- function(sstree, df = NULL, year = NULL, inverse = FALSE) {
   
   tab = NULL
   scale = max(sstree$smax)
@@ -774,7 +774,7 @@ gr_plot_ss = function(sstree, df = NULL, year = NULL, inverse = FALSE) {
 #' @export
 #'
 #' @examples
-gr_plot_acf = function(hdata, autocorr = 0.7, max_lag = 30) {
+gr_plot_acf <- function(hdata, autocorr = 0.7, max_lag = 30) {
   
   max_period = hdata %>% 
     gr_get_gaps() %>% 
