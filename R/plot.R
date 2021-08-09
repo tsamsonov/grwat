@@ -170,6 +170,10 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, l
   
   nn = nrow(prms)
   
+  if (!is.null(tests))
+    if (tests == TRUE)
+      tests = gr_test_vars(df, ...)
+  
   df = df %>% 
     dplyr::mutate_if(params_out$Type == 'Date', function(X) { 
       lubridate::year(X) = 2000 
@@ -227,7 +231,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, l
     
     # TEST
     if (!is.null(tests)) {
-      
+
       if (!is.null(tests$ptt[[i]])) { # if test for this variable was successfull
 
         ltype = ifelse(tests$fixed_year, 'dotted',

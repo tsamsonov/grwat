@@ -96,7 +96,7 @@ gr_help_vars <- function(){
 }
 
 
-#' Just for fun
+#' Just mamba
 #'
 #' @return mamba
 #' @export

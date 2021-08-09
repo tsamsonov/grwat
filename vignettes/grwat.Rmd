@@ -393,18 +393,25 @@ gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix 
                       layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 
 ```
 
-You can add the results of statistical tests to the plot by specifying the result of `test_variables()` function to the `tests` parameter. In that case the subtitle with test results will be added, Theil-Sen slope and Pettitt test breaking year are drawn as solid ($p \leq 0.05$) or dashed ($p > 0.05$) lines:
+You can add the results of statistical tests to the plot by specifying `tests = TRUE` in the function call. In that case the subtitle with test results are added, Theil-Sen slope and Pettitt test breaking year are drawn as solid ($p \leq 0.05$) or dashed ($p > 0.05$) lines:
 
 ```{r}
 gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
-             tests = gr_test_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) # add test information
+             tests = TRUE) # add test information
 ```
 
-> Note that `tests` parameter of `plot_variables()` expects the tests for the same variables as those selected for plotting. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other
+Alternatively, you can pass to `tests` the result of `test_variables()`, if you need to precompute it with specific parameters (for example, by setting `exclude` and `year`: 
+
+```{r, eval = FALSE}
+gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
+             tests = gr_test_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs, exclude = 1990)) # add test information
+```
+
+Beware that in that case you should test the variables _in the same order as used for plotting_. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other.
 
 Finally, you can plot all variables by not supplying column names to `plot_variables()` function. In that case tests (if you want to plot them too) should also be calculated for all variables:
 ```{r, eval=FALSE}
-gr_plot_vars(vars, tests = gr_test_vars(vars))
+gr_plot_vars(vars, tests = TRUE)
 ```
 
 ## Plot long-term period changes 
