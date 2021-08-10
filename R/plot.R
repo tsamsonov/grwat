@@ -168,9 +168,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, l
     dplyr::filter(Name %in% fields) %>% 
     dplyr::slice(match(fields, Name))
   
-  nn = nrow(prms)
-  
-  if (!is.null(tests))
+  if (is.logical(tests))
     if (tests == TRUE)
       tests = gr_test_vars(df, ...)
   
@@ -201,6 +199,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, l
   plotlist = list()
   j = 1
   
+  nn = nrow(prms)
   bar = progress::progress_bar$new(total = nn)
   bar$tick(0)
   
@@ -252,8 +251,8 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, l
       }
 
       fixedstr = ifelse(tests$fixed_year, '',
-                        paste0(labs$pettitt.u, ' = ',  ifelse(is.null(tests$ptt[[i]]), 'NA',
-                                                              round(tests$ptt[[i]]$statistic, 3)), ', ',
+                        paste0(labs$pettitt.u, ' = ', ifelse(is.null(tests$ptt[[i]]), 'NA',
+                                                             round(tests$ptt[[i]]$statistic, 3)), ', ',
                                labs$label.p, ' = ', ifelse(is.null(tests$ptt[[i]]), 'NA',
                                                            round(tests$ptt[[i]]$p.value, 5))))
 
@@ -402,7 +401,9 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, 
     dplyr::filter(Name %in% fields) %>% 
     dplyr::slice(match(fields, Name))
   
-  nn = nrow(prms)
+  if (is.logical(tests))
+    if (tests == TRUE)
+      tests = gr_test_vars(df, ...)
   
   df = df %>% 
     dplyr::filter(!(Year1 %in% exclude)) %>% 
@@ -420,6 +421,7 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, 
   plotlist = list()
   j = 1
   
+  nn = nrow(prms)
   bar = progress::progress_bar$new(total = nn)
   bar$tick(0)
   

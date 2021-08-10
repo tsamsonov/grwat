@@ -420,19 +420,20 @@ Long-term changes are the differences between summarized statistics of one varia
 
 ```{r, fig.height = 2.5}
 gr_plot_periods(vars, Qy, year = 1978)
-gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy))
+gr_plot_periods(vars, Qy, tests = TRUE)
+gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy, year = 1985))
 ```
 
 Multiple plots can be combined on one page using `layout` parameter:
 ```{r, fig.height=5}
 gr_plot_periods(vars, Qy, Qmax, 
-                tests = gr_test_vars(vars, Qy, Qmax),
+                tests = TRUE,
                 layout = matrix(c(1,2)))
 ```
 
 To plot long-term changes for all variables just skip variable names in function call:
 ```{r, eval = FALSE}
-gr_plot_periods(vars, tests = gr_test_vars(vars))
+gr_plot_periods(vars, tests = TRUE)
 ```
 
 There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:
