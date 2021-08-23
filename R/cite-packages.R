@@ -1,3 +1,3 @@
 knitr::write_bib(c(
-  .packages(), 'Scale4C'
+  .packages(), 'ggplot2'
 ), './vignettes/packages.bib')

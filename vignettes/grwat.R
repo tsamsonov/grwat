@@ -193,22 +193,27 @@ gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix 
 
 ## -----------------------------------------------------------------------------
 gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
-             tests = gr_test_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs)) # add test information
+             tests = TRUE) # add test information
+
+## ---- eval = FALSE------------------------------------------------------------
+#  gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
+#               tests = gr_test_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs, exclude = 1990)) # add test information
 
 ## ---- eval=FALSE--------------------------------------------------------------
-#  gr_plot_vars(vars, tests = gr_test_vars(vars))
+#  gr_plot_vars(vars, tests = TRUE)
 
 ## ---- fig.height = 2.5--------------------------------------------------------
 gr_plot_periods(vars, Qy, year = 1978)
-gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy))
+gr_plot_periods(vars, Qy, tests = TRUE)
+gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy, year = 1985))
 
 ## ---- fig.height=5------------------------------------------------------------
 gr_plot_periods(vars, Qy, Qmax, 
-                tests = gr_test_vars(vars, Qy, Qmax),
+                tests = TRUE,
                 layout = matrix(c(1,2)))
 
 ## ---- eval = FALSE------------------------------------------------------------
-#  gr_plot_periods(vars, tests = gr_test_vars(vars))
+#  gr_plot_periods(vars, tests = TRUE)
 
 ## ---- fig.height= 12, message=FALSE-------------------------------------------
 gr_plot_minmonth(vars, year = 1985)

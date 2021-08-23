@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{gr_mamba}
 \alias{gr_mamba}
-\title{Just for fun}
+\title{Just mamba}
 \usage{
 gr_mamba()
 }
@@ -10,5 +10,5 @@ gr_mamba()
 mamba
 }
 \description{
-Just for fun
+Just mamba
 }

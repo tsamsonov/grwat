@@ -49,10 +49,10 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FAL
   
   for (i in 1:n) {
     
-    bar$tick()
-    
     if (!(yrs$Year[i] %in% years)) 
       next
+    
+    bar$tick()
     
     begin.date = yrs$nydate[i]
     end.date = lubridate::ceiling_date(begin.date, "year") - lubridate::days(1) # Initialize by the end of the year
@@ -321,41 +321,6 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, l
   if (j > 1) {
     multiplot(plotlist = plotlist, layout = layout)
   }
-}
-
-#' Animate discharge through years
-#'
-#' @param df data.framewith discarge values in Q variable
-#' @param locale 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-gr_animate <- function(df, locale = 'EN') {
-  tab = df %>% 
-    mutate(Date = lubridate::make_date(Year, Month, Day),
-           yDate = Date)
-  
-  year(tab$yDate) <- 2000 # fake year for animations
-  
-  anim = ggplot2::ggplot(tab, mapping = aes(x = yDate, y = Q)) +
-            ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = Q), alpha = 0.5) +
-            ggplot2::geom_line() +
-            ggplot2::scale_x_date(date_breaks = "1 month", date_labels = "%b") +
-            ggplot2::labs(title = "Discharge animation",
-                 subtitle = 'Year: {closest_state}') +
-            ggplot2::xlab('Date') +
-            ggplot2::ylab('m3/s') +
-            ggplot2::theme(text = ggplot2::element_text(size = 18, family = 'Open Sans')) +
-            gganimate::transition_states(Year, state_length = 0) +
-            gganimate::view_follow(fixed_y = TRUE)
-  
-  gganimate::animate(anim, 
-              fps = 20,                                  
-              nframes = 10 * length(unique(tab$Year)),
-              width = 800, 
-              height = 600)
 }
 
 #' Plot long-term changes of hydrograph variables for two periods
@@ -724,53 +689,6 @@ gr_plot_tests <- function(tests, locale = 'EN') {
   
 }
 
-#' Plot scale-space tree of hydrograph
-#'
-#' @param sstree scale-space tree data frame resulting from `ss_tree()` function
-#' @param df hydrograph data frame containing Date and Q columns
-#' @param year year to be analyzed (must be the same as used for sstree generation)
-#'
-#' @return ggplot2 object
-#' @export
-#'
-#' @examples
-gr_plot_ss <- function(sstree, df = NULL, year = NULL, inverse = FALSE) {
-  
-  tab = NULL
-  scale = max(sstree$smax)
-  
-  if (!is.null(df)) {
-    if (is.null(year))
-      year = lubridate::year(min(df$Date))
-    
-    tab = df %>%
-      dplyr::filter(lubridate::year(Date) == year) %>% 
-      dplyr::select(Date, Q) %>% 
-      dplyr::mutate(Date = as.integer(Date))
-    
-    scale = max(tab$Q)
-  }
-  
-  up = ifelse(inverse, scale, 0)
-  k = ifelse(inverse, -1, 1)
-  
-  ssplot = ggplot() +
-    geom_ribbon(sstree, 
-                mapping = aes(x = day, 
-                              ymin = up + k * scale * log(smin) / log(max(smax)), 
-                              ymax = up + k * scale * log(smax) / log(max(smax)), 
-                              fill = type_position, group = idrect), 
-                color = 'black', size = 0.1) +
-    scale_fill_manual(values = c('darkgoldenrod1', 'bisque1', 'bisque1',
-                                 'darkslategray3', 'darkslategray1', 'darkslategray1',
-                                 'deepskyblue1', 'lightblue1', 'lightblue1'))
-  if (!is.null(tab)) {
-    ssplot = ssplot + geom_line(tab, mapping = aes(1:nrow(tab), Q))
-  }
-   
-  return(ssplot)
-}
-
 #' Plot the autocorrelation function (ACF) for hydrograph time series
 #'
 #' @param hdata a data frame with two columns: date and discharge
@@ -811,4 +729,39 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, max_lag = 30) {
              size = 4, colour = "blue") +
     labs(title = 'Autocorrelation function (ACF)') +
     theme(plot.title = element_text(size=12, lineheight=.8, face="bold"))
+}
+
+#' Animate discharge through years
+#'
+#' @param df data.framewith discarge values in Q variable
+#' @param locale 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+gr_animate <- function(df, locale = 'EN') {
+  tab = df %>% 
+    mutate(Date = lubridate::make_date(Year, Month, Day),
+           yDate = Date)
+  
+  year(tab$yDate) <- 2000 # fake year for animations
+  
+  anim = ggplot2::ggplot(tab, mapping = aes(x = yDate, y = Q)) +
+    ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = Q), alpha = 0.5) +
+    ggplot2::geom_line() +
+    ggplot2::scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+    ggplot2::labs(title = "Discharge animation",
+                  subtitle = 'Year: {closest_state}') +
+    ggplot2::xlab('Date') +
+    ggplot2::ylab('m3/s') +
+    ggplot2::theme(text = ggplot2::element_text(size = 18, family = 'Open Sans')) +
+    gganimate::transition_states(Year, state_length = 0) +
+    gganimate::view_follow(fixed_y = TRUE)
+  
+  gganimate::animate(anim, 
+                     fps = 20,                                  
+                     nframes = 10 * length(unique(tab$Year)),
+                     width = 800, 
+                     height = 600)
 }

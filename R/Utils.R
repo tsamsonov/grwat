@@ -90,7 +90,7 @@ get_col_type = function(s) {
 #' @export
 #'
 #' @examples
-#' grwat::get_variables()
+#' grwat::gr_help_vars()
 gr_help_vars <- function(){
   return(params_out)
 }

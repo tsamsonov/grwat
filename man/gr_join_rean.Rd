@@ -2,12 +2,12 @@
 % Please edit documentation in R/process.R
 \name{gr_join_rean}
 \alias{gr_join_rean}
-\title{Join ERA-INTERIM data to hydrological level series}
+\title{Join grwat reanalysis to hydrological level series}
 \usage{
 gr_join_rean(hdata, rean, buffer)
 }
 \arguments{
-\item{hdata}{Water discharge series. Data frame containing 4 columns: YYYY, MM, DD and water level}
+\item{hdata}{data frame containing 2 columns: date and discharge level}
 
 \item{rean}{List. Contains three components: days series, values and location points}
 
@@ -18,7 +18,7 @@ List of two components: water level table enriched with reanalysis data
   and selected points
 }
 \description{
-Join ERA-INTERIM data to hydrological level series
+Join grwat reanalysis to hydrological level series
 }
 \examples{
 \dontrun{

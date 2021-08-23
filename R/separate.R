@@ -5,15 +5,16 @@ update_core <- function() {
 
 #' Separates river hydrograph
 #'
-#' @param df data frame with six columns: year, month, date, discharge, temperature, precipitation
-#' @param params list of separation parameters
-#' @param order order, in which the columns are placed in data frame. Defaults to 'dmyqtp'
+#' @param df data frame with four columns: date, discharge, temperature, precipitation
+#' @param params list of separation parameters, as returned by \link{gr_get_params()} function
+#' @param alpha smoothing parameter for groundwater separation algorithm, defaults to 0.925 for Lyne-Hollick method
+#' @param niter number of iterations
 #'
 #' @return
 #' @export
 #'
 #' @examples
-gr_separate <- function(df, params = grw_get_params(), alpha = 0.925, niter = 100) {
+gr_separate <- function(df, params = gr_get_params(), alpha = 0.925, niter = 100) {
   
   if (length(df) != 4)
     stop(crayon::white$bold('grwat:'), ' the number of columns in data frame (', length(df), 

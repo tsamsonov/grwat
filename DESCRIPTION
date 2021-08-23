@@ -24,41 +24,36 @@ URL: https://github.com/tsamsonov/grwat
 BugReports: https://github.com/tsamsonov/grwat/issues
 Encoding: UTF-8
 Imports: 
-    Rcpp,
-    sf,
-    ncdf4,
-    tidyverse,
-    rmarkdown,
-    Cairo,
-    R.utils,
-    rstudioapi,
-    writexl,
-    trend,
-    mblm,
-    GGally,
-    kableExtra,
-    grid,
-    lubridate,
-    dplyr,
-    scales,
-    readxl,
-    tidyr,
-    progress,
-    magrittr,
-    rlang,
-    BiocManager,
-    zoo,
-    shiny,
+    beepr,
     crayon,
+    dplyr,
+    GGally,
     gganimate,
-    transformr
+    ggplot2,
+    grid,
+    kableExtra,
+    knitr,
+    lubridate,
+    magrittr,
+    mblm,
+    ncdf4,
+    progress,
+    R.utils,
+    Rcpp,
+    readxl,
+    rlang,
+    rmarkdown,
+    scales,
+    sf,
+    shiny,
+    tidyr,
+    transformr,
+    trend,
+    writexl,
+    zoo
 LinkingTo: Rcpp
 SystemRequirements: pandoc
 RoxygenNote: 7.1.1
-Suggests: knitr,
-    rmarkdown
 VignetteBuilder: knitr
 Depends: 
-    magrittr,
-    ggplot2,
-    R (>= 2.10)
+    R (>= 4.1)

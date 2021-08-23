@@ -13,5 +13,5 @@ data.frame of parameters
 Get hydrograph parameters list
 }
 \examples{
-grwat::get_variables()
+grwat::gr_help_vars()
 }
