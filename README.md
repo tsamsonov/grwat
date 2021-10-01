@@ -23,12 +23,14 @@ If you have R 4.1 installed, then the easiest way to install on Windows and macO
 
 Windows:
 ```r
-devtools::install_url('https://tsamsonov.github.io/grwat/build/grwat.zip', dependencies = TRUE)
+devtools::install_url('https://tsamsonov.github.io/grwat/build/grwat.zip', 
+                      build = FALSE, dependencies = TRUE)
 ```
 
 macOS:
 ```r
-devtools::install_url('https://tsamsonov.github.io/grwat/build/grwat.tgz', dependencies = TRUE)
+devtools::install_url('https://tsamsonov.github.io/grwat/build/grwat.tgz', 
+                      build = FALSE, dependencies = TRUE)
 ```
 
 #### From sources
