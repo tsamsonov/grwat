@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Separates river hydrograph — gr_separate • grwat</title>
+<title>Advanced hydrograph separation — gr_separate • grwat</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Separates river hydrograph — gr_separate" />
-<meta property="og:description" content="Separates river hydrograph" />
+<meta property="og:title" content="Advanced hydrograph separation — gr_separate" />
+<meta property="og:description" content="Separates the hydrograph into genetic components: groundwater, thaw, flood and seasonal (freshet) flood." />
 
 
 
@@ -111,44 +111,84 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Separates river hydrograph</h1>
+    <h1>Advanced hydrograph separation</h1>
     <small class="dont-index">Source: <a href='https://github.com/tsamsonov/grwat/blob/master/R/separate.R'><code>R/separate.R</code></a></small>
     <div class="hidden name"><code>gr_separate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Separates river hydrograph</p>
+    <p>Separates the hydrograph into genetic components: groundwater, thaw, flood and seasonal (freshet) flood.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gr_separate</span><span class='op'>(</span><span class='va'>df</span>, params <span class='op'>=</span> <span class='fu'><a href='gr_get_params.html'>gr_get_params</a></span><span class='op'>(</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>0.925</span>, niter <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gr_separate</span><span class='op'>(</span><span class='va'>df</span>, params <span class='op'>=</span> <span class='fu'><a href='gr_get_params.html'>gr_get_params</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>data frame with four columns: date, discharge, temperature, precipitation</p></td>
+      <td><p><code>data.frame</code> or <code>tibble</code> with four columns: date, discharge, temperature, precipitation</p></td>
     </tr>
     <tr>
       <th>params</th>
-      <td><p>list of separation parameters, as returned by gr_get_params() function</p></td>
-    </tr>
-    <tr>
-      <th>alpha</th>
-      <td><p>smoothing parameter for groundwater separation algorithm, defaults to 0.925 for Lyne-Hollick method</p></td>
-    </tr>
-    <tr>
-      <th>niter</th>
-      <td><p>number of iterations</p></td>
+      <td><p><code>list</code> of separation parameters, as returned by <code><a href='gr_get_params.html'>gr_get_params()</a></code> function</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
+    <p>A <code>data.frame</code> with 12 columns:</p><table class='table'>
+<tr><td><strong>Column</strong></td><td><strong>Description</strong></td></tr>
+<tr><td><code>Date</code></td><td>date</td></tr>
+<tr><td><code>Q</code></td><td>total discharge</td></tr>
+<tr><td><code>Qbase</code></td><td>baseflow</td></tr>
+<tr><td><code>Quick</code></td><td>quick flow</td></tr>
+<tr><td><code>Qseas</code></td><td>seasonal/freshet flow</td></tr>
+<tr><td><code>Qrain</code></td><td>rain floods</td></tr>
+<tr><td><code>Qthaw</code></td><td>thaw floods</td></tr>
+<tr><td><code>Qpb</code></td><td>mountain floods</td></tr>
+<tr><td><code>Type</code></td><td>a combination of discharge types</td></tr>
+<tr><td><code>Year</code></td><td>a water-resources year</td></tr>
+<tr><td><code>Temp</code></td><td>temperature</td></tr>
+<tr><td><code>Prec</code></td><td>precipitation</td></tr>
+</table>
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tsamsonov/grwat'>grwat</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>spas</span><span class='op'>)</span> <span class='co'># example Spas-Zagorye data loaded with grwat package</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 23,742 x 4</span>
+#&gt;    Date           Q   Temp  Prec
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 1956-01-01  5.18  -<span style='color: #BB0000;'>6.46</span> 0.453
+#&gt; <span style='color: #BCBCBC;'> 2</span> 1956-01-02  5.18 -<span style='color: #BB0000;'>11.4</span>  0.825
+#&gt; <span style='color: #BCBCBC;'> 3</span> 1956-01-03  5.44 -<span style='color: #BB0000;'>10.7</span>  0.26 
+#&gt; <span style='color: #BCBCBC;'> 4</span> 1956-01-04  5.44  -<span style='color: #BB0000;'>8.05</span> 0.397
+#&gt; <span style='color: #BCBCBC;'> 5</span> 1956-01-05  5.44 -<span style='color: #BB0000;'>11.7</span>  0.102
+#&gt; <span style='color: #BCBCBC;'> 6</span> 1956-01-06  5.58 -<span style='color: #BB0000;'>20.1</span>  0.032
+#&gt; <span style='color: #BCBCBC;'> 7</span> 1956-01-07  5.58 -<span style='color: #BB0000;'>16.6</span>  0.024
+#&gt; <span style='color: #BCBCBC;'> 8</span> 1956-01-08  5.36 -<span style='color: #BB0000;'>15.2</span>  0.042
+#&gt; <span style='color: #BCBCBC;'> 9</span> 1956-01-09  5.36 -<span style='color: #BB0000;'>15.9</span>  0.053
+#&gt; <span style='color: #BCBCBC;'>10</span> 1956-01-10  5.31 -<span style='color: #BB0000;'>13.3</span>  0.08 
+#&gt; <span style='color: #949494;'># … with 23,732 more rows</span></div><div class='input'>
+<span class='va'>sep</span> <span class='op'>=</span> <span class='fu'>gr_separate</span><span class='op'>(</span><span class='va'>spas</span>, params <span class='op'>=</span> <span class='fu'><a href='gr_get_params.html'>gr_get_params</a></span><span class='op'>(</span>reg <span class='op'>=</span> <span class='st'>'Midplain'</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>sep</span>, <span class='va'>Year</span> <span class='op'>==</span> <span class='fl'>2010</span><span class='op'>)</span> <span class='co'># View water resources year</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 380 x 12</span>
+#&gt;    Date           Q Qbase Quick Qseas Qrain Qthaw   Qpb  Type  Year   Temp  Prec
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 2010-03-17  10.7  10.7  0     0        0     0     0     0  <span style='text-decoration: underline;'>2</span>010 -<span style='color: #BB0000;'>10.1</span>  0.153
+#&gt; <span style='color: #BCBCBC;'> 2</span> 2010-03-18  11.8  11.8  0     0        0     0     0     0  <span style='text-decoration: underline;'>2</span>010  -<span style='color: #BB0000;'>8.17</span> 0.067
+#&gt; <span style='color: #BCBCBC;'> 3</span> 2010-03-19  11.5  11.5  0     0        0     0     0     0  <span style='text-decoration: underline;'>2</span>010  -<span style='color: #BB0000;'>2</span>    5.49 
+#&gt; <span style='color: #BCBCBC;'> 4</span> 2010-03-20  11.7  11.7  0     0        0     0     0     0  <span style='text-decoration: underline;'>2</span>010   3.72 1.66 
+#&gt; <span style='color: #BCBCBC;'> 5</span> 2010-03-21  12.4  12.4  0     0        0     0     0     0  <span style='text-decoration: underline;'>2</span>010   3.82 3.83 
+#&gt; <span style='color: #BCBCBC;'> 6</span> 2010-03-22  20.8  13.3  7.51  7.51     0     0     0     0  <span style='text-decoration: underline;'>2</span>010   2.77 3.26 
+#&gt; <span style='color: #BCBCBC;'> 7</span> 2010-03-23  31    14.2 16.8  16.8      0     0     0     0  <span style='text-decoration: underline;'>2</span>010  -<span style='color: #BB0000;'>0.56</span> 0.284
+#&gt; <span style='color: #BCBCBC;'> 8</span> 2010-03-24  36.4  15.2 21.2  21.2      0     0     0     0  <span style='text-decoration: underline;'>2</span>010   0.29 2.48 
+#&gt; <span style='color: #BCBCBC;'> 9</span> 2010-03-25  37.2  16.3 20.9  20.9      0     0     0     0  <span style='text-decoration: underline;'>2</span>010  -<span style='color: #BB0000;'>1.66</span> 0    
+#&gt; <span style='color: #BCBCBC;'>10</span> 2010-03-26  35.9  17.5 18.4  18.4      0     0     0     0  <span style='text-decoration: underline;'>2</span>010   1.11 0    
+#&gt; <span style='color: #949494;'># … with 370 more rows</span></div><div class='input'><span class='fu'><a href='gr_plot_sep.html'>gr_plot_sep</a></span><span class='op'>(</span><span class='va'>sep</span>, <span class='fl'>2010</span><span class='op'>)</span> <span class='co'># Plot separation</span>
+</div><div class='img'><img src='gr_separate-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

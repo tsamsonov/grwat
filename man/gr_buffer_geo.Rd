@@ -7,12 +7,12 @@
 gr_buffer_geo(g, bufsize)
 }
 \arguments{
-\item{g}{`sf` or `sfg` object in geographic coordinates}
+\item{g}{\code{sf} or \code{sfg} object in geographic coordinates}
 
 \item{bufsize}{double. Size of a buffer, in metres}
 }
 \value{
-`sf` or `sfg` object, buffered to `bufsize` distance
+\code{sf} or \code{sfg} object, buffered to \code{bufsize} distance
 }
 \description{
 Buffer sf objects in geographic coordinates through conic projection

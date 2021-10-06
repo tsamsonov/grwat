@@ -2,22 +2,40 @@
 % Please edit documentation in R/separate.R
 \name{gr_separate}
 \alias{gr_separate}
-\title{Separates river hydrograph}
+\title{Advanced hydrograph separation}
 \usage{
-gr_separate(df, params = gr_get_params(), alpha = 0.925, niter = 100)
+gr_separate(df, params = gr_get_params())
 }
 \arguments{
-\item{df}{data frame with four columns: date, discharge, temperature, precipitation}
+\item{df}{\code{data.frame} or \code{tibble} with four columns: date, discharge, temperature, precipitation}
 
-\item{params}{list of separation parameters, as returned by \link{gr_get_params()} function}
-
-\item{alpha}{smoothing parameter for groundwater separation algorithm, defaults to 0.925 for Lyne-Hollick method}
-
-\item{niter}{number of iterations}
+\item{params}{\code{list} of separation parameters, as returned by \code{\link[=gr_get_params]{gr_get_params()}} function}
 }
 \value{
-
+A \code{data.frame} with 12 columns:\tabular{ll}{
+   \strong{Column} \tab \strong{Description} \cr
+   \code{Date} \tab date \cr
+   \code{Q} \tab total discharge \cr
+   \code{Qbase} \tab baseflow \cr
+   \code{Quick} \tab quick flow \cr
+   \code{Qseas} \tab seasonal/freshet flow \cr
+   \code{Qrain} \tab rain floods \cr
+   \code{Qthaw} \tab thaw floods \cr
+   \code{Qpb} \tab mountain floods \cr
+   \code{Type} \tab a combination of discharge types \cr
+   \code{Year} \tab a water-resources year \cr
+   \code{Temp} \tab temperature \cr
+   \code{Prec} \tab precipitation \cr
+}
 }
 \description{
-Separates river hydrograph
+Separates the hydrograph into genetic components: groundwater, thaw, flood and seasonal (freshet) flood.
+}
+\examples{
+library(grwat)
+print(spas) # example Spas-Zagorye data loaded with grwat package
+
+sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+dplyr::filter(sep, Year == 2010) # View water resources year
+gr_plot_sep(sep, 2010) # Plot separation
 }

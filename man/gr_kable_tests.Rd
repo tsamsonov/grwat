@@ -7,11 +7,11 @@
 gr_kable_tests(tests, locale = "EN", format = "latex")
 }
 \arguments{
-\item{tests}{Test result returned by `test_variables()` function}
+\item{tests}{Test result returned by \code{test_variables()} function}
 
-\item{locale}{character string. Currently English (`'EN'`) and Russian (`'RU'`) locales are supported for HTML output. PDF is always rendered in English}
+\item{locale}{character string. Currently English (\code{'EN'}) and Russian (\code{'RU'}) locales are supported for HTML output. PDF is always rendered in English}
 
-\item{format}{character string. Currently `'latex'` or `'html'` are supported}
+\item{format}{character string. Currently \code{'latex'} or \code{'html'} are supported}
 }
 \value{
 kabled version of p-values table coloured

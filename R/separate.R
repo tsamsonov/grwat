@@ -3,18 +3,34 @@ update_core <- function() {
   file.copy('../grwat-core/grwat_core.cpp', 'src/grwat_core.cpp', overwrite = TRUE)
 }
 
-#' Separates river hydrograph
+#' Advanced hydrograph separation
+#' 
+#' Separates the hydrograph into genetic components: groundwater, thaw, flood and seasonal (freshet) flood.
 #'
-#' @param df data frame with four columns: date, discharge, temperature, precipitation
-#' @param params list of separation parameters, as returned by \link{gr_get_params()} function
-#' @param alpha smoothing parameter for groundwater separation algorithm, defaults to 0.925 for Lyne-Hollick method
-#' @param niter number of iterations
+#' @param df `data.frame` or `tibble` with four columns: date, discharge, temperature, precipitation
+#' @param params `list` of separation parameters, as returned by [grwat::gr_get_params()] function
 #'
-#' @return
+#' @return A `data.frame` with 12 columns: 
+#' 
+#' | __Column__ | __Description__ |
+#' | ------ | ----------- |
+#' | `Date`   | date |
+#' | `Q`      | total discharge |
+#' | `Qbase`  | baseflow |
+#' | `Quick`  | quick flow |
+#' | `Qseas`  | seasonal/freshet flow |
+#' | `Qrain`  | rain floods | 
+#' | `Qthaw`  | thaw floods |
+#' | `Qpb`    | mountain floods | 
+#' | `Type`   | a combination of discharge types |
+#' | `Year`   | a water-resources year |
+#' | `Temp`   | temperature |
+#' | `Prec`   | precipitation |
+#' 
 #' @export
 #'
-#' @examples
-gr_separate <- function(df, params = gr_get_params(), alpha = 0.925, niter = 100) {
+#' @example inst/examples/gr_separate.R
+gr_separate <- function(df, params = gr_get_params()) {
   
   if (length(df) != 4)
     stop(crayon::white$bold('grwat:'), ' the number of columns in data frame (', length(df), 
@@ -23,13 +39,14 @@ gr_separate <- function(df, params = gr_get_params(), alpha = 0.925, niter = 100
   if (!lubridate::is.Date(df[[1]]) || !is.numeric(df[[2]]) || !is.numeric(df[[3]]) || !is.numeric(df[[4]]))
     stop(crayon::white$bold('grwat:'), ' the columns of input data frame must of Date, numeric, numeric and numeric data types')
   
-  separate_cpp(lubridate::year(df[[1]]), 
+  sep = separate_cpp(lubridate::year(df[[1]]), 
                lubridate::month(df[[1]]),
                lubridate::day(df[[1]]),
                df[[2]], df[[3]], df[[4]],
-               params, niter, alpha) %>% 
-    bind_cols(df, .) %>% 
-    relocate(Temp, Prec, .after = last_col())
+               params) %>% 
+    dplyr::bind_cols(df, .) %>% 
+    dplyr::rename(Date = 1, Q = 2, Temp = 3, Prec = 4)  %>% 
+    dplyr::relocate(Temp, Prec, .after = dplyr::last_col())
 }
 
 #' Extracts baseflow for discharge

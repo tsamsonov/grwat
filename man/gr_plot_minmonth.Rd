@@ -14,7 +14,7 @@ gr_plot_minmonth(
 )
 }
 \arguments{
-\item{df}{data.frame produced by description function (read by `read_variables()`)}
+\item{df}{data.frame produced by description function (read by \code{read_variables()})}
 
 \item{year}{change year value to separate two periods}
 

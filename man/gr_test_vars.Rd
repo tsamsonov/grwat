@@ -3,7 +3,7 @@
 \name{gr_test_vars}
 \alias{gr_test_vars}
 \title{Run various tests on interannual characteristics.
-Required number of observations for various tests: 
+Required number of observations for various tests:
 Pettitt > 0, Mann.Kendall > 2, Theil-Sen slope > 1, Student > 1,}
 \usage{
 gr_test_vars(df, ..., year = NULL, exclude = NULL, locale = "EN")
@@ -24,6 +24,6 @@ List of testing results
 }
 \description{
 Run various tests on interannual characteristics.
-Required number of observations for various tests: 
+Required number of observations for various tests:
 Pettitt > 0, Mann.Kendall > 2, Theil-Sen slope > 1, Student > 1,
 }

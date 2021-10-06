@@ -5,7 +5,7 @@ get_baseflow_cpp <- function(Qin, a, k, C, aq, passes, padding, method) {
     .Call('_grwat_get_baseflow_cpp', PACKAGE = 'grwat', Qin, a, k, C, aq, passes, padding, method)
 }
 
-separate_cpp <- function(Year, Mon, Day, Qin, Tin, Pin, params, niter, alpha) {
-    .Call('_grwat_separate_cpp', PACKAGE = 'grwat', Year, Mon, Day, Qin, Tin, Pin, params, niter, alpha)
+separate_cpp <- function(Year, Mon, Day, Qin, Tin, Pin, params) {
+    .Call('_grwat_separate_cpp', PACKAGE = 'grwat', Year, Mon, Day, Qin, Tin, Pin, params)
 }
 

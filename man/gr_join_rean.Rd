@@ -15,7 +15,7 @@ gr_join_rean(hdata, rean, buffer)
 }
 \value{
 List of two components: water level table enriched with reanalysis data
-  and selected points
+and selected points
 }
 \description{
 Join grwat reanalysis to hydrological level series

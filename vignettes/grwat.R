@@ -11,7 +11,6 @@ Sys.setlocale("LC_TIME", "en_US.UTF-8")
 library(sf) # reading and manipulating spatial data
 library(tidyverse) # general data wrangling
 library(mapview) # interactive mapping of spatial data
-library(ecmwfr) # this is to access ERA5 reanalysis data
 library(grwat)
 
 mapviewOptions(fgb = FALSE)
@@ -144,7 +143,7 @@ p$nPav = 5
 p$prodspada = 85
 
 ## -----------------------------------------------------------------------------
-sep = gr_separate(fhdata_rean, p, alpha = 0.85)
+sep = gr_separate(fhdata_rean, p)
 head(sep)
 
 ## ---- message=FALSE, warning=FALSE--------------------------------------------

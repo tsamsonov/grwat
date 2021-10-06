@@ -12,8 +12,8 @@ gr_read_rean(file_prec, file_temp)
 \item{file_temp}{Temperature NetCDF file}
 }
 \value{
-List containing time series, precipitation series, temperature series 
-  and spatial points (sf)
+List containing time series, precipitation series, temperature series
+and spatial points (sf)
 }
 \description{
 Read grwat daily reanalysis

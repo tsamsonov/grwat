@@ -243,16 +243,28 @@ namespace grwat {
                 begin = i;
             }
         }
+        limits[year] = pair<int, int>(begin, Year.size()-1); // last year
         return limits;
     }
 
     static void separate(const vector<int>& Year, const vector<int>& Mon, const vector<int>& Day,
                   const vector<double>& Qin, const vector<double>& Tin, const vector<double>& Pin,
                   vector<double>& Qgr, vector<double>& Quick, vector<double>& Qpol, vector<double>& Qpav,
-                  vector<double>& Qthaw, vector<double>& Qpb, vector<int>& Qtype,
-                  const parameters& par, const int& niter = 100, const double& alpha = 0.925,
-                  basefilter method = LYNE, const int& passes = 3, const double& K = 0.975,
-                  const double& C = 0.05, const int& padding = 30) {
+                  vector<double>& Qthaw, vector<double>& Qpb, vector<int>& Type, vector<int>& Hyear,
+                  const parameters& par) {
+
+        // TODO: move these parameters into par
+        int niter = 100;
+        double alpha = 0.925;
+        basefilter method = LYNE;
+        int passes = 3;
+        double K = 0.975;
+        double C = 0.05;
+        int padding = 30;
+
+//        std::copy(Year.begin(), Year.end(), Hyear.begin());
+//        for (auto& y : Hyear)
+//            y -= 1;
 
         // detect gaps in data
         map<int, int> FactGapsin;
@@ -398,9 +410,12 @@ namespace grwat {
 
 //        cout << endl << "YEAR BEGINNINGS:" << endl;
         int j = 1;
-
-        for (auto i: iy) {
-            Qpol[i] = 1;
+        auto ny = iy.size();
+        for (auto i = 0; i < ny; i++) {
+            auto idx1 = iy[i];
+            auto idx2 = i < ny-1 ? iy[i+1] : ndays;
+            Qpol[idx1] = 1;
+            std::fill(Hyear.begin() + idx1, Hyear.begin() + idx2, Year[idx1]);
 //            cout << Day[i] << '-' << Mon[i] << '-' << Year[i] << ' ';
 //            if (j % 10 == 0)
 //                cout << endl;
@@ -832,9 +847,9 @@ namespace grwat {
                 Quick[k] = Qin[k] - Qgr[k];
             }
 
-            std::fill(Qtype.begin() + start, Qtype.begin() + polend[i], 0);
-            std::fill(Qtype.begin() + polend[i], Qtype.begin() + SummerEnd[i], 1);
-            std::fill(Qtype.begin() + SummerEnd[i], Qtype.begin() + end, 2);
+            std::fill(Type.begin() + start, Type.begin() + polend[i], 0);
+            std::fill(Type.begin() + polend[i], Type.begin() + SummerEnd[i], 1);
+            std::fill(Type.begin() + SummerEnd[i], Type.begin() + end, 2);
 
 //            std::cout << start << std::endl;
 //            std::cout << polend[i] << std::endl;

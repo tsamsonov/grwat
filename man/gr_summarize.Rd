@@ -7,7 +7,7 @@
 gr_summarize(tab)
 }
 \arguments{
-\item{tab}{data frame resulting from `separate()` function}
+\item{tab}{data frame resulting from \code{separate()} function}
 }
 \value{
 data frame with one row for each water-resources year and multiple columns of statistics

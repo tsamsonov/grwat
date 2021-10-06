@@ -9,9 +9,9 @@ gr_fill_gaps(hdata, autocorr = 0.7, nobserv = NULL)
 \arguments{
 \item{hdata}{Water discharge series. Data frame containing 4 columns: year (YYYY), montth (MM), day (DD) and level (water level)}
 
-\item{autocorr}{Autocorrelation value that defines possible length of the period. Defaults to 0.7.  If `nobserv` parameter is set, then this parameter is ignored. If both parameters are `NULL`, then all gaps are filled disregard of their lengths (not recommended).}
+\item{autocorr}{Autocorrelation value that defines possible length of the period. Defaults to 0.7.  If \code{nobserv} parameter is set, then this parameter is ignored. If both parameters are \code{NULL}, then all gaps are filled disregard of their lengths (not recommended).}
 
-\item{nobserv}{Maximum number of contiguous observations that can be filled. Defaults to `NULL`. If this parameter is set by the user, then `autocorr` parameter is ignored. If both parameters are `NULL`, then all gaps are filled disregard of their lengths (not recommended).}
+\item{nobserv}{Maximum number of contiguous observations that can be filled. Defaults to \code{NULL}. If this parameter is set by the user, then \code{autocorr} parameter is ignored. If both parameters are \code{NULL}, then all gaps are filled disregard of their lengths (not recommended).}
 
 \item{expand}{Should the algorithm insert missing dates?}
 

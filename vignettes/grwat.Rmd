@@ -30,7 +30,6 @@ The starting point for hydrograph analysis is to obtain the source data. Let's s
 library(sf) # reading and manipulating spatial data
 library(tidyverse) # general data wrangling
 library(mapview) # interactive mapping of spatial data
-library(ecmwfr) # this is to access ERA5 reanalysis data
 library(grwat)
 
 mapviewOptions(fgb = FALSE)
@@ -308,7 +307,7 @@ p$prodspada = 85
 
 Next, you can separate the hydrograph:
 ```{r}
-sep = gr_separate(fhdata_rean, p, alpha = 0.85)
+sep = gr_separate(fhdata_rean, p)
 head(sep)
 ```
 

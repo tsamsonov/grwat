@@ -7,7 +7,7 @@
 gr_plot_tests(tests, locale = "EN")
 }
 \arguments{
-\item{tests}{result of `test_variables()`}
+\item{tests}{result of \code{test_variables()}}
 
 \item{locale}{}
 }

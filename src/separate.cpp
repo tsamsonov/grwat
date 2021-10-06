@@ -71,7 +71,7 @@ std::vector<double> get_baseflow_cpp(const std::vector<double> &Qin,
 
 // [[Rcpp::export]]
 DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon, const std::vector<int> &Day,
-                       const std::vector<double> &Qin, const std::vector<double> &Tin, const std::vector<double> &Pin, List params, int niter, double alpha) {
+                       const std::vector<double> &Qin, const std::vector<double> &Tin, const std::vector<double> &Pin, List params) {
   
   auto n = Qin.size();
   std::vector<double> Qbase(n, 0);
@@ -80,11 +80,12 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
   std::vector<double> Qrain(n, 0);
   std::vector<double> Qthaw(n, 0);
   std::vector<double> Qpb(n, 0);
-  std::vector<int> Qtype(n, 0);
+  std::vector<int> Type(n, 0);
+  std::vector<int> Hyear(n, 0);
   
   auto p = set_params(params);
   
-  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Qtype, p, niter, alpha);
+  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Type, Hyear, p);
   
   DataFrame df = DataFrame::create(Named("Qbase") = Qbase,
                                    Named("Quick") = Quick,
@@ -92,7 +93,8 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
                                    Named("Qrain") = Qrain, 
                                    Named("Qthaw") = Qthaw,
                                    Named("Qpb") = Qpb,
-                                   Named("Qtype") = Qtype);
+                                   Named("Type") = Type,
+                                   Named("Year") = Hyear);
   
   return df;
 }

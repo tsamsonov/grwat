@@ -1,6 +1,5 @@
 #' @useDynLib grwat
 #' @importFrom Rcpp sourceCpp
-#' @importFrom magrittr "%>%"
 NULL
 
 # General
@@ -15,8 +14,6 @@ usethis::use_package('magrittr')
 usethis::use_package('dplyr')
 usethis::use_package('tidyr')
 usethis::use_package('lubridate')
-usethis::use_package('readxl')
-usethis::use_package('writexl')
 usethis::use_package('rlang')
 usethis::use_package('ggplot2')
 usethis::use_package('GGally')
@@ -36,8 +33,14 @@ usethis::use_package('mblm')
 usethis::use_package('scales')
 usethis::use_package('sf')
 
+# Specific for pipe
+usethis::use_pipe(export = TRUE)
+
+# DEPRECATED
 # usethis::use_package('Cairo')
 # usethis::use_package('BiocManager')
+# usethis::use_package('readxl')
+# usethis::use_package('writexl')
 
 .onAttach <- function(libname, pkgname) {
   # if (!requireNamespace("Scale4C", quietly = TRUE))
