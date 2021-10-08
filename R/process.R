@@ -134,8 +134,9 @@ gr_join_rean <- function(hdata, rean, buffer){
   if (npts > 0){
     # Extract point numbers for subsetting ncdf array
     pts_numbers = pts_selected %>% 
-      dplyr::select(nlon, nlat)
-    st_geometry(pts_numbers) <- NULL
+      dplyr::select(nlon, nlat) %>%
+      sf::st_drop_geometry()
+    # st_geometry(pts_numbers) <- NULL
     
     # Extract dates for subsetting ncdf array
     datevals = lubridate::ymd(18000101) + lubridate::hours(rean$vals.full)
@@ -160,9 +161,9 @@ gr_join_rean <- function(hdata, rean, buffer){
       dplyr::group_by(pts_days) %>% 
       dplyr::summarise(Temp = mean(temp_selected) %>% round(2),
                        Prec = mean(prate_selected) %>% round(3)) %>% 
-      mutate(Date = hdates) %>% 
-      rename_at(4, ~ names(hdata)[[1]]) %>% 
-      select(-1)
+      dplyr::mutate(Date = hdates) %>% 
+      dplyr::rename_at(4, ~ names(hdata)[[1]]) %>% 
+      dplyr::select(-1)
     
     sum_table_with_dates = hdata %>%
       dplyr::left_join(sum_table)

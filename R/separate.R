@@ -1,6 +1,7 @@
 # This is a technical function to update grwat core from a separate project
 update_core <- function() {
-  file.copy('../grwat-core/grwat_core.cpp', 'src/grwat_core.cpp', overwrite = TRUE)
+  file.copy('../grwat-core/grwat_core.cpp', 
+            'src/grwat_core.cpp', overwrite = TRUE)
 }
 
 #' Advanced hydrograph separation
