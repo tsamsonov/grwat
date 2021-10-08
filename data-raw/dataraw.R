@@ -24,7 +24,7 @@ rean = grwat::gr_read_rean('/Volumes/Data/Spatial/Reanalysis/grwat/pre_1880-2021
                            '/Volumes/Data/Spatial/Reanalysis/grwat/temp_1880-2021.nc')
 
 # join reanalysis data to hydrological series
-spas = gr_join_rean(hdata, rean, basin_buffer) 
+spas = grwat::gr_join_rean(hdata, rean, basin_buffer) 
 
 usethis::use_data(params_out,
                   params_in,
