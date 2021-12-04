@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // get_baseflow_cpp
 std::vector<double> get_baseflow_cpp(const std::vector<double>& Qin, const double& a, const double& k, const double& C, const double& aq, const int& passes, const int& padding, std::string method);
 RcppExport SEXP _grwat_get_baseflow_cpp(SEXP QinSEXP, SEXP aSEXP, SEXP kSEXP, SEXP CSEXP, SEXP aqSEXP, SEXP passesSEXP, SEXP paddingSEXP, SEXP methodSEXP) {

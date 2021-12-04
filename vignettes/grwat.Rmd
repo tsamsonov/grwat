@@ -35,7 +35,8 @@ library(grwat)
 mapviewOptions(fgb = FALSE)
 
 # this is path to sample data installed with grwat
-path = system.file("extdata", "spas-zagorye.txt", package = "grwat")
+path = system.file("extdata", "spas-zagorye.txt", 
+                   package = "grwat")
 
 # for your own data just provide the full path:
 # path = /this/is/the/path/to/discharge/discharge.csv
@@ -75,7 +76,7 @@ fhdata = gr_fill_gaps(hdata, nobserv = 10)
 How the time window is computed in the first case? When the `autocorr` parameter is used, the ACF (autocorrelation function) is computed first, and then its values are used to obtain the time shift (in days) during which the autocorrelation is higher or equal to the specified value. For Spas-Zagorye data the time lag for $ACF \geq 0.7$ is 6 days, which can be inferred by `gr_plot_acf()` function:
 
 ```{r}
-gr_plot_acf(hdata)
+gr_plot_acf(hdata, 0.5)
 ```
 
 ## Join meteorological variables
@@ -143,8 +144,11 @@ knitr::include_graphics('img/rean_files.png')
 Download this data using the [FTP link](ftp://gruser@carto.geogr.msu.ru) for using with grwat.
 
 ```{r}
-rean = gr_read_rean('/Volumes/Data/Spatial/Reanalysis/grwat/pre_1880-2021.nc',
-                    '/Volumes/Data/Spatial/Reanalysis/grwat/temp_1880-2021.nc') # read reanalysis data
+rean = gr_read_rean(
+  '/Volumes/Data/Spatial/Reanalysis/grwat/pre_1880-2021.nc',
+  '/Volumes/Data/Spatial/Reanalysis/grwat/temp_1880-2021.nc'
+) # read reanalysis data
+
 fhdata_rean = gr_join_rean(fhdata, rean, basin_buffer) # join reanalysis data to hydrological series
 
 head(fhdata_rean)
@@ -248,20 +252,25 @@ head(resbase, 10)
 resbase %>% 
   filter(lubridate::year(Date) == 2020) %>% 
   ggplot() +
-    geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
-    geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black')
+    geom_area(aes(Date, Q), fill = 'steelblue', 
+              color = 'black') +
+    geom_area(aes(Date, Qbase), fill = 'orangered', 
+              color = 'black')
 ```
 
 The separation is mainly parameterized by smoothing parameter which is `a = 0.925` by default, and number of passes, which are `passes = 3` by default. Changing them affects the shape of a baseflow component:
 ```{r}
 resbase = fhdata %>% 
-  mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', a = 0.8, passes = 5))
+  mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', 
+                             a = 0.8, passes = 5))
   
 resbase %>% 
   filter(lubridate::year(Date) == 2020) %>% 
   ggplot() +
-    geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
-    geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black')
+    geom_area(aes(Date, Q), fill = 'steelblue', 
+              color = 'black') +
+    geom_area(aes(Date, Qbase), fill = 'orangered', 
+              color = 'black')
 ```
 
 Let's see how different separation methods act in comparison to each other:
@@ -294,15 +303,15 @@ Advanced separation aims at revealing the genesis of the quickflow. Was it due t
 
 The genetic separation of hydrograph is controlled by more than 30 parameters. The names and meaning of these paramters can be learned thanks to `gr_help_params()` function:
 ```{r}
-gr_help_params()
+View(gr_help_params())
 ```
 
 Since the number of parameters is large (31), they are organized as list, which is then fed into `gr_separate()` function. First, you get the params using the `gr_get_params()` function. The only parameter of the function is `reg`, which indicates the region for which the parameters must be extracted. After you got the parameters, they can be changed by accessing the list elements:
 ```{r}
 # Расчленение
 p = gr_get_params(reg = 'Midplain')
-p$nPav = 5
-p$prodspada = 85
+p$precdays = 5
+p$ftrecdays = 85
 ```
 
 Next, you can separate the hydrograph:
@@ -354,7 +363,7 @@ gr_plot_sep(sep, 1976:1979, # plot four years on the same page
 
 To get the detailed description of available variables you can invoke `gr_help_vars()`:
 ```{r}
-gr_help_vars()
+View(gr_help_vars())
 ```
 
 Parameters can be statistically tested using `test_variables(df, ..., year = NULL, locale='EN')` function. Names of the parameters are passed comma-separated in place of `...`. They are quoted, so you do not need to pass them as character strings, just write their names:
