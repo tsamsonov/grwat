@@ -4,6 +4,30 @@ update_core <- function() {
             'src/grwat_core.cpp', overwrite = TRUE)
 }
 
+#' Check the correctness of data frame for separating
+#'
+#' @param df 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+gr_check_data <- function(df) {
+  if (length(df) != 4)
+    stop(crayon::white$bgRed$bold('grwat:'), ' the number of columns in data frame (', length(df), ') is not equal to 4')
+  
+  if (!lubridate::is.Date(df[[1]]) || !is.numeric(df[[2]]) || !is.numeric(df[[3]]) || !is.numeric(df[[4]]))
+    stop(crayon::white$bgRed$bold('grwat:'), ' the four columns of input data frame (date, discharge, temperature, precipitation) must be of ', 
+         crayon::white$italic('Date, numeric, numeric, numeric'), ' data types')
+  
+  if (sum(df[[2]] < 0, na.rm = T) > 0)
+    stop(crayon::white$bgRed$bold('grwat:'), ' there are negative values in discharge (2nd) column, please fix the data before proceeding')
+  
+  if (sum(df[[4]] < 0, na.rm = T) > 0)
+    stop(crayon::white$bgRed$bold('grwat:'), ' there are negative values in precipitation (4th) column, please fix the data before proceeding')
+}
+
 #' Advanced hydrograph separation
 #' 
 #' Separates the hydrograph into genetic components: groundwater, thaw, flood and seasonal (freshet) flood.
@@ -33,12 +57,12 @@ update_core <- function() {
 #' @example inst/examples/gr_separate.R
 gr_separate <- function(df, params = gr_get_params()) {
   
-  if (length(df) != 4)
-    stop(crayon::white$bold('grwat:'), ' the number of columns in data frame (', length(df), 
-         ') is not equal to 4')
+  gr_check_data(df)
   
-  if (!lubridate::is.Date(df[[1]]) || !is.numeric(df[[2]]) || !is.numeric(df[[3]]) || !is.numeric(df[[4]]))
-    stop(crayon::white$bold('grwat:'), ' the columns of input data frame must of Date, numeric, numeric and numeric data types')
+  df = df %>% 
+    rename(Date = 1) %>% 
+    dplyr::filter(!is.na(Date)) %>% 
+    tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
   
   sep = separate_cpp(lubridate::year(df[[1]]), 
                lubridate::month(df[[1]]),

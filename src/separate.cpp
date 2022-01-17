@@ -27,7 +27,7 @@ grwat::parameters set_params(List params) {
     p.SignDelta = params["signratio1"];
     p.SignDelta1 = params["signratio2"];
     p.PavRate = params["floodratio"];
-    p.FlagGaps = params["gapflag"];
+    p.FlagGaps = NA_REAL;
     p.InterpolStep = params["gaplen"];
     p.gradabs = params["gradabs"];
     p.ModeMountain = params["mntmode"];

@@ -301,7 +301,7 @@ patchwork::wrap_plots(plots, ncol = 2)
 
 Advanced separation aims at revealing the genesis of the quickflow. Was it due to a rain or snowmelting? For this, a joint analysis of discharge, temperature and precipitation time series is performed by specialized algorithm, available from `gr_separate()` function in grwat package.
 
-The genetic separation of hydrograph is controlled by more than 30 parameters. The names and meaning of these paramters can be learned thanks to `gr_help_params()` function:
+The genetic separation of hydrograph is controlled by more than 30 parameters. The names and meaning of these parameters can be learned thanks to `gr_help_params()` function:
 ```{r}
 View(gr_help_params())
 ```

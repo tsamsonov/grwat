@@ -57,15 +57,16 @@ gr_get_gaps <- function(hdata) {
 gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
   
   tab = hdata %>% 
-    rename(Date = 1, Q = 2) %>% 
-    dplyr::filter(!is.na(Date), !is.na(Q)) %>% 
+    rename(Date = 1) %>% 
+    dplyr::filter(!is.na(Date)) %>% 
     tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
   
   # Calculate via autocorrelation
   if (is.null(nobserv)) {
     
     timerep = tab %>% 
-      mutate(type = if_else(is.na(Q), 'gap', 'data'),
+      mutate(Q = 2,
+             type = if_else(is.na(Q), 'gap', 'data'),
              num = with(rle(type), rep(seq_along(lengths), lengths))) %>% 
       group_by(num) %>% 
       summarise(start_date = min(Date),
@@ -77,17 +78,17 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
     
     afun = tab %>% 
       dplyr::filter(between(Date, max_period$start_date, max_period$end_date)) %>% 
-      pull(Q) %>% 
+      pull(2) %>% 
       acf(plot = FALSE)
     
     nobserv = purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
   
   }
   
-  Qrep = zoo::na.approx(tab$Q, maxgap = nobserv)
+  Qrep = zoo::na.approx(tab[[2]], maxgap = nobserv)
   
   message(crayon::white$bold('grwat:'), ' filled ', 
-          sum(is.na(tab$Q)) - sum(is.na(Qrep)), ' observations using ', nobserv, ' days window')
+          sum(is.na(tab[[2]])) - sum(is.na(Qrep)), ' observations using ', nobserv, ' days window')
   
   tab = tab %>% 
     mutate(Q = Qrep) %>% 

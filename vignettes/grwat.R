@@ -16,7 +16,8 @@ library(grwat)
 mapviewOptions(fgb = FALSE)
 
 # this is path to sample data installed with grwat
-path = system.file("extdata", "spas-zagorye.txt", package = "grwat")
+path = system.file("extdata", "spas-zagorye.txt", 
+                   package = "grwat")
 
 # for your own data just provide the full path:
 # path = /this/is/the/path/to/discharge/discharge.csv
@@ -41,7 +42,7 @@ fhdata = gr_fill_gaps(hdata, autocorr = 0.7)
 fhdata = gr_fill_gaps(hdata, nobserv = 10)
 
 ## -----------------------------------------------------------------------------
-gr_plot_acf(hdata)
+gr_plot_acf(hdata, 0.5)
 
 ## ---- dpi = 72----------------------------------------------------------------
 # this is path to sample basin geopackage installed with grwat
@@ -71,8 +72,11 @@ knitr::include_graphics('img/reanalysis.png')
 knitr::include_graphics('img/rean_files.png')
 
 ## -----------------------------------------------------------------------------
-rean = gr_read_rean('/Volumes/Data/Spatial/Reanalysis/grwat/pre_1880-2021.nc',
-                    '/Volumes/Data/Spatial/Reanalysis/grwat/temp_1880-2021.nc') # read reanalysis data
+rean = gr_read_rean(
+  '/Volumes/Data/Spatial/Reanalysis/grwat/pre_1880-2021.nc',
+  '/Volumes/Data/Spatial/Reanalysis/grwat/temp_1880-2021.nc'
+) # read reanalysis data
+
 fhdata_rean = gr_join_rean(fhdata, rean, basin_buffer) # join reanalysis data to hydrological series
 
 head(fhdata_rean)
@@ -99,18 +103,23 @@ head(resbase, 10)
 resbase %>% 
   filter(lubridate::year(Date) == 2020) %>% 
   ggplot() +
-    geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
-    geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black')
+    geom_area(aes(Date, Q), fill = 'steelblue', 
+              color = 'black') +
+    geom_area(aes(Date, Qbase), fill = 'orangered', 
+              color = 'black')
 
 ## -----------------------------------------------------------------------------
 resbase = fhdata %>% 
-  mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', a = 0.8, passes = 5))
+  mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', 
+                             a = 0.8, passes = 5))
   
 resbase %>% 
   filter(lubridate::year(Date) == 2020) %>% 
   ggplot() +
-    geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
-    geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black')
+    geom_area(aes(Date, Q), fill = 'steelblue', 
+              color = 'black') +
+    geom_area(aes(Date, Qbase), fill = 'orangered', 
+              color = 'black')
 
 ## ---- fig.height = 12---------------------------------------------------------
 methods = c("maxwell",
@@ -134,13 +143,13 @@ plots = lapply(methods, function(m) {
 patchwork::wrap_plots(plots, ncol = 2)
 
 ## -----------------------------------------------------------------------------
-gr_help_params()
+View(gr_help_params())
 
 ## -----------------------------------------------------------------------------
 # Расчленение
 p = gr_get_params(reg = 'Midplain')
-p$nPav = 5
-p$prodspada = 85
+p$precdays = 5
+p$ftrecdays = 85
 
 ## -----------------------------------------------------------------------------
 sep = gr_separate(fhdata_rean, p)
@@ -166,7 +175,7 @@ gr_plot_sep(sep, 1976:1979, # plot four years on the same page
             layout = matrix(c(1,2,3,4), ncol=2, byrow = T))
 
 ## -----------------------------------------------------------------------------
-gr_help_vars()
+View(gr_help_vars())
 
 ## -----------------------------------------------------------------------------
 gr_test_vars(vars, Qmax)
