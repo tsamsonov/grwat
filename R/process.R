@@ -29,10 +29,10 @@ gr_buffer_geo <- function(g, bufsize){
 #' @examples
 gr_get_gaps <- function(hdata) {
   hdata %>% 
-    dplyr::rename(Date = 1, Q = 2) %>% 
+    dplyr::rename(Date = 1) %>% 
     dplyr::filter(!is.na(Date)) %>% 
     tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day')) %>% 
-    mutate(type = if_else(is.na(Q), 'gap', 'data'),
+    mutate(type = if_else(complete.cases(.[-1]), 'data', 'gap'),
            num = with(rle(type), rep(seq_along(lengths), lengths))) %>% 
     group_by(num) %>% 
     summarise(start_date = min(Date),
@@ -65,8 +65,7 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
   if (is.null(nobserv)) {
     
     timerep = tab %>% 
-      mutate(Q = 2,
-             type = if_else(is.na(Q), 'gap', 'data'),
+      mutate(type = if_else(complete.cases(tab[-1]), 'data', 'gap'),
              num = with(rle(type), rep(seq_along(lengths), lengths))) %>% 
       group_by(num) %>% 
       summarise(start_date = min(Date),
@@ -76,25 +75,26 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
     
     max_period = dplyr::filter(timerep, type == 'data', duration == max(duration))
     
-    afun = tab %>% 
-      dplyr::filter(between(Date, max_period$start_date, max_period$end_date)) %>% 
-      pull(2) %>% 
-      acf(plot = FALSE)
+    tab_afun = dplyr::filter(tab, between(Date, max_period$start_date, max_period$end_date))
     
-    nobserv = purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
-  
+    nobserv = sapply(2:ncol(tab_afun), function(i) {
+      afun = tab_afun %>% 
+        pull(i) %>% 
+        acf(plot = FALSE)
+      
+      purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
+    }) |> setNames(colnames(tab_afun)[-1])
   }
   
-  Qrep = zoo::na.approx(tab[[2]], maxgap = nobserv)
+  tabres = tab |> 
+    mutate(across(2:ncol(tab), ~zoo::na.approx(tab[[cur_column()]], maxgap = nobserv[cur_column()]))) |> 
+    setNames(colnames(hdata))
   
   message(crayon::white$bold('grwat:'), ' filled ', 
-          sum(is.na(tab[[2]])) - sum(is.na(Qrep)), ' observations using ', nobserv, ' days window')
+          sum(complete.cases(tabres)) - sum(complete.cases(tab)), 
+          ' observations using ', paste(nobserv, collapse = '.'), ' days window for each variable')
   
-  tab = tab %>% 
-    mutate(Q = Qrep) %>% 
-    setNames(names(hdata))
-  
-  return(tab)
+  return(tabres)
   
 }
 

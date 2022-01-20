@@ -402,7 +402,7 @@ namespace grwat {
 
             }
 
-            std::cout << year.second.first << ' ' << iy[ng] << std::endl;
+//            std::cout << year.second.first << ' ' << iy[ng] << std::endl;
 
             ng++; // number of years
         }
@@ -416,7 +416,11 @@ namespace grwat {
                                             next(Qin.begin(), ilast),
                                             [](auto q){ return isnan(q); });
             YGaps[i] = NumGapsY[year.first] > 0;
+
+//            std::cout << year.first << ' ' << NumGapsY[year.first] << ' ' << YGaps[i] << std::endl;
+
         }
+
 
 //        cout << endl <<  "YEAR LIMITS:" << endl;
 //        for (auto y: years)
@@ -482,6 +486,8 @@ namespace grwat {
 
         double dQabs = 0.0, dQgr = 0.0, dQgr1 = 0.0, dQgr2 = 0.0, dQgr2abs = 0.0, Qgrlast = 0.0, Qgrlast1 = 0;
         int nlast = 0;
+
+        //return;
 
         for (auto i = 0; i < nyears; ++i) { // main cycle along water-resource years
 
@@ -609,6 +615,7 @@ namespace grwat {
                 }
                 k++;
             }
+
 //            std::cout << "Qgr interpolated" << std::endl;
 
             // FLOODS AND THAWS SEPARATION
@@ -675,6 +682,8 @@ namespace grwat {
             bool minus_found = false;
 //            std::cout << "Rakohod " << nmax-2 << " " << startPol[i] << std::endl;
 
+
+
             for (auto p = nmax-2; p > startPol[i]; --p) {
                 int FlexPrev = start-1;
                 if (p < Bend1) {
@@ -686,6 +695,7 @@ namespace grwat {
                             }
                         }
                     }
+
                     if (Flex1 >= start) {
 
 //                        std::cout << "start = " << start << std::endl;
@@ -702,6 +712,8 @@ namespace grwat {
                         } // 611
 
 
+
+
 //                        std::cout << "Flexprev = " << FlexPrev << std::endl;
 
 
@@ -716,22 +728,27 @@ namespace grwat {
                         // Frosts
                         for (auto pp = LocMax1 - HalfStZ; pp < Flex1; ++pp) {
                             if (FlagsMinusTemp[pp]) {
-                                startPol[i] = Flex1;
+
+//                                startPol[i] = Flex1;
+
                                 auto z = -log(Qin[Flex1] / Qin[LocMax1]) / (Flex1 - LocMax1);
+
                                 Qo = Qin[LocMax1] / exp(-z * LocMax1);
 
                                 for (auto qq = start; qq < Flex1; ++qq) {
-                                    Qthaw[qq] = Qin[qq] - Qgr[qq];
+                                        Qthaw[qq] = 0; //Qin[qq] - Qgr[qq];
                                 }
-
-                                for (auto qq = Flex1; qq < nmax*2; ++qq) {
-                                    if ((Qo * exp(-z * qq)) <= Qgr[qq]) {
-                                        break;
-                                    }
-                                    Qthaw[qq] = Qo * exp(-z * qq) - Qgr[qq];
-                                }
-                                minus_found = true;
-                                break;
+//
+//
+//
+//                                for (auto qq = Flex1; qq < (start + 2 * (nmax-start)); ++qq) {
+//                                    if ((Qo * exp(-z * qq)) <= Qgr[qq]) {
+//                                        break;
+//                                    }
+//                                    Qthaw[qq] = Qo * exp(-z * qq) - Qgr[qq];
+//                                }
+//                                minus_found = true;
+//                                break;
                              }
                         }
 
@@ -742,6 +759,8 @@ namespace grwat {
                 if (minus_found)
                     break;
             }
+
+            continue;
 
             if (!minus_found) { // 656
 //                std::cout << "Search for upwards pavodks " << std::endl;
