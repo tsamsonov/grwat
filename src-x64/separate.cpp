@@ -4,37 +4,37 @@ using namespace Rcpp;
 
 grwat::parameters set_params(List params) {
   grwat::parameters p;
-    p.mome = params["mome"];
-    p.grad = params["grad"];
-    p.grad1 = params["grad1"];
-    p.kdQgr1 = params["kdQgr1"];
-    p.polmon1 = params["polmon1"];
-    p.polmon2 = params["polmon2"];
-    p.polkol1 = params["polkol1"];
-    p.polkol2 = params["polkol2"];
-    p.polkol3 = params["polkol3"];
-    p.polgrad1 = params["polgrad1"];
-    p.polgrad2 = params["polgrad2"];
-    p.prodspada = params["prodspada"];
-    p.nPav = params["nPav"];
-    p.nZam = params["nZam"];
-    p.nWin = params["nWin"];
-    p.Pcr = params["Pcr"];
-    p.Tcr1 = params["Tcr1"];
-    p.Tcr2 = params["Tcr2"];
-    p.Tzam = params["Tzam"];
-    p.Twin = params["Twin"];
-    p.SignDelta = params["SignDelta"];
-    p.SignDelta1 = params["SignDelta1"];
-    p.PavRate = params["PavRate"];
-    p.FlagGaps = params["FlagGaps"];
-    p.InterpolStep = params["InterpolStep"];
+    p.mome = params["winmon"];
+    p.grad = params["grad1"];
+    p.grad1 = params["grad2"];
+    p.kdQgr1 = params["gratio"];
+    p.polmon1 = params["ftmon1"];
+    p.polmon2 = params["ftmon2"];
+    p.polkol1 = params["ftrisedays1"];
+    p.polkol2 = params["ftrisedays2"];
+    p.polkol3 = params["ftdays"];
+    p.polgrad1 = params["ftrise"];
+    p.polgrad2 = params["ftratio"];
+    p.prodspada = params["ftrecdays"];
+    p.nPav = params["precdays"];
+    p.nZam = params["frostdays"];
+    p.nWin = params["windays"];
+    p.Pcr = params["floodprec"];
+    p.Tcr1 = params["floodtemp"];
+    p.Tcr2 = params["snowtemp"];
+    p.Tzam = params["frosttemp"];
+    p.Twin = params["wintemp"];
+    p.SignDelta = params["signratio1"];
+    p.SignDelta1 = params["signratio2"];
+    p.PavRate = params["floodratio"];
+    p.FlagGaps = NA_REAL;
+    p.InterpolStep = params["gaplen"];
     p.gradabs = params["gradabs"];
-    p.ModeMountain = params["ModeMountain"];
-    p.pgrad = params["pgrad"];
-    p.polkolMount1 = params["polkolMount1"];
-    p.polkolMount2 = params["polkolMount2"];
-    p.polgradMount = params["polgradMount"];
+    p.ModeMountain = params["mntmode"];
+    p.pgrad = params["mntgrad"];
+    p.polkolMount1 = params["mntavgdays"];
+    p.polkolMount2 = params["mntratiodays"];
+    p.polgradMount = params["mntratio"];
   return p;
 }
 
@@ -71,7 +71,7 @@ std::vector<double> get_baseflow_cpp(const std::vector<double> &Qin,
 
 // [[Rcpp::export]]
 DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon, const std::vector<int> &Day,
-                       const std::vector<double> &Qin, const std::vector<double> &Tin, const std::vector<double> &Pin, List params, int niter, double alpha) {
+                       const std::vector<double> &Qin, const std::vector<double> &Tin, const std::vector<double> &Pin, List params) {
   
   auto n = Qin.size();
   std::vector<double> Qbase(n, 0);
@@ -80,11 +80,12 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
   std::vector<double> Qrain(n, 0);
   std::vector<double> Qthaw(n, 0);
   std::vector<double> Qpb(n, 0);
-  std::vector<int> Qtype(n, 0);
+  std::vector<int> Type(n, 0);
+  std::vector<int> Hyear(n, 0);
   
   auto p = set_params(params);
   
-  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Qtype, p, niter, alpha);
+  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Type, Hyear, p);
   
   DataFrame df = DataFrame::create(Named("Qbase") = Qbase,
                                    Named("Quick") = Quick,
@@ -92,7 +93,8 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
                                    Named("Qrain") = Qrain, 
                                    Named("Qthaw") = Qthaw,
                                    Named("Qpb") = Qpb,
-                                   Named("Qtype") = Qtype);
+                                   Named("Type") = Type,
+                                   Named("Year") = Hyear);
   
   return df;
 }
