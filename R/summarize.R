@@ -110,5 +110,6 @@ gr_summarize <- function(tab) {
               CvWin = sd(Q[Type == 2], na.rm = TRUE) / mean(Q[Type == 2], na.rm = TRUE),
               CvSum = sd(Q[Type == 1], na.rm = TRUE) / mean(Q[Type == 1], na.rm = TRUE),
               CountPavs = sum(rle(Qrain > 0)$values),
-              CountThaws = sum(rle(Qthaw > 0)$values))
+              CountThaws = sum(rle(Qthaw > 0)$values)) %>% 
+    ungroup()
 }

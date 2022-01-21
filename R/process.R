@@ -56,6 +56,11 @@ gr_get_gaps <- function(hdata) {
 #' @examples
 gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
   
+  if (!lubridate::is.Date(hdata[[1]]))
+    stop(crayon::white$bgRed$bold('grwat:'), ' the first column of data frame must have Date type')
+  
+  nms = colnames(hdata)[-1]
+  
   tab = hdata %>% 
     rename(Date = 1) %>% 
     dplyr::filter(!is.na(Date)) %>% 
@@ -63,7 +68,6 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
   
   # Calculate via autocorrelation
   if (is.null(nobserv)) {
-    
     timerep = tab %>% 
       mutate(type = if_else(complete.cases(tab[-1]), 'data', 'gap'),
              num = with(rle(type), rep(seq_along(lengths), lengths))) %>% 
@@ -83,16 +87,26 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
         acf(plot = FALSE)
       
       purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
-    }) |> setNames(colnames(tab_afun)[-1])
+    }) |> setNames(nms)
+  } else {
+    nvars = ncol(hdata)-1
+    if (length(nobserv) == 1) {
+      nobserv = as.list(rep(nobserv, nvars)) |> setNames(nms)
+    } else if (length(nobserv) == nvars) {
+      nobserv = as.list(nobserv) |> setNames(nms)
+    } else {
+      stop(crayon::white$bgRed$bold('grwat:'), ' nobserv parameter should have length 1 or ', 
+           length(df)-1, ' but ', length(nobserv), ' elements are given.')
+    }
   }
   
   tabres = tab |> 
-    mutate(across(2:ncol(tab), ~zoo::na.approx(tab[[cur_column()]], maxgap = nobserv[cur_column()]))) |> 
+    mutate(across(2:ncol(tab), ~zoo::na.approx(tab[[cur_column()]], maxgap = nobserv[cur_column()], na.rm = FALSE))) |> 
     setNames(colnames(hdata))
   
   message(crayon::white$bold('grwat:'), ' filled ', 
           sum(complete.cases(tabres)) - sum(complete.cases(tab)), 
-          ' observations using ', paste(nobserv, collapse = '.'), ' days window for each variable')
+          ' observations using ', paste(nobserv, collapse = ', '), ' days window for each variable')
   
   return(tabres)
   
