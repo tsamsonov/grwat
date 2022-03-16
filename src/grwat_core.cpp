@@ -103,13 +103,28 @@ namespace grwat {
         return Q;
     }
 
+    static vector<double> pad_vector(const std::vector<double>::iterator& p1,
+                                     const std::vector<double>::iterator& p2,
+                                     const int& padding) {
+        vector<double> Q(p1, p2); {
+            Q.insert(Q.begin(), Q.begin() + 1, Q.begin() + padding + 1);
+            Q.insert(Q.end(), Q.end() - padding - 1, Q.end() - 1);
+            std::reverse(Q.begin(), Q.begin() + padding);
+            std::reverse(Q.end() - padding, Q.end());
+        }
+        return Q;
+    }
+
+
+
     static vector<double> get_baseflow_singlepass(const vector<double>& Qin,
                                                  const double& k = 0.975,
                                                  const double& C = 0.05,
                                                  const double& alpha = -0.5,
                                                  const int& padding = 30,
                                                  basefilter method = MAXWELL) {
-        map<basefilter, std::function<double(const double&,
+        map<basefilter, std::function<double(
+                const double&,
                 const double&,
                 const double&,
                 const double&,
@@ -148,35 +163,56 @@ namespace grwat {
                 {LYNE, baseflow_lyne}
         };
 
-        auto Q = pad_vector(Qin, padding);
+        std::vector<double> baseflow(Qin);
 
-        auto n = Q.size();
-        vector<double> Qf(n, 0);    // quick flow
+        auto p1 = baseflow.begin();
+        auto p2 = baseflow.begin();
+        bool valid = true;
 
-        int delta = 1;
-        int begin = 0;
-        int end = n-1;
-        int pass = 0;
+        auto is_nan = [](double d){ return isnan(d); };
 
-        auto inside = [&](int index) {
-            return (delta > 0) ? index <= end : index >= end;
-        };
+        while (true) {
+            p1 = std::find_if_not(p2, end(baseflow), is_nan);
+            p2 = std::find_if(p1, end(baseflow), is_nan);
 
-        while (pass < passes) {
-            Qf[begin] = Q[begin];
-            auto Qbase = vector<double>(n, 0);
-            for (auto i = begin + delta; inside(i); i += delta) {
+            if (p1 != p2) {
+
+                auto Q = pad_vector(p1, p2, padding);
+
+                auto n = Q.size();
+                vector<double> Qf(n, 0);    // quick flow
+
+                int delta = 1;
+                int begin = 0;
+                int end = n-1;
+                int pass = 0;
+
+                auto inside = [&](int index) {
+                    return (delta > 0) ? index <= end : index >= end;
+                };
+
+                while (pass < passes) {
+                    Qf[begin] = Q[begin];
+                    auto Qbase = vector<double>(n, 0);
+                    for (auto i = begin + delta; inside(i); i += delta) {
 //                Qf[i] = alpha * Qf[i-delta] + 0.5 * (1 + alpha) * (Q[i] - Q[i-delta]);
-                Qf[i] = baseflow_recursive[method](Qf[i-delta], Q[i], Q[i-delta], alpha);
-                Qbase[i] = (Qf[i] > 0) ? Q[i] - Qf[i] : Q[i];
+                        Qf[i] = baseflow_recursive[method](Qf[i-delta], Q[i], Q[i-delta], alpha);
+                        Qbase[i] = (Qf[i] > 0) ? Q[i] - Qf[i] : Q[i];
+                    }
+                    std::swap(begin, end);
+                    delta = -delta;
+                    Q = Qbase;
+                    pass++;
+                }
+
+                std::copy(Q.begin() + padding, Q.end() - padding, p1);
+
+            } else {
+                break;
             }
-            std::swap(begin, end);
-            delta = -delta;
-            Q = Qbase;
-            pass++;
         }
 
-        return vector<double>(Q.begin() + padding, Q.end() - padding);
+        return baseflow;
     }
 
     static void jitter_parameters(parameters &p,
@@ -492,10 +528,13 @@ namespace grwat {
 
                     dQ = 100 * abs(Qin[n - 1] - Qin[n]) / Qin[n - 1];
                     dQabs = abs(Qin[n - 1] - Qin[n]);
-                    dQgr = -100 * (Qgrlast - Qin[n]) / Qgrlast;
-                    dQgr1 = -100 * (Qgrlast1 - Qin[n]) / Qgrlast1;
-                    dQgr2 = abs(100 * (Qgrlast - Qin[n]) / ((n - nlast + 1) * Qgrlast));
-                    dQgr2abs = abs((Qgrlast - Qin[n]) / (n - nlast + 1));
+//                    dQgr = -100 * (Qgrlast - Qin[n]) / Qgrlast;
+//                    dQgr1 = -100 * (Qgrlast1 - Qin[n]) / Qgrlast1;
+
+                    dQgr = 100 * abs(Qgrlast - Qin[n]) / Qgrlast;
+                    dQgr1 = 100 * abs(Qgrlast1 - Qin[n]) / Qgrlast1;
+                    dQgr2 = 100 * abs(Qgrlast - Qin[n]) / ((n - nlast + 1) * Qgrlast);
+                    dQgr2abs = abs(Qgrlast - Qin[n]) / (n - nlast + 1);
 
                     if (Qin[n] > Qgrlast or n > (nlast + 20)) {
                         auto con1 = ((n - nmax) > par.prodspada) and
@@ -617,14 +656,17 @@ namespace grwat {
                 }
             }
 
-            startPol[i] = start;
+
+            startPol[i] = start; // initial freshet starting day before thaws are checked
             LocMax1 = start-1;
             Flex1 = start-1;
             Bend1 = nmax;
             bool minus_found = false;
 
+            // search for upwards thaws
+
             for (auto p = nmax-2; p > startPol[i]; --p) {
-                int FlexPrev = start-1;
+                int FlexPrev = start;
                 if (p < Bend1) {
                     if ((deltaQ[p] <= -Qin[nmax] * par.SignDelta) or ((deltaQ[p] + deltaQ[p-1]) <= -Qin[nmax] * par.SignDelta)) {
                         for (auto pp = p; pp < nmax-2; ++pp) {
@@ -646,7 +688,7 @@ namespace grwat {
                             }
                         } // 611
 
-                        if (FlexPrev >= start) {
+                        if (FlexPrev > start) {
                             LocMax1 = std::distance(Qin.begin() + FlexPrev, max_element(Qin.begin() + FlexPrev, Qin.begin() + Flex1)) + FlexPrev - 1;
                         } else {
                             LocMax1 = std::distance(Qin.begin() + start, max_element(Qin.begin() + start, Qin.begin() + Flex1)) + start;
@@ -667,10 +709,13 @@ namespace grwat {
                                 }
 
                                 for (auto qq = Flex1; qq < (start + 2 * (nmax-start)); ++qq) {
-                                    if ((Qo * exp(-z * qq)) <= Qgr[qq]) {
+
+                                    if (auto qval = Qo * exp(-z * qq); qval <= Qgr[qq]) {
+                                        Qthaw[qq] = qval - Qgr[qq];
+                                    } else {
                                         break;
                                     }
-                                    Qthaw[qq] = Qo * exp(-z * qq) - Qgr[qq];
+
                                 }
                                 minus_found = true;
                                 break;
@@ -685,7 +730,9 @@ namespace grwat {
                     break;
             }
 
-            // Search for upwards pavodks
+            // search for upwards floods
+
+            bool plus_found = false;
 
             if (!minus_found) { // 656
 
@@ -706,26 +753,40 @@ namespace grwat {
                         for (auto qq = Bend1; qq < Flex1; ++qq) {
                             Qpav[qq] = Qin[qq] - (afunc * qq + bfunc);
                         }
+
+                        plus_found = true;
                     }
                 }
             }
 
+            // if this peak is the first seasonal freshet
+
+            auto nmax2 = (plus_found or minus_found) ? nmax : LocMax1;
+            auto nmax2_bend = polend[i];
+
+            // Search for downward floods
             Flex2 = start-1;
             Bend2 = start-1;
 
-            for (auto p = nmax; p < polend[i] - 1; ++p) {
+            bool peaks_found = false;
+            for (auto p = nmax2; p < polend[i] - 1; ++p) {
                 if ((p > Bend2) and
-                  ((deltaQ[p] >= Qin[nmax] * par.SignDelta) or ((deltaQ[p] + deltaQ[p + 1]) >= Qin[nmax] * par.SignDelta))) {
-                    for (auto pp = p + 1; pp > nmax; --pp) {
+                  ((deltaQ[p] >= Qin[nmax2] * par.SignDelta) or ((deltaQ[p] + deltaQ[p + 1]) >= Qin[nmax2] * par.SignDelta))) {
+                    for (auto pp = p + 1; pp > nmax2; --pp) {
                         if (deltaQ[pp] < 0) {
                             Flex2 = pp + 1;
                             break;
                         }
                     }
 
+                    bool is_flood = false;
+                    bool is_peak = false;
                     for (auto pp = Flex2 + 1; pp < polend[i]; ++pp) {
                         if (((Qin[pp] < Qin[Flex2]) and (std::min(deltaQ[pp], deltaQ[pp - 1]) >= (Qin[pp] - Qin[Flex2]) / (pp - Flex2))) or (pp == polend[i])) {
                             Bend2 = pp;
+                            is_peak = true;
+                            peaks_found = true;
+
                             for (auto ppp = Bend2 - HalfSt; ppp > Flex2 - 2*HalfSt; --ppp) {
                                 if (FlagsPcr[ppp]) {
                                     auto z = -log(Qin[Bend2] / Qin[Flex2]) / (Bend2 - Flex2);
@@ -733,11 +794,68 @@ namespace grwat {
                                     for (auto qq = Flex2; qq < Bend2; ++qq) {
                                         Qpav[qq] = Qin[qq] - Qo * exp(-z * qq);
                                     }
+
+                                    is_flood = true;
                                 }
                             }
+
+
                         }
                     }
+
+                    if (is_peak and !is_flood) {
+                        nmax2 = Flex2 + distance(Qin.begin() + Flex2, max_element(Qin.begin() + Flex2, Qin.begin() + Bend2));
+                        nmax2_bend = Bend2;
+                    }
                 }
+            }
+
+            auto true_polend = polend[i];
+
+//             least squares freshet flood decay
+            if (peaks_found) {
+                auto dx = nmax2_bend - nmax2;
+
+                double xsum, x2sum, qsum, qxsum = 0;
+                double a, b = 1;
+                for (auto x = 0; x < dx; x++) {
+                    xsum += x;
+                    x2sum += x * x;
+                    qsum += log(Qin[nmax2 + x] / Qin[nmax2]);
+                    qxsum += x * log(Qin[nmax2 + x] / Qin[nmax2]);
+                }
+
+//                auto B = (dx * qxsum - xsum * qsum) / (dx * x2sum - xsum * xsum);
+//                a = exp((qsum - B * xsum) / dx);
+//                b = exp(B);
+
+                b = -(dx * qxsum - xsum * qsum) / (dx * x2sum - xsum * xsum);
+                a = exp( (x2sum * qsum - xsum * qxsum) / (dx * x2sum - xsum * xsum) );
+
+                bool is_endpol = false;
+
+                cout << Year[start] << ' ' << dx << " (" << a << ", " << b << "): ";
+                std::cout.precision(2);
+
+                for (auto x = nmax2_bend; x < polend[i]; x++) {
+                    auto q = Qin[nmax2] * a * exp(b * (x - nmax2));
+
+//                    cout << Qin[x] << " - " << q << ' ';
+
+                    q = (q >= Qin[x] or q <= Qgr[x]) ? 0 : q;
+
+//                    cout << q << ' ';
+
+                    if (q == 0 and !is_endpol) {
+                        is_endpol = true;
+                        true_polend = x;
+                    }
+
+                    Qpav[x] = Qin[x] - max(Qgr[x], q);
+                }
+
+//                cout << endl << endl;
+
             }
 
             if (par.ModeMountain) {
@@ -793,6 +911,8 @@ namespace grwat {
                 Qpol[k] = Qin[k] - Qgr[k] - Qthaw[k] - Qpav[k];
                 Quick[k] = Qin[k] - Qgr[k];
             }
+
+//            polend[i] = true_polend;
 
             std::fill(Type.begin() + start, Type.begin() + polend[i], 0);
             std::fill(Type.begin() + polend[i], Type.begin() + SummerEnd[i], 1);
