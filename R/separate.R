@@ -28,6 +28,49 @@ gr_check_data <- function(df) {
     stop(crayon::white$bgRed$bold('grwat:'), ' there are negative values in precipitation (4th) column, please fix the data before proceeding')
 }
 
+#' Check the correctness of parameters list for separating
+#'
+#' @param params `list` of separation parameters, as returned by [grwat::gr_get_params()] function
+#'
+#' @return stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prins the message that everything is OK
+#' @export
+#'
+#' @examples 
+gr_check_params <- function(params) {
+  
+  template = gr_get_params()
+  
+  d = setdiff(names(params), names(template))
+  if (length(d) > 0) {
+    stop(crayon::white$bgRed$bold('grwat:'), ' ',
+         crayon::white$italic(paste(d, collapse = ',')), 
+         ' parameter(s) not known. Please use ', crayon::cyan$italic('gr_get_params()'), ' result as a template.')
+  }
+  
+  d = setdiff(names(template), names(params))
+  if (length(d) > 0) {
+    stop(crayon::white$bgRed$bold('grwat:'), ' ',
+         crayon::white$italic(paste(d, collapse = ',')), 
+         ' parameter(s) needed. Please use ', crayon::cyan$italic('gr_get_params()'), ' result as a template.')
+  }
+  
+  d = intersect(names(template), names(params))
+  types1 = sapply(params[d], class)
+  types2 = sapply(template[d], class)
+  
+  td = which(types1 != types2)
+  if(length(td) > 0) {
+    stop(crayon::white$bgRed$bold('grwat:'), ' ',
+         crayon::white$italic(paste(d[td], collapse = ',')), 
+         ' parameter(s) must be of ',
+         crayon::cyan$italic(paste(types2[td], collapse = ',')), 
+         ' type(s) ')
+  }
+  
+  message(crayon::white$bold('grwat: '), ' parameters list and types are OK')
+    
+}
+
 #' Advanced hydrograph separation
 #' 
 #' Separates the hydrograph into genetic components: groundwater, thaw, flood and seasonal (freshet) flood.
@@ -58,6 +101,8 @@ gr_check_data <- function(df) {
 gr_separate <- function(df, params = gr_get_params()) {
   
   gr_check_data(df)
+  
+  gr_check_params(params)
   
   df = df %>% 
     rename(Date = 1) %>% 
