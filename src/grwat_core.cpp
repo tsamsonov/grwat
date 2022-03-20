@@ -508,6 +508,8 @@ namespace grwat {
 
             // position of the maximum discharge inside year
             auto nmax = start + distance(Qin.begin() + start, max_element(Qin.begin() + start, Qin.begin() + start + 2*par.prodspada));
+            cout << "NMAX: " << Day[nmax] << '.' << Mon[nmax] << endl;
+
             int ngrpor = 0;
 
             // GROUNDWATER DISCHARGE
@@ -528,6 +530,7 @@ namespace grwat {
 
                     dQ = 100 * abs(Qin[n - 1] - Qin[n]) / Qin[n - 1];
                     dQabs = abs(Qin[n - 1] - Qin[n]);
+
 //                    dQgr = -100 * (Qgrlast - Qin[n]) / Qgrlast;
 //                    dQgr1 = -100 * (Qgrlast1 - Qin[n]) / Qgrlast1;
 
@@ -555,36 +558,40 @@ namespace grwat {
                     if (n > nmax)
                         ngrpor++;
 
-                    if (ngrpor == 1)
+                    if (ngrpor == 1) {
                         polend[i] = n;
+                        cout << "POLEND: " << Day[polend[i]] << '.' << Mon[polend[i]] << endl;
+                    }
 
                     Qgrlast = Qin[n];
                     nlast = n;
                 }
             }
 
-                // 508: Linear interpolation of Qgr to zero (GRWAT)
-//                for (int K = start; K < end; ++K) {
-//                    if (Qgr[K] < 0) { // GRWAT
-//                        for (int kk = K; kk < end; ++kk) {
-//                            if (Qgr[kk] >= 0) {
-//                                Qgr[K] = Qgr[K - 1] + (Qgr[kk] - Qgr[K - 1]) / (kk - K + 2);
-//                                break;
-//                            }
+
+
+            // 508: Linear interpolation of Qgr (GRWAT)
+//            for (int K = start; K < end; ++K) {
+//                if (Qgr[K] < 0) { // GRWAT
+//                    for (int kk = K; kk < end; ++kk) {
+//                        if (Qgr[kk] >= 0) {
+//                            Qgr[K] = Qgr[K - 1] + (Qgr[kk] - Qgr[K - 1]) / (kk - K + 2);
+//                            break;
 //                        }
-//                        dQ = 100 * abs(Qin[K - 1] - Qin[K]) / Qin[K - 1];
-//
-//                        auto con1 = Qgr[K] > Qin[K];
-//                        auto con2 = dQ > (20 * par.grad);
-//                        auto con3 = abs(Qin[K + 1] - Qin[K - 1]) < abs(Qin[K + 1] - Qin[K]);
-//
-//                        if (con1 and not (con2 and con3))
-//                            Qgr[K] = Qin[K];
 //                    }
+//                    dQ = 100 * abs(Qin[K - 1] - Qin[K]) / Qin[K - 1];
 //
-//                Qygr[i] = Qygr[i] + Qgr[K] / ny;
-//                Qy[i] = Qy[i] + Qin[K] / ny;
+//                    auto con1 = Qgr[K] > Qin[K];
+//                    auto con2 = dQ > (20 * par.grad);
+//                    auto con3 = abs(Qin[K + 1] - Qin[K - 1]) < abs(Qin[K + 1] - Qin[K]);
+//
+//                    if (con1 and not (con2 and con3))
+//                        Qgr[K] = Qin[K];
 //                }
+//
+////            Qygr[i] = Qygr[i] + Qgr[K] / ny;
+////            Qy[i] = Qy[i] + Qin[K] / ny;
+//            }
 
             // 508: Smoothing of Qgr (NEW)
 
@@ -661,6 +668,7 @@ namespace grwat {
             LocMax1 = start-1;
             Flex1 = start-1;
             Bend1 = nmax;
+
             bool minus_found = false;
 
             // search for upwards thaws
@@ -761,7 +769,7 @@ namespace grwat {
 
             // if this peak is the first seasonal freshet
 
-            auto nmax2 = (plus_found or minus_found) ? nmax : LocMax1;
+            auto nmax2 = nmax; // (plus_found or minus_found) ? nmax : LocMax1; TODO: repair true maximum
             auto nmax2_bend = polend[i];
 
             // Search for downward floods
@@ -769,12 +777,14 @@ namespace grwat {
             Bend2 = start-1;
 
             bool peaks_found = false;
+
             for (auto p = nmax2; p < polend[i] - 1; ++p) {
                 if ((p > Bend2) and
                   ((deltaQ[p] >= Qin[nmax2] * par.SignDelta) or ((deltaQ[p] + deltaQ[p + 1]) >= Qin[nmax2] * par.SignDelta))) {
                     for (auto pp = p + 1; pp > nmax2; --pp) {
                         if (deltaQ[pp] < 0) {
                             Flex2 = pp + 1;
+                            cout << "FLEX: " << Day[Flex2] << '-' << Mon[Flex2] << endl;
                             break;
                         }
                     }
@@ -782,24 +792,39 @@ namespace grwat {
                     bool is_flood = false;
                     bool is_peak = false;
                     for (auto pp = Flex2 + 1; pp < polend[i]; ++pp) {
-                        if (((Qin[pp] < Qin[Flex2]) and (std::min(deltaQ[pp], deltaQ[pp - 1]) >= (Qin[pp] - Qin[Flex2]) / (pp - Flex2))) or (pp == polend[i])) {
+                        if (((Qin[pp] < Qin[Flex2])
+                            and  (/*std::min(deltaQ[pp], deltaQ[pp - 1]) */ deltaQ[pp] >= (Qin[pp] - Qin[Flex2]) / (pp - Flex2)))
+                            or (pp == polend[i])) {
                             Bend2 = pp;
-                            is_peak = true;
-                            peaks_found = true;
+
+                            cout << "BEND: " << Day[Bend2] << '-' << Mon[Bend2] << endl;
 
                             for (auto ppp = Bend2 - HalfSt; ppp > Flex2 - 2*HalfSt; --ppp) {
                                 if (FlagsPcr[ppp]) {
+
+                                    cout << "FLOOD: " << Day[Flex2] << '.' << Mon[Flex2] << " -> " << Day[Bend2] << '.' << Mon[Bend2] << endl;
+
                                     auto z = -log(Qin[Bend2] / Qin[Flex2]) / (Bend2 - Flex2);
                                     Qo = Qin[Flex2] / exp(-z * Flex2);
                                     for (auto qq = Flex2; qq < Bend2; ++qq) {
                                         Qpav[qq] = Qin[qq] - Qo * exp(-z * qq);
+                                        if (Qpav[qq] < 0) {
+                                            Qpav[qq] = 0;
+                                            break;
+                                        }
+
                                     }
 
                                     is_flood = true;
+                                    is_peak = true;
+                                    peaks_found = true;
+
+                                    p = Bend2; // to promote p cycle after the peak
+                                    pp = polend[i]; // to break the pp cycle
+
+                                    break;
                                 }
                             }
-
-
                         }
                     }
 
@@ -834,17 +859,26 @@ namespace grwat {
 
                 bool is_endpol = false;
 
-                cout << Year[start] << ' ' << dx << " (" << a << ", " << b << "): ";
+                cout << Year[nmax2] << "." << Mon[nmax2] << "." << Day[nmax2] << " -> "
+                     << Year[nmax2_bend] << "." << Mon[nmax2_bend] << "." << Day[nmax2_bend] << " -> "
+                     << Year[polend[i]] << "." << Mon[polend[i]] << "." << Day[polend[i]]
+                     << " (" << a << ", " << b << "): " << endl;
+
                 std::cout.precision(2);
+
+                bool no_freshet = false;
 
                 for (auto x = nmax2_bend; x < polend[i]; x++) {
                     auto q = Qin[nmax2] * a * exp(b * (x - nmax2));
 
-//                    cout << Qin[x] << " - " << q << ' ';
+                    cout << Qin[x] << " - " << q << ' ';
 
-                    q = (q >= Qin[x] or q <= Qgr[x]) ? 0 : q;
+                    if (q <= Qgr[x] or q >= Qin[x])
+                        no_freshet = true;
 
-//                    cout << q << ' ';
+                    q = no_freshet ? 0 : q;
+
+                    cout << q << ' ';
 
                     if (q == 0 and !is_endpol) {
                         is_endpol = true;
@@ -854,7 +888,7 @@ namespace grwat {
                     Qpav[x] = Qin[x] - max(Qgr[x], q);
                 }
 
-//                cout << endl << endl;
+                cout << endl << endl;
 
             }
 
