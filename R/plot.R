@@ -95,11 +95,15 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FAL
       # geom_line(aes(group = Runtype), size = 0.1, color = 'black') +
       ggplot2::geom_vline(xintercept = datestart-1, color = "black", size=0.3) +
       ggplot2::geom_vline(xintercept = datepolend+1, color = "black", size=0.3) +
-      ggplot2::geom_label(aes(x = datestart, y = max.runoff, hjust = 1,
-                              label = format(datestart, format="%d-%m")),
+      ggplot2::geom_label(data = data.frame(x = datestart, 
+                                            y = 0.9 * max.runoff, 
+                                            text = format(datestart, format="%d-%m")),
+                          mapping = aes(x, y, label = text, hjust = 1),
                           size = 3, fill = "white", label.padding = unit(0.15, "lines")) +
-      ggplot2::geom_label(aes(x = datepolend, y = max.runoff, hjust = 0,
-                              label = format(datepolend, format="%d-%m")), 
+      ggplot2::geom_label(data = data.frame(x = datepolend, 
+                                            y = 0.9 * max.runoff, 
+                                            text = format(datepolend, format="%d-%m")),
+                          mapping = aes(x, y, label = text, hjust = 0),
                           size = 3, fill = "white", label.padding = unit(0.15, "lines")) +
       ggplot2::coord_cartesian(ylim=c(0, max.runoff), clip = 'off') +
       ggplot2::scale_fill_manual(values=c("coral2", "deepskyblue3", "darkturquoise", "bisque4"), 

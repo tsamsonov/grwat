@@ -821,7 +821,8 @@ namespace grwat {
             auto nmax2 = nmax; // (plus_found or minus_found) ? nmax : LocMax1; TODO: repair true maximum
             auto nmax2_bend = polend[i];
 
-            // Search for downward floods
+            // DOWNWARD FLOODS
+
             Flex2 = start-1;
             Bend2 = start-1;
 
@@ -940,22 +941,38 @@ namespace grwat {
 //                cout << endl << endl;
 
                 auto z = -log(Qin[nmax2_bend] / Qin[nmax2]) / (nmax2_bend - nmax2);
-                Qo = Qin[nmax2] / exp(-z * nmax2);
+//                Qo = Qin[nmax2] / exp(-z * nmax2);
+
+                Qo = Qin[nmax2];
 
                 bool no_freshet = false;
                 bool is_endpol = false;
+                bool is_endflood = false;
 
                 for (auto x = nmax2_bend; x < polend[i]; ++x) {
 
-                    auto q = Qo * exp(-z * x);
+//                    auto q = Qo * exp(-z * x);
+                    auto q = Qo * exp(-z * (x-nmax2));
 
-//                    q = (q <= Qgr[x] or q >= Qin[x]) ? 0 : q;
+                    if (is_endpol) {
+                        q = 0;
+                    } else if (is_endflood) {
+                        q = Qin[x];
+                    } else if (x > nmax2_bend) {
+                        if (q < Qgr[x]) {
+                            is_endpol = true;
+                            polend[i] = x;
+                            q = 0;
+                        }
 
-                    if (q == 0 and !is_endpol) {
-                        is_endpol = true;
-                        polend[i] = x;
+                        if (q > Qin[x]) {
+                            q = Qin[x];
+                            if (!is_endflood) {
+                                is_endflood = true;
+                            }
+                        }
                     }
-                    Qpav[x] = Qin[x] - max(Qgr[x], q);
+                    Qpav[x] = Qin[x] - q;
                 }
 
             }
