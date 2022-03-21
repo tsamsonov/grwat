@@ -2,6 +2,16 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+std::map<std::string, grwat::basefilter> baseflow_methods = {
+  {"maxwell", grwat::MAXWELL},
+  {"boughton", grwat::BOUGHTON},
+  {"jakeman", grwat::JAKEMAN},
+  {"lynehollick", grwat::LYNE},
+  {"chapman", grwat::CHAPMAN},
+  {"furey", grwat::FUREY},
+  {"kudelin", grwat::KUDELIN}
+};
+
 grwat::parameters set_params(List params) {
   grwat::parameters p;
     p.mome = params["winmon"];
@@ -35,17 +45,16 @@ grwat::parameters set_params(List params) {
     p.polkolMount1 = params["mntavgdays"];
     p.polkolMount2 = params["mntratiodays"];
     p.polgradMount = params["mntratio"];
+    p.niter = params["niter"];
+    p.a = params["a"];
+    p.k = params["k"];
+    p.C = params["C"];
+    p.aq = params["aq"];
+    p.padding = params["padding"];
+    p.passes = params["passes"];
+    p.filter = baseflow_methods[params["filter"]];
   return p;
 }
-
-std::map<std::string, grwat::basefilter> baseflow_methods = {
-  {"maxwell", grwat::MAXWELL},
-  {"boughton", grwat::BOUGHTON},
-  {"jakeman", grwat::JAKEMAN},
-  {"lynehollick", grwat::LYNE},
-  {"chapman", grwat::CHAPMAN},
-  {"furey", grwat::FUREY},
-};
 
 // [[Rcpp::export]]
 std::vector<double> get_baseflow_cpp(const std::vector<double> &Qin, 

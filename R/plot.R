@@ -75,7 +75,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FAL
     }
     
     graphdata = df %>%  
-      dplyr::filter(dplyr::between(Date, begin.date, end.date)) %>% 
+      dplyr::filter(dplyr::between(Date, begin.date-1, end.date)) %>% 
       tidyr::gather(key="Runtype", value="Runoff", 
              Qthaw, Qrain, Qseas, Qbase,
              factor_key=TRUE) %>% 
@@ -87,21 +87,21 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), pagebreak = FAL
     
     g = ggplot2::ggplot(graphdata, ggplot2::aes(x = Date, y = Runoff, fill = Runtype)) + 
       ggplot2::annotate("rect", 
-               xmin = datestart, xmax = datepolend,
+               xmin = datestart-1, xmax = datepolend+1,
                ymax = max.runoff, ymin = 0,
                fill = 'black',
                alpha = 0.1) +
       ggplot2::geom_area(size = 0.1, color = 'black') + 
       # geom_line(aes(group = Runtype), size = 0.1, color = 'black') +
-      ggplot2::geom_vline(xintercept = datestart, color = "black", size=0.3) +
-      ggplot2::geom_vline(xintercept = datepolend, color = "black", size=0.3) +
-      ggplot2::annotate("text", label = format(datestart, format="%d-%m"),
-               x = datestart + 20, y = 0.95 * max.runoff,
-               size = 3, colour = "black") +
-      ggplot2::annotate("text", label = format(datepolend, format="%d-%m"), 
-               x = datepolend + 20, y = 0.95 * max.runoff, 
-               size = 3, colour = "black") +
-      ggplot2::coord_cartesian(ylim=c(0, max.runoff)) +
+      ggplot2::geom_vline(xintercept = datestart-1, color = "black", size=0.3) +
+      ggplot2::geom_vline(xintercept = datepolend+1, color = "black", size=0.3) +
+      ggplot2::geom_label(aes(x = datestart, y = max.runoff, hjust = 1,
+                              label = format(datestart, format="%d-%m")),
+                          size = 3, fill = "white", label.padding = unit(0.15, "lines")) +
+      ggplot2::geom_label(aes(x = datepolend, y = max.runoff, hjust = 0,
+                              label = format(datepolend, format="%d-%m")), 
+                          size = 3, fill = "white", label.padding = unit(0.15, "lines")) +
+      ggplot2::coord_cartesian(ylim=c(0, max.runoff), clip = 'off') +
       ggplot2::scale_fill_manual(values=c("coral2", "deepskyblue3", "darkturquoise", "bisque4"), 
                         name = paste0(labs$discharge.type, ':')) +
       ggplot2::scale_x_date(date_breaks = "1 month", date_labels = "%b") +
