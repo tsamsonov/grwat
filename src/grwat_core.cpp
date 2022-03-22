@@ -31,7 +31,8 @@ namespace grwat {
         int polkol3 = 25;
         double polgrad1 = 10;
         double polgrad2 = 6;
-        int prodspada = 90;
+        int prodspada = 20;
+        double polcomp = 2.0;
         int nPav = 5;
         int nZam = 5;
         int nWin = 5;
@@ -511,7 +512,7 @@ namespace grwat {
 
             // position of the maximum discharge inside year
             auto nmax = start + distance(Qin.begin() + start, max_element(Qin.begin() + start, Qin.begin() + start + 2*par.prodspada));
-            cout << "NMAX: " << Day[nmax] << '.' << Mon[nmax] << endl;
+//            cout << "NMAX: " << Day[nmax] << '.' << Mon[nmax] << endl;
 
             int ngrpor = 0;
 
@@ -563,7 +564,7 @@ namespace grwat {
 
                     if (ngrpor == 1) {
                         polend[i] = n;
-                        cout << "POLEND: " << Day[polend[i]] << '.' << Mon[polend[i]] << endl;
+//                        cout << "POLEND: " << Day[polend[i]] << '.' << Mon[polend[i]] << endl;
                     }
 
                     Qgrlast = Qin[n];
@@ -663,7 +664,7 @@ namespace grwat {
                     maxstart = s;
                     maxend = e;
 
-                    cout << "CORRECTED FRESHET DATES" << endl;
+//                    cout << "CORRECTED FRESHET DATES" << endl;
                 }
 
                 s = e;
@@ -841,7 +842,7 @@ namespace grwat {
                                 first_iter = false;
                             }
 
-                            cout << "FLEX: " << Day[Flex2] << '-' << Mon[Flex2] << endl;
+//                            cout << "FLEX: " << Day[Flex2] << '-' << Mon[Flex2] << endl;
                             break;
                         }
                     }
@@ -854,14 +855,14 @@ namespace grwat {
                             or (pp == polend[i])) {
                             Bend2 = pp;
 
-                            cout << "BEND: " << Day[Bend2] << '-' << Mon[Bend2] << endl;
+//                            cout << "BEND: " << Day[Bend2] << '-' << Mon[Bend2] << endl;
 
                             is_peak = true;
 
                             for (auto ppp = Bend2 - HalfSt; ppp > Flex2 - 2*HalfSt; --ppp) {
                                 if (FlagsPcr[ppp]) {
 
-                                    cout << "FLOOD: " << Day[Flex2] << '.' << Mon[Flex2] << " -> " << Day[Bend2] << '.' << Mon[Bend2] << endl;
+//                                    cout << "FLOOD: " << Day[Flex2] << '.' << Mon[Flex2] << " -> " << Day[Bend2] << '.' << Mon[Bend2] << endl;
 
                                     auto z = -log(Qin[Bend2] / Qin[Flex2]) / (Bend2 - Flex2);
                                     Qo = Qin[Flex2] / exp(-z * Flex2);
@@ -897,7 +898,7 @@ namespace grwat {
 //            auto true_polend = polend[i];
 
 //             least squares freshet flood decay
-            if (peaks_found and ((polend[i] - start) >= par.prodspada)) {
+            if (peaks_found and ((polend[i] - start) >= (par.prodspada * par.polcomp))) {
 
 //                auto dx = nmax2_bend - nmax2;
 //                double xsum, x2sum, qsum, qxsum = 0;

@@ -26,6 +26,7 @@ grwat::parameters set_params(List params) {
     p.polgrad1 = params["ftrise"];
     p.polgrad2 = params["ftratio"];
     p.prodspada = params["ftrecdays"];
+    p.polcomp = params["ftcomp"];
     p.nPav = params["precdays"];
     p.nZam = params["frostdays"];
     p.nWin = params["windays"];
