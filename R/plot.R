@@ -588,23 +588,27 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
   df.summer = chart.data %>% 
     dplyr::group_by(old_summer, summermonth) %>% 
     dplyr::tally() %>% 
+    dplyr::ungroup() %>%
     tidyr::complete(summermonth, tidyr::nesting(old_summer), fill=list(n=0)) %>%  
     dplyr::mutate(perc = 100*n/sum(n))
   
   df.winter = chart.data %>% 
     dplyr::group_by(old_winter, wintermonth) %>% 
     dplyr::tally() %>% 
+    dplyr::ungroup() %>%
     tidyr::complete(wintermonth, tidyr::nesting(old_winter), fill=list(n=0)) %>%  
     dplyr::mutate(perc = 100*n/sum(n))
   
   df.summer.all = chart.data %>% 
     dplyr::group_by(summermonth) %>% 
     dplyr::tally() %>% 
+    dplyr::ungroup() %>%
     dplyr::mutate(perc = 100*n/sum(n))
   
   df.winter.all = chart.data %>% 
     dplyr::group_by(wintermonth) %>% 
     dplyr::tally() %>% 
+    dplyr::ungroup() %>%
     dplyr::mutate(perc = 100*n/sum(n))
   
   g.summer = ggplot2::ggplot() +
