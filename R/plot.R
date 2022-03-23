@@ -409,7 +409,15 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, 
     
     is_date = FALSE
     if(prms$Unitsen[i] %in% c('Date', 'Month')){
-      d = d %>% as.Date() %>% as.integer()
+      
+      d = d %>% as.Date() 
+      year(d) <- 2000 # fake year
+      
+      if (prms$Winter[i] == 1)
+        d = replace_year(d)
+      
+      d = as.integer(d)
+      
       is_date = TRUE
     }
     
