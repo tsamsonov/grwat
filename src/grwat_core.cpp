@@ -335,28 +335,6 @@ namespace grwat {
                   vector<double>& Qthaw, vector<double>& Qpb, vector<int>& Type, vector<int>& Hyear,
                   const parameters& par) {
 
-        // detect gaps in data
-//        map<int, int> FactGapsin;
-//        int pos = 0;
-//        for (auto it = Qin.begin(); it != Qin.end(); ++it) {
-//
-//            if (isnan(*it)) {
-//
-//                int glen = 0;
-//                while (it != Qin.end()) {
-//                    if (!isnan(*it)) break;
-//                    glen++;
-//                    it++;
-//                }
-//                FactGapsin[pos] = glen;
-//                pos += glen;
-//
-//                if (it == Qin.end())
-//                    break;
-//            }
-//            pos++;
-//        }
-
         for (unsigned i = 0; i < Day.size(); i++) {
             if (Day[i] > 31 or (Day[i] > 29 and Mon[i] == 28))
                 return false;
@@ -468,19 +446,15 @@ namespace grwat {
 
                 if (separated) {
                     if (jittered)
-//                        cout << iter << " iterations" << endl;
-                    break;
+                        break;
                 } else {
                     if (!jittered) {
-//                        cout << endl << "POLFINDER: " << year.first << ", ";
                         jittered = true;
                     }
                     jitter_parameters(par_new, par, sumdonep);
                 }
 
             }
-
-//            std::cout << year.second.first << ' ' << iy[ng] << std::endl;
 
             ng++; // number of years
         }
@@ -494,12 +468,10 @@ namespace grwat {
             YGaps[i] = NumGapsY[i] > 0;
         }
 
-//        int j = 1;
         auto ny = iy.size();
         for (unsigned i = 0; i < ny; i++) {
             auto idx1 = iy[i];
             auto idx2 = i < ny-1 ? iy[i+1] : ndays;
-//            Qpol[idx1] = 1;
             std::fill(Hyear.begin() + idx1, Hyear.begin() + idx2, Year[idx1]);
         }
 
@@ -517,9 +489,6 @@ namespace grwat {
         std::vector<int> FactPlusTemp(nyears, 0); // number of thaw days
         std::vector<int> FactMinusTemp(nyears, 0); // number of thaw days
         std::vector<unsigned> startPol(nyears, 0); // number of seasonal flood begin day
-        // linear interpolation of Qgr
-//        std::vector<double> Qy(nyears, 0);
-//        std::vector<double> Qygr(nyears, 0);
         std::vector<unsigned> SummerEnd(nyears, 0);
 
         std::fill(Qgr.begin(), Qgr.end(), -1);
@@ -545,11 +514,9 @@ namespace grwat {
 
             auto start = iy[i]; //(i > 0) ? iy[i] : 0;
             auto end = (i < nyears-1) ? iy[i+1] : ndays-1;
-//            auto ny = end - start;
 
             // position of the maximum discharge inside year
             auto nmax = start + distance(Qin.begin() + start, max_element(Qin.begin() + start, Qin.begin() + start + 2*par.polcomp*par.prodspada));
-//            cout << "NMAX: " << Day[nmax] << '.' << Mon[nmax] << endl;
 
             int ngrpor = 0;
 
@@ -565,17 +532,9 @@ namespace grwat {
                     Qgrlast = Qin[n];
                     nlast = n;
                 } else {
-//                    if (par.filter == KUDELIN && !par.ModeMountain && (n == nmax)) { // TODO: replace with curved interp
-//                        Qgr[n] = 0;
-//                    }
 
                     dQ = 100 * abs(Qin[n - 1] - Qin[n]) / Qin[n - 1];
                     dQabs = abs(Qin[n - 1] - Qin[n]);
-
-//                    dQgr = -100 * (Qgrlast - Qin[n]) / Qgrlast;
-//                    dQgr1 = -100 * (Qgrlast1 - Qin[n]) / Qgrlast1;
-
-//                    dQgr = 100 * abs(Qgrlast - Qin[n]) / Qgrlast;
                     dQgr1 = 100 * abs(Qgrlast1 - Qin[n]) / Qgrlast1;
                     dQgr2 = 100 * abs(Qgrlast - Qin[n]) / ((n - nlast + 1) * Qgrlast);
                     dQgr2abs = abs(Qgrlast - Qin[n]) / (n - nlast + 1);
@@ -601,38 +560,12 @@ namespace grwat {
 
                     if (ngrpor == 1) {
                         polend[i] = n;
-//                        cout << "POLEND: " << Day[polend[i]] << '.' << Mon[polend[i]] << endl;
                     }
 
                     Qgrlast = Qin[n];
                     nlast = n;
                 }
             }
-
-
-
-            // 508: Linear interpolation of Qgr (GRWAT)
-//            for (int K = start; K < end; ++K) {
-//                if (Qgr[K] < 0) { // GRWAT
-//                    for (int kk = K; kk < end; ++kk) {
-//                        if (Qgr[kk] >= 0) {
-//                            Qgr[K] = Qgr[K - 1] + (Qgr[kk] - Qgr[K - 1]) / (kk - K + 2);
-//                            break;
-//                        }
-//                    }
-//                    dQ = 100 * abs(Qin[K - 1] - Qin[K]) / Qin[K - 1];
-//
-//                    auto con1 = Qgr[K] > Qin[K];
-//                    auto con2 = dQ > (20 * par.grad);
-//                    auto con3 = abs(Qin[K + 1] - Qin[K - 1]) < abs(Qin[K + 1] - Qin[K]);
-//
-//                    if (con1 and not (con2 and con3))
-//                        Qgr[K] = Qin[K];
-//                }
-//
-////            Qygr[i] = Qygr[i] + Qgr[K] / ny;
-////            Qy[i] = Qy[i] + Qin[K] / ny;
-//            }
 
             // 508: Smoothing of Qgr (NEW)
 
@@ -708,8 +641,6 @@ namespace grwat {
                     maxcum = cum;
                     maxstart = s;
                     maxend = e;
-
-//                    cout << "CORRECTED FRESHET DATES" << endl;
                 }
 
                 s = e;
@@ -835,8 +766,6 @@ namespace grwat {
 
             // search for upwards floods
 
-//            bool plus_found = false;
-
             if (!minus_found) { // 656
 
                 for (unsigned pp = LocMax1; pp > start; --pp) {
@@ -856,8 +785,6 @@ namespace grwat {
                         for (unsigned qq = Bend1; qq < Flex1; ++qq) {
                             Qpav[qq] = Qin[qq] - (afunc * qq + bfunc);
                         }
-
-//                        plus_found = true;
                     }
                 }
             }
@@ -886,8 +813,6 @@ namespace grwat {
                                 nmax2_bend = Flex2;
                                 first_iter = false;
                             }
-
-//                            cout << "FLEX: " << Day[Flex2] << '-' << Mon[Flex2] << endl;
                             break;
                         }
                     }
@@ -900,15 +825,10 @@ namespace grwat {
                             or (pp == polend[i])) {
                             Bend2 = pp;
 
-//                            cout << "BEND: " << Day[Bend2] << '-' << Mon[Bend2] << endl;
-
                             is_peak = true;
 
                             for (auto ppp = Bend2 - HalfSt; ppp > Flex2 - 2*HalfSt; --ppp) {
                                 if (FlagsPcr[ppp]) {
-
-//                                    cout << "FLOOD: " << Day[Flex2] << '.' << Mon[Flex2] << " -> " << Day[Bend2] << '.' << Mon[Bend2] << endl;
-
                                     auto z = -log(Qin[Bend2] / Qin[Flex2]) / (Bend2 - Flex2);
                                     Qo = Qin[Flex2] / exp(-z * Flex2);
                                     for (auto qq = Flex2; qq < Bend2; ++qq) {
@@ -917,11 +837,9 @@ namespace grwat {
                                             Qpav[qq] = 0;
                                             break;
                                         }
-
                                     }
 
                                     is_flood = true;
-
                                     peaks_found = true;
 
                                     p = Bend2; // to promote p cycle after the peak
@@ -940,64 +858,17 @@ namespace grwat {
                 }
             }
 
-//            auto true_polend = polend[i];
-
-//             least squares freshet flood decay
+            // least squares freshet flood decay
             if (peaks_found and ((polend[i] - start) >= (par.prodspada * par.polcomp))) {
 
-//                auto dx = nmax2_bend - nmax2;
-//                double xsum, x2sum, qsum, qxsum = 0;
-//                double a, b = 1;
-//                for (auto x = 0; x < dx; x++) {
-//                    xsum += x;
-//                    x2sum += x * x;
-//                    qsum += log(Qin[nmax2 + x] / Qin[nmax2]);
-//                    qxsum += x * log(Qin[nmax2 + x] / Qin[nmax2]);
-//                }
-//
-//
-//                b = -(dx * qxsum - xsum * qsum) / (dx * x2sum - xsum * xsum);
-//                a = exp( (x2sum * qsum - xsum * qxsum) / (dx * x2sum - xsum * xsum) );
-//
-//                bool is_endpol = false;
-//
-//                cout << Year[nmax2] << "." << Mon[nmax2] << "." << Day[nmax2] << " -> "
-//                     << Year[nmax2_bend] << "." << Mon[nmax2_bend] << "." << Day[nmax2_bend] << " -> "
-//                     << Year[polend[i]] << "." << Mon[polend[i]] << "." << Day[polend[i]]
-//                     << " (" << a << ", " << b << "): " << endl;
-//
-//                std::cout.precision(2);
-
-//                for (auto x = nmax2_bend+1; x < polend[i]; x++) {
-//                    auto q = Qin[nmax2] * a * exp(b * (x - nmax2));
-//
-//                    cout << Qin[x] << " - " << q << ' ';
-//
-//                    if (q <= Qgr[x] or q >= Qin[x])
-//                        no_freshet = true;
-//
-//                    if (q == 0 and !is_endpol) {
-//                        is_endpol = true;
-//                        polend[i] = x;
-//                    }
-//
-//                    Qpav[x] = Qin[x] - max(Qgr[x], q);
-//                }
-//
-//                cout << endl << endl;
-
                 auto z = -log(Qin[nmax2_bend] / Qin[nmax2]) / (nmax2_bend - nmax2);
-//                Qo = Qin[nmax2] / exp(-z * nmax2);
 
                 Qo = Qin[nmax2];
-
-//                bool no_freshet = false;
                 bool is_endpol = false;
                 bool is_endflood = false;
 
                 for (auto x = nmax2_bend; x < polend[i]; ++x) {
 
-//                    auto q = Qo * exp(-z * x);
                     auto q = Qo * exp(-z * (x-nmax2));
 
                     if (is_endpol) {
@@ -1076,8 +947,6 @@ namespace grwat {
                 Qpol[k] = Qin[k] - Qgr[k] - Qthaw[k] - Qpav[k];
                 Quick[k] = Qin[k] - Qgr[k];
             }
-
-//            polend[i] = true_polend;
 
             std::fill(Type.begin() + start, Type.begin() + polend[i], 0);
             std::fill(Type.begin() + polend[i], Type.begin() + SummerEnd[i], 1);

@@ -411,7 +411,7 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, 
     if(prms$Unitsen[i] %in% c('Date', 'Month')){
       
       d = d %>% as.Date() 
-      year(d) <- 2000 # fake year
+      lubridate::year(d) <- 2000 # fake year
       
       if (prms$Winter[i] == 1)
         d = replace_year(d)
@@ -761,7 +761,7 @@ gr_animate <- function(df, locale = 'EN') {
     mutate(Date = lubridate::make_date(Year, Month, Day),
            yDate = Date)
   
-  year(tab$yDate) <- 2000 # fake year for animations
+  lubridate::year(tab$yDate) <- 2000 # fake year for animations
   
   anim = ggplot2::ggplot(tab, mapping = ggplot2::aes(x = yDate, y = Q)) +
     ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = Q), alpha = 0.5) +
