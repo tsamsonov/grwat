@@ -3,6 +3,7 @@
 #include <random>
 #include <algorithm>
 #include <functional>
+#include <iostream>
 using namespace std;
 
 namespace grwat {
@@ -348,11 +349,12 @@ namespace grwat {
                   vector<double>& Qthaw, vector<double>& Qpb, vector<int>& Type, vector<int>& Hyear,
                   const parameters& par) {
 
+        cout << par.grad << endl;
+
         for (unsigned i = 0; i < Day.size(); i++) {
             if (Day[i] > 31 or (Day[i] > 29 and Mon[i] == 28))
                 return false;
         }
-
 
         // WATER-RESOURCE YEARS
 
@@ -668,11 +670,11 @@ namespace grwat {
                 s = e;
             }
 
-            for (auto k = start; k < maxstart; ++k)
-                Qgr[k] = Qin[k];
-
-            for (auto k = maxend; k < polend[i]; ++k)
-                Qgr[k] = Qin[k];
+//            for (auto k = start; k < maxstart; ++k)
+//                Qgr[k] = Qin[k];
+//
+//            for (auto k = maxend; k < polend[i]; ++k)
+//                Qgr[k] = Qin[k];
 
             iy[i] = maxstart;
             start = maxstart;
