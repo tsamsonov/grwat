@@ -115,8 +115,19 @@ gr_separate <- function(df, params = gr_get_params()) {
                df[[2]], df[[3]], df[[4]],
                params) %>% 
     dplyr::bind_cols(df, .) %>% 
-    dplyr::rename(Date = 1, Q = 2, Temp = 3, Prec = 4)  %>% 
-    dplyr::relocate(Temp, Prec, .after = dplyr::last_col())
+    dplyr::rename(Date = 1, Q = 2, Temp = 3, Prec = 4) %>% 
+    dplyr::relocate(Temp, Prec, .after = dplyr::last_col()) %>% 
+    dplyr::mutate(dplyr::across(3:10, ~ replace(.x, .x < 0, NA)))
+  
+  problem_years = setdiff(unique(lubridate::year(sep$Date)), unique(sep$Year))
+  if (length(problem_years) > 0)
+    warning(crayon::white$bgBlue$bold('grwat:'), ' ',
+            crayon::white$italic(paste(problem_years, collapse = ', ')),
+            ' years were not separated. Check the input data for possible errors. Use ', 
+            crayon::cyan$italic('gr_get_gaps()'), ' and ', crayon::cyan$italic('gr_fill_gaps()'), 
+            ' functions to detect and fill missing data.')
+  
+  return(sep)
 }
 
 #' Extracts baseflow for discharge
