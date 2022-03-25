@@ -159,6 +159,16 @@ gr_join_rean <- function(hdata, rean, buffer){
     days = seq_along(rean$vals.full)[flt]
     ndays = length(days)
     
+    if (ndays == 0) {
+      stop(crayon::white$bgRed$bold('grwat:'), ' no reanalysis data for hydrological series time period')
+    } else if (ndays < ndates) {
+      date_first = min(datevals[flt])
+      date_last = max(datevals[flt])
+      hdates = seq(date_first, date_last, "days")
+      ndates = length(hdates)
+      warning(crayon::white$bgBlue$bold('grwat:'), ' reanalysis data does not cover the full hydrological series time period, only common dates are kept')
+    }
+    
     # Replicate position each day
     pts_positions = sapply(pts_numbers, rep.int, times = ndays)
     pts_days = rep(days, each = npts)
@@ -181,7 +191,10 @@ gr_join_rean <- function(hdata, rean, buffer){
       dplyr::select(-1)
     
     sum_table_with_dates = hdata %>%
-      dplyr::left_join(sum_table)
+      dplyr::inner_join(sum_table)
+    
+  } else {
+    stop(crayon::white$bgRed$bold('grwat:'), ' no reanalysis data for requested location')
   }
   
   return(sum_table_with_dates)
