@@ -827,8 +827,9 @@ namespace grwat {
             Bend2 = start-1;
 
             bool peaks_found = false;
-
             bool first_iter = true;
+
+            bool early_polend = false;
 
             for (auto p = nmax2; p < polend[i] - 1; ++p) {
                 if ((p > Bend2) and
@@ -859,14 +860,26 @@ namespace grwat {
                                     auto z = -log(Qin[Bend2] / Qin[Flex2]) / (Bend2 - Flex2);
                                     Qo = Qin[Flex2]; // exp(-z * Flex2);
                                     for (auto qq = Flex2; qq < Bend2; ++qq) {
-                                        if (auto qval = Qo * exp(-z * (qq-Flex2)); qval <= Qin[qq]) {
-                                            Qpav[qq] = Qin[qq] - qval;
+                                        auto qval = Qo * exp(-z * (qq-Flex2));
+
+                                        if (qval <= Qin[qq]) {
+                                            if (qval > Qgr[qq]) {
+                                                Qpav[qq] = Qin[qq] - qval;
+                                            } else {
+                                                early_polend = true;
+                                                polend[i] = qq;
+                                                break;
+                                            }
+
                                         }
 //                                        if (Qpav[qq] < 0) {
 //                                            Qpav[qq] = 0;
 //                                            break;
 //                                        }
                                     }
+
+                                    if (early_polend)
+                                        break;
 
                                     is_flood = true;
                                     peaks_found = true;
@@ -877,8 +890,13 @@ namespace grwat {
                                     break;
                                 }
                             }
+                            if (early_polend)
+                                break;
                         }
                     }
+
+                    if (early_polend)
+                        break;
 
                     if (is_peak and !is_flood) {
                         nmax2 = Flex2 + distance(Qin.begin() + Flex2, max_element(Qin.begin() + Flex2, Qin.begin() + Bend2));
@@ -888,7 +906,7 @@ namespace grwat {
             }
 
             // least squares freshet flood decay
-            if (peaks_found and ((polend[i] - start) >= (par.prodspada * par.polcomp))) {
+            if (peaks_found and not early_polend and ((polend[i] - start) >= (par.prodspada * par.polcomp))) {
 
                 auto z = -log(Qin[nmax2_bend] / Qin[nmax2]) / (nmax2_bend - nmax2);
 
@@ -901,14 +919,14 @@ namespace grwat {
                     auto q = Qo * exp(-z * (x-nmax2));
 
                     if (is_endpol) {
-                        q = 0;
+                        q = Qgr[x]; // 0
                     } else if (is_endflood) {
                         q = Qin[x];
                     } else if (x > nmax2_bend) {
                         if (q < Qgr[x]) {
                             is_endpol = true;
                             polend[i] = x;
-                            q = 0;
+                            q = Qgr[x]; // 0
                         }
 
                         if (q > Qin[x]) {
@@ -961,11 +979,11 @@ namespace grwat {
             for (unsigned k = polend[i]; k < end; ++k) {
                 if (Qin[k] > Qgr[k]) {
                     if (k <= SummerEnd[i]) {
-                        if (k > polend[i]) {
+//                        if (k > polend[i]) {
                             Qpav[k] = Qin[k] - Qgr[k];
-                        } else {
-                            Qpav[k] = Qin[k] - Qgr[k] - Qpb[k];
-                        }
+//                        } else {
+//                            Qpav[k] = Qin[k] - Qgr[k] - Qpb[k];
+//                        }
                     } else {
                         Qthaw[k] = Qin[k] - Qgr[k];
                     }
