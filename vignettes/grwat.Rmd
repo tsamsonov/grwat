@@ -340,21 +340,13 @@ Graphical functions are based on [ggplot2](https://ggplot2.tidyverse.org) graphi
 ## Plot separation of hydrograph
 
 You can plot separations for selected years using `gr_plot_sep()` function:
-```{r, fig.width=6, fig.height=3}
+```{r, fig.width=12, fig.height=6}
 gr_plot_sep(sep, 1976) # plot single year
 gr_plot_sep(sep, c(2016, 2017)) # plot two years sequentially
 ```
 
-```{r}
-sep %>% 
-  filter(lubridate::year(Date) == 1976) %>% 
-  ggplot() +
-  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
-  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black')
-```
-
 And also multiple years on the same layout:
-```{r, fig.width=6, fig.height=4}
+```{r fig.width=12, fig.height=12}
 gr_plot_sep(sep, 1976:1979, # plot four years on the same page
             layout = matrix(c(1,2,3,4), ncol=2, byrow = T))
 ```
@@ -393,17 +385,22 @@ tests$ft # Fisher F tests to compare two variances
 
 Interannual changes are visualized using `gr_plot_vars()` function. Its syntax is similar to `gr_test_vars()` and `gr_plot_sep()`:
 
-```{r}
+```{r, fig.width=12, fig.height=6}
 gr_plot_vars(vars, Qmax) # plot one selected variable
 gr_plot_vars(vars, datestart) # plot one selected variable
 gr_plot_vars(vars, date10w1, Wpol3) # plot two variables sequentially
-gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
-                      layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 
 ```
+
+```{r, fig.width=12, fig.height=12}
+
+gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
+             layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 
+```
+
 
 You can add the results of statistical tests to the plot by specifying `tests = TRUE` in the function call. In that case the subtitle with test results are added, Theil-Sen slope and Pettitt test breaking year are drawn as solid ($p \leq 0.05$) or dashed ($p > 0.05$) lines:
 
-```{r}
+```{r, fig.width=12, fig.height=6}
 gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
              tests = TRUE) # add test information
 ```
@@ -417,7 +414,7 @@ gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
 
 Beware that in that case you should test the variables _in the same order as used for plotting_. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other.
 
-Finally, you can plot all variables by not supplying column names to `plot_variables()` function. In that case tests (if you want to plot them too) should also be calculated for all variables:
+Finally, you can plot _all variables_ by not supplying column names to `plot_variables()` function. In that case tests (if you want to plot them too) should also be calculated for all variables:
 ```{r, eval=FALSE}
 gr_plot_vars(vars, tests = TRUE)
 ```
@@ -433,10 +430,10 @@ gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy, year = 1985))
 ```
 
 Multiple plots can be combined on one page using `layout` parameter:
-```{r, fig.height=5}
-gr_plot_periods(vars, Qy, Qmax, 
+```{r, fig.width=12, fig.height=8}
+gr_plot_periods(vars, Qy, Qmax, date10w1, Wpol3,
                 tests = TRUE,
-                layout = matrix(c(1,2)))
+                layout = matrix(1:4, nrow = 2))
 ```
 
 To plot long-term changes for all variables just skip variable names in function call:
@@ -447,6 +444,20 @@ gr_plot_periods(vars, tests = TRUE)
 There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:
 ```{r, fig.height= 12, message=FALSE}
 gr_plot_minmonth(vars, year = 1985)
+```
+
+## Plot discharge parameters
+
+There is a dedicated `gr_plot_dis()` function that plot the whole time series in a convenient matrix form. Currently it supports plotting the value, seasons and components of the discharge:
+```{r, fig.width=10, fig.height=5}
+gr_plot_dis(sep, type = 'value')
+gr_plot_dis(sep, type = 'season')
+gr_plot_dis(sep, type = 'components')
+```
+
+You can also limit the range of years that will be plotted:
+```{r, fig.width=10, fig.height=2.5}
+gr_plot_dis(sep, years = 1980:1995, type = 'components')
 ```
 
 # Reports

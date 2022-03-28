@@ -27,6 +27,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,18 +41,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">grwat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/grwat.html">Get started</a>
 </li>
@@ -60,7 +56,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/tsamsonov/grwat/">
+  <a href="https://github.com/tsamsonov/grwat/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -79,63 +75,63 @@
   <div class="contents col-md-9">
 
 
-<div id="grwat" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#grwat" class="anchor"></a>grwat</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="grwat">grwat<a class="anchor" aria-label="anchor" href="#grwat"></a>
+</h1></div>
 <p>Welcome to grwat, an R package for hydrograph separation and analysis based on water level, temperature and percipitation data. It makes use of geographic data processing to spatially select temperature and precipitation data within the basin of each gauge, average these data and join them to each element in water level series. High-preformance Fortran/C++ computation is used for hydrograph processing that separates water level series into ground, seasonal, thaw, and flood discharge. Interannual and long-term characteristics of each discharge type are derived. Results are visualized in a form of high-quality reports making use of ggplot2 graphics and knitr report generation</p>
-<div id="installing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installing" class="anchor"></a>Installing</h2>
-<div id="install-devtools" class="section level3">
-<h3 class="hasAnchor">
-<a href="#install-devtools" class="anchor"></a>Install devtools</h3>
+<div class="section level2">
+<h2 id="installing">Installing<a class="anchor" aria-label="anchor" href="#installing"></a>
+</h2>
+<div class="section level3">
+<h3 id="install-devtools">Install devtools<a class="anchor" aria-label="anchor" href="#install-devtools"></a>
+</h3>
 <p>Currently the package is available from GitHub repository. To install from GitHub, you should install <code>devtools</code> package first (unless it is already installed on your machine):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="install-grwat" class="section level3">
-<h3 class="hasAnchor">
-<a href="#install-grwat" class="anchor"></a>Install grwat</h3>
-<div id="binary-r-41-only" class="section level4">
-<h4 class="hasAnchor">
-<a href="#binary-r-41-only" class="anchor"></a>Binary (R 4.1 only)</h4>
+<div class="section level3">
+<h3 id="install-grwat">Install grwat<a class="anchor" aria-label="anchor" href="#install-grwat"></a>
+</h3>
+<div class="section level4">
+<h4 id="binary-r-41-only">Binary (R 4.1 only)<a class="anchor" aria-label="anchor" href="#binary-r-41-only"></a>
+</h4>
 <p>If you have R 4.1 installed, then the easiest way to install on Windows and macOS is to use the compiled binary package.</p>
 <p>Windows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_url</a></span><span class="op">(</span><span class="st">'https://tsamsonov.github.io/grwat/build/grwat.zip'</span>, 
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_url</a></span><span class="op">(</span><span class="st">'https://tsamsonov.github.io/grwat/build/grwat.zip'</span>, 
                       build <span class="op">=</span> <span class="cn">FALSE</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>macOS:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_url</a></span><span class="op">(</span><span class="st">'https://tsamsonov.github.io/grwat/build/grwat.tgz'</span>, 
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_url</a></span><span class="op">(</span><span class="st">'https://tsamsonov.github.io/grwat/build/grwat.tgz'</span>, 
                       build <span class="op">=</span> <span class="cn">FALSE</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="from-sources" class="section level4">
-<h4 class="hasAnchor">
-<a href="#from-sources" class="anchor"></a>From sources</h4>
+<div class="section level4">
+<h4 id="from-sources">From sources<a class="anchor" aria-label="anchor" href="#from-sources"></a>
+</h4>
 <p>Since grwat contains C++ code, it needs to be compiled during the package installation.</p>
 <p><strong>Linux</strong> users should have the compiler already installed in their system.</p>
 <p><strong>macOS</strong> users have to:</p>
-<ol>
-<li>Install <a href="https://developer.apple.com/download/more/">Xcode command-line tools</a>.</li>
+<ol style="list-style-type: decimal">
+<li>Install <a href="https://developer.apple.com/download/more/" class="external-link">Xcode command-line tools</a>.</li>
 <li>Restart R session.</li>
 </ol>
 <p><strong>Windows</strong> users have to:</p>
-<ol>
-<li>Install <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>.</li>
+<ol style="list-style-type: decimal">
+<li>Install <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">Rtools</a>.</li>
 <li>Restart R session.</li>
 </ol>
 <p>If all previous steps are completed successfully, grwat package can be installed via single command:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"tsamsonov/grwat"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"tsamsonov/grwat"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>
-<div id="funding" class="section level2">
-<h2 class="hasAnchor">
-<a href="#funding" class="anchor"></a>Funding</h2>
-<p><strong>grwat</strong> package is being developed with financial support of Russian Science Foundation (Project <a href="https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf">19-77-10032</a>).</p>
-<p>The main separation algoritm was developed in 2016-2018 with financial support of RFBR (Project <a href="http://www.rfbr.ru/rffi/ru/project_search/o_2031785">16-35-60080</a>).</p>
-<p>The mountain block of the main separation algoritm was developed in 2018-2019 with financial support of Russian Science Foundation (Project <a href="http://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf">17-77-10169</a>).</p>
+<div class="section level2">
+<h2 id="funding">Funding<a class="anchor" aria-label="anchor" href="#funding"></a>
+</h2>
+<p><strong>grwat</strong> package is being developed with financial support of Russian Science Foundation (Project <a href="https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf" class="external-link">19-77-10032</a>).</p>
+<p>The main separation algoritm was developed in 2016-2018 with financial support of RFBR (Project <a href="http://www.rfbr.ru/rffi/ru/project_search/o_2031785" class="external-link">16-35-60080</a>).</p>
+<p>The mountain block of the main separation algoritm was developed in 2018-2019 with financial support of Russian Science Foundation (Project <a href="http://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf" class="external-link">17-77-10169</a>).</p>
 </div>
 </div>
 
@@ -143,45 +139,56 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/tsamsonov/grwat/">https://​github.com/​tsamsonov/​grwat/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/tsamsonov/grwat/issues">https://​github.com/​tsamsonov/​grwat/​issues</a>
-</li>
+<li><a href="https://github.com/tsamsonov/grwat/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/tsamsonov/grwat/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>GPL (&gt;= 2)</li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Timofey Samsonov <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-5994-0302" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html#citation">Citing grwat</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="http://www.gnu.org/licenses/gpl-2.0.html"><img src="http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat" alt="License"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
+<li>Timofey Samsonov <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-5994-0302" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="http://www.gnu.org/licenses/gpl-2.0.html" class="external-link"><img src="http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat" alt="License"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Timofey Samsonov.</p>
+  <p></p>
+<p>Developed by Timofey Samsonov.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -189,6 +196,8 @@
 
   
 
+
+  
 
   </body>
 </html>
