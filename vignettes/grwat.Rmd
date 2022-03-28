@@ -452,13 +452,102 @@ There is a dedicated `gr_plot_dis()` function that plot the whole time series in
 ```{r, fig.width=10, fig.height=5}
 gr_plot_dis(sep, type = 'value')
 gr_plot_dis(sep, type = 'season')
-gr_plot_dis(sep, type = 'components')
+gr_plot_dis(sep, type = 'component')
 ```
 
 You can also limit the range of years that will be plotted:
 ```{r, fig.width=10, fig.height=2.5}
-gr_plot_dis(sep, years = 1980:1995, type = 'components')
+gr_plot_dis(sep, years = 1980:1995, type = 'component')
 ```
+
+# Hydrograph comparisons
+
+Sometimes you want to compare hydrographs for selected years. There are multiple ways to do so in R. Here we will explore three of those: overlayed, ridgeline and horiaon plots. Since these require a small number of manipulations via existing R packages, there is no dedicated functionality for this in __`grwat`__. 
+
+## Overlayed
+
+The simplest (but not necessarily most effective) way to compare multiple hydrographs is to just to combine them on one plot:
+
+```{r, fig.width=8, fig.height=4}
+library(ggplot2)
+library(lubridate)
+
+sep_sel = sep |> 
+  filter(Year %in% c(1989, 2012))
+
+ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q, 
+                    fill = factor(Year), group = factor(Year))) + 
+  geom_area(alpha = 0.8, position = "identity") +
+  geom_line() +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+  theme_minimal() +
+  labs(x = 'Date', y = 'Discharge', fill = 'Year')
+```
+
+It can be seen that even in the case of two hydrographs the plot is not easy to read. It becomes nearly impossible if we increase the number of years:
+
+```{r, fig.width=8, fig.height=4}
+sep_sel = sep |> 
+  filter(Year %in% c(1960, 1965, 1989, 2001, 2012))
+
+ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q, 
+                    fill = factor(Year), group = factor(Year))) + 
+  geom_area(alpha = 0.8, position = "identity") +
+  geom_line() +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+  theme_minimal() +
+  labs(x = 'Date', y = 'Year')
+```
+
+## Ridgeline
+
+If we are interested more in the shape and relative dimensions of the hydrographs, and do not want the exact Y axis, then we can proceed with ridgeline plots available at __`ggridges`__ package:
+
+```{r, fig.width=10, fig.height=5}
+library(ggridges)
+
+ggplot(sep_sel, aes(ymd(20000101) + yday(Date), factor(Year),
+                     height = Q, group = Year, 
+                     fill = factor(Year))) + 
+  geom_ridgeline(scale = 0.01, alpha = 0.8) +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+  scale_fill_brewer(palette = 4) +
+  theme_ridges() +
+  theme(legend.position = "none") +
+  labs(x = 'Date', y = 'Year')
+```
+
+## Horizon
+
+Another alternative to the ridgeline plot is the horizon plot, which can be built by __`ggHoriPlot`__ package. Horizon plots are more compact and wllow viewing more hydrogrphs at once:
+
+```{r, fig.width=8, fig.height=4}
+library(ggHoriPlot)
+library(ggthemes)
+
+sep_sel = sep |> 
+  filter(Year %in% 1960:1980)
+
+ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q)) +
+  geom_horizon(origin = 'min', horizonscale = 6) +
+  facet_wrap(~factor(Year), ncol = 1, strip.position = 'left') +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+  scale_fill_hcl(palette = 'BluGrn', reverse = T) +
+  theme_few() +
+  theme(
+    panel.spacing.y=unit(0, "lines"),
+    strip.text.y = element_text(size = 7, angle = 0, hjust = 0),
+    legend.position = 'none',
+    strip.text.y.left = element_text(angle = 0),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.border = element_blank()
+  )+
+  labs(x = 'Date', y = 'Year')
+  
+```
+
+
 
 # Reports
 
