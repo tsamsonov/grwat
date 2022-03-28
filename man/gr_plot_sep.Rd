@@ -13,15 +13,15 @@ gr_plot_sep(
 )
 }
 \arguments{
-\item{df}{data.frame with hydrograph separation}
+\item{df}{Hydrograph separation data.frame produced by \code{gr_separate()}.}
 
-\item{years}{a vector of years to be plotted}
+\item{years}{Integer vector of years to be plotted.}
 
-\item{layout}{layout matrix}
+\item{layout}{Layout matrix.}
 
-\item{pagebreak}{logical. Whether to break page between plots (needed for reporting). Defaults to FALSE}
+\item{pagebreak}{Logical. Whether to break page between plots (needed for reporting). Defaults to FALSE.}
 
-\item{locale}{string locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{locale}{String locale. Currently only English locale is supported. Defaults to 'EN'.}
 }
 \value{
 ggplot2 objects

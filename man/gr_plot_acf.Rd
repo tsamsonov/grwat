@@ -7,9 +7,9 @@
 gr_plot_acf(hdata, autocorr = 0.7, max_lag = 30)
 }
 \arguments{
-\item{hdata}{a data frame with two columns: date and discharge}
+\item{hdata}{\code{data.frame} with two columns: date and discharge}
 
-\item{autocorr}{}
+\item{autocorr}{Numeric value of the autocorrelation for which the time period will be highlighted.}
 }
 \value{
 ACF plot
