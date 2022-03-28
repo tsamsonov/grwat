@@ -807,7 +807,7 @@ gr_plot_dis <- function(df, years = NULL, type = 'value', locale='EN') {
                                        lubridate::ymd(20011231))) +
       ggplot2::scale_y_continuous(expand = c(0,0), 
                                   breaks = scales::fullseq(range(tab$Yearfake), 5)) +
-      ggplot2::labs(title = labs$discharge.type,
+      ggplot2::labs(title = labs$discharge.value,
                     x = labs$date, 
                     y = labs$subtitle,
                     fill = labs$m3s) +
@@ -835,7 +835,7 @@ gr_plot_dis <- function(df, years = NULL, type = 'value', locale='EN') {
                     fill = NULL) +
       ggplot2::theme_bw()
     
-  } else if (type == 'components') {
+  } else if (type == 'component') {
     tab$Qfake = apply(cbind(tab$Qseas, 
                             tab$Qrain, 
                             tab$Qthaw), MARGIN = 1, FUN = which.max)

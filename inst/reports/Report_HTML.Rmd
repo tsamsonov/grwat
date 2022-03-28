@@ -115,6 +115,22 @@ grwat::gr_plot_periods(vars,
 <!-- Stats -->
 ```{r, include=TRUE}
 if (params$locale == 'EN') {
+  knitr::asis_output("## Discharge matrices")
+} else {
+  knitr::asis_output("## Матрица расходов {#matrix}")
+}
+```
+
+```{r, fig.height=5, fig.width=10, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
+message(' > Plotting discharge matrices...\n')
+grwat::gr_plot_dis(sep, type = 'value')
+grwat::gr_plot_dis(sep, type = 'season')
+grwat::gr_plot_dis(sep, type = 'component')
+```
+
+<!-- Stats -->
+```{r, include=TRUE}
+if (params$locale == 'EN') {
   knitr::asis_output("## Statistical tests")
 } else {
   knitr::asis_output("## Тесты {#tests}")
