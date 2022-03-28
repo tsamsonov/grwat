@@ -3,7 +3,6 @@
 #include <random>
 #include <algorithm>
 #include <functional>
-#include <iostream>
 using namespace std;
 
 namespace grwat {
@@ -346,10 +345,8 @@ namespace grwat {
     static bool separate(const vector<int>& Year, const vector<int>& Mon, const vector<int>& Day,
                   const vector<double>& Qin, const vector<double>& Tin, const vector<double>& Pin,
                   vector<double>& Qgr, vector<double>& Quick, vector<double>& Qpol, vector<double>& Qpav,
-                  vector<double>& Qthaw, vector<double>& Qpb, vector<int>& Type, vector<int>& Hyear,
+                  vector<double>& Qthaw, vector<double>& Qpb, vector<int>& Type, vector<int>& Hyear, vector<int>& Jittered,
                   const parameters& par) {
-
-        cout << par.grad << endl;
 
         for (unsigned i = 0; i < Day.size(); i++) {
             if (Day[i] > 31 or (Day[i] > 29 and Mon[i] == 28))
@@ -460,11 +457,12 @@ namespace grwat {
                 }
 
                 if (separated) {
-                    if (jittered)
-                        break;
+//                    if (jittered)
+                    break;
                 } else {
                     if (!jittered) {
                         jittered = true;
+                        Jittered[year.first] = 1;
                     }
                     jitter_parameters(par_new, par, sumdonep);
                 }

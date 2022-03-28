@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = NULL, locale = 'EN') {
+gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = NULL, prec = FALSE, temp = FALSE, span = 5, locale = 'EN') {
   t1 = Sys.time()
   
   rmarkdown::render(input = system.file('reports', 'Report_HTML.Rmd', package = 'grwat'), 
@@ -24,6 +24,9 @@ gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = 
                                   fixedyear = !is.null(year),
                                   year = year,
                                   exclude = exclude,
+                                  prec = prec,
+                                  temp = temp, 
+                                  span = span,
                                   locale = locale))
   t2 = Sys.time()
   

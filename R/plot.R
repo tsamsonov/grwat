@@ -5,11 +5,13 @@
 #' @param layout Layout matrix.
 #' @param pagebreak Logical. Whether to break page between plots (needed for reporting). Defaults to FALSE.
 #' @param locale String locale. Currently only English locale is supported. Defaults to 'EN'. 
+#' @param prec Boolean. Add precipitation curve to the plot? Defaults to FALSE.
+#' @param temp Boolean. Add temperature curve to the plot? Defaults to FALSE.
 #'
 #' @return ggplot2 objects
 #' @export
 gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), 
-                        pagebreak = FALSE, locale='EN'){
+                        pagebreak = FALSE, locale = 'EN', prec = FALSE, temp = FALSE, span = 5){
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -40,6 +42,20 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   n = nrow(yrs)
   
   max.runoff = max(df$Q, na.rm = T)
+  max.temp = max(df$Temp, na.rm = T)
+  min.temp = min(df$Temp, na.rm = T)
+  
+  max.prec = max(df$Prec, na.rm = T)
+  if (prec && (span > 1)) {
+    df = dplyr::mutate(df, Preccum = zoo::rollapply(Prec, span, sum, align = 'right', fill = NA))
+    max.prec = max(df$Preccum, na.rm = T)
+    # print("YEAH!!!")
+    # print(max.prec)
+  }
+  
+  
+  coef_temp = (max.temp - min.temp) / max.runoff
+  coef_prec = max.prec / max.runoff
   
   labs = get_plot_labels(locale)
   plotlist = list()
@@ -78,25 +94,83 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
       }
     }
     
-    graphdata = df %>%  
-      dplyr::filter(dplyr::between(Date, begin.date-1, end.date)) %>% 
-      tidyr::gather(key="Runtype", value="Runoff", 
-             Qthaw, Qrain, Qseas, Qbase,
-             factor_key=TRUE) %>% 
+    yeardata = df %>%  
+      dplyr::filter(dplyr::between(Date, begin.date-1, end.date))
+    
+    graphdata = yeardata %>% 
+      tidyr::pivot_longer(c(Qthaw, Qrain, Qseas, Qbase),
+                          names_to = "Runtype", values_to = "Runoff") %>%
+                          # factor_key=TRUE) %>% 
       dplyr::mutate(Runoff = ifelse(Runoff < 0, 0, Runoff))
     
     graphdata$Runtype = factor(graphdata$Runtype,
                                levels = c("Qrain", "Qseas", "Qthaw", "Qbase"),
                                labels = c(labs$rain, labs$seasonal, labs$thaw, labs$ground))
     
-    g = ggplot2::ggplot(graphdata, ggplot2::aes(x = Date, y = Runoff, fill = Runtype)) + 
+    g = ggplot2::ggplot() + 
       ggplot2::annotate("rect", 
                xmin = datestart-1, xmax = datepolend+1,
                ymax = max.runoff, ymin = 0,
                fill = 'black',
                alpha = 0.1) +
-      ggplot2::geom_area(size = 0.1, color = 'black') + 
+      ggplot2::geom_area(data = graphdata, mapping = ggplot2::aes(x = Date, y = Runoff, fill = Runtype),
+                         size = 0.1, color = 'black') + 
       # geom_line(aes(group = Runtype), size = 0.1, color = 'black') +
+      ggplot2::coord_cartesian(ylim=c(0, max.runoff), clip = 'off') +
+      ggplot2::scale_fill_manual(values=c("coral2", "deepskyblue3", "darkturquoise", "bisque4"), 
+                        name = paste0(labs$discharge.type, ':')) +
+      ggplot2::scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+      ggplot2::labs(title = year,
+           subtitle = paste(begin.date, "-", end.date, clipped.remark),
+           x = labs$date, y = substitute(d ~ ', ' ~ m, list(d = labs$discharge, m = labs$m3s))) +
+      ggplot2::theme(plot.title = ggplot2::element_text(lineheight=.8, face="bold"),
+            legend.position="bottom")
+    
+    if (prec) {
+        if (span > 0) {
+          g = g +
+            ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~ . * coef_prec, 
+                                                                     name = paste0(labs$preccum, ' (', span, ' ',  labs$day, ')'))) +
+            ggplot2::geom_line(data = yeardata,
+                               mapping = ggplot2::aes(x = Date, y = Preccum / coef_prec),
+                               color = 'springgreen1', size = 0.5)
+        } else {
+          g = g +
+            ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~ . * coef_prec, name = labs$prec)) +
+            ggplot2::geom_line(data = yeardata,
+                               mapping = ggplot2::aes(x = Date, y = Prec / coef_prec),
+                               color = 'springgreen1', size = 0.5)
+        }
+    }
+    
+    if (temp) {
+        yeardata = dplyr::mutate(yeardata, 
+                                 Negat = ifelse(Temp < 0, Temp, NA),
+                                 Posit = ifelse(Temp > 0, Temp, NA))
+        g = g +
+          ggplot2::geom_line(data = yeardata,
+                             mapping = ggplot2::aes(x = Date, 
+                                                    y = (Temp - min.temp) / coef_temp),
+                             color = 'purple',
+                             size = 0.5) +
+          ggplot2::geom_line(data = yeardata,
+                             mapping = ggplot2::aes(x = Date, 
+                                                    y = (Posit - min.temp) / coef_temp),
+                             color = 'red',
+                             size = 0.5) +
+          ggplot2::geom_line(data = yeardata,
+                             mapping = ggplot2::aes(x = Date, 
+                                                    y = (Negat - min.temp) / coef_temp),
+                             color = 'blue',
+                             size = 0.5) +
+          ggplot2::geom_hline(yintercept = - min.temp / coef_temp, color = "purple", size = 0.3, linetype = "dotted") +
+          ggplot2::labs(color = NULL)
+        
+        if (!prec)
+          g = g + ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~ . * coef_temp + min.temp, name = labs$temp))
+    }
+    
+    g = g + 
       ggplot2::geom_vline(xintercept = datestart-1, color = "black", size=0.3) +
       ggplot2::geom_vline(xintercept = datepolend+1, color = "black", size=0.3) +
       ggplot2::geom_label(data = data.frame(x = datestart, 
@@ -108,16 +182,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
                                             y = 0.9 * max.runoff, 
                                             text = format(datepolend, format="%d-%m")),
                           mapping = aes(x, y, label = text, hjust = 0),
-                          size = 3, fill = "white", label.padding = unit(0.15, "lines")) +
-      ggplot2::coord_cartesian(ylim=c(0, max.runoff), clip = 'off') +
-      ggplot2::scale_fill_manual(values=c("coral2", "deepskyblue3", "darkturquoise", "bisque4"), 
-                        name = paste0(labs$discharge.type, ':')) +
-      ggplot2::scale_x_date(date_breaks = "1 month", date_labels = "%b") +
-      ggplot2::labs(title = year,
-           subtitle = paste(begin.date, "-", end.date, clipped.remark),
-           x = labs$date, y = substitute(d ~ ', ' ~ m, list(d = labs$discharge, m = labs$m3s))) +
-      ggplot2::theme(plot.title = ggplot2::element_text(lineheight=.8, face="bold"),
-            legend.position="bottom")
+                          size = 3, fill = "white", label.padding = unit(0.15, "lines"))
     
     plotlist[[j]] = g
     j = j+1

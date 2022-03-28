@@ -95,10 +95,11 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
   std::vector<double> Qpb(n, 0);
   std::vector<int> Type(n, 0);
   std::vector<int> Hyear(n, 0);
+  std::vector<int> Jittered(n, 0);
   
   auto p = set_params(params);
   
-  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Type, Hyear, p);
+  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Type, Hyear, Jittered, p);
   
   DataFrame df = DataFrame::create(Named("Qbase") = Qbase,
                                    Named("Quick") = Quick,
@@ -107,7 +108,8 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
                                    Named("Qthaw") = Qthaw,
                                    Named("Qpb") = Qpb,
                                    Named("Type") = Type,
-                                   Named("Year") = Hyear);
+                                   Named("Year") = Hyear,
+                                   Named("Jittered") = Jittered);
   
   return df;
 }

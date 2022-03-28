@@ -127,6 +127,12 @@ gr_separate <- function(df, params = gr_get_params()) {
             crayon::cyan$italic('gr_get_gaps()'), ' and ', crayon::cyan$italic('gr_fill_gaps()'), 
             ' functions to detect and fill missing data.')
   
+  jittered_years = lubridate::year(sep$Date[sep$Jittered == 1])
+  if (length(jittered_years) > 0)
+    warning(crayon::white$bgBlue$bold('grwat:'), ' ',
+            crayon::white$italic(paste(jittered_years, collapse = ', ')),
+            ' years were processed with jittered parameters')
+  
   return(sep)
 }
 

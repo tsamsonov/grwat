@@ -18,6 +18,7 @@ get_plot_labels <- function(locale = 'EN'){
            clipped.remark = "(clipped by the end of the year)",
            discharge = "Total discharge",
            date = "Date",
+           day = "days",
            m3s = bquote(m^3/s),
            pheader = "p-values of statistical criteria",
            rain = 'Rain',
@@ -29,6 +30,9 @@ get_plot_labels <- function(locale = 'EN'){
            discharge.type = 'Discharge',
            discharge.value = 'Value of discharge',
            year.density = 'Change year distribution density',
+           temp = 'Temperature, \u00b0C',
+           prec = 'Precipitation, mm',
+           preccum = 'Cum. precipitation, mm',
            wraplength = 60 # row wrap length for long titles
          ),
          'RU' = list(
@@ -49,6 +53,7 @@ get_plot_labels <- function(locale = 'EN'){
            clipped.remark = "(обрезано по концу календарного года)",
            discharge = "Суммарный расход",
            date = "Дата",
+           day = "дней",
            m3s = bquote(м^3/с),
            pheader = "p-значения статистических критериев",
            rain = 'Дождевой',
@@ -60,6 +65,9 @@ get_plot_labels <- function(locale = 'EN'){
            discharge.type = 'Сток',
            discharge.value = 'Величина стока',
            year.density = 'Плотность распределения значения переломного года',
+           temp = 'Температура, \u00b0C',
+           prec = 'Осадки, мм',
+           preccum = 'Осадки накопл., мм',
            wraplength = 50 # row wrap length for long titles
          )
   )
