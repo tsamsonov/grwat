@@ -53,19 +53,28 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gr_animate</span><span class="op">(</span><span class="va">df</span>, locale <span class="op">=</span> <span class="st">"EN"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gr_animate</span><span class="op">(</span>
+  <span class="va">df</span>,
+  plot <span class="op">=</span> <span class="cn">TRUE</span>,
+  file <span class="op">=</span> <span class="cn">NULL</span>,
+  fps <span class="op">=</span> <span class="fl">20</span>,
+  kframes <span class="op">=</span> <span class="fl">10</span>,
+  width <span class="op">=</span> <span class="fl">800</span>,
+  height <span class="op">=</span> <span class="fl">600</span>,
+  locale <span class="op">=</span> <span class="st">"EN"</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>df</dt>
-<dd><p>data.framewith discarge values in Q variable</p></dd>
+<dd><p>A data.frame with date (1st) and discharge (2nd) columns.</p></dd>
 <dt>locale</dt>
-<dd></dd>
+<dd><p>String locale. Currently only English locale is supported. Defaults to <code>'EN'</code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
+    <p>The return value of the <code>gganimate::renderer()</code> function</p>
     </div>
 
   </div>

@@ -4,18 +4,30 @@
 \alias{gr_plot_ridge}
 \title{A convenient wrapper around \code{ggridges::geom_ridgeline()} to visualize multiple river hydrogrphs at once}
 \usage{
-gr_plot_ridge(df, years, pal = 1, scale = 0.01, alpha = 0.8, locale = "EN")
+gr_plot_ridge(
+  df,
+  years,
+  pal = 4,
+  rev = FALSE,
+  scale = 0.01,
+  alpha = 0.8,
+  locale = "EN"
+)
 }
 \arguments{
 \item{df}{A data.frame with date (1st) and discharge (2nd) columns.}
 
 \item{years}{Integer vector of years to be plotted.}
 
-\item{pal}{Numeric or character string. Color palette identifier passed to \code{ggplot2::scale_fill_brewer()}}
+\item{pal}{Numeric or character string. Color palette identifier passed to \code{ggplot2::scale_fill_distiller()}}
+
+\item{rev}{Boolean. Reverse the palette?}
 
 \item{scale}{Numeric. Scale factor passed to \code{ggridges::geom_ridgeline()}. Defaults to 0.01.}
 
 \item{alpha}{Numeric. Opacity value of the ridgeline plot. Defaults to 0.8}
+
+\item{locale}{String locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 A \code{ggplot2} object

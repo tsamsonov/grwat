@@ -258,42 +258,10 @@ ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q,
   labs(x = 'Date', y = 'Year')
 
 ## ---- fig.width=10, fig.height=5----------------------------------------------
-library(ggridges)
-
-ggplot(sep_sel, aes(ymd(20000101) + yday(Date), factor(Year),
-                     height = Q, group = Year, 
-                     fill = factor(Year))) + 
-  geom_ridgeline(scale = 0.01, alpha = 0.8) +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
-  scale_fill_brewer(palette = 4) +
-  theme_ridges() +
-  theme(legend.position = "none") +
-  labs(x = 'Date', y = 'Year')
+gr_plot_ridge(sep, years = c(1960, 1965, 1989, 2001, 2012))
 
 ## ---- fig.width=8, fig.height=4-----------------------------------------------
-library(ggHoriPlot)
-library(ggthemes)
-
-sep_sel = sep |> 
-  filter(Year %in% 1960:1980)
-
-ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q)) +
-  geom_horizon(origin = 'min', horizonscale = 6) +
-  facet_wrap(~factor(Year), ncol = 1, strip.position = 'left') +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
-  scale_fill_hcl(palette = 'BluGrn', reverse = T) +
-  theme_few() +
-  theme(
-    panel.spacing.y=unit(0, "lines"),
-    strip.text.y = element_text(size = 7, angle = 0, hjust = 0),
-    legend.position = 'none',
-    strip.text.y.left = element_text(angle = 0),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.border = element_blank()
-  )+
-  labs(x = 'Date', y = 'Year')
-  
+gr_plot_hori(sep, years = 1960:1980)
 
 ## ---- eval = FALSE------------------------------------------------------------
 #  report = paste(getwd(), 'Spas-Zagorye.html', sep = '/')

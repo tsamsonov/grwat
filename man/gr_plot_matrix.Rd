@@ -16,7 +16,7 @@ gr_plot_matrix(df, years = NULL, type = "value", locale = "EN")
 \item{locale}{String locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
-
+A \code{ggplot2} object
 }
 \description{
 Plot discharge value, source and season via raster-based visualization through years

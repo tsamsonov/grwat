@@ -826,7 +826,7 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, max_lag = 30) {
 #' @param type String. Supported options are `'value'`, `'components'`, and `'season'`. Defaults to `'value'`
 #' @param locale String locale. Currently only English locale is supported. Defaults to `'EN'`.
 #'
-#' @return
+#' @return A `ggplot2` object
 #' @export
 #'
 #' @examples
@@ -938,15 +938,17 @@ gr_plot_matrix <- function(df, years = NULL, type = 'value', locale='EN') {
 #'
 #' @param df A data.frame with date (1st) and discharge (2nd) columns.
 #' @param years Integer vector of years to be plotted.
-#' @param pal Numeric or character string. Color palette identifier passed to `ggplot2::scale_fill_brewer()`
+#' @param pal Numeric or character string. Color palette identifier passed to `ggplot2::scale_fill_distiller()`
+#' @param rev Boolean. Reverse the palette?
 #' @param scale Numeric. Scale factor passed to `ggridges::geom_ridgeline()`. Defaults to 0.01.
 #' @param alpha Numeric. Opacity value of the ridgeline plot. Defaults to 0.8
+#' @param locale String locale. Currently only English locale is supported. Defaults to `'EN'`.
 #'
 #' @return A `ggplot2` object
 #' @export
 #'
 #' @examples
-gr_plot_ridge <- function(df, years, pal = 4, scale = 0.01, alpha = 0.8, locale='EN') {
+gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha = 0.8, locale='EN') {
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -965,25 +967,80 @@ gr_plot_ridge <- function(df, years, pal = 4, scale = 0.01, alpha = 0.8, locale=
   
   df_sel = df %>%
     dplyr::rename(Date = 1, Q = 2) %>%
-    dplyr::mutate(Year = factor(lubridate::year(Date)),
+    dplyr::mutate(Year = lubridate::year(Date),
                   Datefake = lubridate::ymd(20000101) + lubridate::yday(Date)) %>%
     dplyr::filter(Year %in% years)
 
   ggplot2::ggplot(df_sel, 
                   ggplot2::aes(
                     x = Datefake, 
-                    y = Year,
+                    y = factor(Year),
                     height = Q, 
-                    group = Year, 
+                    group = factor(Year), 
                     fill = Year
                   )
                 ) + 
     ggridges::geom_ridgeline(scale = scale, alpha = alpha) +
     ggplot2::scale_x_date(date_labels = "%b", date_breaks = "1 month") +
-    ggplot2::scale_fill_brewer(palette = pal) +
+    ggplot2::scale_fill_distiller(palette = pal, direction = 1 - 2*rev) +
     ggridges::theme_ridges() +
     ggplot2::theme(legend.position = "none") +
     ggplot2::labs(x = labs$date, y = labs$year)
+}
+
+#' A convenient wrapper around `ggHoriPlot::geom_horizon()` to visualize multiple river hydrogrphs at once
+#'
+#' @param df A data.frame with date (1st) and discharge (2nd) columns.
+#' @param years Integer vector of years to be plotted.
+#' @param pal Numeric or character string. Color palette identifier passed to `ggplot2::scale_fill_distiller()`
+#' @param rev Boolean. Reverse the palette?
+#' @param scale Numeric. Scale factor passed to `ggHoriPlot::geom_horizon()`. Defaults to 0.01.
+#' @param locale String locale. Currently only English locale is supported. Defaults to `'EN'`.
+#'
+#' @return A `ggplot2` object
+#' @export
+#'
+#' @examples
+gr_plot_hori <- function(df, years, pal = 'Blues', rev = T, scale = 6, locale='EN') {
+  
+  if (locale == 'RU') {
+    Sys.setenv(LANGUAGE="ru")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Russian"))
+    
+  } else {
+    Sys.setenv(LANGUAGE="en")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "en_US.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "English"))
+  }
+  
+  labs = get_plot_labels(locale)
+  
+  df_sel = df %>%
+    dplyr::rename(Date = 1, Q = 2) %>%
+    dplyr::mutate(Year = lubridate::year(Date),
+                  Datefake = lubridate::ymd(20000101) + lubridate::yday(Date)) %>%
+    dplyr::filter(Year %in% years)
+  
+  ggplot2::ggplot(df_sel,  ggplot2::aes(Datefake, Q)) +
+    ggHoriPlot::geom_horizon(origin = 'min', horizonscale = scale) +
+    ggplot2::facet_wrap(~factor(Year), ncol = 1, strip.position = 'left') +
+    ggplot2::scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+    ggplot2::scale_fill_brewer(palette = pal, direction = 1 - 2*rev) +
+    ggthemes::theme_few() +
+    ggplot2::theme(
+      panel.spacing.y = ggplot2::unit(0, "lines"),
+      strip.text.y = ggplot2::element_text(size = 7, angle = 0, hjust = 0),
+      legend.position = 'none',
+      strip.text.y.left = ggplot2::element_text(angle = 0),
+      axis.text.y = ggplot2::element_blank(),
+      axis.ticks.y = ggplot2::element_blank(),
+      panel.border = ggplot2::element_blank()
+    )+
+    ggplot2::labs(x = labs$date, y = labs$year)
+  
 }
 
 #' Animate discharge through years

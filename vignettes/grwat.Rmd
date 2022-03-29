@@ -501,7 +501,7 @@ ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q,
 
 ## Ridgeline
 
-If we are interested more in the shape and relative dimensions of the hydrographs, and do not want the exact Y axis, then we can proceed with ridgeline plots available at __`ggridges`__ package. __grwat__ contains a cnovenient wrapper called `gr_plot_ridge()`:
+If we are interested more in the shape and relative dimensions of the hydrographs, and do not want the exact Y axis, then we can proceed with ridgeline plots available at [__`ggridges`__](https://wilkelab.org/ggridges/) package. __`grwat`__ contains a convenient wrapper called `gr_plot_ridge()`:
 
 ```{r, fig.width=10, fig.height=5}
 gr_plot_ridge(sep, years = c(1960, 1965, 1989, 2001, 2012))
@@ -509,35 +509,11 @@ gr_plot_ridge(sep, years = c(1960, 1965, 1989, 2001, 2012))
 
 ## Horizon
 
-Another alternative to the ridgeline plot is the horizon plot, which can be built by __`ggHoriPlot`__ package. Horizon plots are more compact and wllow viewing more hydrogrphs at once:
+Another alternative to the ridgeline plot is the horizon plot, which can be built by [__`ggHoriPlot`__](https://rivasiker.github.io/ggHoriPlot/) package. Horizon plots are more compact and allow viewing more hydrographs at once. __grwat__ contains a convenient wrapper called `gr_plot_hori()`:
 
 ```{r, fig.width=8, fig.height=4}
-library(ggHoriPlot)
-library(ggthemes)
-
-sep_sel = sep |> 
-  filter(Year %in% 1960:1980)
-
-ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q)) +
-  geom_horizon(origin = 'min', horizonscale = 6) +
-  facet_wrap(~factor(Year), ncol = 1, strip.position = 'left') +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
-  scale_fill_hcl(palette = 'BluGrn', reverse = T) +
-  theme_few() +
-  theme(
-    panel.spacing.y=unit(0, "lines"),
-    strip.text.y = element_text(size = 7, angle = 0, hjust = 0),
-    legend.position = 'none',
-    strip.text.y.left = element_text(angle = 0),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.border = element_blank()
-  )+
-  labs(x = 'Date', y = 'Year')
-  
+gr_plot_hori(sep, years = 1960:1980)
 ```
-
-
 
 # Reports
 

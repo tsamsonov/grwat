@@ -73,10 +73,19 @@
     <loc>/reference/gr_plot_dis.html</loc>
   </url>
   <url>
+    <loc>/reference/gr_plot_hori.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gr_plot_matrix.html</loc>
+  </url>
+  <url>
     <loc>/reference/gr_plot_minmonth.html</loc>
   </url>
   <url>
     <loc>/reference/gr_plot_periods.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gr_plot_ridge.html</loc>
   </url>
   <url>
     <loc>/reference/gr_plot_sep.html</loc>

@@ -16,10 +16,12 @@ usethis::use_package('tidyr')
 usethis::use_package('lubridate')
 usethis::use_package('rlang')
 usethis::use_package('ggplot2')
+usethis::use_package('ggthemes')
 usethis::use_package('GGally')
 usethis::use_package('transformr')
 usethis::use_package('gganimate')
 usethis::use_package('ggridges')
+usethis::use_package('ggHoriPlot')
 usethis::use_package('knitr')
 usethis::use_package('rmarkdown')
 usethis::use_package('kableExtra')
@@ -37,14 +39,6 @@ usethis::use_package('sf')
 # Specific for pipe
 usethis::use_pipe(export = TRUE)
 
-# DEPRECATED
-# usethis::use_package('Cairo')
-# usethis::use_package('BiocManager')
-# usethis::use_package('readxl')
-# usethis::use_package('writexl')
-
 .onAttach <- function(libname, pkgname) {
-  # if (!requireNamespace("Scale4C", quietly = TRUE))
-  #   BiocManager::install("Scale4C")
   packageStartupMessage("Welcome to grwat package for hydrograph separation and analysis")
 }
