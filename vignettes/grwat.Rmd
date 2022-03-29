@@ -448,16 +448,16 @@ gr_plot_minmonth(vars, year = 1985)
 
 ## Plot discharge parameters
 
-There is a dedicated `gr_plot_dis()` function that plot the whole time series in a convenient matrix form. Currently it supports plotting the value, seasons and components of the discharge:
+There is a dedicated `gr_plot_matrix()` function that plot the whole time series in a convenient matrix form. Currently it supports plotting the value, seasons and components of the discharge:
 ```{r, fig.width=10, fig.height=5}
-gr_plot_dis(sep, type = 'value')
-gr_plot_dis(sep, type = 'season')
-gr_plot_dis(sep, type = 'component')
+gr_plot_matrix(sep, type = 'value')
+gr_plot_matrix(sep, type = 'season')
+gr_plot_matrix(sep, type = 'component')
 ```
 
 You can also limit the range of years that will be plotted:
 ```{r, fig.width=10, fig.height=2.5}
-gr_plot_dis(sep, years = 1980:1995, type = 'component')
+gr_plot_matrix(sep, years = 1980:1995, type = 'component')
 ```
 
 # Hydrograph comparisons
@@ -501,20 +501,10 @@ ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q,
 
 ## Ridgeline
 
-If we are interested more in the shape and relative dimensions of the hydrographs, and do not want the exact Y axis, then we can proceed with ridgeline plots available at __`ggridges`__ package:
+If we are interested more in the shape and relative dimensions of the hydrographs, and do not want the exact Y axis, then we can proceed with ridgeline plots available at __`ggridges`__ package. __grwat__ contains a cnovenient wrapper called `gr_plot_ridge()`:
 
 ```{r, fig.width=10, fig.height=5}
-library(ggridges)
-
-ggplot(sep_sel, aes(ymd(20000101) + yday(Date), factor(Year),
-                     height = Q, group = Year, 
-                     fill = factor(Year))) + 
-  geom_ridgeline(scale = 0.01, alpha = 0.8) +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
-  scale_fill_brewer(palette = 4) +
-  theme_ridges() +
-  theme(legend.position = "none") +
-  labs(x = 'Date', y = 'Year')
+gr_plot_ridge(sep, years = c(1960, 1965, 1989, 2001, 2012))
 ```
 
 ## Horizon

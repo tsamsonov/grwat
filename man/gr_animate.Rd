@@ -4,15 +4,24 @@
 \alias{gr_animate}
 \title{Animate discharge through years}
 \usage{
-gr_animate(df, locale = "EN")
+gr_animate(
+  df,
+  plot = TRUE,
+  file = NULL,
+  fps = 20,
+  kframes = 10,
+  width = 800,
+  height = 600,
+  locale = "EN"
+)
 }
 \arguments{
-\item{df}{data.framewith discarge values in Q variable}
+\item{df}{A data.frame with date (1st) and discharge (2nd) columns.}
 
-\item{locale}{}
+\item{locale}{String locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
-
+The return value of the \code{gganimate::renderer()} function
 }
 \description{
 Animate discharge through years

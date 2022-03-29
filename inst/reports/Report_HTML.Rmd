@@ -127,9 +127,9 @@ if (params$locale == 'EN') {
 
 ```{r, fig.height=5, fig.width=10, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting discharge matrices...\n')
-grwat::gr_plot_dis(sep, type = 'value')
-grwat::gr_plot_dis(sep, type = 'season')
-grwat::gr_plot_dis(sep, type = 'component')
+grwat::gr_plot_matrix(sep, type = 'value')
+grwat::gr_plot_matrix(sep, type = 'season')
+grwat::gr_plot_matrix(sep, type = 'component')
 ```
 
 <!-- Stats -->

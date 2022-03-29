@@ -159,18 +159,11 @@ head(sep)
 vars = gr_summarize(sep)
 head(vars)
 
-## ---- fig.width=6, fig.height=3-----------------------------------------------
+## ---- fig.width=12, fig.height=6----------------------------------------------
 gr_plot_sep(sep, 1976) # plot single year
 gr_plot_sep(sep, c(2016, 2017)) # plot two years sequentially
 
-## -----------------------------------------------------------------------------
-sep %>% 
-  filter(lubridate::year(Date) == 1976) %>% 
-  ggplot() +
-  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
-  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black')
-
-## ---- fig.width=6, fig.height=4-----------------------------------------------
+## ----fig.width=12, fig.height=12----------------------------------------------
 gr_plot_sep(sep, 1976:1979, # plot four years on the same page
             layout = matrix(c(1,2,3,4), ncol=2, byrow = T))
 
@@ -192,14 +185,17 @@ tests$year # this is a change year detected for each variable
 tests = gr_test_vars(vars, Qmax, Qygr, change_year = 1987)
 tests$ft # Fisher F tests to compare two variances
 
-## -----------------------------------------------------------------------------
+## ---- fig.width=12, fig.height=6----------------------------------------------
 gr_plot_vars(vars, Qmax) # plot one selected variable
 gr_plot_vars(vars, datestart) # plot one selected variable
 gr_plot_vars(vars, date10w1, Wpol3) # plot two variables sequentially
-gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
-                      layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 
 
-## -----------------------------------------------------------------------------
+## ---- fig.width=12, fig.height=12---------------------------------------------
+
+gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix layout
+             layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 
+
+## ---- fig.width=12, fig.height=6----------------------------------------------
 gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
              tests = TRUE) # add test information
 
@@ -215,16 +211,89 @@ gr_plot_periods(vars, Qy, year = 1978)
 gr_plot_periods(vars, Qy, tests = TRUE)
 gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy, year = 1985))
 
-## ---- fig.height=5------------------------------------------------------------
-gr_plot_periods(vars, Qy, Qmax, 
+## ---- fig.width=12, fig.height=8----------------------------------------------
+gr_plot_periods(vars, Qy, Qmax, date10w1, Wpol3,
                 tests = TRUE,
-                layout = matrix(c(1,2)))
+                layout = matrix(1:4, nrow = 2))
 
 ## ---- eval = FALSE------------------------------------------------------------
 #  gr_plot_periods(vars, tests = TRUE)
 
 ## ---- fig.height= 12, message=FALSE-------------------------------------------
 gr_plot_minmonth(vars, year = 1985)
+
+## ---- fig.width=10, fig.height=5----------------------------------------------
+gr_plot_matrix(sep, type = 'value')
+gr_plot_matrix(sep, type = 'season')
+gr_plot_matrix(sep, type = 'component')
+
+## ---- fig.width=10, fig.height=2.5--------------------------------------------
+gr_plot_matrix(sep, years = 1980:1995, type = 'component')
+
+## ---- fig.width=8, fig.height=4-----------------------------------------------
+library(ggplot2)
+library(lubridate)
+
+sep_sel = sep |> 
+  filter(Year %in% c(1989, 2012))
+
+ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q, 
+                    fill = factor(Year), group = factor(Year))) + 
+  geom_area(alpha = 0.8, position = "identity") +
+  geom_line() +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+  theme_minimal() +
+  labs(x = 'Date', y = 'Discharge', fill = 'Year')
+
+## ---- fig.width=8, fig.height=4-----------------------------------------------
+sep_sel = sep |> 
+  filter(Year %in% c(1960, 1965, 1989, 2001, 2012))
+
+ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q, 
+                    fill = factor(Year), group = factor(Year))) + 
+  geom_area(alpha = 0.8, position = "identity") +
+  geom_line() +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+  theme_minimal() +
+  labs(x = 'Date', y = 'Year')
+
+## ---- fig.width=10, fig.height=5----------------------------------------------
+library(ggridges)
+
+ggplot(sep_sel, aes(ymd(20000101) + yday(Date), factor(Year),
+                     height = Q, group = Year, 
+                     fill = factor(Year))) + 
+  geom_ridgeline(scale = 0.01, alpha = 0.8) +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+  scale_fill_brewer(palette = 4) +
+  theme_ridges() +
+  theme(legend.position = "none") +
+  labs(x = 'Date', y = 'Year')
+
+## ---- fig.width=8, fig.height=4-----------------------------------------------
+library(ggHoriPlot)
+library(ggthemes)
+
+sep_sel = sep |> 
+  filter(Year %in% 1960:1980)
+
+ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q)) +
+  geom_horizon(origin = 'min', horizonscale = 6) +
+  facet_wrap(~factor(Year), ncol = 1, strip.position = 'left') +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+  scale_fill_hcl(palette = 'BluGrn', reverse = T) +
+  theme_few() +
+  theme(
+    panel.spacing.y=unit(0, "lines"),
+    strip.text.y = element_text(size = 7, angle = 0, hjust = 0),
+    legend.position = 'none',
+    strip.text.y.left = element_text(angle = 0),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.border = element_blank()
+  )+
+  labs(x = 'Date', y = 'Year')
+  
 
 ## ---- eval = FALSE------------------------------------------------------------
 #  report = paste(getwd(), 'Spas-Zagorye.html', sep = '/')

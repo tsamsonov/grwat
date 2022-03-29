@@ -30,6 +30,7 @@ Imports:
     GGally,
     gganimate,
     ggplot2,
+    ggridges,
     grid,
     kableExtra,
     knitr,

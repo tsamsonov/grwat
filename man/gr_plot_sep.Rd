@@ -9,7 +9,10 @@ gr_plot_sep(
   years = NULL,
   layout = as.matrix(1),
   pagebreak = FALSE,
-  locale = "EN"
+  locale = "EN",
+  prec = FALSE,
+  temp = FALSE,
+  span = 5
 )
 }
 \arguments{
@@ -22,6 +25,10 @@ gr_plot_sep(
 \item{pagebreak}{Logical. Whether to break page between plots (needed for reporting). Defaults to FALSE.}
 
 \item{locale}{String locale. Currently only English locale is supported. Defaults to 'EN'.}
+
+\item{prec}{Boolean. Add precipitation curve to the plot? Defaults to FALSE.}
+
+\item{temp}{Boolean. Add temperature curve to the plot? Defaults to FALSE.}
 }
 \value{
 ggplot2 objects

@@ -10,6 +10,9 @@ gr_report(
   output = "Report.html",
   year = NULL,
   exclude = NULL,
+  prec = FALSE,
+  temp = FALSE,
+  span = 5,
   locale = "EN"
 )
 }
