@@ -141,7 +141,7 @@ The reanalysis consists of two data files, each file is about 850 Mb in size:
 knitr::include_graphics('img/rean_files.png')
 ```
 
-Download this data using the [FTP link](ftp://gruser@carto.geogr.msu.ru) for using with grwat.
+Download this data using the [__link__](http://carto.geogr.msu.ru/grwat/) for using with grwat.
 
 ```{r}
 rean = gr_read_rean(
