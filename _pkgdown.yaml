@@ -1,0 +1,48 @@
+template:
+  bootstrap: 5
+reference:
+- title: Data preparation
+  contents:
+  - gr_buffer_geo
+  - gr_check_data
+  - gr_fill_gaps
+  - gr_get_gaps
+  - gr_join_rean
+  - gr_read_rean
+  
+- title: Hydrograph separation
+  contents:
+  - gr_baseflow
+  - gr_get_params
+  - gr_check_params
+  - gr_help_params
+  - gr_set_params
+  - gr_separate
+
+- title: Analysis
+  contents:
+  - gr_help_vars
+  - gr_summarize
+  - gr_test_vars
+
+- title: Plotting
+  contents:
+  - gr_animate
+  - gr_plot_acf
+  - gr_plot_hori
+  - gr_plot_matrix
+  - gr_plot_minmonth
+  - gr_plot_periods
+  - gr_plot_ridge
+  - gr_plot_sep
+  - gr_plot_tests
+  - gr_plot_vars
+
+- title: Reporting
+  contents:
+  - gr_kable_tests
+  - gr_report
+
+- title: Other
+  contents:
+  - gr_mamba

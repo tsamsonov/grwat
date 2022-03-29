@@ -41,7 +41,7 @@ gr_get_gaps <- function(hdata) {
               type = first(type))
 }
   
-#' Fill missing water discharge data using linear interpolation
+#' Fill missing discharge data using linear interpolation
 #'
 #' @param hdata Water discharge series. Data frame containing 4 columns: year (YYYY), montth (MM), day (DD) and level (water level)
 #' @param autocorr Autocorrelation value that defines possible length of the period. Defaults to 0.7.  If `nobserv` parameter is set, then this parameter is ignored. If both parameters are `NULL`, then all gaps are filled disregard of their lengths (not recommended).
@@ -112,7 +112,7 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
   
 }
 
-#' Join grwat reanalysis to hydrological level series
+#' Join grwat reanalysis to hydrological time series
 #'
 #' @param hdata data frame containing 2 columns: date and discharge level
 #' @param rean List. Contains three components: days series, values and location points

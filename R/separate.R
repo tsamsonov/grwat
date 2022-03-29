@@ -136,7 +136,7 @@ gr_separate <- function(df, params = gr_get_params()) {
   return(sep)
 }
 
-#' Extracts baseflow for discharge
+#' Extract baseflow from hydrological series
 #'
 #' @param Q daily discharge vector 
 #' @param alpha filtering parameter. Defaults to 0.925

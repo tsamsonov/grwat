@@ -934,7 +934,7 @@ gr_plot_matrix <- function(df, years = NULL, type = 'value', locale='EN') {
   }
 }
 
-#' A convenient wrapper around `ggridges::geom_ridgeline()` to visualize multiple river hydrogrphs at once
+#' A convenient wrapper around `ggridges::geom_ridgeline()` to visualize multiple river hydrographs at once
 #'
 #' @param df A data.frame with date (1st) and discharge (2nd) columns.
 #' @param years Integer vector of years to be plotted.
@@ -988,7 +988,7 @@ gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha =
     ggplot2::labs(x = labs$date, y = labs$year)
 }
 
-#' A convenient wrapper around `ggHoriPlot::geom_horizon()` to visualize multiple river hydrogrphs at once
+#' A convenient wrapper around `ggHoriPlot::geom_horizon()` to visualize multiple river hydrographs at once
 #'
 #' @param df A data.frame with date (1st) and discharge (2nd) columns.
 #' @param years Integer vector of years to be plotted.
