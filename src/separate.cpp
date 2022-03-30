@@ -12,6 +12,16 @@ std::map<std::string, grwat::basefilter> baseflow_methods = {
   {"kudelin", grwat::KUDELIN}
 };
 
+std::map<grwat::basefilter, std::string> baseflow_strings = {
+  {grwat::MAXWELL, "maxwell"},
+  {grwat::BOUGHTON, "boughton"},
+  {grwat::JAKEMAN, "jakeman"},
+  {grwat::LYNE, "lynehollick"},
+  {grwat::CHAPMAN, "chapman"},
+  {grwat::FUREY, "furey"},
+  {grwat::KUDELIN, "kudelin"}
+};
+
 grwat::parameters set_params(List params) {
   grwat::parameters p;
     p.mome = params["winmon"];
@@ -57,6 +67,94 @@ grwat::parameters set_params(List params) {
   return p;
 }
 
+std::vector<std::string> parnames = { 
+  "winmon",
+  "grad1",
+  "grad2",
+  "gratio",
+  "ftmon1",
+  "ftmon2",
+  "ftrisedays1",
+  "ftrisedays2",
+  "ftdays",
+  "ftrise",
+  "ftratio",
+  "ftrecdays",
+  "precdays",
+  "frostdays",
+  "windays",
+  "floodprec",
+  "floodtemp",
+  "frosttemp",
+  "wintemp",
+  "signratio1",
+  "signratio2",
+  "floodratio",
+  "gaplen",
+  "snowtemp",
+  "gradabs",
+  "mntmode",
+  "mntgrad",
+  "mntavgdays",
+  "mntratiodays",
+  "mntratio",
+  "niter",
+  "a",
+  "k",
+  "C",
+  "aq",
+  "padding",
+  "passes",
+  "filter"
+};
+
+List get_params(grwat::parameters p) {
+  
+  List params(parnames.size());
+  params.attr("names") = Rcpp::wrap(parnames);
+  
+  params["winmon"] = double(p.mome);
+  params["grad1"] = double(p.grad);
+  params["grad2"] = double(p.grad1);
+  params["gratio"] = double(p.kdQgr1);
+  params["ftmon1"] = double(p.polmon1);
+  params["ftmon2"] = double(p.polmon2);
+  params["ftrisedays1"] = double(p.polkol1);
+  params["ftrisedays2"] = double(p.polkol2);
+  params["ftdays"] = double(p.polkol3);
+  params["ftrise"] = double(p.polgrad1);
+  params["ftratio"] = double(p.polgrad2);
+  params["ftrecdays"] = double(p.prodspada);
+  params["ftcomp"] = double(p.polcomp);
+  params["precdays"] = double(p.nPav);
+  params["frostdays"] = double(p.nZam);
+  params["windays"] = double(p.nWin);
+  params["floodprec"] = double(p.Pcr);
+  params["floodtemp"] = double(p.Tcr1);
+  params["snowtemp"] = double(p.Tcr2);
+  params["frosttemp"] = double(p.Tzam);
+  params["wintemp"] = double(p.Twin);
+  params["signratio1"] = double(p.SignDelta);
+  params["signratio2"] = double(p.SignDelta1);
+  params["floodratio"] = double(p.PavRate);
+  params["gaplen"] = double(p.InterpolStep);
+  params["gradabs"] = double(p.gradabs);
+  params["mntmode"] = double(p.ModeMountain);
+  params["mntgrad"] = double(p.pgrad);
+  params["mntavgdays"] = double(p.polkolMount1);
+  params["mntratiodays"] = double(p.polkolMount2);
+  params["mntratio"] = double(p.polgradMount);
+  params["niter"] = double(p.niter);
+  params["a"] = double(p.a);
+  params["k"] = double(p.k);
+  params["C"] = double(p.C);
+  params["aq"] = double(p.aq);
+  params["padding"] = double(p.padding);
+  params["passes"] = double(p.passes);
+  params["filter"] = baseflow_strings[p.filter];
+  return params;
+}
+
 // [[Rcpp::export]]
 std::vector<double> get_baseflow_cpp(const std::vector<double> &Qin, 
                                      const double& a,
@@ -84,7 +182,8 @@ std::vector<double> get_baseflow_cpp(const std::vector<double> &Qin,
 
 // [[Rcpp::export]]
 DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon, const std::vector<int> &Day,
-                       const std::vector<double> &Qin, const std::vector<double> &Tin, const std::vector<double> &Pin, List params) {
+                       const std::vector<double> &Qin, const std::vector<double> &Tin, const std::vector<double> &Pin, List params, 
+                       bool debug = false) {
   
   auto n = Qin.size();
   std::vector<double> Qbase(n, 0);
@@ -95,11 +194,12 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
   std::vector<double> Qpb(n, 0);
   std::vector<int> Type(n, 0);
   std::vector<int> Hyear(n, 0);
-  std::vector<int> Jittered(n, 0);
+  std::vector<int> Jittered;
+  std::vector<grwat::parameters> pars;
   
   auto p = set_params(params);
   
-  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Type, Hyear, Jittered, p);
+  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Type, Hyear, Jittered, p, pars, debug);
   
   DataFrame df = DataFrame::create(Named("Qbase") = Qbase,
                                    Named("Quick") = Quick,
@@ -108,8 +208,19 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
                                    Named("Qthaw") = Qthaw,
                                    Named("Qpb") = Qpb,
                                    Named("Type") = Type,
-                                   Named("Year") = Hyear,
-                                   Named("Jittered") = Jittered);
+                                   Named("Year") = Hyear);
+  
+  if (debug) {
+    NumericVector jitattr =  wrap(Jittered);
+    List parattr(pars.size());
+    
+    for (unsigned i = 0; i < pars.size(); ++i) {
+      parattr[i] = get_params(pars[i]);
+    }
+    
+    df.attr("jittered") = jitattr;
+    df.attr("params") = parattr;
+  }
   
   return df;
 }

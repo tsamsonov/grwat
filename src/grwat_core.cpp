@@ -182,7 +182,6 @@ namespace grwat {
 
         auto p1 = baseflow.begin();
         auto p2 = baseflow.begin();
-//        bool valid = true;
 
         auto is_nan = [](double d){ return isnan(d); };
 
@@ -210,7 +209,6 @@ namespace grwat {
                     Qf[begin] = Q[begin];
                     auto Qbase = vector<double>(n, 0);
                     for (auto i = begin + delta; inside(i); i += delta) {
-//                Qf[i] = alpha * Qf[i-delta] + 0.5 * (1 + alpha) * (Q[i] - Q[i-delta]);
                         Qf[i] = baseflow_recursive[method](Qf[i-delta], Q[i], Q[i-delta], a);
                         Qbase[i] = (Qf[i] > 0) ? Q[i] - Qf[i] : Q[i];
                     }
@@ -346,7 +344,7 @@ namespace grwat {
                   const vector<double>& Qin, const vector<double>& Tin, const vector<double>& Pin,
                   vector<double>& Qgr, vector<double>& Quick, vector<double>& Qpol, vector<double>& Qpav,
                   vector<double>& Qthaw, vector<double>& Qpb, vector<int>& Type, vector<int>& Hyear, vector<int>& Jittered,
-                  const parameters& par) {
+                  const parameters& par, vector<parameters>& par_out, bool debug = false) {
 
         for (unsigned i = 0; i < Day.size(); i++) {
             if (Day[i] > 31 or (Day[i] > 29 and Mon[i] == 28))
@@ -462,12 +460,15 @@ namespace grwat {
                 } else {
                     if (!jittered) {
                         jittered = true;
-                        Jittered[year.first] = 1;
+                        Jittered.push_back(Year[year.first]);
                     }
                     jitter_parameters(par_new, par, sumdonep);
                 }
 
             }
+
+            if (debug)
+                par_out.push_back(par_new);
 
             ng++; // number of years
         }

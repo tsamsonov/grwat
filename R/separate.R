@@ -98,7 +98,7 @@ gr_check_params <- function(params) {
 #' @export
 #'
 #' @example inst/examples/gr_separate.R
-gr_separate <- function(df, params = gr_get_params()) {
+gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   
   gr_check_data(df)
   
@@ -109,29 +109,38 @@ gr_separate <- function(df, params = gr_get_params()) {
     dplyr::filter(!is.na(Date)) %>% 
     tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
   
-  sep = separate_cpp(lubridate::year(df[[1]]), 
+  sepraw = separate_cpp(lubridate::year(df[[1]]), 
                lubridate::month(df[[1]]),
                lubridate::day(df[[1]]),
                df[[2]], df[[3]], df[[4]],
-               params) %>% 
-    dplyr::bind_cols(df, .) %>% 
-    dplyr::rename(Date = 1, Q = 2, Temp = 3, Prec = 4) %>% 
-    dplyr::relocate(Temp, Prec, .after = dplyr::last_col()) %>% 
+               params, debug) 
+  
+  sep = sepraw %>%
+    dplyr::bind_cols(df, .) %>%
+    dplyr::rename(Date = 1, Q = 2, Temp = 3, Prec = 4) %>%
+    dplyr::relocate(Temp, Prec, .after = dplyr::last_col()) %>%
     dplyr::mutate(dplyr::across(3:10, ~ replace(.x, .x < 0, NA)))
   
-  problem_years = setdiff(unique(lubridate::year(sep$Date)), unique(sep$Year))
-  if (length(problem_years) > 0)
-    warning(crayon::white$bgBlue$bold('grwat:'), ' ',
-            crayon::white$italic(paste(problem_years, collapse = ', ')),
-            ' years were not separated. Check the input data for possible errors. Use ', 
-            crayon::cyan$italic('gr_get_gaps()'), ' and ', crayon::cyan$italic('gr_fill_gaps()'), 
-            ' functions to detect and fill missing data.')
-  
-  jittered_years = lubridate::year(sep$Date[sep$Jittered == 1])
-  if (length(jittered_years) > 0)
-    warning(crayon::white$bgBlue$bold('grwat:'), ' ',
-            crayon::white$italic(paste(jittered_years, collapse = ', ')),
-            ' years were processed with jittered parameters')
+  if (debug) {
+    
+    attributes(sep)['jittered'] = attributes(sepraw)['jittered'];
+    attributes(sep)['params'] = attributes(sepraw)['params'];
+    names(attributes(sep)$params) = unique(lubridate::year(sep[[1]]))
+    
+    problem_years = setdiff(unique(lubridate::year(sep$Date)), unique(sep$Year))
+    if (length(problem_years) > 0)
+      warning(crayon::white$bgBlue$bold('grwat:'), ' ',
+              crayon::white$italic(paste(problem_years, collapse = ', ')),
+              ' years were not separated. Check the input data for possible errors. Use ', 
+              crayon::cyan$italic('gr_get_gaps()'), ' and ', crayon::cyan$italic('gr_fill_gaps()'), 
+              ' functions to detect and fill missing data.')
+    
+    jittered_years = attributes(sep)$jittered
+    if (length(jittered_years) > 0)
+      warning(crayon::white$bgBlue$bold('grwat:'), ' ',
+              crayon::white$italic(paste(jittered_years, collapse = ', ')),
+              ' years were processed with jittered parameters')
+  }
   
   return(sep)
 }
