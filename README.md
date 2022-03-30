@@ -3,37 +3,25 @@
 
 # grwat
 
-Welcome to grwat, an R package for hydrograph separation and analysis based on water level, temperature and percipitation data. It makes use of geographic data processing to spatially select temperature and precipitation data within the basin of each gauge, average these data and join them to each element in water level series. High-preformance Fortran/C++ computation is used for hydrograph processing that separates water level series into ground, seasonal, thaw, and flood discharge. Interannual and long-term characteristics of each discharge type are derived. Results are visualized in a form of high-quality reports making use of ggplot2 graphics and knitr report generation
+Welcome to grwat, an R package for hydrograph separation and analysis based on water level, temperature and percipitation data. It makes use of geographic data processing to spatially select temperature and precipitation data within the basin of each gauge, average these data and join them to each element in water level series. High-performance `C++17` computation is used for hydrograph processing that separates water level series into ground, seasonal, thaw, and flood runoff. Interannual and long-term characteristics of each discharge type are derived. Results are visualized in a form of high-quality reports making use of ggplot2 graphics and knitr report generation
 
 ## Installing
 
+__grwat__ is not available on CRAN yet. You can install it from GitHub repository. For this three steps are required:
+
+1. Install devtools R package
+2. Install compiler (Windows and macOS only)
+3. Install grwat R package
+
 ### Install devtools 
 
-Currently the package is available from GitHub repository. To install from GitHub, you should install `devtools` package first (unless it is already installed on your machine):
+To install from GitHub, you should install `devtools` package first (unless it is already installed on your machine):
 
 ```r
 install.packages("devtools")
 ```
 
-### Install grwat
-
-#### Binary (R 4.1 only) 
-
-If you have R 4.1 installed, then the easiest way to install on Windows and macOS is to use the compiled binary package. 
-
-Windows:
-```r
-devtools::install_url('https://tsamsonov.github.io/grwat/build/grwat.zip', 
-                      build = FALSE, dependencies = TRUE)
-```
-
-macOS:
-```r
-devtools::install_url('https://tsamsonov.github.io/grwat/build/grwat.tgz', 
-                      build = FALSE, dependencies = TRUE)
-```
-
-#### From sources
+### Install compiler
 
 Since grwat contains C++ code, it needs to be compiled during the package installation. 
 
@@ -49,9 +37,19 @@ __Windows__ users have to:
 1. Install [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
 2. Restart R session.
 
+### Install grwat
+
 If all previous steps are completed successfully, grwat package can be installed via single command:
 ```r
 devtools::install_github("tsamsonov/grwat")
+```
+
+> __A note to Windows users:__ if you get the error during installation _over the previously installed grwat_, remove the package folder manually, restart R and then hit `devtools::install_github("tsamsonov/grwat", INSTALL_opts = '--no-lock')`. You should run RStudio as Administrator to get the full access to the package installation folder. The location of installation folder can be learned from _Packages — Install_ dialog or by `.libPaths()` command in R console as displayed below.
+
+```
+> .libPaths()
+[1] "C:/Users/tsamsonov/Documents/R/win-library/4.1"
+[2] "C:/Program Files/R/R-4.1.0/library" 
 ```
 
 ## Funding
