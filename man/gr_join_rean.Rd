@@ -2,7 +2,7 @@
 % Please edit documentation in R/process.R
 \name{gr_join_rean}
 \alias{gr_join_rean}
-\title{Join grwat reanalysis to hydrological level series}
+\title{Join grwat reanalysis to hydrological time series}
 \usage{
 gr_join_rean(hdata, rean, buffer)
 }
@@ -18,7 +18,7 @@ List of two components: water level table enriched with reanalysis data
 and selected points
 }
 \description{
-Join grwat reanalysis to hydrological level series
+Join grwat reanalysis to hydrological time series
 }
 \examples{
 \dontrun{

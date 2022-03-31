@@ -31,7 +31,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   if(!is.null(years)){
     df = df %>% dplyr::filter(Year %in% unique(c(years, years + 1)))
   } else {
-    years = df %>% dplyr::pull(Year) %>% unique() %>% order()
+    years = df %>% dplyr::pull(Year) %>% unique() %>% order() 
   }
   
   yrs = df %>% dplyr::group_by(Year) %>% 
@@ -116,8 +116,8 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
       ggplot2::geom_area(data = graphdata, mapping = ggplot2::aes(x = Date, y = Runoff, fill = Runtype),
                          size = 0.1, color = 'black') + 
       # geom_line(aes(group = Runtype), size = 0.1, color = 'black') +
-      ggplot2::coord_cartesian(ylim=c(0, max.runoff), clip = 'off') +
-      ggplot2::scale_fill_manual(values=c("coral2", "deepskyblue3", "darkturquoise", "bisque4"), 
+      ggplot2::coord_cartesian(ylim = c(0, max.runoff), clip = 'off') +
+      ggplot2::scale_fill_manual(values = c("coral2", "deepskyblue3", "darkturquoise", "bisque4"), 
                         name = paste0(labs$discharge.type, ':')) +
       ggplot2::scale_x_date(date_breaks = "1 month", date_labels = "%b") +
       ggplot2::labs(title = year,
@@ -176,13 +176,13 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
       ggplot2::geom_label(data = data.frame(x = datestart, 
                                             y = 0.9 * max.runoff, 
                                             text = format(datestart, format="%d-%m")),
-                          mapping = aes(x, y, label = text, hjust = 1),
-                          size = 3, fill = "white", label.padding = unit(0.15, "lines")) +
+                          mapping = ggplot2::aes(x, y, label = text, hjust = 1),
+                          size = 3, fill = "white", label.padding = ggplot2::unit(0.15, "lines")) +
       ggplot2::geom_label(data = data.frame(x = datepolend, 
                                             y = 0.9 * max.runoff, 
                                             text = format(datepolend, format="%d-%m")),
-                          mapping = aes(x, y, label = text, hjust = 0),
-                          size = 3, fill = "white", label.padding = unit(0.15, "lines"))
+                          mapping = ggplot2::aes(x, y, label = text, hjust = 0),
+                          size = 3, fill = "white", label.padding = ggplot2::unit(0.15, "lines"))
     
     plotlist[[j]] = g
     j = j+1
@@ -295,7 +295,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
     if (!is.null(exclude)) {
       g = g + 
         ggplot2::labs(caption = paste('Excluded years:', paste(exclude, collapse = ', '))) +
-        ggplot2::theme(plot.caption = element_text(hjust = 0))
+        ggplot2::theme(plot.caption = ggplot2::element_text(hjust = 0))
     }
     
     if (smooth) {
@@ -668,14 +668,14 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
     dplyr::group_by(old_summer, summermonth) %>% 
     dplyr::tally() %>% 
     dplyr::ungroup() %>%
-    tidyr::complete(summermonth, tidyr::nesting(old_summer), fill=list(n=0)) %>%  
+    tidyr::complete(summermonth, tidyr::nesting(old_summer), fill = list(n=0)) %>%  
     dplyr::mutate(perc = 100*n/sum(n))
   
   df.winter = chart.data %>% 
     dplyr::group_by(old_winter, wintermonth) %>% 
     dplyr::tally() %>% 
     dplyr::ungroup() %>%
-    tidyr::complete(wintermonth, tidyr::nesting(old_winter), fill=list(n=0)) %>%  
+    tidyr::complete(wintermonth, tidyr::nesting(old_winter), fill = list(n=0)) %>%  
     dplyr::mutate(perc = 100*n/sum(n))
   
   df.summer.all = chart.data %>% 
@@ -733,7 +733,7 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
   if (!is.null(exclude)) {
     g.winter = g.winter + 
       ggplot2::labs(caption = paste('Excluded years:', paste(exclude, collapse = ', '))) +
-      ggplot2::theme(plot.caption = element_text(hjust = 0))
+      ggplot2::theme(plot.caption = ggplot2::element_text(hjust = 0))
   }
   
   multiplot(plotlist = list(g.summer, g.winter))
@@ -760,9 +760,7 @@ gr_plot_tests <- function(tests, locale = 'EN') {
   
   modeval = as.integer(dens$x[which.max(dens$y)])
   
-  ggplot2::ggplot() +
-    # geom_density(data = tibble::tibble(year = tests$year), 
-    #              aes(x = year), color = 'black', fill = 'gray75', alpha = 0.5) +       
+  ggplot2::ggplot() +    
     ggplot2::geom_line(data = ddf, ggplot2::aes(x = year, y = dens), color = 'black') +
     ggplot2::geom_area(data = ddf, ggplot2::aes(x = year, y = dens), alpha = 0.2) +
     ggplot2::geom_vline(xintercept = modeval, color = "steelblue4", size = 1) +
@@ -792,7 +790,7 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, max_lag = 30) {
     dplyr::filter(type == 'data', duration == max(duration))
   
   acf_data = hdata %>% 
-    dplyr::filter(between(.[[1]], max_period$start_date, max_period$end_date)) %>% 
+    dplyr::filter(dplyr::between(.[[1]], max_period$start_date, max_period$end_date)) %>% 
     pull(2)
   
   afun = acf(acf_data, lag.max = max_lag, plot = FALSE)
@@ -804,12 +802,12 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, max_lag = 30) {
   ggplot2::ggplot(tab, ggplot2::aes(Days, ACF)) +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
-    ggplot2::geom_hline(aes(yintercept = autocorr), 
+    ggplot2::geom_hline(ggplot2::aes(yintercept = autocorr), 
                color = 'red') +
     ggplot2::annotate("text", label = autocorr,
              x = 0, y = autocorr + 0.05,
              size = 4, colour = "red") +
-    ggplot2::geom_vline(aes(xintercept = days), 
+    ggplot2::geom_vline(ggplot2::aes(xintercept = days), 
                    color = 'blue', size = 1) +
     ggplot2::annotate("text", label = days,
              x = days + 1, y = 1,

@@ -40,5 +40,5 @@ usethis::use_package('sf')
 usethis::use_pipe(export = TRUE)
 
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage("Welcome to grwat package for hydrograph separation and analysis")
+  packageStartupMessage("Welcome to grwat package for the automatic hydrograph separation and hydrological time series analysis")
 }

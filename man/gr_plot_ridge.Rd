@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{gr_plot_ridge}
 \alias{gr_plot_ridge}
-\title{A convenient wrapper around \code{ggridges::geom_ridgeline()} to visualize multiple river hydrogrphs at once}
+\title{A convenient wrapper around \code{ggridges::geom_ridgeline()} to visualize multiple river hydrographs at once}
 \usage{
 gr_plot_ridge(
   df,
@@ -33,5 +33,5 @@ gr_plot_ridge(
 A \code{ggplot2} object
 }
 \description{
-A convenient wrapper around \code{ggridges::geom_ridgeline()} to visualize multiple river hydrogrphs at once
+A convenient wrapper around \code{ggridges::geom_ridgeline()} to visualize multiple river hydrographs at once
 }

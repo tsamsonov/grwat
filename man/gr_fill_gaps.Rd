@@ -2,7 +2,7 @@
 % Please edit documentation in R/process.R
 \name{gr_fill_gaps}
 \alias{gr_fill_gaps}
-\title{Fill missing water discharge data using linear interpolation}
+\title{Fill missing discharge data using linear interpolation}
 \usage{
 gr_fill_gaps(hdata, autocorr = 0.7, nobserv = NULL)
 }
@@ -23,5 +23,5 @@ gr_fill_gaps(hdata, autocorr = 0.7, nobserv = NULL)
 filled discharge values
 }
 \description{
-Fill missing water discharge data using linear interpolation
+Fill missing discharge data using linear interpolation
 }

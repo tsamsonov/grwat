@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">grwat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gr_separate</span><span class="op">(</span><span class="va">df</span>, params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gr_separate</span><span class="op">(</span><span class="va">df</span>, params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span><span class="op">)</span>, debug <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,29 +68,50 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data loaded with grwat package</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 23,742 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Date           Q   Temp  Prec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 1956-01-01  5.18  -<span style="color: #BB0000;">6.46</span> 0.453</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 1956-01-02  5.18 -<span style="color: #BB0000;">11.4</span>  0.825</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 1956-01-03  5.44 -<span style="color: #BB0000;">10.7</span>  0.26 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 1956-01-04  5.44  -<span style="color: #BB0000;">8.05</span> 0.397</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 1956-01-05  5.44 -<span style="color: #BB0000;">11.7</span>  0.102</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 1956-01-06  5.58 -<span style="color: #BB0000;">20.1</span>  0.032</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 1956-01-07  5.58 -<span style="color: #BB0000;">16.6</span>  0.024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1956-01-08  5.36 -<span style="color: #BB0000;">15.2</span>  0.042</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1956-01-09  5.36 -<span style="color: #BB0000;">15.9</span>  0.053</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 1956-01-10  5.31 -<span style="color: #BB0000;">13.3</span>  0.08 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 23,732 more rows</span></span>
 <span class="r-in"></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># separate</span></span>
 <span class="r-in"><span class="va">sep</span> <span class="op">=</span> <span class="fu">gr_separate</span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'Midplain'</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat: </span> parameters list and types are OK</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in rename(., Date = 1):</span> could not find function "rename"</span>
-<span class="r-in"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sep</span>, <span class="va">Year</span> <span class="op">==</span> <span class="fl">2010</span><span class="op">)</span> <span class="co"># View water resources year</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::filter(sep, Year == 2010):</span> object 'sep' not found</span>
-<span class="r-in"><span class="fu"><a href="gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">2010</span><span class="op">)</span> <span class="co"># Plot separation</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::mutate(., Year = lubridate::year(Date)):</span> object 'sep' not found</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Visualize</span></span>
+<span class="r-in"><span class="fu"><a href="gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span> </span>
+<span class="r-plt img"><img src="gr_separate-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="gr_separate-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Debug mode gives access to additional information</span></span>
+<span class="r-in"><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu">gr_separate</span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'Midplain'</span><span class="op">)</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat: </span> parameters list and types are OK</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1974, 1975</span> years were not separated. Check the input data for possible errors. Use <span style="color: #00BBBB; font-style: italic;">gr_get_gaps()</span> and <span style="color: #00BBBB; font-style: italic;">gr_fill_gaps()</span> functions to detect and fill missing data.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1965, 1978, 1989, 1991, 1995, 1996, 1997, 1998, 2002, 2007, 2008, 2009, 2011, 2014, 2015, 2016, 2017, 2019, 2020</span> years were processed with jittered parameters</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># a vector of years with jittered params</span></span>
+<span class="r-in"><span class="va">jit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">jittered</span></span>
+<span class="r-in"><span class="va">jit</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1965 1978 1989 1991 1995 1996 1997 1998 2002 2007 2008 2009 2011 2014 2015</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 2016 2017 2019 2020</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># actual params used for each year</span></span>
+<span class="r-in"><span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span></span>
+<span class="r-in"><span class="va">partab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span>, <span class="va">parlist</span><span class="op">)</span> <span class="co"># View as table</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">partab</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 39</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   winmon grad1 grad2 gratio ftmon1 ftmon2 ftrisedays1 ftrisedays2 ftdays ftrise</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 29 more variables: ftratio &lt;dbl&gt;, ftrecdays &lt;dbl&gt;, precdays &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frostdays &lt;dbl&gt;, windays &lt;dbl&gt;, floodprec &lt;dbl&gt;, floodtemp &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frosttemp &lt;dbl&gt;, wintemp &lt;dbl&gt;, signratio1 &lt;dbl&gt;, signratio2 &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   floodratio &lt;dbl&gt;, gaplen &lt;dbl&gt;, snowtemp &lt;dbl&gt;, gradabs &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mntmode &lt;dbl&gt;, mntgrad &lt;dbl&gt;, mntavgdays &lt;dbl&gt;, mntratiodays &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mntratio &lt;dbl&gt;, niter &lt;dbl&gt;, a &lt;dbl&gt;, k &lt;dbl&gt;, C &lt;dbl&gt;, aq &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   padding &lt;dbl&gt;, passes &lt;dbl&gt;, filter &lt;chr&gt;, ftcomp &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -2,7 +2,7 @@
 % Please edit documentation in R/separate.R
 \name{gr_baseflow}
 \alias{gr_baseflow}
-\title{Extracts baseflow for discharge}
+\title{Extract baseflow from hydrological series}
 \usage{
 gr_baseflow(
   Q,
@@ -30,5 +30,5 @@ gr_baseflow(
 baseflow vector
 }
 \description{
-Extracts baseflow for discharge
+Extract baseflow from hydrological series
 }
