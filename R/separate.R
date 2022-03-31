@@ -15,17 +15,21 @@ update_core <- function() {
 #' 
 gr_check_data <- function(df) {
   if (length(df) != 4)
-    stop(crayon::white$bgRed$bold('grwat:'), ' the number of columns in data frame (', length(df), ') is not equal to 4')
+    stop(crayon::white$bgRed$bold('grwat:'), 
+         ' the number of columns in data frame (', length(df), ') is not equal to 4')
   
   if (!lubridate::is.Date(df[[1]]) || !is.numeric(df[[2]]) || !is.numeric(df[[3]]) || !is.numeric(df[[4]]))
-    stop(crayon::white$bgRed$bold('grwat:'), ' the four columns of input data frame (date, discharge, temperature, precipitation) must be of ', 
+    stop(crayon::white$bgRed$bold('grwat:'), 
+         ' the four columns of input data frame (date, discharge, temperature, precipitation) must be of ', 
          crayon::white$italic('Date, numeric, numeric, numeric'), ' data types')
   
   if (sum(df[[2]] < 0, na.rm = T) > 0)
-    stop(crayon::white$bgRed$bold('grwat:'), ' there are negative values in discharge (2nd) column, please fix the data before proceeding')
+    stop(crayon::white$bgRed$bold('grwat:'), 
+         ' there are negative values in discharge (2nd) column, please fix the data before proceeding')
   
   if (sum(df[[4]] < 0, na.rm = T) > 0)
-    stop(crayon::white$bgRed$bold('grwat:'), ' there are negative values in precipitation (4th) column, please fix the data before proceeding')
+    stop(crayon::white$bgRed$bold('grwat:'), 
+         ' there are negative values in precipitation (4th) column, please fix the data before proceeding')
 }
 
 #' Check the correctness of parameters list for separating
@@ -105,7 +109,7 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   gr_check_params(params)
   
   df = df %>% 
-    rename(Date = 1) %>% 
+    dplyr::rename(Date = 1) %>% 
     dplyr::filter(!is.na(Date)) %>% 
     tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
   
