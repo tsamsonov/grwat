@@ -114,7 +114,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
                fill = 'black',
                alpha = 0.1) +
       ggplot2::geom_area(data = graphdata, mapping = ggplot2::aes(x = Date, y = Runoff, fill = Runtype),
-                         size = 0.1, color = 'black') + 
+                         size = 0.1, color = 'black', na.rm = TRUE) + 
       # geom_line(aes(group = Runtype), size = 0.1, color = 'black') +
       ggplot2::coord_cartesian(ylim = c(0, max.runoff), clip = 'off') +
       ggplot2::scale_fill_manual(values = c("coral2", "deepskyblue3", "darkturquoise", "bisque4"), 
@@ -133,13 +133,13 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
                                                                      name = paste0(labs$preccum, ' (', span, ' ',  labs$day, ')'))) +
             ggplot2::geom_line(data = yeardata,
                                mapping = ggplot2::aes(x = Date, y = Preccum / coef_prec),
-                               color = 'springgreen1', size = 0.5)
+                               color = 'springgreen1', size = 0.5, na.rm = TRUE)
         } else {
           g = g +
             ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~ . * coef_prec, name = labs$prec)) +
             ggplot2::geom_line(data = yeardata,
                                mapping = ggplot2::aes(x = Date, y = Prec / coef_prec),
-                               color = 'springgreen1', size = 0.5)
+                               color = 'springgreen1', size = 0.5, na.rm = TRUE)
         }
     }
     
@@ -152,17 +152,20 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
                              mapping = ggplot2::aes(x = Date, 
                                                     y = (Temp - min.temp) / coef_temp),
                              color = 'purple',
-                             size = 0.5) +
+                             size = 0.5, 
+                             na.rm = TRUE) +
           ggplot2::geom_line(data = yeardata,
                              mapping = ggplot2::aes(x = Date, 
                                                     y = (Posit - min.temp) / coef_temp),
                              color = 'red',
-                             size = 0.5) +
+                             size = 0.5,
+                             na.rm = TRUE) +
           ggplot2::geom_line(data = yeardata,
                              mapping = ggplot2::aes(x = Date, 
                                                     y = (Negat - min.temp) / coef_temp),
                              color = 'blue',
-                             size = 0.5) +
+                             size = 0.5,
+                             na.rm = TRUE) +
           ggplot2::geom_hline(yintercept = - min.temp / coef_temp, color = "purple", size = 0.3, linetype = "dotted") +
           ggplot2::labs(color = NULL)
         
