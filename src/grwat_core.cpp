@@ -361,7 +361,7 @@ namespace grwat {
         vector<int> donep(3, -1); // three criteria of seasonal discharge beginning
         vector<int> sumdonep(3, 0); // sum that is used to assess the effectiveness of each donep in jittering
         vector<bool> YGaps(nyears, false); // flags if there are gaps in the year
-        vector<int> NumGapsY(nyears, 0); // number of gaps in the year
+        vector<unsigned> NumGapsY(nyears, 0); // number of gaps in the year
 
         auto ng = 0; // number of the year
         double polQsum = 0.0;
@@ -499,20 +499,24 @@ namespace grwat {
         std::vector<bool> FlagsPcr(ndays, false);  // is flood
         std::vector<bool> FlagsPlusTemp(ndays, false); // is thaw
         std::vector<bool> FlagsMinusTemp(ndays, false); // is thaw
-        std::vector<int> FactPcr(nyears, 0); // number of flood days
-        std::vector<int> FactPlusTemp(nyears, 0); // number of thaw days
-        std::vector<int> FactMinusTemp(nyears, 0); // number of thaw days
+        std::vector<unsigned> FactPcr(nyears, 0); // number of flood days
+        std::vector<unsigned> FactPlusTemp(nyears, 0); // number of thaw days
+        std::vector<unsigned> FactMinusTemp(nyears, 0); // number of thaw days
         std::vector<unsigned> startPol(nyears, 0); // number of seasonal flood begin day
-        std::vector<unsigned> SummerEnd(nyears, 0);
+
+        std::vector<unsigned> SummerEnd(nyears-1);
+        for (unsigned i = 0; i < nyears-1; ++i)
+            SummerEnd[i] = iy[i+1];
+        SummerEnd.push_back(ndays-1);
 
         std::fill(Qgr.begin(), Qgr.end(), -1);
         fill_nodata(Qgr, Quick, Qpol, Qpav, Qthaw, Qpb, Type, Hyear, 0, iy[0]);
 
-        int LocMax1;
+        unsigned LocMax1;
         unsigned Flex1;
-        int Bend1;
-        int Flex2;
-        int Bend2;
+        unsigned Bend1;
+        unsigned Flex2;
+        unsigned Bend2;
         double Qo;
 
         int HalfSt = 0.5 * (par_new.nPav - 1);
@@ -714,8 +718,8 @@ namespace grwat {
             }
 
             startPol[i] = start; // initial freshet starting day before thaws are checked
-            LocMax1 = start-1;
-            Flex1 = start-1;
+            LocMax1 = start;
+            Flex1 = start;
             Bend1 = nmax;
 
             bool minus_found = false;
