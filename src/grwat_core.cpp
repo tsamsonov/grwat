@@ -378,7 +378,7 @@ namespace grwat {
             jittered = false;
             par_new = par;
 
-            iy[ng] = year.first; // 1st of january by default!
+            iy[ng] = year.first; // 1st day of hydrograph by default!
 
             for (auto iter = 0; iter < par.niter; ++iter) {
                 sumdonep = {0, 0, 0};
@@ -531,7 +531,7 @@ namespace grwat {
             auto start = iy[i]; //(i > 0) ? iy[i] : 0;
             auto end = (i < nyears-1) ? iy[i+1] : ndays-1;
 
-            if (YGaps[i]) {
+            if (YGaps[i] or Mon[start] > par.polmon2) {
                 fill_nodata(Qgr, Quick, Qpol, Qpav, Qthaw, Qpb, Type, Hyear, start, end);
                 continue;
             }
@@ -576,7 +576,7 @@ namespace grwat {
                     }
 
                     Qgr[n] = Qin[n];
-                    if (n > nmax)
+                    if (n > nmax) // tends to get wrong spring flood
                         ngrpor++;
 
                     if (ngrpor == 1) {
@@ -665,9 +665,13 @@ namespace grwat {
                 }
 
                 if (cum > maxcum) {
-                    maxcum = cum;
-                    maxstart = s;
-                    maxend = e;
+                    if (Mon[s] <= par.polmon2) {
+                        maxcum = cum;
+                        maxstart = s;
+                        maxend = e;
+                    } else {
+                        break;
+                    }
                 }
 
                 s = e;
@@ -678,6 +682,9 @@ namespace grwat {
 //
 //            for (auto k = maxend; k < polend[i]; ++k)
 //                Qgr[k] = Qin[k];
+
+            for (unsigned k = start; k < maxstart; ++k)
+                Qthaw[k] = Qin[k] - Qgr[k];
 
             iy[i] = maxstart;
             start = maxstart;
