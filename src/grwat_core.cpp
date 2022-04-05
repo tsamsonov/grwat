@@ -344,7 +344,7 @@ namespace grwat {
                   const vector<double>& Qin, const vector<double>& Tin, const vector<double>& Pin,
                   vector<double>& Qgr, vector<double>& Quick, vector<double>& Qpol, vector<double>& Qpav,
                   vector<double>& Qthaw, vector<double>& Qpb, vector<int>& Type, vector<int>& Hyear, vector<int>& Jittered,
-                  const parameters& par, vector<parameters>& par_out, bool debug = false) {
+                  const vector<parameters>& params, vector<parameters>& params_out, bool debug = false) {
 
         for (unsigned i = 0; i < Day.size(); i++) {
             if (Day[i] > 31 or (Day[i] > 29 and Mon[i] == 28))
@@ -356,6 +356,10 @@ namespace grwat {
         auto years = year_limits(Year);
         auto nyears = years.size();
         auto ndays = Qin.size();
+
+        auto nparams = params.size();
+        if (nparams < 1 or (nparams > 1 and nparams != nyears))
+            return false;
 
         vector<unsigned> iy(nyears, -99); // indices of water resource years starts
         vector<int> donep(3, -1); // three criteria of seasonal discharge beginning
@@ -370,17 +374,20 @@ namespace grwat {
 
         bool separated = false;
         auto jittered = false;
-        grwat::parameters par_new = par;
 
+        auto single = nparams == 1;
 
-        for (auto year: years) {
+        for (unsigned i = 0; i < years.size(); ++i) {
+
+            auto year = years[i];
             separated = false;
             jittered = false;
-            par_new = par;
+
+            auto par_new = single ? params[0] : params[i];
 
             iy[ng] = year.first; // 1st day of hydrograph by default!
 
-            for (auto iter = 0; iter < par.niter; ++iter) {
+            for (auto iter = 0; iter < par_new.niter; ++iter) {
                 sumdonep = {0, 0, 0};
 
                 for (auto l = year.first; l <= year.second; ++l) { // 177
@@ -462,13 +469,13 @@ namespace grwat {
                         jittered = true;
                         Jittered.push_back(Year[year.first]);
                     }
-                    jitter_parameters(par_new, par, sumdonep);
+                    jitter_parameters(par_new, params[i], sumdonep);
                 }
 
             }
 
             if (debug)
-                par_out.push_back(par_new);
+                params_out.push_back(par_new);
 
             ng++; // number of years
         }
@@ -519,8 +526,6 @@ namespace grwat {
         unsigned Bend2;
         double Qo;
 
-        int HalfSt = 0.5 * (par_new.nPav - 1);
-        int HalfStZ = 0.5 * (par_new.nZam - 1);
         double Psumi, Tsri;
 
         double dQabs = 0.0, /*dQgr = 0.0,*/ dQgr1 = 0.0, dQgr2 = 0.0, dQgr2abs = 0.0, Qgrlast = 0.0, Qgrlast1 = 0;
@@ -531,10 +536,15 @@ namespace grwat {
             auto start = iy[i]; //(i > 0) ? iy[i] : 0;
             auto end = (i < nyears-1) ? iy[i+1] : ndays-1;
 
+            auto par = single ? params[0] : params[i];
+
             if (YGaps[i] or Mon[start] > par.polmon2) {
                 fill_nodata(Qgr, Quick, Qpol, Qpav, Qthaw, Qpb, Type, Hyear, start, end);
                 continue;
             }
+
+            int HalfSt = 0.5 * (par.nPav - 1);
+            int HalfStZ = 0.5 * (par.nZam - 1);
 
             // position of the maximum discharge inside year
             auto nmax = start + distance(Qin.begin() + start, max_element(Qin.begin() + start, Qin.begin() + start + 2*par.polcomp*par.prodspada));
@@ -697,18 +707,18 @@ namespace grwat {
             for (unsigned m = start + HalfSt; m < end - HalfSt; ++m) {
 
                 Psumi = std::accumulate(Pin.begin() + m - HalfSt, Pin.begin() + m + HalfSt, 0.0);
-                Tsri = std::accumulate(Tin.begin() + m - HalfSt, Tin.begin() + m + HalfSt, 0.0) / par_new.nPav;
+                Tsri = std::accumulate(Tin.begin() + m - HalfSt, Tin.begin() + m + HalfSt, 0.0) / par.nPav;
 
                 Psums[m] = Psumi;
 
-                if (Psumi >= par_new.Pcr and Tsri >= par_new.Tcr1) { // critical rain
+                if (Psumi >= par.Pcr and Tsri >= par.Tcr1) { // critical rain
                     FactPcr[i]++;
                     FlagsPcr[m] = true;
                 }
 
                 Tsrs[m] = Tsri;
 
-                if (Tsri >= par_new.Tcr2) { // substantial plus temp
+                if (Tsri >= par.Tcr2) { // substantial plus temp
                     FactPlusTemp[i]++;
                     FlagsPlusTemp[m] = true;
                 }
@@ -716,9 +726,9 @@ namespace grwat {
 
             // Check frosts
             for (unsigned m = start + HalfStZ; m < end - HalfStZ; ++m) {
-                Tsri = std::accumulate(Tin.begin() + m - HalfStZ, Tin.begin() + m + HalfStZ, 0.0) / par_new.nZam;
+                Tsri = std::accumulate(Tin.begin() + m - HalfStZ, Tin.begin() + m + HalfStZ, 0.0) / par.nZam;
 
-                if (Tsri < par_new.Tzam) {
+                if (Tsri < par.Tzam) {
                     FactMinusTemp[i]++;
                     FlagsMinusTemp[m] = true;
                 }

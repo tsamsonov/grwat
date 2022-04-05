@@ -22,49 +22,61 @@ std::map<grwat::basefilter, std::string> baseflow_strings = {
   {grwat::KUDELIN, "kudelin"}
 };
 
-grwat::parameters set_params(List params) {
-  grwat::parameters p;
-    p.mome = params["winmon"];
-    p.grad = params["grad1"];
-    p.grad1 = params["grad2"];
-    p.kdQgr1 = params["gratio"];
-    p.polmon1 = params["ftmon1"];
-    p.polmon2 = params["ftmon2"];
-    p.polkol1 = params["ftrisedays1"];
-    p.polkol2 = params["ftrisedays2"];
-    p.polkol3 = params["ftdays"];
-    p.polgrad1 = params["ftrise"];
-    p.polgrad2 = params["ftratio"];
-    p.prodspada = params["ftrecdays"];
-    p.polcomp = params["ftcomp"];
-    p.nPav = params["precdays"];
-    p.nZam = params["frostdays"];
-    p.nWin = params["windays"];
-    p.Pcr = params["floodprec"];
-    p.Tcr1 = params["floodtemp"];
-    p.Tcr2 = params["snowtemp"];
-    p.Tzam = params["frosttemp"];
-    p.Twin = params["wintemp"];
-    p.SignDelta = params["signratio1"];
-    p.SignDelta1 = params["signratio2"];
-    p.PavRate = params["floodratio"];
-    p.FlagGaps = NA_REAL;
-    p.InterpolStep = params["gaplen"];
-    p.gradabs = params["gradabs"];
-    p.ModeMountain = params["mntmode"];
-    p.pgrad = params["mntgrad"];
-    p.polkolMount1 = params["mntavgdays"];
-    p.polkolMount2 = params["mntratiodays"];
-    p.polgradMount = params["mntratio"];
-    p.niter = params["niter"];
-    p.a = params["a"];
-    p.k = params["k"];
-    p.C = params["C"];
-    p.aq = params["aq"];
-    p.padding = params["padding"];
-    p.passes = params["passes"];
-    p.filter = baseflow_methods[params["filter"]];
-  return p;
+std::vector<grwat::parameters> set_params(List rparams) {
+  
+  std::vector<grwat::parameters> cparams;
+  bool listed = Rf_isNewList(rparams[0]);
+  auto nparams = listed ? rparams.size() : 1;
+  
+  for (unsigned i = 0; i < nparams; ++i) {
+      
+    List rpar = listed ? rparams[i] : rparams;
+    grwat::parameters cpar;
+    cpar.mome = rpar["winmon"];
+    cpar.grad = rpar["grad1"];
+    cpar.grad1 = rpar["grad2"];
+    cpar.kdQgr1 = rpar["gratio"];
+    cpar.polmon1 = rpar["ftmon1"];
+    cpar.polmon2 = rpar["ftmon2"];
+    cpar.polkol1 = rpar["ftrisedays1"];
+    cpar.polkol2 = rpar["ftrisedays2"];
+    cpar.polkol3 = rpar["ftdays"];
+    cpar.polgrad1 = rpar["ftrise"];
+    cpar.polgrad2 = rpar["ftratio"];
+    cpar.prodspada = rpar["ftrecdays"];
+    cpar.polcomp = rpar["ftcomp"];
+    cpar.nPav = rpar["precdays"];
+    cpar.nZam = rpar["frostdays"];
+    cpar.nWin = rpar["windays"];
+    cpar.Pcr = rpar["floodprec"];
+    cpar.Tcr1 = rpar["floodtemp"];
+    cpar.Tcr2 = rpar["snowtemp"];
+    cpar.Tzam = rpar["frosttemp"];
+    cpar.Twin = rpar["wintemp"];
+    cpar.SignDelta = rpar["signratio1"];
+    cpar.SignDelta1 = rpar["signratio2"];
+    cpar.PavRate = rpar["floodratio"];
+    cpar.FlagGaps = NA_REAL;
+    cpar.InterpolStep = rpar["gaplen"];
+    cpar.gradabs = rpar["gradabs"];
+    cpar.ModeMountain = rpar["mntmode"];
+    cpar.pgrad = rpar["mntgrad"];
+    cpar.polkolMount1 = rpar["mntavgdays"];
+    cpar.polkolMount2 = rpar["mntratiodays"];
+    cpar.polgradMount = rpar["mntratio"];
+    cpar.niter = rpar["niter"];
+    cpar.a = rpar["a"];
+    cpar.k = rpar["k"];
+    cpar.C = rpar["C"];
+    cpar.aq = rpar["aq"];
+    cpar.padding = rpar["padding"];
+    cpar.passes = rpar["passes"];
+    cpar.filter = baseflow_methods[rpar["filter"]];
+    
+    cparams.push_back(cpar);
+  }
+  
+  return cparams;
 }
 
 std::vector<std::string> parnames = { 
@@ -195,11 +207,11 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
   std::vector<int> Type(n, 0);
   std::vector<int> Hyear(n, 0);
   std::vector<int> Jittered;
-  std::vector<grwat::parameters> pars;
+  std::vector<grwat::parameters> params_out;
   
-  auto p = set_params(params);
+  auto params_in = set_params(params);
   
-  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Type, Hyear, Jittered, p, pars, debug);
+  grwat::separate(Year, Mon, Day, Qin, Tin, Pin, Qbase, Quick, Qseas, Qrain, Qthaw, Qpb, Type, Hyear, Jittered, params_in, params_out, debug);
   
   DataFrame df = DataFrame::create(Named("Qbase") = Qbase,
                                    Named("Quick") = Quick,
@@ -212,10 +224,10 @@ DataFrame separate_cpp(const std::vector<int> &Year, const std::vector<int> &Mon
   
   if (debug) {
     NumericVector jitattr =  wrap(Jittered);
-    List parattr(pars.size());
+    List parattr(params_out.size());
     
-    for (unsigned i = 0; i < pars.size(); ++i) {
-      parattr[i] = get_params(pars[i]);
+    for (unsigned i = 0; i < params_out.size(); ++i) {
+      parattr[i] = get_params(params_out[i]);
     }
     
     df.attr("jittered") = jitattr;

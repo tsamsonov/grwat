@@ -35,41 +35,67 @@ gr_check_data <- function(df) {
 #' Check the correctness of parameters list for separating
 #'
 #' @param params `list` of separation parameters, as returned by [grwat::gr_get_params()] function
+#' @param df `data.frame` or `tibble` with four columns: date, discharge, temperature, precipitation
 #'
 #' @return stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prins the message that everything is OK
 #' @export
 #'
 #' @examples 
-gr_check_params <- function(params) {
+gr_check_params <- function(df, params) {
   
   template = gr_get_params()
   
-  d = setdiff(names(params), names(template))
-  if (length(d) > 0) {
-    stop(crayon::white$bgRed$bold('grwat:'), ' ',
-         crayon::white$italic(paste(d, collapse = ',')), 
-         ' parameter(s) not known. Please use ', crayon::cyan$italic('gr_get_params()'), ' result as a template.')
+  n = 1
+  listed = FALSE
+  
+  if (is.list(params[[1]])) {
+    n = length(params)
+    listed = TRUE
+    
+    if (length(unique(lubridate::year(df[[1]]))) != n) {
+      stop(crayon::white$bgRed$bold('grwat:'), ' ',
+           crayon::white$italic(' the length of parameters list must be equal to 1 or to the number of years in the data'))
+    }
+    
   }
   
-  d = setdiff(names(template), names(params))
-  if (length(d) > 0) {
-    stop(crayon::white$bgRed$bold('grwat:'), ' ',
-         crayon::white$italic(paste(d, collapse = ',')), 
-         ' parameter(s) needed. Please use ', crayon::cyan$italic('gr_get_params()'), ' result as a template.')
+  for (i in 1:n) {
+    
+    par = params
+    
+    if (listed) {
+      par = params[[i]]
+    }
+    
+    d = setdiff(names(par), names(template))
+    if (length(d) > 0) {
+      stop(crayon::white$bgRed$bold('grwat:'), ' ',
+           crayon::white$italic(paste(d, collapse = ', ')), 
+           ' parameter(s) not known. Please use ', crayon::cyan$italic('gr_get_params()'), ' result as a template.')
+    }
+    
+    d = setdiff(names(template), names(par))
+    if (length(d) > 0) {
+      stop(crayon::white$bgRed$bold('grwat:'), ' ',
+           crayon::white$italic(paste(d, collapse = ', ')), 
+           ' parameter(s) needed. Please use ', crayon::cyan$italic('gr_get_params()'), ' result as a template.')
+    }
+    
+    d = intersect(names(template), names(par))
+    types1 = sapply(par[d], class)
+    types2 = sapply(template[d], class)
+    
+    td = which(types1 != types2)
+    if(length(td) > 0) {
+      stop(crayon::white$bgRed$bold('grwat:'), ' ',
+           crayon::white$italic(paste(d[td], collapse = ', ' )), 
+           ' parameter(s) must be of ',
+           crayon::cyan$italic(paste(types2[td], collapse = ', ')), 
+           ' type(s) ')
+    }
   }
   
-  d = intersect(names(template), names(params))
-  types1 = sapply(params[d], class)
-  types2 = sapply(template[d], class)
   
-  td = which(types1 != types2)
-  if(length(td) > 0) {
-    stop(crayon::white$bgRed$bold('grwat:'), ' ',
-         crayon::white$italic(paste(d[td], collapse = ',')), 
-         ' parameter(s) must be of ',
-         crayon::cyan$italic(paste(types2[td], collapse = ',')), 
-         ' type(s) ')
-  }
   
   message(crayon::white$bold('grwat: '), ' parameters list and types are OK')
     
@@ -106,7 +132,7 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   
   gr_check_data(df)
   
-  gr_check_params(params)
+  gr_check_params(df, params)
   
   df = df %>% 
     dplyr::rename(Date = 1) %>% 
