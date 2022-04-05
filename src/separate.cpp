@@ -25,13 +25,12 @@ std::map<grwat::basefilter, std::string> baseflow_strings = {
 std::vector<grwat::parameters> set_params(List rparams) {
   
   std::vector<grwat::parameters> cparams;
-  bool listed = Rf_isNewList(rparams[0]);
-  auto nparams = listed ? rparams.size() : 1;
   
-  for (unsigned i = 0; i < nparams; ++i) {
+  for (unsigned i = 0; i < rparams.size(); ++i) {
       
-    List rpar = listed ? rparams[i] : rparams;
+    List rpar = rparams[i];
     grwat::parameters cpar;
+    
     cpar.mome = rpar["winmon"];
     cpar.grad = rpar["grad1"];
     cpar.grad1 = rpar["grad2"];

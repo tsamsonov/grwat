@@ -139,6 +139,9 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
     dplyr::filter(!is.na(Date)) %>% 
     tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
   
+  if (!is.list(params[[1]]))
+    params = list(params)
+  
   sepraw = separate_cpp(lubridate::year(df[[1]]), 
                lubridate::month(df[[1]]),
                lubridate::day(df[[1]]),
