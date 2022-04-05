@@ -220,63 +220,22 @@ gr_help_params <- function() {
   return(params_in_desc)
 }
 
-#' Change separation parameters through graphical interface
+
+#' Set the value of selected parameter for selected years in parameter list
 #'
-#' @param params Parameters list
+#' @param params List of lists as returned in `params` attribute by `gr_separate()` when `debug = TRUE`.
+#' @param p Name of the parameter.
+#' @param years Integer vector of years to modify.
+#' @param value Value to set.
 #'
-#' @return
+#' @return List of lists — a modified version of `params`
 #' @export
 #'
 #' @examples
-gr_set_params <- function(params) {
-  app = shiny::shinyApp(
-    ui = shiny::fluidPage(
-      shiny::h3("Set hydrograph separation parameters"),
-      purrr::imap(params, function(value, param) {
-        shiny::fluidRow(
-          shiny::column(2, shiny::numericInput(param, label = NULL, value)),
-          shiny::column(2, param)
-        )
-      }),
-      shiny::actionButton("Set", "Set")
-    ),
-    server = function(input, output) {
-      shiny::observeEvent(input$Set, {
-        out = list(mome = input$mome,
-                   grad = input$mome,
-                   grad1 = input$grad1,
-                   kdQgr1 = input$kdQgr1,
-                   polmon1 = input$polmon1,
-                   polmon2 = input$polmon2,
-                   polkol1 = input$polkol1,
-                   polkol2 = input$polkol2,
-                   polkol3 = input$polkol3,
-                   polgrad1 = input$polgrad1,
-                   polgrad2 = input$polgrad2,
-                   prodspada = input$prodspada,
-                   nPav = input$nPav,
-                   nZam = input$nZam,
-                   nWin = input$nWin,
-                   Pcr = input$Pcr,
-                   Tcr1 = input$Tcr1,
-                   Tzam = input$Tzam,
-                   Twin = input$Twin,
-                   SignDelta = input$SignDelta,
-                   SignDelta1 = input$SignDelta1,
-                   FlagGaps = input$FlagGaps,
-                   PavRate = input$PavRate,
-                   InterpolStep = input$InterpolStep,
-                   Tcr2 = input$Tcr2,
-                   gradabs = input$gradabs,
-                   ModeMountain = input$ModeMountain,
-                   pgrad = input$pgrad,
-                   polkolMount1 = input$polkolMount1,
-                   polkolMount2 = input$polkolMount2,
-                   polgradMount = input$polgradMount)
-        shiny::stopApp(out)
-      }) 
-    }
-  )
+gr_set_param <- function(params, p, years, value) {
+  par = as.character(substitute(p))
+  for (year in years)
+    parlist[[as.character(year)]][[par]] = value
   
-  return(shiny::runApp(app))
+  return(params)
 }

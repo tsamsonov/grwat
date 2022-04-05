@@ -4,9 +4,11 @@
 \alias{gr_check_params}
 \title{Check the correctness of parameters list for separating}
 \usage{
-gr_check_params(params)
+gr_check_params(df, params)
 }
 \arguments{
+\item{df}{\code{data.frame} or \code{tibble} with four columns: date, discharge, temperature, precipitation}
+
 \item{params}{\code{list} of separation parameters, as returned by \code{\link[=gr_get_params]{gr_get_params()}} function}
 }
 \value{
