@@ -16,7 +16,7 @@ reference:
   - gr_get_params
   - gr_check_params
   - gr_help_params
-  - gr_set_params
+  - gr_set_param
   - gr_separate
 
 - title: Analysis

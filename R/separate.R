@@ -225,17 +225,23 @@ gr_help_params <- function() {
 #'
 #' @param params List of lists as returned in `params` attribute by `gr_separate()` when `debug = TRUE`.
 #' @param p Name of the parameter.
-#' @param years Integer vector of years to modify.
 #' @param value Value to set.
+#' @param years Integer vector of years to modify. Defaults to NULL, which means that all years will be modified
 #'
 #' @return List of lists — a modified version of `params`
 #' @export
 #'
 #' @examples
-gr_set_param <- function(params, p, years, value) {
+gr_set_param <- function(params, p, value, years = NULL) {
   par = as.character(substitute(p))
-  for (year in years)
-    parlist[[as.character(year)]][[par]] = value
+  
+  if (is.null(years)) {
+    for (i in seq_along(params))
+      parlist[[i]][[par]] = value
+  } else {
+    for (year in years)
+      parlist[[as.character(year)]][[par]] = value
+  }
   
   return(params)
 }

@@ -4,16 +4,16 @@
 \alias{gr_set_param}
 \title{Set the value of selected parameter for selected years in parameter list}
 \usage{
-gr_set_param(params, p, years, value)
+gr_set_param(params, p, value, years = NULL)
 }
 \arguments{
 \item{params}{List of lists as returned in \code{params} attribute by \code{gr_separate()} when \code{debug = TRUE}.}
 
 \item{p}{Name of the parameter.}
 
-\item{years}{Integer vector of years to modify.}
-
 \item{value}{Value to set.}
+
+\item{years}{Integer vector of years to modify. Defaults to NULL, which means that all years will be modified}
 }
 \value{
 List of lists — a modified version of \code{params}
