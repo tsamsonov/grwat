@@ -836,8 +836,8 @@ namespace grwat {
             Flex2 = start-1;
             Bend2 = start-1;
 
-            bool peaks_found = false;
-            bool first_iter = true;
+            bool floods_found = false;
+            bool first_peak = true;
 
             bool early_polend = false;
 
@@ -847,23 +847,23 @@ namespace grwat {
                     for (auto pp = p; pp >= nmax2; --pp) {
                         if (deltaQ[pp] < 0) {
                             Flex2 = pp + 1;
-                            if (first_iter) {
+                            if (first_peak) {
                                 nmax2_bend = Flex2;
-                                first_iter = false;
+                                first_peak = false;
                             }
                             break;
                         }
                     }
 
-                    bool is_flood = false;
-                    bool is_peak = false;
+//                    bool is_flood = false;
+//                    bool is_peak = false;
                     for (unsigned pp = Flex2 + 1; pp < polend[i]; ++pp) {
                         if (((Qin[pp] < Qin[Flex2])
                             and  (/*std::min(deltaQ[pp], deltaQ[pp - 1]) */ deltaQ[pp] >= (Qin[pp] - Qin[Flex2]) / (pp - Flex2)))
                             or (pp == polend[i])) {
                             Bend2 = pp;
 
-                            is_peak = true;
+//                            is_peak = true;
 
                             for (auto ppp = Bend2 - HalfSt; ppp > Flex2 - 2*HalfSt; --ppp) {
                                 if (FlagsPcr[ppp]) {
@@ -891,8 +891,8 @@ namespace grwat {
                                     if (early_polend)
                                         break;
 
-                                    is_flood = true;
-                                    peaks_found = true;
+//                                    is_flood = true;
+                                    floods_found = true;
 
                                     p = Bend2; // to promote p cycle after the peak
                                     pp = polend[i]; // to break the pp cycle
@@ -900,33 +900,42 @@ namespace grwat {
                                     break;
                                 }
                             }
-                            if (early_polend)
-                                break;
+
+                            if (!floods_found) {
+                                nmax2 = Flex2 + distance(Qin.begin() + Flex2, max_element(Qin.begin() + Flex2, Qin.begin() + Bend2));
+                                nmax2_bend = Bend2;
+                            }
+
+//                            if (early_polend)
+                            break;
                         }
                     }
 
                     if (early_polend)
                         break;
 
-                    if (is_peak and !is_flood) {
-                        nmax2 = Flex2 + distance(Qin.begin() + Flex2, max_element(Qin.begin() + Flex2, Qin.begin() + Bend2));
-                        nmax2_bend = Bend2;
-                    }
+//                    if (is_peak and !is_flood) {
+//                        nmax2 = Flex2 + distance(Qin.begin() + Flex2, max_element(Qin.begin() + Flex2, Qin.begin() + Bend2));
+//                        nmax2_bend = Bend2;
+//                    }
                 }
             }
 
             // least squares freshet flood decay
-            if (peaks_found and not early_polend and ((polend[i] - start) >= (par.prodspada * par.polcomp))) {
+            if (floods_found and not early_polend and ((polend[i] - start) >= (par.prodspada * par.polcomp))) {
 
                 auto z = -log(Qin[nmax2_bend] / Qin[nmax2]) / (nmax2_bend - nmax2);
 
                 Qo = Qin[nmax2];
                 bool is_endpol = false;
                 bool is_endflood = false;
+                auto ref = nmax2;
 
-                for (auto x = nmax2_bend; x < polend[i]; ++x) {
+                auto x = nmax2_bend;
 
-                    auto q = Qo * exp(-z * (x-nmax2));
+                while (x < polend[i]) {
+
+                    auto q = Qo * exp(-z * (x-ref));
 
                     if (is_endpol) {
                         q = Qgr[x]; // 0
@@ -940,13 +949,19 @@ namespace grwat {
                         }
 
                         if (q > Qin[x]) {
-                            q = Qin[x];
-                            if (!is_endflood) {
-                                is_endflood = true;
-                            }
+                            z = -log(Qgr[x] / Qin[nmax2_bend]) / (x - nmax2_bend);
+                            x = nmax2_bend;
+                            ref = nmax2_bend;
+                            Qo = Qin[nmax2_bend];
+                            continue;
+//                            q = Qin[x];
+//                            if (!is_endflood) {
+//                                is_endflood = true;
+//                            }
                         }
                     }
                     Qpav[x] = Qin[x] - q;
+                    x++;
                 }
 
             }
