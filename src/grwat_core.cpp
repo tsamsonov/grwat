@@ -870,7 +870,7 @@ namespace grwat {
                     for (unsigned pp = Flex2 + 1; pp < polend[i]; ++pp) {
                         if (((Qin[pp] < Qin[Flex2])
                             and  (/*std::min(deltaQ[pp], deltaQ[pp - 1]) */ deltaQ[pp] >= (Qin[pp] - Qin[Flex2]) / (pp - Flex2)))
-                            or (pp == polend[i])) {
+                            or (pp == polend[i]-1)) {
                             Bend2 = pp;
 
 //                            is_peak = true;
