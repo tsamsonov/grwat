@@ -237,10 +237,10 @@ gr_set_param <- function(params, p, value, years = NULL) {
   
   if (is.null(years)) {
     for (i in seq_along(params))
-      parlist[[i]][[par]] = value
+      params[[i]][[par]] = value
   } else {
     for (year in years)
-      parlist[[as.character(year)]][[par]] = value
+      params[[as.character(year)]][[par]] = value
   }
   
   return(params)
