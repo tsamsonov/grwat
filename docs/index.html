@@ -80,11 +80,18 @@
 <div class="section level1">
 <div class="page-header"><h1 id="grwat">grwat<a class="anchor" aria-label="anchor" href="#grwat"></a>
 </h1></div>
-<p>Welcome to grwat, an R package package for the automatic hydrograph separation and hydrological time series analysis. High-performance <code>C++17</code> computation is used for hydrograph processing that separates runoff into ground, seasonal, thaw, and flood runoff. Interannual and long-term characteristics of each runoff type are derived. Results are visualized in a form of high-quality reports making use of ggplot2 graphics and knitr report generation.</p>
+<p>Welcome to grwat, an R package package for the automatic hydrograph
+separation and hydrological time series analysis. High-performance
+<code>C++17</code> computation is used for hydrograph processing that
+separates runoff into ground, seasonal, thaw, and flood runoff.
+Interannual and long-term characteristics of each runoff type are
+derived. Results are visualized in a form of high-quality reports making
+use of ggplot2 graphics and knitr report generation.</p>
 <div class="section level2">
 <h2 id="installing">Installing<a class="anchor" aria-label="anchor" href="#installing"></a>
 </h2>
-<p><strong>grwat</strong> is not available on CRAN yet. You can install it from GitHub repository. For this three steps are required:</p>
+<p><strong>grwat</strong> is not available on CRAN yet. You can install
+it from GitHub repository. For this three steps are required:</p>
 <ol style="list-style-type: decimal">
 <li>Install devtools R package</li>
 <li>Install compiler (Windows and macOS only)</li>
@@ -93,18 +100,22 @@
 <div class="section level3">
 <h3 id="install-devtools">Install devtools<a class="anchor" aria-label="anchor" href="#install-devtools"></a>
 </h3>
-<p>To install from GitHub, you should install <code>devtools</code> package first (unless it is already installed on your machine):</p>
+<p>To install from GitHub, you should install <code>devtools</code>
+package first (unless it is already installed on your machine):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="install-compiler">Install compiler<a class="anchor" aria-label="anchor" href="#install-compiler"></a>
 </h3>
-<p>Since grwat contains C++ code, it needs to be compiled during the package installation.</p>
-<p><strong>Linux</strong> users should have the compiler already installed in their system.</p>
+<p>Since grwat contains C++ code, it needs to be compiled during the
+package installation.</p>
+<p><strong>Linux</strong> users should have the compiler already
+installed in their system.</p>
 <p><strong>macOS</strong> users have to:</p>
 <ol style="list-style-type: decimal">
-<li>Install <a href="https://developer.apple.com/download/more/" class="external-link">Xcode command-line tools</a>.</li>
+<li>Install <a href="https://developer.apple.com/download/more/" class="external-link">Xcode
+command-line tools</a>.</li>
 <li>Restart R session.</li>
 </ol>
 <p><strong>Windows</strong> users have to:</p>
@@ -116,11 +127,19 @@
 <div class="section level3">
 <h3 id="install-grwat">Install grwat<a class="anchor" aria-label="anchor" href="#install-grwat"></a>
 </h3>
-<p>If all previous steps are completed successfully, grwat package can be installed via single command:</p>
+<p>If all previous steps are completed successfully, grwat package can
+be installed via single command:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"tsamsonov/grwat"</span><span class="op">)</span></code></pre></div>
 <blockquote>
-<p><strong>A note to Windows users:</strong> if you get the error during installation <em>over the previously installed grwat</em>, remove the package folder manually, restart R and then hit <code>devtools::install_github("tsamsonov/grwat", INSTALL_opts = '--no-lock')</code>. You should run RStudio as Administrator to get the full access to the package installation folder. The location of installation folder can be learned from <em>Packages — Install</em> dialog or by <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code> command in R console as displayed below.</p>
+<p><strong>A note to Windows users:</strong> if you get the error during
+installation <em>over the previously installed grwat</em>, remove the
+package folder manually, restart R and then hit
+<code>devtools::install_github("tsamsonov/grwat", INSTALL_opts = '--no-lock')</code>.
+You should run RStudio as Administrator to get the full access to the
+package installation folder. The location of installation folder can be
+learned from <em>Packages — Install</em> dialog or by
+<code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code> command in R console as displayed below.</p>
 </blockquote>
 <pre><code>&gt; .libPaths()
 [1] "C:/Users/tsamsonov/Documents/R/win-library/4.1"
@@ -130,9 +149,13 @@
 <div class="section level2">
 <h2 id="funding">Funding<a class="anchor" aria-label="anchor" href="#funding"></a>
 </h2>
-<p><strong>grwat</strong> package is being developed with financial support of Russian Science Foundation (Project <a href="https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf" class="external-link">19-77-10032</a>).</p>
-<p>The main separation algoritm was developed in 2016-2018 with financial support of RFBR (Project <a href="http://www.rfbr.ru/rffi/ru/project_search/o_2031785" class="external-link">16-35-60080</a>).</p>
-<p>The mountain block of the main separation algoritm was developed in 2018-2019 with financial support of Russian Science Foundation (Project <a href="http://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf" class="external-link">17-77-10169</a>).</p>
+<p><strong>grwat</strong> package is being developed with financial
+support of Russian Science Foundation (Project <a href="https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf" class="external-link">19-77-10032</a>).</p>
+<p>The main separation algoritm was developed in 2016-2018 with
+financial support of RFBR (Project <a href="http://www.rfbr.ru/rffi/ru/project_search/o_2031785" class="external-link">16-35-60080</a>).</p>
+<p>The mountain block of the main separation algoritm was developed in
+2018-2019 with financial support of Russian Science Foundation (Project
+<a href="http://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf" class="external-link">17-77-10169</a>).</p>
 </div>
 </div>
 
@@ -186,7 +209,8 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.1.</p>
 </div>
 
     </footer>

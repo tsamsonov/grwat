@@ -20,7 +20,7 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 7, out.width = '100%', dpi = 
 Sys.setlocale("LC_TIME", "en_US.UTF-8")
 ```
 
-# Read and preprocess the source data 
+# Read and preprocess the source data
 
 ## Read raw discharge data
 
@@ -47,7 +47,7 @@ hdata_raw = read_delim(path,
 head(hdata_raw) # see the data
 ```
 
-`grwat` expects the date as a _single_ column. Therefore, in this case we have to construct it manually. For this it is convenient to use `make_date()` function from `lubridate` package: 
+`grwat` expects the date as a *single* column. Therefore, in this case we have to construct it manually. For this it is convenient to use `make_date()` function from `lubridate` package:
 
 ```{r}
 hdata = hdata_raw %>% 
@@ -61,13 +61,16 @@ head(hdata)
 ## Fill gaps {#fill}
 
 Hydrograph data may contain empty values due to corrupted records or missed observations at specific dates. A short summary of gap periods can be obtained by `gr_get_gaps()` function:
+
 ```{r}
 gaps = gr_get_gaps(hdata)
 gaps
 ```
+
 `gr_fill_gaps()` function allows filling gaps in the data. This function first expands the date sequence if some dates are missing between the minimum and the maximum date in the table, and then trims the sequence of dates if missing obervations are at the beginning or end of the sequence. After expansion all missing observations are filled by linear interpolation between nearest values.
 
 You can limit the maximum gap extent by threshold autocorrelation value (`autocorr` parameter) or expliсit number of observations (`nobserv` parameter):
+
 ```{r}
 fhdata = gr_fill_gaps(hdata, autocorr = 0.7)
 fhdata = gr_fill_gaps(hdata, nobserv = 10)
@@ -85,12 +88,12 @@ A sole discharge data is enough to separate the hydrograph into quickflow and ba
 
 One of the ways to obtain the temperature and precipitation data is to use reanalyses such as [ERA5](https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era5). Reanalysis data is arranged as regular grids with specific resolution. In particular, the ERA5 data has $31$ km or $0.28125$ degrees resolution. To use such data you must tolerate the fact that none of the reanalysis grid nodes will coincide with your gauge. Instead, you have to use the data, which is either
 
-- the closest reanalysis point
-- all points falling within the buffer zone of the gauge
-- all points falling within the basin of the the gauge.
-- all points falling within the buffer zone of the basin of the the gauge.
+-   the closest reanalysis point
+-   all points falling within the buffer zone of the gauge
+-   all points falling within the basin of the the gauge.
+-   all points falling within the buffer zone of the basin of the the gauge.
 
-The last two options are the most adequate. Let's see how it can be done. 
+The last two options are the most adequate. Let's see how it can be done.
 
 ### Basin, buffered basin or buffered gauge
 
@@ -109,6 +112,7 @@ mapview(basin) + mapview(gauge)
 ```
 
 Next, we can buffer the data on the specified distance to catch more reanalysis data. For this we use `gr_buffer_geo` function, which approximates geographic buffer of the specified radius:
+
 ```{r, dpi = 72}
 basin_buffer = gr_buffer_geo(basin, 25000) 
 mapview(basin_buffer, col.regions = 'red') +
@@ -116,6 +120,7 @@ mapview(basin_buffer, col.regions = 'red') +
 ```
 
 Alternatively you can just buffer the gauge point, though it is less meaningful since you will grab reanalysis data that falls out of gauge's basin:
+
 ```{r, dpi = 72}
 gauge_buffer = gr_buffer_geo(gauge, 50000) 
 mapview(gauge_buffer, col.regions = 'red') +
@@ -124,10 +129,10 @@ mapview(gauge_buffer, col.regions = 'red') +
 
 ### Joining the East-European Plane reanalysis
 
-__grwat__ is packaged with daily reanalysis which covers the East European territory of Russia. It has a spatial resolution of $0.75^{\circ} \times 0.75^{\circ}$, and temporal resolution of $1$ (one) day. Data sources include:
+**grwat** is packaged with daily reanalysis which covers the East European territory of Russia. It has a spatial resolution of $0.75^{\circ} \times 0.75^{\circ}$, and temporal resolution of $1$ (one) day. Data sources include:
 
-- [CIRES-DOE](https://psl.noaa.gov/data/gridded/data.20thC_ReanV3.html) from 01-01-1880 till 31-12-1978
-- [ERA5](https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era5) from 01-01-1979 till now.
+-   [CIRES-DOE](https://psl.noaa.gov/data/gridded/data.20thC_ReanV3.html) from 01-01-1880 till 31-12-1978
+-   [ERA5](https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era5) from 01-01-1979 till now.
 
 The coverage of the reanalysis is shown below:
 
@@ -141,7 +146,7 @@ The reanalysis consists of two data files, each file is about 850 Mb in size:
 knitr::include_graphics('img/rean_files.png')
 ```
 
-Download this data using the [__link__](http://carto.geogr.msu.ru/grwat/) for using with grwat.
+Download this data using the [**link**](http://carto.geogr.msu.ru/grwat/) for using with grwat.
 
 ```{r}
 rean = gr_read_rean(
@@ -176,46 +181,81 @@ m@map %>% leaflet::setView(center[1], center[2], zoom = 7)
 <!-- ERA 5 data can be accessed via [__`ecmwfr`__](https://bluegreen-labs.github.io/ecmwfr/index.html) package. Before you access the data, you must register and obtain the Climate Data Store (CDS) API key. Please follow instructions [here](https://bluegreen-labs.github.io/ecmwfr/index.html#use-copernicus-climate-data-store-cds). -->
 
 <!-- First, set your key: -->
+
 <!-- ```{r, eval=F} -->
+
 <!-- wf_set_key(user = "12345", -->
+
 <!--            key = "XXXXXXXXXXXXXXXXXXXXXX", -->
+
 <!--            service = "cds") -->
+
 <!-- ``` -->
 
 <!-- ```{r, echo=FALSE, include=FALSE} -->
+
 <!-- wf_set_key(user = "87659", -->
+
 <!--            key = "df251cc6-5b0b-4100-b2ee-617fcea66b04", -->
+
 <!--            service = "cds") -->
+
 <!-- ``` -->
 
 <!-- Second, fill the request list: -->
+
 <!-- ```{r} -->
+
 <!-- # This is an example of a request for # downloading 'ERA-5' reanalysis data for -->
+
 <!-- # 2000-04-04 00:00 UTC, temperature on # 850 hectopascal for an area covering  -->
+
 <!-- # northern Europe. -->
+
 <!-- # File will be stored as "era5-demo.nc" (netcdf format). -->
+
 <!-- request = list("dataset_short_name" = "reanalysis-era5-single-levels", -->
+
 <!--                 "product_type" = "reanalysis", -->
+
 <!--                 "variable" = c("temperature", "total_precipitation"), -->
+
 <!--                 "year" = '2020', -->
+
 <!--                 "month" = '01', -->
+
 <!--                 "day" = '01', -->
+
 <!--                 "time" = '00:00', #seq(0, 21, by = 3), -->
+
 <!--                 # "area" = as.vector(box), -->
+
 <!--                 "area" = "70/-20/00/60", -->
+
 <!--                 "format" = "netcdf", -->
+
 <!--                 "target" = "era5.nc") -->
 
 <!-- request <- list("dataset_short_name" = "reanalysis-era5-pressure-levels", -->
+
 <!--                 "product_type" = "reanalysis", -->
+
 <!--                 "variable" = "temperature", -->
+
 <!--                 "pressure_level" = "850", -->
+
 <!--                 "year" = "2000", -->
+
 <!--                 "month" = "04", -->
+
 <!--                 "day" = "04", -->
+
 <!--                 "time" = "00:00", -->
+
 <!--                 "area" = "70/-20/00/60", -->
+
 <!--                 "format" = "netcdf", -->
+
 <!--                 "target" = "era5-demo.nc") -->
 
 <!-- ``` -->
@@ -223,17 +263,27 @@ m@map %>% leaflet::setView(center[1], center[2], zoom = 7)
 <!-- Then pass it to the [`wf_request()`](https://bluegreen-labs.github.io/ecmwfr/reference/wf_request.html) function -->
 
 <!-- ```{r, eval=F} -->
+
 <!-- file = wf_request(user     = "12345",   # user ID (for authentification) -->
+
 <!--                    request  = request,  # the request -->
+
 <!--                    transfer = TRUE,     # download the file -->
+
 <!--                    path     = ".")      # store data in current working directory -->
+
 <!-- ``` -->
 
 <!-- ```{r, include=F, echo=F} -->
+
 <!-- file = wf_request(user     = "87659",   # user ID (for authentification) -->
+
 <!--                   request  = request,  # the request -->
+
 <!--                   transfer = TRUE,     # download the file -->
+
 <!--                   path     = ".")      # store data in current working directory -->
+
 <!-- ``` -->
 
 # Separate and summarize {#separate}
@@ -259,6 +309,7 @@ resbase %>%
 ```
 
 The separation is mainly parameterized by smoothing parameter which is `a = 0.925` by default, and number of passes, which are `passes = 3` by default. Changing them affects the shape of a baseflow component:
+
 ```{r}
 resbase = fhdata %>% 
   mutate(Qbase = gr_baseflow(Q, method = 'lynehollick', 
@@ -302,11 +353,13 @@ patchwork::wrap_plots(plots, ncol = 2)
 Advanced separation aims at revealing the genesis of the quickflow. Was it due to a rain or snowmelting? For this, a joint analysis of discharge, temperature and precipitation time series is performed by specialized algorithm, available from `gr_separate()` function in grwat package.
 
 The genetic separation of hydrograph is controlled by more than 30 parameters. The names and meaning of these parameters can be learned thanks to `gr_help_params()` function:
+
 ```{r}
 View(gr_help_params())
 ```
 
 Since the number of parameters is large (31), they are organized as list, which is then fed into `gr_separate()` function. First, you get the params using the `gr_get_params()` function. The only parameter of the function is `reg`, which indicates the region for which the parameters must be extracted. After you got the parameters, they can be changed by accessing the list elements:
+
 ```{r}
 # Расчленение
 p = gr_get_params(reg = 'Midplain')
@@ -315,12 +368,14 @@ p$ftrecdays = 85
 ```
 
 Next, you can separate the hydrograph:
+
 ```{r}
 sep = gr_separate(fhdata_rean, p)
 head(sep)
 ```
 
 After the hydrograph is separated, it can be summarized in a set of variables:
+
 ```{r, message=FALSE, warning=FALSE}
 vars = gr_summarize(sep)
 head(vars)
@@ -330,22 +385,24 @@ head(vars)
 
 These functions from grwat package allow you to:
 
-- Plot separation of hydrograph
-- Plot interannual changes of key water discharge variables
-- Plot long-term changes of key water discharge variables
-- Perform statistical tests on all calculated variables
+-   Plot separation of hydrograph
+-   Plot interannual changes of key water discharge variables
+-   Plot long-term changes of key water discharge variables
+-   Perform statistical tests on all calculated variables
 
 Graphical functions are based on [ggplot2](https://ggplot2.tidyverse.org) graphics.
 
 ## Plot separation of hydrograph
 
 You can plot separations for selected years using `gr_plot_sep()` function:
+
 ```{r, fig.width=12, fig.height=6}
 gr_plot_sep(sep, 1976) # plot single year
 gr_plot_sep(sep, c(2016, 2017)) # plot two years sequentially
 ```
 
 And also multiple years on the same layout:
+
 ```{r fig.width=12, fig.height=12}
 gr_plot_sep(sep, 1976:1979, # plot four years on the same page
             layout = matrix(c(1,2,3,4), ncol=2, byrow = T))
@@ -354,28 +411,33 @@ gr_plot_sep(sep, 1976:1979, # plot four years on the same page
 ## Interannual change variables
 
 To get the detailed description of available variables you can invoke `gr_help_vars()`:
+
 ```{r}
 View(gr_help_vars())
 ```
 
 Parameters can be statistically tested using `test_variables(df, ..., year = NULL, locale='EN')` function. Names of the parameters are passed comma-separated in place of `...`. They are quoted, so you do not need to pass them as character strings, just write their names:
+
 ```{r}
 gr_test_vars(vars, Qmax)
 ```
 
 This is an example with three variables selected:
+
 ```{r}
 tests = gr_test_vars(vars, Qygr, date10w1, Wpol3)
 tests$pvalues
 ```
 
 If you want to test all parameters, just skip variable names:
+
 ```{r}
 tests = gr_test_vars(vars)
 tests$year # this is a change year detected for each variable
 ```
 
 Long-term changes are tested against breaking year, which is calculated for each variable using Pettitt test. However, if you want to use a fixed year, you should pass the desired breaking year into `change_year` parameter:
+
 ```{r}
 tests = gr_test_vars(vars, Qmax, Qygr, change_year = 1987)
 tests$ft # Fisher F tests to compare two variances
@@ -397,7 +459,6 @@ gr_plot_vars(vars, Qmax, Qygr, date10w1, Wpol3, # plot four variables in matrix 
              layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE)) 
 ```
 
-
 You can add the results of statistical tests to the plot by specifying `tests = TRUE` in the function call. In that case the subtitle with test results are added, Theil-Sen slope and Pettitt test breaking year are drawn as solid ($p \leq 0.05$) or dashed ($p > 0.05$) lines:
 
 ```{r, fig.width=12, fig.height=6}
@@ -405,21 +466,22 @@ gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
              tests = TRUE) # add test information
 ```
 
-Alternatively, you can pass to `tests` the result of `test_variables()`, if you need to precompute it with specific parameters (for example, by setting `exclude` and `year`: 
+Alternatively, you can pass to `tests` the result of `test_variables()`, if you need to precompute it with specific parameters (for example, by setting `exclude` and `year`:
 
 ```{r, eval = FALSE}
 gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs,
              tests = gr_test_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs, exclude = 1990)) # add test information
 ```
 
-Beware that in that case you should test the variables _in the same order as used for plotting_. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other.
+Beware that in that case you should test the variables *in the same order as used for plotting*. If you plot variables A, B, C and supply tests for variables X, Y, Z, they will be added without any warnings, and it is your responsibility to keep them in correspondence with each other.
 
-Finally, you can plot _all variables_ by not supplying column names to `plot_variables()` function. In that case tests (if you want to plot them too) should also be calculated for all variables:
+Finally, you can plot *all variables* by not supplying column names to `plot_variables()` function. In that case tests (if you want to plot them too) should also be calculated for all variables:
+
 ```{r, eval=FALSE}
 gr_plot_vars(vars, tests = TRUE)
 ```
 
-## Plot long-term period changes 
+## Plot long-term period changes
 
 Long-term changes are the differences between summarized statistics of one variable calculated for two selected periods. Because these statistics reflect the differences in distributions of parameters, grwat visualizes them as box plots using `gr_plot_periods()` function. The syntax is similar to `gr_plot_vars()` except that you must provide either `tests` or `year` parameter. If both are supplied then `tests` is prioritized (you can also supply a fixed year when testing variables:
 
@@ -430,6 +492,7 @@ gr_plot_periods(vars, Qy, tests = gr_test_vars(vars, Qy, year = 1985))
 ```
 
 Multiple plots can be combined on one page using `layout` parameter:
+
 ```{r, fig.width=12, fig.height=8}
 gr_plot_periods(vars, Qy, Qmax, date10w1, Wpol3,
                 tests = TRUE,
@@ -437,11 +500,13 @@ gr_plot_periods(vars, Qy, Qmax, date10w1, Wpol3,
 ```
 
 To plot long-term changes for all variables just skip variable names in function call:
+
 ```{r, eval = FALSE}
 gr_plot_periods(vars, tests = TRUE)
 ```
 
 There is also a small helper function that plots a histogram of minimal discharge month for summer and winter periods:
+
 ```{r, fig.height= 12, message=FALSE}
 gr_plot_minmonth(vars, year = 1985)
 ```
@@ -449,6 +514,7 @@ gr_plot_minmonth(vars, year = 1985)
 ## Plot discharge parameters
 
 There is a dedicated `gr_plot_matrix()` function that plot the whole time series in a convenient matrix form. Currently it supports plotting the value, seasons and components of the discharge:
+
 ```{r, fig.width=10, fig.height=5}
 gr_plot_matrix(sep, type = 'value')
 gr_plot_matrix(sep, type = 'season')
@@ -456,13 +522,14 @@ gr_plot_matrix(sep, type = 'component')
 ```
 
 You can also limit the range of years that will be plotted:
+
 ```{r, fig.width=10, fig.height=2.5}
 gr_plot_matrix(sep, years = 1980:1995, type = 'component')
 ```
 
 # Hydrograph comparisons
 
-Sometimes you want to compare hydrographs for selected years. There are multiple ways to do so in R. Here we will explore three of those: overlayed, ridgeline and horiaon plots. Since these require a small number of manipulations via existing R packages, there is no dedicated functionality for this in __`grwat`__. 
+Sometimes you want to compare hydrographs for selected years. There are multiple ways to do so in R. Here we will explore three of those: overlayed, ridgeline and horiaon plots. Since these require a small number of manipulations via existing R packages, there is no dedicated functionality for this in **`grwat`**.
 
 ## Overlayed
 
@@ -501,7 +568,7 @@ ggplot(sep_sel, aes(ymd(20000101) + yday(Date), Q,
 
 ## Ridgeline
 
-If we are interested more in the shape and relative dimensions of the hydrographs, and do not want the exact Y axis, then we can proceed with ridgeline plots available at [__`ggridges`__](https://wilkelab.org/ggridges/) package. __`grwat`__ contains a convenient wrapper called `gr_plot_ridge()`:
+If we are interested more in the shape and relative dimensions of the hydrographs, and do not want the exact Y axis, then we can proceed with ridgeline plots available at [**`ggridges`**](https://wilkelab.org/ggridges/) package. **`grwat`** contains a convenient wrapper called `gr_plot_ridge()`:
 
 ```{r, fig.width=10, fig.height=5}
 gr_plot_ridge(sep, years = c(1960, 1965, 1989, 2001, 2012))
@@ -509,7 +576,7 @@ gr_plot_ridge(sep, years = c(1960, 1965, 1989, 2001, 2012))
 
 ## Horizon
 
-Another alternative to the ridgeline plot is the horizon plot, which can be built by [__`ggHoriPlot`__](https://rivasiker.github.io/ggHoriPlot/) package. Horizon plots are more compact and allow viewing more hydrographs at once. __grwat__ contains a convenient wrapper called `gr_plot_hori()`:
+Another alternative to the ridgeline plot is the horizon plot, which can be built by [**`ggHoriPlot`**](https://rivasiker.github.io/ggHoriPlot/) package. Horizon plots are more compact and allow viewing more hydrographs at once. **grwat** contains a convenient wrapper called `gr_plot_hori()`:
 
 ```{r, fig.width=8, fig.height=4}
 gr_plot_hori(sep, years = 1960:1980)
@@ -518,6 +585,7 @@ gr_plot_hori(sep, years = 1960:1980)
 # Reports
 
 To render HTML report just pass separation and variables to `gr_report()` function, and provide the output file name:
+
 ```{r, eval = FALSE}
 report = paste(getwd(), 'Spas-Zagorye.html', sep = '/')
 gr_report(sep, vars, output = report)
