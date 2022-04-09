@@ -14,13 +14,13 @@ gr_plot_minmonth(
 )
 }
 \arguments{
-\item{df}{Hydrograph and meteorological variables data.frame produced by \code{gr_summarize()}.}
+\item{df}{\code{data.frame} of hydrograph and meteorological variables produced by \code{\link[=gr_summarize]{gr_summarize()}}.}
 
-\item{year}{Change year value to separate two periods.}
+\item{year}{Integer. Change year value to separate two periods.}
 
 \item{exclude}{Integer vector of years to be excluded from plotting.}
 
-\item{locale}{String locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
 }
 \value{
 ggplot2 objects

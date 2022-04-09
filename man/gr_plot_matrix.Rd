@@ -7,13 +7,13 @@
 gr_plot_matrix(df, years = NULL, type = "value", locale = "EN")
 }
 \arguments{
-\item{df}{Hydrograph separation data.frame produced by \code{gr_separate()}.}
+\item{df}{\code{data.frame} of hydrograph separation  produced by \code{\link[=gr_separate]{gr_separate()}}.}
 
 \item{years}{Integer vector of years to be plotted.}
 
-\item{type}{String. Supported options are \code{'value'}, \code{'components'}, and \code{'season'}. Defaults to \code{'value'}}
+\item{type}{Character string. Supported options are 'value', 'components', and 'season'. Defaults to 'value'.}
 
-\item{locale}{String locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
 }
 \value{
 A \code{ggplot2} object

@@ -9,26 +9,28 @@ gr_plot_sep(
   years = NULL,
   layout = as.matrix(1),
   pagebreak = FALSE,
-  locale = "EN",
   prec = FALSE,
   temp = FALSE,
-  span = 5
+  span = 5,
+  locale = "EN"
 )
 }
 \arguments{
-\item{df}{Hydrograph separation data.frame produced by \code{gr_separate()}.}
+\item{df}{\code{data.frame} of hydrograph separation  produced by \code{\link[=gr_separate]{gr_separate()}}.}
 
 \item{years}{Integer vector of years to be plotted.}
 
-\item{layout}{Layout matrix.}
+\item{layout}{\code{matrix} that encodes the order of plotting.}
 
-\item{pagebreak}{Logical. Whether to break page between plots (needed for reporting). Defaults to FALSE.}
-
-\item{locale}{String locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{pagebreak}{Logical. Whether to break page between plots (used by \code{\link[=gr_report]{gr_report()}}). Defaults to \code{FALSE}.}
 
 \item{prec}{Boolean. Add precipitation curve to the plot? Defaults to FALSE.}
 
 \item{temp}{Boolean. Add temperature curve to the plot? Defaults to FALSE.}
+
+\item{span}{Integer number of days to accumulate precipitation for plotting.}
+
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
 }
 \value{
 ggplot2 objects

@@ -18,10 +18,10 @@ gr_animate(
 \arguments{
 \item{df}{A data.frame with date (1st) and discharge (2nd) columns.}
 
-\item{locale}{String locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
 }
 \value{
-The return value of the \code{gganimate::renderer()} function
+The return value of the \code{\link[gganimate:renderer]{gganimate::renderer()}} function
 }
 \description{
 Animate discharge through years

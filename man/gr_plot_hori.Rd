@@ -2,26 +2,26 @@
 % Please edit documentation in R/plot.R
 \name{gr_plot_hori}
 \alias{gr_plot_hori}
-\title{A convenient wrapper around \code{ggHoriPlot::geom_horizon()} to visualize multiple river hydrographs at once}
+\title{A convenient wrapper around \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}} to visualize multiple river hydrographs at once}
 \usage{
 gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6, locale = "EN")
 }
 \arguments{
-\item{df}{A data.frame with date (1st) and discharge (2nd) columns.}
+\item{df}{\code{data.frame} with date (1st) and discharge (2nd) columns.}
 
 \item{years}{Integer vector of years to be plotted.}
 
-\item{pal}{Numeric or character string. Color palette identifier passed to \code{ggplot2::scale_fill_distiller()}}
+\item{pal}{Numeric or character string. Color palette identifier passed to \code{\link[ggplot2:scale_brewer]{ggplot2::scale_fill_distiller()}}.}
 
-\item{rev}{Boolean. Reverse the palette?}
+\item{rev}{Boolean. Reverse the palette? Defaults to \code{FALSE}.}
 
-\item{scale}{Numeric. Scale factor passed to \code{ggHoriPlot::geom_horizon()}. Defaults to 0.01.}
+\item{scale}{Numeric scale factor passed to \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}}. Defaults to 0.01.}
 
-\item{locale}{String locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
 }
 \value{
 A \code{ggplot2} object
 }
 \description{
-A convenient wrapper around \code{ggHoriPlot::geom_horizon()} to visualize multiple river hydrographs at once
+A convenient wrapper around \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}} to visualize multiple river hydrographs at once
 }
