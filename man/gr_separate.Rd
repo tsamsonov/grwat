@@ -7,29 +7,28 @@
 gr_separate(df, params = gr_get_params(), debug = FALSE)
 }
 \arguments{
-\item{df}{\code{data.frame} or \code{tibble} with four columns: date, discharge, temperature, precipitation}
+\item{df}{\code{data.frame} with four columns: date, runoff, temperature, precipitation.}
 
-\item{params}{\code{list} of separation parameters, as returned by \code{\link[=gr_get_params]{gr_get_params()}} function}
+\item{params}{\code{list} of separation parameters, as returned by \code{\link[=gr_get_params]{gr_get_params()}} function.}
 }
 \value{
-A \code{data.frame} with 12 columns:\tabular{ll}{
+A \code{data.frame} with 11 columns:\tabular{ll}{
    \strong{Column} \tab \strong{Description} \cr
    \code{Date} \tab date \cr
-   \code{Q} \tab total discharge \cr
+   \code{Q} \tab total runoff \cr
    \code{Qbase} \tab baseflow \cr
-   \code{Quick} \tab quick flow \cr
-   \code{Qseas} \tab seasonal/freshet flow \cr
+   \code{Quick} \tab quickflow \cr
+   \code{Qspri} \tab spring flood \cr
    \code{Qrain} \tab rain floods \cr
    \code{Qthaw} \tab thaw floods \cr
-   \code{Qpb} \tab mountain floods \cr
-   \code{Type} \tab a combination of discharge types \cr
+   \code{Type} \tab a combination of flow types \cr
    \code{Year} \tab a water-resources year \cr
    \code{Temp} \tab temperature \cr
    \code{Prec} \tab precipitation \cr
 }
 }
 \description{
-Separates the hydrograph into genetic components: groundwater, thaw, flood and seasonal (freshet) flood.
+Separates the runoff into genetic components: groundwater, thaw, rain and spring
 }
 \examples{
 library(grwat)

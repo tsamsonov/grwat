@@ -7,13 +7,13 @@
 gr_set_param(params, p, value, years = NULL)
 }
 \arguments{
-\item{params}{List of lists as returned in \code{params} attribute by \code{gr_separate()} when \code{debug = TRUE}.}
+\item{params}{List of lists of hydrograph separation parameters as returned in \code{params} attribute by \code{\link[=gr_separate]{gr_separate()}}  with \code{debug = TRUE}.}
 
 \item{p}{Name of the parameter.}
 
-\item{value}{Value to set.}
+\item{value}{Numeric value to set.}
 
-\item{years}{Integer vector of years to modify. Defaults to NULL, which means that all years will be modified}
+\item{years}{Integer vector of years to modify. Defaults to \code{NULL}, which means that all years will be modified.}
 }
 \value{
 List of lists — a modified version of \code{params}

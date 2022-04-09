@@ -2,16 +2,20 @@
 % Please edit documentation in R/separate.R
 \name{gr_get_params}
 \alias{gr_get_params}
-\title{Get default separation parameters for selected region}
+\title{Get separation parameters for specified location}
 \usage{
-gr_get_params(reg = "Midplain")
+gr_get_params(reg = "Midplain", lon = NULL, lat = NULL)
 }
 \arguments{
-\item{reg}{Name of the region}
+\item{reg}{Character name of the region. Defaults to "Midplain".}
+
+\item{lon}{Numeric value of the longitude.}
+
+\item{lat}{Numeric value of the latitude.}
 }
 \value{
-
+List of separation parameters that can be used in \code{\link[=gr_separate]{gr_separate()}}  function.
 }
 \description{
-Get default separation parameters for selected region
+Location can be identified by region name or geographic coordinates. If both are specified, then region have a higher priority
 }

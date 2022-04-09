@@ -2,7 +2,7 @@
 % Please edit documentation in R/separate.R
 \name{gr_baseflow}
 \alias{gr_baseflow}
-\title{Extract baseflow from hydrological series}
+\title{Extract baseflow}
 \usage{
 gr_baseflow(
   Q,
@@ -16,19 +16,25 @@ gr_baseflow(
 )
 }
 \arguments{
-\item{Q}{daily discharge vector}
+\item{Q}{Numeric runoff vector.}
 
-\item{passes}{number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3}
+\item{a}{Numeric value of a filtering parameter used in "chapman", "jakeman" and "lynehollick" methods. Defaults to 0.925.}
 
-\item{padding}{number of elements padded at the beginning and ending of discharge vector to reduce boundary effects}
+\item{k}{Numeric value of a filtering parameter used in "boughton" and "maxwell" methods. Defaults to 0.975.}
 
-\item{method}{baseflow filtering method. Available methods are "maxwell", "boughton", "jakeman", "lynehollick", "chapman". Default is "lynehollick", which corresponds to Lyne-Hollick (1979) hydrograph separation method.}
+\item{C}{Numeric value of a separation shape parameter used in "boughton", "jakeman" and "maxwell" methods}
 
-\item{alpha}{filtering parameter. Defaults to 0.925}
+\item{aq}{Numeric value of a filtering parameter used in "jakeman" method. Defaults to -0.5.}
+
+\item{passes}{Integer number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3.}
+
+\item{padding}{Integer number of elements padded at the beginning and ending of runoff vector to reduce boundary effects. Defaults to 30.}
+
+\item{method}{Character string to set baseflow filtering method. Available methods are "boughton", "chapman", "furey", "jakeman", "kudelin" (or "coodelin" if you like!), "lynehollick" and "maxwell". Default is "lynehollick", which corresponds to Lyne-Hollick (1979) hydrograph separation method.}
 }
 \value{
-baseflow vector
+Numeric baseflow vector
 }
 \description{
-Extract baseflow from hydrological series
+Extract baseflow from hydrological series using the filtering approach
 }

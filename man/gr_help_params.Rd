@@ -7,7 +7,7 @@
 gr_help_params()
 }
 \value{
-a table with parameter names
+\code{data.frame} with description of hydrograph separation parameters that are used in \code{\link[=gr_separate]{gr_separate()}} .
 }
 \description{
 Get the information about parameters used to separate the hydrograph

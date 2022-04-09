@@ -1,4 +1,5 @@
 # This is a technical function to update grwat core from a separate project
+# Please fork grwat-core repository to contribute
 update_core <- function() {
   file.copy('../grwat-core/grwat_core.cpp', 
             'src/grwat_core.cpp', overwrite = TRUE)
@@ -6,9 +7,9 @@ update_core <- function() {
 
 #' Check the correctness of data frame for separating
 #'
-#' @param df 
+#' @param df `data.frame` with four columns: date, discharge, temperature, precipitation.
 #'
-#' @return
+#' @return stops execution if `df` contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. discharge or precipitation are negative).
 #' @export
 #'
 #' @examples
@@ -30,14 +31,16 @@ gr_check_data <- function(df) {
   if (sum(df[[4]] < 0, na.rm = T) > 0)
     stop(crayon::white$bgRed$bold('grwat:'), 
          ' there are negative values in precipitation (4th) column, please fix the data before proceeding')
+  
+  message(crayon::white$bold('grwat:'), ' data frame is correct')
 }
 
 #' Check the correctness of parameters list for separating
 #'
 #' @param params `list` of separation parameters, as returned by [grwat::gr_get_params()] function
-#' @param df `data.frame` or `tibble` with four columns: date, discharge, temperature, precipitation
+#' @param df `data.frame` with four columns: date, discharge, temperature, precipitation
 #'
-#' @return stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prins the message that everything is OK
+#' @return stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prints the message that everything is OK
 #' @export
 #'
 #' @examples 
@@ -103,24 +106,23 @@ gr_check_params <- function(df, params) {
 
 #' Advanced hydrograph separation
 #' 
-#' Separates the hydrograph into genetic components: groundwater, thaw, flood and seasonal (freshet) flood.
+#' Separates the runoff into genetic components: groundwater, thaw, rain and spring
 #'
-#' @param df `data.frame` or `tibble` with four columns: date, discharge, temperature, precipitation
-#' @param params `list` of separation parameters, as returned by [grwat::gr_get_params()] function
+#' @param df `data.frame` with four columns: date, runoff, temperature, precipitation.
+#' @param params `list` of separation parameters, as returned by [grwat::gr_get_params()] function.
 #'
-#' @return A `data.frame` with 12 columns: 
+#' @return A `data.frame` with 11 columns: 
 #' 
 #' | __Column__ | __Description__ |
 #' | ------ | ----------- |
 #' | `Date`   | date |
-#' | `Q`      | total discharge |
+#' | `Q`      | total runoff |
 #' | `Qbase`  | baseflow |
-#' | `Quick`  | quick flow |
-#' | `Qseas`  | seasonal/freshet flow |
+#' | `Quick`  | quickflow |
+#' | `Qspri`  | spring flood |
 #' | `Qrain`  | rain floods | 
 #' | `Qthaw`  | thaw floods |
-#' | `Qpb`    | mountain floods | 
-#' | `Type`   | a combination of discharge types |
+#' | `Type`   | a combination of flow types |
 #' | `Year`   | a water-resources year |
 #' | `Temp`   | temperature |
 #' | `Prec`   | precipitation |
@@ -152,7 +154,7 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
     dplyr::bind_cols(df, .) %>%
     dplyr::rename(Date = 1, Q = 2, Temp = 3, Prec = 4) %>%
     dplyr::relocate(Temp, Prec, .after = dplyr::last_col()) %>%
-    dplyr::mutate(dplyr::across(3:10, ~ replace(.x, .x < 0, NA)))
+    dplyr::mutate(dplyr::across(3:9, ~ replace(.x, .x < 0, NA)))
   
   if (debug) {
     
@@ -178,15 +180,20 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   return(sep)
 }
 
-#' Extract baseflow from hydrological series
+#' Extract baseflow
+#' 
+#' Extract baseflow from hydrological series using the filtering approach
 #'
-#' @param Q daily discharge vector 
-#' @param alpha filtering parameter. Defaults to 0.925
-#' @param padding number of elements padded at the beginning and ending of discharge vector to reduce boundary effects
-#' @param passes number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3
-#' @param method baseflow filtering method. Available methods are "maxwell", "boughton", "jakeman", "lynehollick", "chapman". Default is "lynehollick", which corresponds to Lyne-Hollick (1979) hydrograph separation method.
+#' @param Q Numeric runoff vector.
+#' @param padding Integer number of elements padded at the beginning and ending of runoff vector to reduce boundary effects. Defaults to 30.
+#' @param passes Integer number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3.
+#' @param method Character string to set baseflow filtering method. Available methods are "boughton", "chapman", "furey", "jakeman", "kudelin" (or "coodelin" if you like!), "lynehollick" and "maxwell". Default is "lynehollick", which corresponds to Lyne-Hollick (1979) hydrograph separation method.
+#' @param a Numeric value of a filtering parameter used in "chapman", "jakeman" and "lynehollick" methods. Defaults to 0.925.
+#' @param k Numeric value of a filtering parameter used in "boughton" and "maxwell" methods. Defaults to 0.975.
+#' @param C Numeric value of a separation shape parameter used in "boughton", "jakeman" and "maxwell" methods
+#' @param aq Numeric value of a filtering parameter used in "jakeman" method. Defaults to -0.5.
 #'
-#' @return baseflow vector
+#' @return Numeric baseflow vector
 #' @export
 #'
 #' @examples
@@ -195,15 +202,19 @@ gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5,
   get_baseflow_cpp(Q, a, k, C, aq, passes, padding, method)
 }
 
-#' Get default separation parameters for selected region
+#' Get separation parameters for specified location
+#' 
+#' Location can be identified by region name or geographic coordinates. If both are specified, then region have a higher priority
 #'
-#' @param reg Name of the region
+#' @param reg Character name of the region. Defaults to "Midplain".
+#' @param lon Numeric value of the longitude.
+#' @param lat Numeric value of the latitude.
 #'
-#' @return
+#' @return List of separation parameters that can be used in [grwat::gr_separate()]  function.
 #' @export
 #'
 #' @examples
-gr_get_params <- function(reg = 'Midplain') {
+gr_get_params <- function(reg = 'Midplain', lon = NULL, lat = NULL) {
   params_in %>% 
     dplyr::filter(region == reg) %>% 
     dplyr::select(-1) %>%
@@ -212,7 +223,7 @@ gr_get_params <- function(reg = 'Midplain') {
 
 #' Get the information about parameters used to separate the hydrograph
 #'
-#' @return a table with parameter names
+#' @return `data.frame` with description of hydrograph separation parameters that are used in [grwat::gr_separate()] .
 #' @export
 #'
 #' @examples
@@ -223,10 +234,10 @@ gr_help_params <- function() {
 
 #' Set the value of selected parameter for selected years in parameter list
 #'
-#' @param params List of lists as returned in `params` attribute by `gr_separate()` when `debug = TRUE`.
+#' @param params List of lists of hydrograph separation parameters as returned in `params` attribute by [grwat::gr_separate()]  with `debug = TRUE`.
 #' @param p Name of the parameter.
-#' @param value Value to set.
-#' @param years Integer vector of years to modify. Defaults to NULL, which means that all years will be modified
+#' @param value Numeric value to set.
+#' @param years Integer vector of years to modify. Defaults to `NULL`, which means that all years will be modified.
 #'
 #' @return List of lists — a modified version of `params`
 #' @export

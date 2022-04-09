@@ -7,10 +7,10 @@
 gr_check_data(df)
 }
 \arguments{
-\item{df}{}
+\item{df}{\code{data.frame} with four columns: date, discharge, temperature, precipitation.}
 }
 \value{
-
+stops execution if \code{df} contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. discharge or precipitation are negative).
 }
 \description{
 Check the correctness of data frame for separating

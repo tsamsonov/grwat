@@ -7,12 +7,12 @@
 gr_check_params(df, params)
 }
 \arguments{
-\item{df}{\code{data.frame} or \code{tibble} with four columns: date, discharge, temperature, precipitation}
+\item{df}{\code{data.frame} with four columns: date, discharge, temperature, precipitation}
 
 \item{params}{\code{list} of separation parameters, as returned by \code{\link[=gr_get_params]{gr_get_params()}} function}
 }
 \value{
-stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prins the message that everything is OK
+stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prints the message that everything is OK
 }
 \description{
 Check the correctness of parameters list for separating
