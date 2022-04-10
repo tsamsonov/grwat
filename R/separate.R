@@ -185,13 +185,13 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
 #' Extract baseflow from hydrological series using the filtering approach
 #'
 #' @param Q Numeric runoff vector.
-#' @param padding Integer number of elements padded at the beginning and ending of runoff vector to reduce boundary effects. Defaults to 30.
-#' @param passes Integer number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3.
-#' @param method Character string to set baseflow filtering method. Available methods are "boughton", "chapman", "furey", "jakeman", "kudelin" (or "coodelin" if you like!), "lynehollick" and "maxwell". Default is "lynehollick", which corresponds to Lyne-Hollick (1979) hydrograph separation method.
-#' @param a Numeric value of a filtering parameter used in "chapman", "jakeman" and "lynehollick" methods. Defaults to 0.925.
-#' @param k Numeric value of a filtering parameter used in "boughton" and "maxwell" methods. Defaults to 0.975.
-#' @param C Numeric value of a separation shape parameter used in "boughton", "jakeman" and "maxwell" methods
-#' @param aq Numeric value of a filtering parameter used in "jakeman" method. Defaults to -0.5.
+#' @param padding Integer number of elements padded at the beginning and ending of runoff vector to reduce boundary effects. Defaults to `30`.
+#' @param passes Integer number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to `3`.
+#' @param method Character string to set baseflow filtering method. Available methods are `'boughton'`, `'chapman'`, `'furey'`, `'jakeman'`, `'kudelin'` (or `'coodelin'` if you like!), `'lynehollick'` and `'maxwell'`. Default is `'lynehollick'`, which corresponds to Lyne-Hollick (1979) hydrograph separation method.
+#' @param a Numeric value of a filtering parameter used in `'chapman'`, `'jakeman'` and `'lynehollick'` methods. Defaults to `0.925`.
+#' @param k Numeric value of a filtering parameter used in `'boughton'` and `'maxwell'` methods. Defaults to `0.975`.
+#' @param C Numeric value of a separation shape parameter used in `'boughton'`, `'jakeman'` and `'maxwell'` methods
+#' @param aq Numeric value of a filtering parameter used in `'jakeman'` method. Defaults to `-0.5`.
 #'
 #' @return Numeric baseflow vector
 #' @export
@@ -206,7 +206,7 @@ gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5,
 #' 
 #' Location can be identified by region name or geographic coordinates. If both are specified, then region have a higher priority
 #'
-#' @param reg Character name of the region. Defaults to "Midplain".
+#' @param reg Character string — the name of the region. Defaults to `'Midplain'`.
 #' @param lon Numeric value of the longitude.
 #' @param lat Numeric value of the latitude.
 #'
@@ -234,12 +234,12 @@ gr_help_params <- function() {
 
 #' Set the value of selected parameter for selected years in parameter list
 #'
-#' @param params List of lists of hydrograph separation parameters as returned in `params` attribute by [grwat::gr_separate()]  with `debug = TRUE`.
+#' @param params `list` of `list`s of hydrograph separation parameters as returned in `params` attribute by [grwat::gr_separate()]  with `debug = TRUE`.
 #' @param p Name of the parameter.
 #' @param value Numeric value to set.
 #' @param years Integer vector of years to modify. Defaults to `NULL`, which means that all years will be modified.
 #'
-#' @return List of lists — a modified version of `params`
+#' @return `list` of `list`s — a modified version of `params`
 #' @export
 #'
 #' @examples

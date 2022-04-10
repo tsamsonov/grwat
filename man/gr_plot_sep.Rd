@@ -24,13 +24,13 @@ gr_plot_sep(
 
 \item{pagebreak}{Logical. Whether to break page between plots (used by \code{\link[=gr_report]{gr_report()}}). Defaults to \code{FALSE}.}
 
-\item{prec}{Boolean. Add precipitation curve to the plot? Defaults to FALSE.}
+\item{prec}{Boolean. Add precipitation curve to the plot? Defaults to \code{FALSE}.}
 
-\item{temp}{Boolean. Add temperature curve to the plot? Defaults to FALSE.}
+\item{temp}{Boolean. Add temperature curve to the plot? Defaults to \code{FALSE}.}
 
 \item{span}{Integer number of days to accumulate precipitation for plotting.}
 
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 ggplot2 objects

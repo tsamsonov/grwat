@@ -18,7 +18,7 @@ gr_animate(
 \arguments{
 \item{df}{A data.frame with date (1st) and discharge (2nd) columns.}
 
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 The return value of the \code{\link[gganimate:renderer]{gganimate::renderer()}} function

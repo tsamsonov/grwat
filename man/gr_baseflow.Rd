@@ -18,19 +18,19 @@ gr_baseflow(
 \arguments{
 \item{Q}{Numeric runoff vector.}
 
-\item{a}{Numeric value of a filtering parameter used in "chapman", "jakeman" and "lynehollick" methods. Defaults to 0.925.}
+\item{a}{Numeric value of a filtering parameter used in \code{'chapman'}, \code{'jakeman'} and \code{'lynehollick'} methods. Defaults to \code{0.925}.}
 
-\item{k}{Numeric value of a filtering parameter used in "boughton" and "maxwell" methods. Defaults to 0.975.}
+\item{k}{Numeric value of a filtering parameter used in \code{'boughton'} and \code{'maxwell'} methods. Defaults to \code{0.975}.}
 
-\item{C}{Numeric value of a separation shape parameter used in "boughton", "jakeman" and "maxwell" methods}
+\item{C}{Numeric value of a separation shape parameter used in \code{'boughton'}, \code{'jakeman'} and \code{'maxwell'} methods}
 
-\item{aq}{Numeric value of a filtering parameter used in "jakeman" method. Defaults to -0.5.}
+\item{aq}{Numeric value of a filtering parameter used in \code{'jakeman'} method. Defaults to \code{-0.5}.}
 
-\item{passes}{Integer number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to 3.}
+\item{passes}{Integer number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to \code{3}.}
 
-\item{padding}{Integer number of elements padded at the beginning and ending of runoff vector to reduce boundary effects. Defaults to 30.}
+\item{padding}{Integer number of elements padded at the beginning and ending of runoff vector to reduce boundary effects. Defaults to \code{30}.}
 
-\item{method}{Character string to set baseflow filtering method. Available methods are "boughton", "chapman", "furey", "jakeman", "kudelin" (or "coodelin" if you like!), "lynehollick" and "maxwell". Default is "lynehollick", which corresponds to Lyne-Hollick (1979) hydrograph separation method.}
+\item{method}{Character string to set baseflow filtering method. Available methods are \code{'boughton'}, \code{'chapman'}, \code{'furey'}, \code{'jakeman'}, \code{'kudelin'} (or \code{'coodelin'} if you like!), \code{'lynehollick'} and \code{'maxwell'}. Default is \code{'lynehollick'}, which corresponds to Lyne-Hollick (1979) hydrograph separation method.}
 }
 \value{
 Numeric baseflow vector

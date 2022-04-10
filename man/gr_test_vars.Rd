@@ -2,28 +2,27 @@
 % Please edit documentation in R/test.R
 \name{gr_test_vars}
 \alias{gr_test_vars}
-\title{Run various tests on interannual characteristics.
-Required number of observations for various tests:
-Pettitt > 0, Mann.Kendall > 2, Theil-Sen slope > 1, Student > 1,}
+\title{Test hydrograph changes}
 \usage{
 gr_test_vars(df, ..., year = NULL, exclude = NULL, locale = "EN")
 }
 \arguments{
-\item{df}{data.frame produced by separation function}
+\item{df}{\code{data.frame} as produced by \code{\link[=gr_summarize]{gr_summarize()}} function.}
 
-\item{...}{fields (quoted)}
+\item{...}{Names of the tested variables (quoted).}
 
-\item{year}{fixed year value for long-term changes estimation}
+\item{year}{Integer value of year used to divide series in two samples compared by Student and Fisher tests. Defaults to \code{NULL} which means that the year is calculated automatically by Pettitt test.}
 
-\item{exclude}{integer vector. A vector of years to be excluded from tests}
+\item{exclude}{Integer vector of years to be excluded from tests.}
 
-\item{locale}{locale for p-value table}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
-List of testing results
+\code{list} of testing results
 }
 \description{
-Run various tests on interannual characteristics.
-Required number of observations for various tests:
-Pettitt > 0, Mann.Kendall > 2, Theil-Sen slope > 1, Student > 1,
+Use this function to test interannual changes or hydrograph separation variables returned by \code{\link[=gr_summarize]{gr_summarize()}}. Pettitt test is used to detect the change year — i.e. the year which divides the time series into the statistically most differing samples. Student (Welch) and Fisher tests are used to estimate the significance of mean and variance differences of these samples. Theil-Sen test calculates the trend slope value. Mann-Kendall test is performed to reveal the significance of the trend.
+}
+\details{
+Number of observations formally required for various tests: Pettitt > 0, Mann-Kendall > 2, Theil-Sen > 1, Student > 1, Fisher > 1.
 }

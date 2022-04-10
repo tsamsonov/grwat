@@ -30,7 +30,7 @@ gr_plot_periods(
 
 \item{pagebreak}{Logical. Whether to break page between plots (needed for reporting). Defaults to \code{FALSE}.}
 
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 ggplot2 objects

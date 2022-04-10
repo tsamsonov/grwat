@@ -20,7 +20,7 @@ gr_plot_minmonth(
 
 \item{exclude}{Integer vector of years to be excluded from plotting.}
 
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 ggplot2 objects

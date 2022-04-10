@@ -12,3 +12,6 @@ mamba
 \description{
 Just mamba
 }
+\examples{
+gr_mamba()
+}

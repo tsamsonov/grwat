@@ -84,17 +84,29 @@ get_col_type = function(s) {
          integer = readr::col_integer())
 }
 
-#' Get hydrograph parameters list
-#'
-#' @return data.frame of parameters
-#' @export
-#'
-#' @examples
-#' grwat::gr_help_vars()
-gr_help_vars <- function(){
-  return(params_out)
+condrollmean = function(values, needed, w) {
+  w1 = min(which(needed))
+  w2 = max(which(needed))
+  idx = 1:length(values)
+  
+  cleaned = values
+  cleaned[idx < w1 | idx > (w2-w)] <- NA
+  means = zoo::rollmean(cleaned, w, align = 'left')
+  
+  min(means, na.rm = TRUE)
 }
 
+condrollmeanidx = function(values, needed, w) {
+  w1 = min(which(needed))
+  w2 = max(which(needed))
+  idx = 1:length(values)
+  
+  cleaned = values
+  cleaned[idx < w1 | idx > (w2-w)] <- NA
+  means = zoo::rollmean(cleaned, w, align = 'left')
+  
+  which.min(means)[1]
+}
 
 #' Just mamba
 #'
@@ -102,6 +114,7 @@ gr_help_vars <- function(){
 #' @export
 #'
 #' @examples
+#' gr_mamba()
 gr_mamba <- function() {
   beepr::beep(system.file('extdata', 'mamba.wav', package = 'grwat'))
 }

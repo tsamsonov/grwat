@@ -1,14 +1,16 @@
-#' Run various tests on interannual characteristics.
-#' Required number of observations for various tests: 
-#' Pettitt > 0, Mann.Kendall > 2, Theil-Sen slope > 1, Student > 1, 
+#' Test hydrograph changes
 #' 
-#' @param df data.frame produced by separation function
-#' @param year fixed year value for long-term changes estimation
-#' @param exclude integer vector. A vector of years to be excluded from tests
-#' @param locale locale for p-value table
-#' @param ... fields (quoted)
+#' Use this function to test interannual changes or hydrograph separation variables returned by [grwat::gr_summarize()]. Pettitt test is used to detect the change year — i.e. the year which divides the time series into the statistically most differing samples. Student (Welch) and Fisher tests are used to estimate the significance of mean and variance differences of these samples. Theil-Sen test calculates the trend slope value. Mann-Kendall test is performed to reveal the significance of the trend. 
+#' 
+#' Number of observations formally required for various tests: Pettitt > 0, Mann-Kendall > 2, Theil-Sen > 1, Student > 1, Fisher > 1.
+#' 
+#' @param df `data.frame` as produced by [grwat::gr_summarize()] function.
+#' @param ... Names of the tested variables (quoted).
+#' @param year Integer value of year used to divide series in two samples compared by Student and Fisher tests. Defaults to `NULL` which means that the year is calculated automatically by Pettitt test.
+#' @param exclude Integer vector of years to be excluded from tests.
+#' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
 #'
-#' @return List of testing results
+#' @return `list` of testing results
 #' @export
 gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
   

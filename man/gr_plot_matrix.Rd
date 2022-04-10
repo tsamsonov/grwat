@@ -11,9 +11,9 @@ gr_plot_matrix(df, years = NULL, type = "value", locale = "EN")
 
 \item{years}{Integer vector of years to be plotted.}
 
-\item{type}{Character string. Supported options are 'value', 'components', and 'season'. Defaults to 'value'.}
+\item{type}{Character string. Supported options are \code{'value'}, \code{'components'}, and \code{'season'}. Defaults to \code{'value'}.}
 
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 A \code{ggplot2} object

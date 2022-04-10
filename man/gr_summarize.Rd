@@ -2,16 +2,16 @@
 % Please edit documentation in R/summarize.R
 \name{gr_summarize}
 \alias{gr_summarize}
-\title{Calculate various summary stats for separated hydrograph}
+\title{Summarize hydrograph separation}
 \usage{
-gr_summarize(tab)
+gr_summarize(df)
 }
 \arguments{
-\item{tab}{data frame resulting from \code{separate()} function}
+\item{df}{\code{data.frame} of hydrograph separation resulting from \code{\link[=gr_separate]{gr_separate()}} function}
 }
 \value{
-data frame with one row for each water-resources year and multiple columns of statistics
+\code{data.frame} with one row for each water-resources year and multiple columns of statistics.
 }
 \description{
-Calculate various summary stats for separated hydrograph
+Use this function to get meaningful summary statistics for hydrograph separation. Resulting variables are described by \code{\link[=gr_help_vars]{gr_help_vars()}}. This function is a convenient wrapper around \href{https://dplyr.tidyverse.org}{dplyr}'s \code{df \%>\% group_by \%>\% summarize} idiom.
 }

@@ -7,7 +7,7 @@
 gr_get_params(reg = "Midplain", lon = NULL, lat = NULL)
 }
 \arguments{
-\item{reg}{Character name of the region. Defaults to "Midplain".}
+\item{reg}{Character string — the name of the region. Defaults to \code{'Midplain'}.}
 
 \item{lon}{Numeric value of the longitude.}
 

@@ -30,7 +30,7 @@ gr_plot_vars(
 
 \item{pagebreak}{Logical. Whether to break page between plots (\code{\link[=gr_report]{gr_report()}}). Defaults to \code{FALSE}.}
 
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 

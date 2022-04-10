@@ -1,50 +1,41 @@
-condrollmean = function(values, needed, w) {
-  w1 = min(which(needed))
-  w2 = max(which(needed))
-  idx = 1:length(values)
-  
-  cleaned = values
-  cleaned[idx < w1 | idx > (w2-w)] <- NA
-  means = zoo::rollmean(cleaned, w, align = 'left')
-  
-  min(means, na.rm = TRUE)
-}
-
-condrollmeanidx = function(values, needed, w) {
-  w1 = min(which(needed))
-  w2 = max(which(needed))
-  idx = 1:length(values)
-  
-  cleaned = values
-  cleaned[idx < w1 | idx > (w2-w)] <- NA
-  means = zoo::rollmean(cleaned, w, align = 'left')
-  
-  which.min(means)[1]
-}
-
-#' Calculate various summary stats for separated hydrograph
+#' Hydrograph separation variables
+#' 
+#' Use this function to learn the meaning of the variables that are calculated by [grwat::gr_summarize()].
 #'
-#' @param tab data frame resulting from `separate()` function
-#'
-#' @return data frame with one row for each water-resources year and multiple columns of statistics
+#' @return data.frame of hydrograph separation variables
 #' @export
 #'
 #' @examples
-gr_summarize <- function(tab) {
+#' gr_help_vars()
+gr_help_vars <- function(){
+  return(params_out)
+}
+
+#' Summarize hydrograph separation
+#' 
+#' Use this function to get meaningful summary statistics for hydrograph separation. Resulting variables are described by [grwat::gr_help_vars()]. This function is a convenient wrapper around [dplyr](https://dplyr.tidyverse.org)'s `df %>% group_by %>% summarize` idiom.
+#'
+#' @param df `data.frame` of hydrograph separation resulting from [grwat::gr_separate()] function
+#'
+#' @return `data.frame` with one row for each water-resources year and multiple columns of statistics.
+#' @export
+#'
+#' @examples
+gr_summarize <- function(df) {
   
   secday = 86400
   kmyr = secday / 10e9
   
-  limits = tab %>% 
+  limits = df %>% 
     dplyr::mutate(Year1 = lubridate::year(Date),
                   Year2 = Year1+1) %>% 
     dplyr::group_by(Year1) %>% 
     dplyr::summarise(datestart = min(Date[which(Qseas>0)]),
                      datepolend = max(Date[which(Qseas>0)]))
   
-  startflt = tab$Date %in% limits$datestart
+  startflt = df$Date %in% limits$datestart
   
-  tab %>% 
+  df %>% 
     mutate(Year = if_else(Date %in% limits$datestart,
                           as.integer(lubridate::year(Date)),
                           NA_integer_)) %>% 

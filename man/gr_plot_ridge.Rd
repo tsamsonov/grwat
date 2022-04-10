@@ -23,11 +23,11 @@ gr_plot_ridge(
 
 \item{rev}{Boolean. Reverse the palette? Defaults to \code{FALSE}.}
 
-\item{scale}{Numeric scale factor passed to \code{\link[ggridges:geom_ridgeline]{ggridges::geom_ridgeline()}}. Defaults to 0.01.}
+\item{scale}{Numeric scale factor passed to \code{\link[ggridges:geom_ridgeline]{ggridges::geom_ridgeline()}}. Defaults to \code{0.01}.}
 
-\item{alpha}{Numeric opacity value of the ridgeline plot. Defaults to 0.8.}
+\item{alpha}{Numeric opacity value of the ridgeline plot. Defaults to \code{0.8}.}
 
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 A \code{ggplot2} object

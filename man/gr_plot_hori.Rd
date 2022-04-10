@@ -15,9 +15,9 @@ gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6, locale = "EN")
 
 \item{rev}{Boolean. Reverse the palette? Defaults to \code{FALSE}.}
 
-\item{scale}{Numeric scale factor passed to \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}}. Defaults to 0.01.}
+\item{scale}{Numeric scale factor passed to \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}}. Defaults to \code{0.01}.}
 
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to 'EN'.}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 A \code{ggplot2} object
