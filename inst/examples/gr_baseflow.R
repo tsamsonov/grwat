@@ -13,10 +13,8 @@ hdata = spas %>%
 
 # Visualize for 1980 year
 ggplot(hdata) +
-  geom_area(aes(Date, Q), fill = 'steelblue', 
-            color = 'black') +
-  geom_area(aes(Date, Qbase), fill = 'orangered', 
-            color = 'black') +
+  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black') +
   scale_x_date(limits = c(ymd(19800101), ymd(19801231)))
 
 # Compare various approaches
@@ -29,10 +27,8 @@ hdata = spas %>%
 
 # Visualize for 1980 year
 ggplot(hdata) +
-  geom_area(aes(Date, Q), fill = 'steelblue', 
-            color = 'black') +
-  geom_area(aes(Date, Qbase), fill = 'orangered', 
-            color = 'black') +
+  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black') +
   scale_x_date(limits = c(ymd(19800101), ymd(19801231))) +
   facet_wrap(~Method)
 
