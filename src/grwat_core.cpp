@@ -84,8 +84,7 @@ namespace grwat {
                                    const double& k = 0.925,
                                    const double& C = 1,
                                    const double& alpha = 1) {
-        auto x = Qi_1 + C + alpha;
-        return Qbi_1 * k / (2 - k) + Qi * (1 - k) / (2 - k) * (x - x + 1);
+        return Qbi_1 * k / (2 - k) + Qi * (1 - k) / (2 - k);
     }
 
     static double baseflow_boughton(const double& Qbi_1,
@@ -94,8 +93,7 @@ namespace grwat {
                                     const double& k = 0.925,
                                     const double& C = 1,
                                     const double& alpha = 1) {
-        auto x = Qi_1 + alpha;
-        return Qbi_1 * k / (1 + C) + Qi * C / (1 + C) * (x - x + 1);
+        return Qbi_1 * k / (1 + C) + Qi * C / (1 + C);
     }
 
     static double baseflow_jakeman(const double& Qbi_1,
@@ -150,17 +148,39 @@ namespace grwat {
             {JAKEMAN, baseflow_jakeman}
         };
 
-        auto Q = pad_vector(Qin, padding);
-        int n = Q.size();
+        std::vector<double> baseflow(Qin);
 
-        auto Qb = vector<double>(n, 0);
-        Qb[0] = Q[0];
+        auto p1 = baseflow.begin();
+        auto p2 = baseflow.begin();
 
-        for (auto i = 1; i < n; i += 1) {
-            Qb[i] = baseflow_singlepass[method](Qb[i-1], Q[i], Q[i-1], k, C, aq);
+        auto is_nan = [](double d){ return isnan(d); };
+
+        while (true) {
+            p1 = std::find_if_not(p2, end(baseflow), is_nan);
+            p2 = std::find_if(p1, end(baseflow), is_nan);
+
+            if (p1 != p2) {
+
+                auto Q = pad_vector(p1, p2, padding);
+                int n = Q.size();
+
+                auto Qb = vector<double>(n, 0);
+                Qb[0] = Q[0];
+
+                for (auto i = 1; i < n; i += 1) {
+                    Qb[i] = baseflow_singlepass[method](Qb[i-1], Q[i], Q[i-1], k, C, aq);
+                    if (Qb[i] > Q[i])
+                        Qb[i] = Q[i];
+                }
+
+                std::copy(Qb.begin() + padding, Qb.end() - padding, p1);
+
+            } else {
+                break;
+            }
         }
 
-        return vector<double>(Qb.begin() + padding, Qb.end() - padding);
+        return baseflow;
     }
 
     static vector<double> get_baseflow_recursive(const vector<double>& Qin,
@@ -235,7 +255,7 @@ namespace grwat {
         auto n = Qin.size();
         vector<double> Qb(n, 0);
 
-        if (linear or nmax <= 0 or nmax >= n) {
+        if (linear or nmax <= 0 or nmax >= n-1) {
             auto afunc = (Qin[n-1] - Qin[0]) / (n - 1);
 
             for (unsigned x = 0; x < n; ++x) {
