@@ -101,7 +101,7 @@ gr_check_params <- function(df, params) {
   
   
   
-  message(crayon::white$bold('grwat: '), ' parameters list and types are OK')
+  message(crayon::white$bold('grwat:'), ' parameters list and types are OK')
     
 }
 
@@ -189,7 +189,7 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
 #' @param Q Numeric runoff vector.
 #' @param padding Integer number of elements padded at the beginning and ending of runoff vector to reduce boundary effects. Defaults to `30`.
 #' @param passes Integer number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to `3`.
-#' @param method Character string to set baseflow filtering method. Available methods are `'boughton'`, `'chapman'`, `'furey'`, `'jakeman'`, `'kudelin'`, `'lynehollick'` and `'maxwell'`. Default is `'lynehollick'`, which corresponds to Lyne-Hollick (1979) hydrograph separation method.
+#' @param method Character string to set baseflow filtering method. Available methods are `'boughton'`, `'chapman'`, `'furey'`, `'jakeman'`, `'lynehollick'` and `'maxwell'`. Default is `'lynehollick'`, which corresponds to Lyne-Hollick (1979) hydrograph separation method.
 #' @param a Numeric value of a filtering parameter used in `'chapman'`, `'jakeman'` and `'lynehollick'` methods. Defaults to `0.925`.
 #' @param k Numeric value of a filtering parameter used in `'boughton'` and `'maxwell'` methods. Defaults to `0.975`.
 #' @param C Numeric value of a separation shape parameter used in `'boughton'`, `'jakeman'` and `'maxwell'` methods

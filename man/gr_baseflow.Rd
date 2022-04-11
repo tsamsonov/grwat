@@ -30,7 +30,7 @@ gr_baseflow(
 
 \item{padding}{Integer number of elements padded at the beginning and ending of runoff vector to reduce boundary effects. Defaults to \code{30}.}
 
-\item{method}{Character string to set baseflow filtering method. Available methods are \code{'boughton'}, \code{'chapman'}, \code{'furey'}, \code{'jakeman'}, \code{'kudelin'}, \code{'lynehollick'} and \code{'maxwell'}. Default is \code{'lynehollick'}, which corresponds to Lyne-Hollick (1979) hydrograph separation method.}
+\item{method}{Character string to set baseflow filtering method. Available methods are \code{'boughton'}, \code{'chapman'}, \code{'furey'}, \code{'jakeman'}, \code{'lynehollick'} and \code{'maxwell'}. Default is \code{'lynehollick'}, which corresponds to Lyne-Hollick (1979) hydrograph separation method.}
 }
 \value{
 Numeric baseflow vector
@@ -73,4 +73,20 @@ ggplot(hdata) +
   scale_x_date(limits = c(ymd(19800101), ymd(19801231))) +
   facet_wrap(~Method)
 
+# Compare Lyne to Kudelin
+p = gr_get_params('Midplain')
+p$filter = 'kudelin'
+
+hdata = spas \%>\% 
+  mutate(lynehollick = gr_baseflow(Q, method = 'lynehollick', 
+                                   a = 0.95, passes = 5),
+         kudelin = gr_separate(spas, p)$Qbase) \%>\% 
+  pivot_longer(lynehollick:kudelin, names_to = 'Method', values_to = 'Qbase')
+
+# Visualize for 1980 year
+ggplot(hdata) +
+  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black') +
+  scale_x_date(limits = c(ymd(19800101), ymd(19801231))) +
+  facet_wrap(~Method)
 }
