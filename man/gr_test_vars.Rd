@@ -26,3 +26,6 @@ Use this function to test interannual changes or hydrograph separation variables
 \details{
 Number of observations formally required for various tests: Pettitt > 0, Mann-Kendall > 2, Theil-Sen > 1, Student > 1, Fisher > 1.
 }
+\examples{
+
+}

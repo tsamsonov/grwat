@@ -12,3 +12,6 @@ gr_help_params()
 \description{
 Get the information about parameters used to separate the hydrograph
 }
+\examples{
+
+}

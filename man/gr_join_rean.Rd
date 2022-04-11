@@ -22,3 +22,6 @@ The function performs spatial join of meteorological variables (temperature and 
 \details{
 Download the reanalysis archive from \link{http://carto.geogr.msu.ru/grwat/}.
 }
+\examples{
+
+}

@@ -32,3 +32,6 @@ gr_plot_ridge(
 \description{
 A convenient wrapper around \code{\link[ggridges:geom_ridgeline]{ggridges::geom_ridgeline()}} to visualize multiple river hydrographs at once.
 }
+\examples{
+
+}

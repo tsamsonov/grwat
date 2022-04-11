@@ -19,3 +19,6 @@ List of separation parameters that can be used in \code{\link[=gr_separate]{gr_s
 \description{
 Location can be identified by region name or geographic coordinates. If both are specified, then region have a higher priority
 }
+\examples{
+
+}

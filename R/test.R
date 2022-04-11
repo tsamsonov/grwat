@@ -12,6 +12,9 @@
 #'
 #' @return `list` of testing results
 #' @export
+#' 
+#' @example inst/examples/gr_test_vars.R
+#' 
 gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
   
   fields = rlang::exprs(...) %>% as.character()

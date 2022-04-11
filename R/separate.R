@@ -12,7 +12,7 @@ update_core <- function() {
 #' @return stops execution if `df` contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. discharge or precipitation are negative).
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_check_data.R
 #' 
 gr_check_data <- function(df) {
   if (length(df) != 4)
@@ -43,7 +43,8 @@ gr_check_data <- function(df) {
 #' @return stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prints the message that everything is OK
 #' @export
 #'
-#' @examples 
+#' @example inst/examples/gr_check_params.R
+#' 
 gr_check_params <- function(df, params) {
   
   template = gr_get_params()
@@ -130,6 +131,7 @@ gr_check_params <- function(df, params) {
 #' @export
 #'
 #' @example inst/examples/gr_separate.R
+#' 
 gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   
   gr_check_data(df)
@@ -187,7 +189,7 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
 #' @param Q Numeric runoff vector.
 #' @param padding Integer number of elements padded at the beginning and ending of runoff vector to reduce boundary effects. Defaults to `30`.
 #' @param passes Integer number of filtering iterations. The first iteration is forward, second is backward, third is forward and so on. Defaults to `3`.
-#' @param method Character string to set baseflow filtering method. Available methods are `'boughton'`, `'chapman'`, `'furey'`, `'jakeman'`, `'kudelin'` (or `'coodelin'` if you like!), `'lynehollick'` and `'maxwell'`. Default is `'lynehollick'`, which corresponds to Lyne-Hollick (1979) hydrograph separation method.
+#' @param method Character string to set baseflow filtering method. Available methods are `'boughton'`, `'chapman'`, `'furey'`, `'jakeman'`, `'kudelin'`, `'lynehollick'` and `'maxwell'`. Default is `'lynehollick'`, which corresponds to Lyne-Hollick (1979) hydrograph separation method.
 #' @param a Numeric value of a filtering parameter used in `'chapman'`, `'jakeman'` and `'lynehollick'` methods. Defaults to `0.925`.
 #' @param k Numeric value of a filtering parameter used in `'boughton'` and `'maxwell'` methods. Defaults to `0.975`.
 #' @param C Numeric value of a separation shape parameter used in `'boughton'`, `'jakeman'` and `'maxwell'` methods
@@ -196,7 +198,8 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
 #' @return Numeric baseflow vector
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_baseflow.R
+#' 
 gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5, 
                         passes = 3, padding = 30, method = 'lynehollick') {
   get_baseflow_cpp(Q, a, k, C, aq, passes, padding, method)
@@ -213,7 +216,8 @@ gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5,
 #' @return List of separation parameters that can be used in [grwat::gr_separate()]  function.
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_get_params.R
+#' 
 gr_get_params <- function(reg = 'Midplain', lon = NULL, lat = NULL) {
   params_in %>% 
     dplyr::filter(region == reg) %>% 
@@ -226,7 +230,8 @@ gr_get_params <- function(reg = 'Midplain', lon = NULL, lat = NULL) {
 #' @return `data.frame` with description of hydrograph separation parameters that are used in [grwat::gr_separate()] .
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_help_params.R
+#' 
 gr_help_params <- function() {
   return(params_in_desc)
 }
@@ -242,7 +247,8 @@ gr_help_params <- function() {
 #' @return `list` of `list`s — a modified version of `params`
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_set_param.R
+#' 
 gr_set_param <- function(params, p, value, years = NULL) {
   par = as.character(substitute(p))
   

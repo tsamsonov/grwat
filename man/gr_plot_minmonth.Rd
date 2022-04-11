@@ -25,3 +25,6 @@ gr_plot_minmonth(
 \description{
 Generate a histogram of a minimum discharge month for two periods: before and after the change year set by \code{year} parameter.
 }
+\examples{
+
+}

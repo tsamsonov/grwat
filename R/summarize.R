@@ -5,7 +5,8 @@
 #' @return `data.frame` of hydrograph separation variables
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_help_vars.R
+#' 
 gr_help_vars <- function() {
   return(params_out)
 }
@@ -19,7 +20,8 @@ gr_help_vars <- function() {
 #' @return `data.frame` with one row for each water-resources year and multiple columns of statistics.
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_summarize.R
+#' 
 gr_summarize <- function(df) {
   
   secday = 86400

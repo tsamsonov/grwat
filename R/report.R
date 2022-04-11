@@ -14,7 +14,8 @@
 #'
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_report.R
+#' 
 gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = NULL, temp = FALSE, prec = FALSE, span = 5, locale = 'EN') {
   t1 = Sys.time()
   
@@ -47,6 +48,9 @@ gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = 
 #'
 #' @return HTML table as returned by [knitr::kable()] function.
 #' @export
+#' 
+#' @example inst/examples/gr_kable_tests.R
+#' 
 gr_kable_tests <- function(tests, format = 'html', locale = 'EN'){
   gcolor = '#99cc00' # green
   ycolor = '#e6e600' # yellow

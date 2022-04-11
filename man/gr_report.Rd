@@ -38,3 +38,6 @@ gr_report(
 \description{
 This function generates a graphical HTML report that summarizes separation of hydrograph, its variables and their statistical properties.
 }
+\examples{
+
+}

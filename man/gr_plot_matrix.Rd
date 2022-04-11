@@ -18,3 +18,6 @@ gr_plot_matrix(df, years = NULL, type = "value", locale = "EN")
 \description{
 The function plots runoff values, components and seasons using the matrix-based approach. The X axis corresponds to the day of the year, and the Y axis corresponds to the year. The function is useful when the whole picture of river runoff needs to be assessed.
 }
+\examples{
+
+}

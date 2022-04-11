@@ -19,9 +19,9 @@ gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6, locale = "EN")
 
 \item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
-\value{
-A \code{ggplot2} object
-}
 \description{
 A convenient wrapper around \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}} to visualize multiple river hydrographs at once.
+}
+\examples{
+
 }

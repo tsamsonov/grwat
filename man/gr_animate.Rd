@@ -38,3 +38,6 @@ The return value of the \code{\link[gganimate:renderer]{gganimate::renderer()}} 
 \description{
 A convenient wrapper around \code{\link[gganimate:animate]{gganimate::animate()}} to animate river hydrograph through years.
 }
+\examples{
+
+}

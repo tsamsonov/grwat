@@ -12,6 +12,9 @@
 #' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`. 
 #'
 #' @export
+#' 
+#' @example inst/examples/gr_plot_sep.R
+#' 
 gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), 
                         pagebreak = FALSE, temp = FALSE, prec = FALSE, span = 5, locale = 'EN'){
   
@@ -219,7 +222,8 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
 #'
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_plot_vars.R
+#' 
 gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE, 
                          layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
@@ -417,6 +421,9 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
 #' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`. 
 #'
 #' @export
+#' 
+#' @example inst/examples/gr_plot_periods.R
+#' 
 gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL, 
                             layout = as.matrix(1), pagebreak = FALSE, locale='EN'){
   
@@ -610,6 +617,9 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
 #' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`. 
 #' 
 #' @export
+#' 
+#' @example inst/examples/gr_plot_minmonth.R
+#' 
 gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, pagebreak = FALSE, locale='EN'){
   
   year_summer = year
@@ -758,7 +768,8 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
 #'
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_plot_tests.R
+#' 
 gr_plot_tests <- function(tests, locale = 'EN') {
   
   labs = get_plot_labels(locale)
@@ -793,7 +804,8 @@ gr_plot_tests <- function(tests, locale = 'EN') {
 #'
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_plot_acf.R
+#' 
 gr_plot_acf <- function(hdata, autocorr = 0.7, maxlag = 30) {
   
   max_period = hdata %>% 
@@ -839,7 +851,8 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, maxlag = 30) {
 #'
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_plot_matrix.R
+#' 
 gr_plot_matrix <- function(df, years = NULL, type = 'value', locale='EN') {
   
   if (locale == 'RU') {
@@ -958,7 +971,8 @@ gr_plot_matrix <- function(df, years = NULL, type = 'value', locale='EN') {
 #'
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_plot_ridge.R
+#' 
 gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha = 0.8, locale='EN') {
   
   if (locale == 'RU') {
@@ -1010,10 +1024,10 @@ gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha =
 #' @param scale Numeric scale factor passed to [ggHoriPlot::geom_horizon()]. Defaults to `0.01`.
 #' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
 #'
-#' @return A `ggplot2` object
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_plot_hori.R
+#' 
 gr_plot_hori <- function(df, years, pal = 'Blues', rev = T, scale = 6, locale='EN') {
   
   if (locale == 'RU') {
@@ -1070,9 +1084,11 @@ gr_plot_hori <- function(df, years, pal = 'Blues', rev = T, scale = 6, locale='E
 #' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
 #'
 #' @return The return value of the [gganimate::renderer()] function
+#' 
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_animate.R
+#' 
 gr_animate <- function(df, plot = TRUE, file = NULL, fps = 20, kframes = 10, width = 800, height = 600, locale = 'EN') {
   tab = df %>%
     dplyr::rename(Date = 1, Q = 2) %>%

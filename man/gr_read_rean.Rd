@@ -21,3 +21,6 @@ The function reads meteorological variables (temperature and precipitation) from
 \details{
 Download the reanalysis archive from \link{http://carto.geogr.msu.ru/grwat/}.
 }
+\examples{
+
+}

@@ -11,7 +11,8 @@
 #'   and spatial points (sf)
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_read_rean.R
+#' 
 gr_read_rean <- function(file_prec, file_temp){
   # Read NetCDF data
   precip = ncdf4::nc_open(file_prec)

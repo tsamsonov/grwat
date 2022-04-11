@@ -8,7 +8,8 @@
 #' @return `sf` or `sfg` object, buffered to `bufsize` and projected into geographic coordinates (WGS84).
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_buffer_geo.R
+#' 
 gr_buffer_geo <- function(g, bufsize){
   box = sf::st_bbox(g)
   lon0 = 0.5 * (box[1] + box[3]) # longitude
@@ -31,7 +32,8 @@ gr_buffer_geo <- function(g, bufsize){
 #' @return `data.frame` with periods of data and periods of gaps
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_get_gaps.R
+#' 
 gr_get_gaps <- function(hdata) {
   hdata %>% 
     dplyr::rename(Date = 1) %>% 
@@ -57,7 +59,8 @@ gr_get_gaps <- function(hdata) {
 #' @return `data.frame` which is a filled version of `hdata`
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_fill_gaps.R
+#' 
 gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
   
   if (!lubridate::is.Date(hdata[[1]]))
@@ -131,7 +134,8 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
 #' @return `data.frame` with four columns: date, runoff, temperature, precipitation.
 #' @export
 #'
-#' @examples
+#' @example inst/examples/gr_join_rean.R
+#' 
 gr_join_rean <- function(hdata, rean, buffer){
   
   # determine the first and last date

@@ -21,3 +21,6 @@ gr_set_param(params, p, value, years = NULL)
 \description{
 Set the value of selected parameter for selected years in parameter list
 }
+\examples{
+
+}

@@ -16,3 +16,6 @@ gr_plot_acf(hdata, autocorr = 0.7, maxlag = 30)
 \description{
 The function plots the autocorrelation function (ACF) for daily runoff time series. A number of days corresponding to the specified \code{autocorr} value is highlighted.
 }
+\examples{
+
+}

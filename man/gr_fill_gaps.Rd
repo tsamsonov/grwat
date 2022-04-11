@@ -19,3 +19,6 @@ gr_fill_gaps(hdata, autocorr = 0.7, nobserv = NULL)
 \description{
 Use the function to fill the missing runoff data by linear interpolation. These can be both missing dates and missing runoff values. A preliminary summary of missing data can be viewed by \code{\link[=gr_get_gaps]{gr_get_gaps()}}
 }
+\examples{
+
+}

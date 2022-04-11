@@ -15,3 +15,6 @@ gr_get_gaps(hdata)
 \description{
 Use the function to detect periods of missing data. These can be both missing dates and missing runoff values
 }
+\examples{
+
+}

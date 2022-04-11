@@ -14,3 +14,6 @@ gr_plot_tests(tests, locale = "EN")
 \description{
 The function extracts change years from results of \code{\link[=test_variables]{test_variables()}} and plots their probability density. Since for every variable the change year is individual, this procedure allows finding the one most probable year, which is the mode of the distribution. This year is highlighted by the line and labeled on the plot.
 }
+\examples{
+
+}

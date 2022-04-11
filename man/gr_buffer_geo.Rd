@@ -17,3 +17,6 @@ gr_buffer_geo(g, bufsize)
 \description{
 Generate the buffer of spatial object in geographic coordinates. The function transforms the object into Azimuthal equidistant projection, then buffers it by the specified radius and then reprojects into geographical coordinate system (WGS84)
 }
+\examples{
+
+}

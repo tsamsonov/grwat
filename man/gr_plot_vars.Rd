@@ -35,3 +35,6 @@ gr_plot_vars(
 \description{
 This function plots the hydrograph separation variables produced by \code{\link[=gr_summarize]{gr_summarize()}}. Different background fill colors and line types are used to differentiate seasons and variable types.
 }
+\examples{
+
+}

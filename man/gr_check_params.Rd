@@ -17,3 +17,6 @@ stops the execution if anything is wrong and prints the exact reason of the erro
 \description{
 Check the correctness of parameters list for separating
 }
+\examples{
+
+}

@@ -30,11 +30,14 @@ gr_baseflow(
 
 \item{padding}{Integer number of elements padded at the beginning and ending of runoff vector to reduce boundary effects. Defaults to \code{30}.}
 
-\item{method}{Character string to set baseflow filtering method. Available methods are \code{'boughton'}, \code{'chapman'}, \code{'furey'}, \code{'jakeman'}, \code{'kudelin'} (or \code{'coodelin'} if you like!), \code{'lynehollick'} and \code{'maxwell'}. Default is \code{'lynehollick'}, which corresponds to Lyne-Hollick (1979) hydrograph separation method.}
+\item{method}{Character string to set baseflow filtering method. Available methods are \code{'boughton'}, \code{'chapman'}, \code{'furey'}, \code{'jakeman'}, \code{'kudelin'}, \code{'lynehollick'} and \code{'maxwell'}. Default is \code{'lynehollick'}, which corresponds to Lyne-Hollick (1979) hydrograph separation method.}
 }
 \value{
 Numeric baseflow vector
 }
 \description{
 Extract baseflow from hydrological series using the filtering approach
+}
+\examples{
+
 }
