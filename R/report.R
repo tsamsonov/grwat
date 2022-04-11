@@ -1,17 +1,21 @@
-#' Generates HTML report based on separation and variables
+#' Report hydrograph separation and variables
+#' 
+#' This function generates a graphical HTML report that summarizes separation of hydrograph, its variables and their statistical properties. 
 #'
-#' @param sep 
-#' @param vars 
-#' @param output 
-#' @param year 
-#' @param exclude 
-#' @param locale 
+#' @param sep `data.frame` of hydrograph separation as returned by [grwat::gr_separate()] function. 
+#' @param vars `data.frame` of hydrograph variables as returned by [grwat::gr_summarize()] function. 
+#' @param output Character string path to the output file. Must have `.html` extension.
+#' @param year Integer value of year used to divide series in two samples compared by Student and Fisher tests. Defaults to `NULL` which means that the year is calculated automatically by Pettitt test. Defaults to `NULL`.
+#' @param exclude Integer vector of years to be excluded from reporting. Defaults to `NULL`.
+#' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
+#' @param temp Boolean. Plot temperature on the top of hydrograph? Defaults to `FALSE`. If both `temp = TRUE` and `prec = TRUE`, then the axis is drawn for precipitation.
+#' @param prec Boolean. Plot precipitation on the top of hydrograph? Defaults to `FALSE`. If both `temp = TRUE` and `prec = TRUE`, then the axis is drawn for precipitation.
+#' @param span Integer number of days to accumulate precipitation for plotting. Defaults to `5`.
 #'
-#' @return
 #' @export
 #'
 #' @examples
-gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = NULL, prec = FALSE, temp = FALSE, span = 5, locale = 'EN') {
+gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = NULL, temp = FALSE, prec = FALSE, span = 5, locale = 'EN') {
   t1 = Sys.time()
   
   rmarkdown::render(input = system.file('reports', 'Report_HTML.Rmd', package = 'grwat'), 
@@ -33,15 +37,17 @@ gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = 
   message('Elapsed time: ', format(.POSIXct(difftime(t2, t1, units = "secs"), tz = "GMT"), "%H:%M:%S"))
 }
 
-#' Kable p-values table by coloring it using green-yellow-red palette
+#' Tabular representation of tests
+#' 
+#' This function is used to represent the results of [grwat::gr_test_vars()] in a tabular form. Used mainly in [grwat::gr_report()], but can be used for your own purposes.
 #'
-#' @param tests Test result returned by `test_variables()` function
-#' @param locale character string. Currently English (`'EN'`) and Russian (`'RU'`) locales are supported for HTML output. PDF is always rendered in English
-#' @param format character string. Currently `'latex'` or `'html'` are supported
+#' @param tests `list` of tests as returned by [grwat::gr_test_vars()] function.
+#' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
+#' @param format Character string encoding the type of output. Currently `'html'` only is supported.
 #'
-#' @return kabled version of p-values table coloured
+#' @return HTML table as returned by [knitr::kable()] function.
 #' @export
-gr_kable_tests <- function(tests, locale = 'EN', format = 'latex'){
+gr_kable_tests <- function(tests, format = 'html', locale = 'EN'){
   gcolor = '#99cc00' # green
   ycolor = '#e6e600' # yellow
   rcolor = '#ff9966' # red

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{gr_plot_periods}
 \alias{gr_plot_periods}
-\title{Plot long-term changes of hydrograph variables for two periods}
+\title{Plot long-term hydrograph variable changes}
 \usage{
 gr_plot_periods(
   df,
@@ -32,9 +32,6 @@ gr_plot_periods(
 
 \item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
-\value{
-ggplot2 objects
-}
 \description{
-Plot long-term changes of hydrograph variables for two periods
+This function generates boxplots of the hydrograph separation variables produced by \code{\link[=gr_summarize]{gr_summarize()}}. The data for each variable is divided into two samples: before and after the change year either set by \code{year} parameter or extracted from \code{tests} (statistically estimated). Different background fill colors are used to differentiate seasons types.
 }

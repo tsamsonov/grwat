@@ -9,7 +9,7 @@ gr_join_rean(hdata, rean, buffer)
 \arguments{
 \item{hdata}{\code{data.frame} containing 2 columns: \code{Date} and runoff}
 
-\item{rean}{\code{list} as returned by \code{\link[=read_rean]{read_rean()}}}
+\item{rean}{\code{list} as returned by \code{\link[=gr_read_rean]{gr_read_rean()}}}
 
 \item{buffer}{\code{sf} object containing the region to select reanalysis data. Usually a river basin is used to select the meteorological data. Use \code{\link[=gr_buffer_geo]{gr_buffer_geo()}} to buffer the basin by specified distance and get more data, if needed.}
 }
@@ -20,5 +20,5 @@ gr_join_rean(hdata, rean, buffer)
 The function performs spatial join of meteorological variables (temperature and precipitation) from \href{http://carto.geogr.msu.ru/grwat/}{grwat reanalysis} to the daily runoff time series. Reanalysis covers the East European Plain with 0.75 degrees spatial resolution and is obtained based on CIRES-DOE (1880-1949) and ERA5 (1950-2021) data. This function is useful when the data from meteorological stations are missing inside the basin.
 }
 \details{
-Download the reanalysis archive from http://carto.geogr.msu.ru/grwat/.
+Download the reanalysis archive from \link{http://carto.geogr.msu.ru/grwat/}.
 }

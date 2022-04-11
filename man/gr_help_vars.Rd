@@ -7,11 +7,8 @@
 gr_help_vars()
 }
 \value{
-data.frame of hydrograph separation variables
+\code{data.frame} of hydrograph separation variables
 }
 \description{
 Use this function to learn the meaning of the variables that are calculated by \code{\link[=gr_summarize]{gr_summarize()}}.
-}
-\examples{
-gr_help_vars()
 }

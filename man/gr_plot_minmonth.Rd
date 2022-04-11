@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{gr_plot_minmonth}
 \alias{gr_plot_minmonth}
-\title{Plot histogram of minimum discharge month for two periods}
+\title{Plot minimum discharge month}
 \usage{
 gr_plot_minmonth(
   df,
@@ -14,7 +14,7 @@ gr_plot_minmonth(
 )
 }
 \arguments{
-\item{df}{\code{data.frame} of hydrograph and meteorological variables produced by \code{\link[=gr_summarize]{gr_summarize()}}.}
+\item{df}{\code{data.frame} of hydrograph and meteorological variables as produced by \code{\link[=gr_summarize]{gr_summarize()}}.}
 
 \item{year}{Integer. Change year value to separate two periods.}
 
@@ -22,9 +22,6 @@ gr_plot_minmonth(
 
 \item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
-\value{
-ggplot2 objects
-}
 \description{
-Plot histogram of minimum discharge month for two periods
+Generate a histogram of a minimum discharge month for two periods: before and after the change year set by \code{year} parameter.
 }

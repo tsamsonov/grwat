@@ -2,24 +2,22 @@
 % Please edit documentation in R/read.R
 \name{gr_read_rean}
 \alias{gr_read_rean}
-\title{Read grwat daily reanalysis}
+\title{Read reanalysis data}
 \usage{
 gr_read_rean(file_prec, file_temp)
 }
 \arguments{
-\item{file_prec}{Precipitation NetCDF file}
+\item{file_prec}{Character string path to precipitation NetCDF file.}
 
-\item{file_temp}{Temperature NetCDF file}
+\item{file_temp}{Character string path to temperature NetCDF file.}
 }
 \value{
-List containing time series, precipitation series, temperature series
+\code{list} containing time series, precipitation series, temperature series
 and spatial points (sf)
 }
 \description{
-Read grwat daily reanalysis
+The function reads meteorological variables (temperature and precipitation) from \href{http://carto.geogr.msu.ru/grwat/}{grwat reanalysis} to the daily runoff time series. Reanalysis covers the East European Plain with 0.75 degrees spatial resolution and is obtained based on CIRES-DOE (1880-1949) and ERA5 (1950-2021) data.
 }
-\examples{
-\dontrun{
-grwat::read_interim("rean/prec.nc", "rean/temp.nc")
-}
+\details{
+Download the reanalysis archive from \link{http://carto.geogr.msu.ru/grwat/}.
 }

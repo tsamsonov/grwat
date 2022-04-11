@@ -108,13 +108,6 @@ condrollmeanidx = function(values, needed, w) {
   which.min(means)[1]
 }
 
-#' Just mamba
-#'
-#' @return mamba
-#' @export
-#'
-#' @examples
-#' gr_mamba()
 gr_mamba <- function() {
   beepr::beep(system.file('extdata', 'mamba.wav', package = 'grwat'))
 }

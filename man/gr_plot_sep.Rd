@@ -9,14 +9,14 @@ gr_plot_sep(
   years = NULL,
   layout = as.matrix(1),
   pagebreak = FALSE,
-  prec = FALSE,
   temp = FALSE,
+  prec = FALSE,
   span = 5,
   locale = "EN"
 )
 }
 \arguments{
-\item{df}{\code{data.frame} of hydrograph separation  produced by \code{\link[=gr_separate]{gr_separate()}}.}
+\item{df}{\code{data.frame} of hydrograph separation as produced by \code{\link[=gr_separate]{gr_separate()}}.}
 
 \item{years}{Integer vector of years to be plotted.}
 
@@ -24,17 +24,14 @@ gr_plot_sep(
 
 \item{pagebreak}{Logical. Whether to break page between plots (used by \code{\link[=gr_report]{gr_report()}}). Defaults to \code{FALSE}.}
 
-\item{prec}{Boolean. Add precipitation curve to the plot? Defaults to \code{FALSE}.}
+\item{temp}{Boolean. Add temperature curve to the plot? Defaults to \code{FALSE}. If both \code{temp = TRUE} and \code{prec = TRUE}, then the axis is drawn for precipitation.}
 
-\item{temp}{Boolean. Add temperature curve to the plot? Defaults to \code{FALSE}.}
+\item{prec}{Boolean. Add precipitation curve to the plot? Defaults to \code{FALSE}. If both \code{temp = TRUE} and \code{prec = TRUE}, then the axis is drawn for precipitation.}
 
 \item{span}{Integer number of days to accumulate precipitation for plotting.}
 
 \item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
-\value{
-ggplot2 objects
-}
 \description{
-Plot hydrograph separation
+The function plots river hydrograph by filling the different flow types using colors. Matrix layouts can be used if multiple plots are needed. Temperature and precipitation can be overlaid.
 }

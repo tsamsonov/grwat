@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{gr_animate}
 \alias{gr_animate}
-\title{Animate discharge through years}
+\title{Animate hydrograph}
 \usage{
 gr_animate(
   df,
@@ -16,7 +16,19 @@ gr_animate(
 )
 }
 \arguments{
-\item{df}{A data.frame with date (1st) and discharge (2nd) columns.}
+\item{df}{\code{data.frame} with date (1st) and discharge (2nd) columns.}
+
+\item{plot}{Boolean. Plot the animation in the viewer? Defaults to \code{TRUE}.}
+
+\item{file}{Character string path to the output file.}
+
+\item{fps}{Integer value of the frames per second. Defaults to \code{20}.}
+
+\item{kframes}{Integer value setting how many frames are interpolated between the year. Defaults to \code{10}, which means that if \code{fps = 20}, then two years are passed each second.}
+
+\item{width}{Integer width of the animation (in pixels). Defaults to 800.}
+
+\item{height}{Integer height of the animation (in pixels). Defaults to 600}
 
 \item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
@@ -24,5 +36,5 @@ gr_animate(
 The return value of the \code{\link[gganimate:renderer]{gganimate::renderer()}} function
 }
 \description{
-Animate discharge through years
+A convenient wrapper around \code{\link[gganimate:animate]{gganimate::animate()}} to animate river hydrograph through years.
 }

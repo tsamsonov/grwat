@@ -2,22 +2,19 @@
 % Please edit documentation in R/plot.R
 \name{gr_plot_matrix}
 \alias{gr_plot_matrix}
-\title{Plot discharge value, source and season via raster-based visualization through years}
+\title{Runoff matrix plot}
 \usage{
 gr_plot_matrix(df, years = NULL, type = "value", locale = "EN")
 }
 \arguments{
-\item{df}{\code{data.frame} of hydrograph separation  produced by \code{\link[=gr_separate]{gr_separate()}}.}
+\item{df}{\code{data.frame} of hydrograph separation produced by \code{\link[=gr_separate]{gr_separate()}}.}
 
-\item{years}{Integer vector of years to be plotted.}
+\item{years}{Integer vector of years to be plotted. Defaults to \code{NULL}.}
 
 \item{type}{Character string. Supported options are \code{'value'}, \code{'components'}, and \code{'season'}. Defaults to \code{'value'}.}
 
 \item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
-\value{
-A \code{ggplot2} object
-}
 \description{
-Plot discharge value, source and season via raster-based visualization through years
+The function plots runoff values, components and seasons using the matrix-based approach. The X axis corresponds to the day of the year, and the Y axis corresponds to the year. The function is useful when the whole picture of river runoff needs to be assessed.
 }

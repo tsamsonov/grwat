@@ -11,9 +11,6 @@ gr_plot_tests(tests, locale = "EN")
 
 \item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
-\value{
-ggplot2 objects
-}
 \description{
-Plot change year density
+The function extracts change years from results of \code{\link[=test_variables]{test_variables()}} and plots their probability density. Since for every variable the change year is individual, this procedure allows finding the one most probable year, which is the mode of the distribution. This year is highlighted by the line and labeled on the plot.
 }

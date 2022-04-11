@@ -2,7 +2,7 @@
 % Please edit documentation in R/report.R
 \name{gr_report}
 \alias{gr_report}
-\title{Generates HTML report based on separation and variables}
+\title{Report hydrograph separation and variables}
 \usage{
 gr_report(
   sep,
@@ -10,28 +10,31 @@ gr_report(
   output = "Report.html",
   year = NULL,
   exclude = NULL,
-  prec = FALSE,
   temp = FALSE,
+  prec = FALSE,
   span = 5,
   locale = "EN"
 )
 }
 \arguments{
-\item{sep}{}
+\item{sep}{\code{data.frame} of hydrograph separation as returned by \code{\link[=gr_separate]{gr_separate()}} function.}
 
-\item{vars}{}
+\item{vars}{\code{data.frame} of hydrograph variables as returned by \code{\link[=gr_summarize]{gr_summarize()}} function.}
 
-\item{output}{}
+\item{output}{Character string path to the output file. Must have \code{.html} extension.}
 
-\item{year}{}
+\item{year}{Integer value of year used to divide series in two samples compared by Student and Fisher tests. Defaults to \code{NULL} which means that the year is calculated automatically by Pettitt test. Defaults to \code{NULL}.}
 
-\item{exclude}{}
+\item{exclude}{Integer vector of years to be excluded from reporting. Defaults to \code{NULL}.}
 
-\item{locale}{}
-}
-\value{
+\item{temp}{Boolean. Plot temperature on the top of hydrograph? Defaults to \code{FALSE}. If both \code{temp = TRUE} and \code{prec = TRUE}, then the axis is drawn for precipitation.}
 
+\item{prec}{Boolean. Plot precipitation on the top of hydrograph? Defaults to \code{FALSE}. If both \code{temp = TRUE} and \code{prec = TRUE}, then the axis is drawn for precipitation.}
+
+\item{span}{Integer number of days to accumulate precipitation for plotting. Defaults to \code{5}.}
+
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \description{
-Generates HTML report based on separation and variables
+This function generates a graphical HTML report that summarizes separation of hydrograph, its variables and their statistical properties.
 }

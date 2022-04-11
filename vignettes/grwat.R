@@ -60,6 +60,18 @@ basin_buffer = gr_buffer_geo(basin, 25000)
 mapview(basin_buffer, col.regions = 'red') +
   mapview(basin)
 
+g = basin
+
+box = sf::st_bbox(g)
+  lon0 = 0.5 * (box[1] + box[3]) # longitude
+  lat0 = 0.5 * (box[2] + box[4]) # latitude
+  prj = stringr::str_interp('+proj=aeqd +lat_0=${lat0} +lon_0=${lon0} +x_0=0 +y_0=0 +datum=WGS84')
+  
+  g %>% 
+    sf::st_transform(crs = prj) %>% 
+    sf::st_buffer(25000) %>% 
+    sf::st_transform(4326)
+
 ## ---- dpi = 72----------------------------------------------------------------
 gauge_buffer = gr_buffer_geo(gauge, 50000) 
 mapview(gauge_buffer, col.regions = 'red') +

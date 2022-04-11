@@ -2,18 +2,17 @@
 % Please edit documentation in R/plot.R
 \name{gr_plot_acf}
 \alias{gr_plot_acf}
-\title{Plot the autocorrelation function (ACF) for runoff time series}
+\title{Plot runoff ACF}
 \usage{
-gr_plot_acf(hdata, autocorr = 0.7, max_lag = 30)
+gr_plot_acf(hdata, autocorr = 0.7, maxlag = 30)
 }
 \arguments{
 \item{hdata}{\code{data.frame} with two columns: date and runoff.}
 
-\item{autocorr}{Numeric value of the autocorrelation for which the time period will be highlighted.}
-}
-\value{
-ggplot2 objects
+\item{autocorr}{Numeric value of the autocorrelation for which the time period will be highlighted. Defaults to \code{0.7}.}
+
+\item{maxlag}{Integer value of the maximum daily lag used to calculate the correlation. Defaults to \code{30}.}
 }
 \description{
-Plot the autocorrelation function (ACF) for runoff time series
+The function plots the autocorrelation function (ACF) for daily runoff time series. A number of days corresponding to the specified \code{autocorr} value is highlighted.
 }

@@ -1,16 +1,17 @@
-#' Read grwat daily reanalysis
+#' Read reanalysis data
+#' 
+#' The function reads meteorological variables (temperature and precipitation) from [grwat reanalysis](http://carto.geogr.msu.ru/grwat/) to the daily runoff time series. Reanalysis covers the East European Plain with 0.75 degrees spatial resolution and is obtained based on CIRES-DOE (1880-1949) and ERA5 (1950-2021) data.
+#' 
+#' Download the reanalysis archive from [http://carto.geogr.msu.ru/grwat/].
 #'
-#' @param file_prec Precipitation NetCDF file
-#' @param file_temp Temperature NetCDF file
+#' @param file_prec Character string path to precipitation NetCDF file.
+#' @param file_temp Character string path to temperature NetCDF file.
 #'
-#' @return List containing time series, precipitation series, temperature series 
+#' @return `list` containing time series, precipitation series, temperature series 
 #'   and spatial points (sf)
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' grwat::read_interim("rean/prec.nc", "rean/temp.nc")
-#' }
 gr_read_rean <- function(file_prec, file_temp){
   # Read NetCDF data
   precip = ncdf4::nc_open(file_prec)

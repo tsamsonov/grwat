@@ -2,12 +2,11 @@
 #' 
 #' Use this function to learn the meaning of the variables that are calculated by [grwat::gr_summarize()].
 #'
-#' @return data.frame of hydrograph separation variables
+#' @return `data.frame` of hydrograph separation variables
 #' @export
 #'
 #' @examples
-#' gr_help_vars()
-gr_help_vars <- function(){
+gr_help_vars <- function() {
   return(params_out)
 }
 

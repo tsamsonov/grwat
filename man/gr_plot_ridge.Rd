@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{gr_plot_ridge}
 \alias{gr_plot_ridge}
-\title{A convenient wrapper around \code{\link[ggridges:geom_ridgeline]{ggridges::geom_ridgeline()}} to visualize multiple river hydrographs at once}
+\title{Ridgeline hydrograph plot}
 \usage{
 gr_plot_ridge(
   df,
@@ -29,9 +29,6 @@ gr_plot_ridge(
 
 \item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
-\value{
-A \code{ggplot2} object
-}
 \description{
-A convenient wrapper around \code{\link[ggridges:geom_ridgeline]{ggridges::geom_ridgeline()}} to visualize multiple river hydrographs at once
+A convenient wrapper around \code{\link[ggridges:geom_ridgeline]{ggridges::geom_ridgeline()}} to visualize multiple river hydrographs at once.
 }

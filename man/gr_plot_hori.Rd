@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{gr_plot_hori}
 \alias{gr_plot_hori}
-\title{A convenient wrapper around \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}} to visualize multiple river hydrographs at once}
+\title{Horizon hydrograph plot}
 \usage{
 gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6, locale = "EN")
 }
@@ -23,5 +23,5 @@ gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6, locale = "EN")
 A \code{ggplot2} object
 }
 \description{
-A convenient wrapper around \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}} to visualize multiple river hydrographs at once
+A convenient wrapper around \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}} to visualize multiple river hydrographs at once.
 }

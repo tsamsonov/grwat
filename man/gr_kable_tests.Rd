@@ -2,20 +2,20 @@
 % Please edit documentation in R/report.R
 \name{gr_kable_tests}
 \alias{gr_kable_tests}
-\title{Kable p-values table by coloring it using green-yellow-red palette}
+\title{Tabular representation of tests}
 \usage{
-gr_kable_tests(tests, locale = "EN", format = "latex")
+gr_kable_tests(tests, format = "html", locale = "EN")
 }
 \arguments{
-\item{tests}{Test result returned by \code{test_variables()} function}
+\item{tests}{\code{list} of tests as returned by \code{\link[=gr_test_vars]{gr_test_vars()}} function.}
 
-\item{locale}{character string. Currently English (\code{'EN'}) and Russian (\code{'RU'}) locales are supported for HTML output. PDF is always rendered in English}
+\item{format}{Character string encoding the type of output. Currently \code{'html'} only is supported.}
 
-\item{format}{character string. Currently \code{'latex'} or \code{'html'} are supported}
+\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
-kabled version of p-values table coloured
+HTML table as returned by \code{\link[knitr:kable]{knitr::kable()}} function.
 }
 \description{
-Kable p-values table by coloring it using green-yellow-red palette
+This function is used to represent the results of \code{\link[=gr_test_vars]{gr_test_vars()}} in a tabular form. Used mainly in \code{\link[=gr_report]{gr_report()}}, but can be used for your own purposes.
 }

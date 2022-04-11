@@ -42,7 +42,3 @@ reference:
   contents:
   - gr_kable_tests
   - gr_report
-
-- title: Other
-  contents:
-  - gr_mamba
