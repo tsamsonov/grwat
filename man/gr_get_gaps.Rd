@@ -2,16 +2,16 @@
 % Please edit documentation in R/process.R
 \name{gr_get_gaps}
 \alias{gr_get_gaps}
-\title{Get gaps in the data}
+\title{Get gaps in the runoff data}
 \usage{
 gr_get_gaps(hdata)
 }
 \arguments{
-\item{hdata}{a data frame where the first column is date, and the second column is discharge value}
+\item{hdata}{\code{data.frame} with two columns, where the first column is \code{Date}, and the second column is numeric runoff value}
 }
 \value{
-a data frame with periods of data and periods of gaps
+\code{data.frame} with periods of data and periods of gaps
 }
 \description{
-Get gaps in the data
+Use the function to detect periods of missing data. These can be both missing dates and missing runoff values
 }

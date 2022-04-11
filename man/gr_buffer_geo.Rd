@@ -2,23 +2,18 @@
 % Please edit documentation in R/process.R
 \name{gr_buffer_geo}
 \alias{gr_buffer_geo}
-\title{Buffer sf objects in geographic coordinates through conic projection}
+\title{Quasi-geographic buffering}
 \usage{
 gr_buffer_geo(g, bufsize)
 }
 \arguments{
-\item{g}{\code{sf} or \code{sfg} object in geographic coordinates}
+\item{g}{\code{sf} or \code{sfg} object with known coordinate system.}
 
-\item{bufsize}{double. Size of a buffer, in metres}
+\item{bufsize}{Numeric value of a buffer distance, in meters.}
 }
 \value{
-\code{sf} or \code{sfg} object, buffered to \code{bufsize} distance
+\code{sf} or \code{sfg} object, buffered to \code{bufsize} and projected into geographic coordinates (WGS84).
 }
 \description{
-Buffer sf objects in geographic coordinates through conic projection
-}
-\examples{
-\dontrun{
-gr_buffer_geo(basin, 50000)
-}
+Generate the buffer of spatial object in geographic coordinates. The function transforms the object into Azimuthal equidistant projection, then buffers it by the specified radius and then reprojects into geographical coordinate system (WGS84)
 }

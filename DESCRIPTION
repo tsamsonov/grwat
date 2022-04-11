@@ -49,6 +49,7 @@ Imports:
     scales,
     sf,
     shiny,
+    stringr,
     tidyr,
     transformr,
     trend,

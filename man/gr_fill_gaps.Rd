@@ -2,26 +2,20 @@
 % Please edit documentation in R/process.R
 \name{gr_fill_gaps}
 \alias{gr_fill_gaps}
-\title{Fill missing discharge data using linear interpolation}
+\title{Fill missing runoff data}
 \usage{
 gr_fill_gaps(hdata, autocorr = 0.7, nobserv = NULL)
 }
 \arguments{
-\item{hdata}{Water discharge series. Data frame containing 4 columns: year (YYYY), montth (MM), day (DD) and level (water level)}
+\item{hdata}{\code{data.frame} with two columns, where the first column is \code{Date}, and the second column is numeric runoff value.}
 
-\item{autocorr}{Autocorrelation value that defines possible length of the period. Defaults to 0.7.  If \code{nobserv} parameter is set, then this parameter is ignored. If both parameters are \code{NULL}, then all gaps are filled disregard of their lengths (not recommended).}
+\item{autocorr}{Autocorrelation value that defines possible length of the period that can be filled. Defaults to 0.7.  If \code{nobserv} parameter is set, then this parameter is ignored. If both parameters are \code{NULL}, then all gaps are filled disregard of their lengths (not recommended).}
 
-\item{nobserv}{Maximum number of contiguous observations that can be filled. Defaults to \code{NULL}. If this parameter is set by the user, then \code{autocorr} parameter is ignored. If both parameters are \code{NULL}, then all gaps are filled disregard of their lengths (not recommended).}
-
-\item{expand}{Should the algorithm insert missing dates?}
-
-\item{dates}{}
-
-\item{order}{}
+\item{nobserv}{Maximum number of contiguous observations that can be interpolated. Defaults to \code{NULL}. If this parameter is set, then \code{autocorr} parameter is ignored. If both parameters are \code{NULL}, then all gaps are filled disregard of their lengths (not recommended).}
 }
 \value{
-filled discharge values
+\code{data.frame} which is a filled version of \code{hdata}
 }
 \description{
-Fill missing discharge data using linear interpolation
+Use the function to fill the missing runoff data by linear interpolation. These can be both missing dates and missing runoff values. A preliminary summary of missing data can be viewed by \code{\link[=gr_get_gaps]{gr_get_gaps()}}
 }
