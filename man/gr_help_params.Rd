@@ -13,5 +13,7 @@ gr_help_params()
 Get the information about parameters used to separate the hydrograph
 }
 \examples{
+library(grwat)
 
+gr_help_params()
 }
