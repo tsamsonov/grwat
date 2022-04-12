@@ -4,7 +4,6 @@ reference:
 - title: Data preparation
   contents:
   - gr_buffer_geo
-  - gr_check_data
   - gr_fill_gaps
   - gr_get_gaps
   - gr_join_rean
@@ -13,6 +12,7 @@ reference:
 - title: Hydrograph separation
   contents:
   - gr_baseflow
+  - gr_check_data
   - gr_get_params
   - gr_check_params
   - gr_help_params

@@ -6,8 +6,10 @@ update_core <- function() {
 }
 
 #' Check the correctness of data frame for separating
+#' 
+#' This function is called inside [gr_separate()], but can be used explicitly inside your code.
 #'
-#' @param df `data.frame` with four columns: date, discharge, temperature, precipitation.
+#' @param df `data.frame` with four columns: date, discharge, temperature, precipitation, as required by [gr_separate()].
 #'
 #' @return stops execution if `df` contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. discharge or precipitation are negative).
 #' @export
@@ -38,14 +40,14 @@ gr_check_data <- function(df) {
 #' Check the correctness of parameters list for separating
 #'
 #' @param params `list` of separation parameters, as returned by [grwat::gr_get_params()] function
-#' @param df `data.frame` with four columns: date, discharge, temperature, precipitation
+#' @param df `data.frame` with four columns: date, discharge, temperature, precipitation, as required by [gr_separate()]. Required when params is a `list` of parameter `list`s. Defaults to `NULL`.
 #'
 #' @return stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prints the message that everything is OK
 #' @export
 #'
 #' @example inst/examples/gr_check_params.R
 #' 
-gr_check_params <- function(df, params) {
+gr_check_params <- function(params, df = NULL) {
   
   template = gr_get_params()
   
@@ -53,12 +55,20 @@ gr_check_params <- function(df, params) {
   listed = FALSE
   
   if (is.list(params[[1]])) {
+    
+    if (is.null(df)) {
+      stop(crayon::white$bgRed$bold('grwat:'), ' ',
+           crayon::white$italic('df'), ' parameter is needed, because ', 
+           crayon::white$italic('params'), ' is a list of lists.')
+    }
+    
+    gr_check_data(df)
+    
     n = length(params)
     listed = TRUE
     
     if (length(unique(lubridate::year(df[[1]]))) != n) {
-      stop(crayon::white$bgRed$bold('grwat:'), ' ',
-           crayon::white$italic(' the length of parameters list must be equal to 1 or to the number of years in the data'))
+      stop(crayon::white$bgRed$bold('grwat:'), ' the length of parameters list must be equal to 1 or to the number of years in the data')
     }
     
   }
@@ -136,7 +146,7 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   
   gr_check_data(df)
   
-  gr_check_params(df, params)
+  gr_check_params(params, df)
   
   df = df %>% 
     dplyr::rename(Date = 1) %>% 

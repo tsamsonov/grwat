@@ -7,13 +7,13 @@
 gr_check_data(df)
 }
 \arguments{
-\item{df}{\code{data.frame} with four columns: date, discharge, temperature, precipitation.}
+\item{df}{\code{data.frame} with four columns: date, discharge, temperature, precipitation, as required by \code{\link[=gr_separate]{gr_separate()}}.}
 }
 \value{
 stops execution if \code{df} contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. discharge or precipitation are negative).
 }
 \description{
-Check the correctness of data frame for separating
+This function is called inside \code{\link[=gr_separate]{gr_separate()}}, but can be used explicitly inside your code.
 }
 \examples{
 library(grwat)

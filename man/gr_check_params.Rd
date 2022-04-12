@@ -4,12 +4,12 @@
 \alias{gr_check_params}
 \title{Check the correctness of parameters list for separating}
 \usage{
-gr_check_params(df, params)
+gr_check_params(params, df = NULL)
 }
 \arguments{
-\item{df}{\code{data.frame} with four columns: date, discharge, temperature, precipitation}
-
 \item{params}{\code{list} of separation parameters, as returned by \code{\link[=gr_get_params]{gr_get_params()}} function}
+
+\item{df}{\code{data.frame} with four columns: date, discharge, temperature, precipitation, as required by \code{\link[=gr_separate]{gr_separate()}}. Required when params is a \code{list} of parameter \code{list}s. Defaults to \code{NULL}.}
 }
 \value{
 stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prints the message that everything is OK
@@ -18,5 +18,54 @@ stops the execution if anything is wrong and prints the exact reason of the erro
 Check the correctness of parameters list for separating
 }
 \examples{
+library(grwat)
+
+# example Spas-Zagorye data is included with grwat package
+data(spas)
+
+params = gr_get_params(reg = 'Midplain')
+
+gr_check_params(params)
+
+# set the unknown parameter
+params$new = -2
+
+# use try if you do not want to stop at error
+try(gr_check_params(params))
+
+# remove wrong parameter
+params$new = NULL
+
+# remove right parameter
+params$grad1 = NULL
+try(gr_check_params(params))
+
+# reset
+params = gr_get_params(reg = 'Midplain')
+
+sep = gr_separate(spas, params, debug = TRUE)
+parlist = attributes(sep)$params
+
+parlist[['2002']]$grad1 = 4
+
+# if the parlist is used for separation
+# then data frame must be specified
+try(gr_check_params(parlist))
+
+gr_check_params(parlist, spas)
+
+# grad parameter is not known
+parlist[['2002']]$grad = 4
+try(gr_check_params(parlist, spas))
+
+# remove wrong parameter
+parlist[['2002']]$grad = NULL
+
+# remove year
+parlist[['2002']] = NULL
+try(gr_check_params(parlist, spas))
+
+parlist[['2002']] = parlist[['2001']]
+gr_check_params(parlist, spas)
 
 }
