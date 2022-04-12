@@ -9,7 +9,9 @@ gr_separate(df, params = gr_get_params(), debug = FALSE)
 \arguments{
 \item{df}{\code{data.frame} with four columns: date, runoff, temperature, precipitation.}
 
-\item{params}{\code{list} of separation parameters, as returned by \code{\link[=gr_get_params]{gr_get_params()}} function.}
+\item{params}{\code{list} of separation parameters, as returned by \code{\link[=gr_get_params]{gr_get_params()}} function. Can also be a \code{list} of such \code{list}s if modified parameters are required for some years. In this case the length of \code{params} must be equal to the number of calendar years in \code{df} or be equal to \code{1}.}
+
+\item{debug}{Boolean. If \code{TRUE} then additional attributes \code{jittered} and \code{params} are written to the output \code{data.frame}. \code{jittered} is an integer vector of years for which the separation parameters were randomly jittered. \code{params} is a list of separation parameter lists used for each year (some o those may have been jittered). Defaults to \code{FALSE}.}
 }
 \value{
 A \code{data.frame} with 11 columns:\tabular{ll}{
@@ -28,7 +30,7 @@ A \code{data.frame} with 11 columns:\tabular{ll}{
 }
 }
 \description{
-Separates the runoff into genetic components: groundwater, thaw, rain and spring
+Separates the runoff into genetic components: groundwater, thaw, rain and spring.
 }
 \examples{
 library(grwat)

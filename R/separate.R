@@ -117,10 +117,11 @@ gr_check_params <- function(params, df = NULL) {
 
 #' Advanced hydrograph separation
 #' 
-#' Separates the runoff into genetic components: groundwater, thaw, rain and spring
+#' Separates the runoff into genetic components: groundwater, thaw, rain and spring.
 #'
 #' @param df `data.frame` with four columns: date, runoff, temperature, precipitation.
-#' @param params `list` of separation parameters, as returned by [grwat::gr_get_params()] function.
+#' @param params `list` of separation parameters, as returned by [grwat::gr_get_params()] function. Can also be a `list` of such `list`s if modified parameters are required for some years. In this case the length of `params` must be equal to the number of calendar years in `df` or be equal to `1`.
+#' @param debug Boolean. If `TRUE` then additional attributes `jittered` and `params` are written to the output `data.frame`. `jittered` is an integer vector of years for which the separation parameters were randomly jittered. `params` is a list of separation parameter lists used for each year (some o those may have been jittered). Defaults to `FALSE`.
 #'
 #' @return A `data.frame` with 11 columns: 
 #' 
