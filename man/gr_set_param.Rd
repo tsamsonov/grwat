@@ -2,7 +2,7 @@
 % Please edit documentation in R/separate.R
 \name{gr_set_param}
 \alias{gr_set_param}
-\title{Set the value of selected parameter for selected years in parameter list}
+\title{Set the value of hydrograph separation parameter}
 \usage{
 gr_set_param(params, p, value, years = NULL)
 }
@@ -19,8 +19,32 @@ gr_set_param(params, p, value, years = NULL)
 \code{list} of \code{list}s — a modified version of \code{params}
 }
 \description{
-Set the value of selected parameter for selected years in parameter list
+The value is set for selected years in parameter list. Such list is returned by \code{\link[=gr_separate]{gr_separate()}}  with \code{debug = TRUE} set.
 }
 \examples{
+library(grwat)
 
+data(spas) # example Spas-Zagorye data is included with grwat package
+
+# Debug mode gives access to additional information
+sep = gr_separate(spas, 
+                  params = gr_get_params(reg = 'Midplain'), 
+                  debug = TRUE)
+
+# Visualize
+gr_plot_sep(sep, c(1978, 1989)) 
+
+# actual params used for each year
+parlist = attributes(sep)$params
+
+# set the ftrecdays parameter for multiple years
+parlist = gr_set_param(parlist, ftrecdays, 
+                       years = c(1978, 1989:1995), 
+                       value = 15)
+
+# use the list of parameters for separation
+sep_new = gr_separate(spas, params = parlist, debug = TRUE)
+
+# Visualize
+gr_plot_sep(sep_new, c(1978, 1989))
 }

@@ -144,7 +144,8 @@ gr_check_params <- function(params, df = NULL) {
 #' 
 gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   
-  gr_check_data(df)
+  if (!is.list(params[[1]]))
+    gr_check_data(df)
   
   gr_check_params(params, df)
   
@@ -247,7 +248,9 @@ gr_help_params <- function() {
 }
 
 
-#' Set the value of selected parameter for selected years in parameter list
+#' Set the value of hydrograph separation parameter
+#' 
+#' The value is set for selected years in parameter list. Such list is returned by [grwat::gr_separate()]  with `debug = TRUE` set.
 #'
 #' @param params `list` of `list`s of hydrograph separation parameters as returned in `params` attribute by [grwat::gr_separate()]  with `debug = TRUE`.
 #' @param p Name of the parameter.
