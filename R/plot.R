@@ -1083,7 +1083,7 @@ gr_plot_hori <- function(df, years, pal = 'Blues', rev = T, scale = 6, locale='E
 #' @param height Integer height of the animation (in pixels). Defaults to 600
 #' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
 #'
-#' @return The return value of the [gganimate::renderer()] function
+#' @return The return value of the [gganimate::animate()] function
 #' 
 #' @export
 #'

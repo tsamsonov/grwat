@@ -33,7 +33,7 @@ gr_animate(
 \item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
-The return value of the \code{\link[gganimate:renderer]{gganimate::renderer()}} function
+The return value of the \code{\link[gganimate:animate]{gganimate::animate()}} function
 }
 \description{
 A convenient wrapper around \code{\link[gganimate:animate]{gganimate::animate()}} to animate river hydrograph through years.
