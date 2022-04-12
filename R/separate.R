@@ -205,13 +205,13 @@ gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5,
   get_baseflow_cpp(Q, a, k, C, aq, passes, padding, method)
 }
 
-#' Get separation parameters for specified location
+#' Get hydrograph separation parameters
 #' 
-#' Location can be identified by region name or geographic coordinates. If both are specified, then region have a higher priority
+#' The function returns the list of parameters that can be used by [grwat::gr_separate()]. Since the parameters are region-specific, the location must be selected. It can be identified by region name or geographic coordinates. If both are specified, then region have a higher priority
 #'
 #' @param reg Character string — the name of the region. Defaults to `'Midplain'`.
-#' @param lon Numeric value of the longitude.
-#' @param lat Numeric value of the latitude.
+#' @param lon Numeric value of the longitude. Ignored if `reg` is specified.
+#' @param lat Numeric value of the latitude. Ignored if `reg` is specified.
 #'
 #' @return List of separation parameters that can be used in [grwat::gr_separate()]  function.
 #' @export

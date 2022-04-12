@@ -2,23 +2,27 @@
 % Please edit documentation in R/separate.R
 \name{gr_get_params}
 \alias{gr_get_params}
-\title{Get separation parameters for specified location}
+\title{Get hydrograph separation parameters}
 \usage{
 gr_get_params(reg = "Midplain", lon = NULL, lat = NULL)
 }
 \arguments{
 \item{reg}{Character string — the name of the region. Defaults to \code{'Midplain'}.}
 
-\item{lon}{Numeric value of the longitude.}
+\item{lon}{Numeric value of the longitude. Ignored if \code{reg} is specified.}
 
-\item{lat}{Numeric value of the latitude.}
+\item{lat}{Numeric value of the latitude. Ignored if \code{reg} is specified.}
 }
 \value{
 List of separation parameters that can be used in \code{\link[=gr_separate]{gr_separate()}}  function.
 }
 \description{
-Location can be identified by region name or geographic coordinates. If both are specified, then region have a higher priority
+The function returns the list of parameters that can be used by \code{\link[=gr_separate]{gr_separate()}}. Since the parameters are region-specific, the location must be selected. It can be identified by region name or geographic coordinates. If both are specified, then region have a higher priority
 }
 \examples{
+library(grwat)
 
+params = gr_get_params(reg = 'Midplain')
+
+print(params)
 }

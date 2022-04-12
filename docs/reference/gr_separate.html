@@ -83,7 +83,9 @@
 <span class="r-plt img"><img src="gr_separate-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Debug mode gives access to additional information</span></span>
-<span class="r-in"><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu">gr_separate</span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'Midplain'</span><span class="op">)</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu">gr_separate</span><span class="op">(</span><span class="va">spas</span>, </span>
+<span class="r-in">                        params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'Midplain'</span><span class="op">)</span>, </span>
+<span class="r-in">                        debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1974, 1975</span> years were not separated. Check the input data for possible errors. Use <span style="color: #00BBBB; font-style: italic;">gr_get_gaps()</span> and <span style="color: #00BBBB; font-style: italic;">gr_fill_gaps()</span> functions to detect and fill missing data.</span>
@@ -91,7 +93,7 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># a vector of years with jittered params</span></span>
 <span class="r-in"><span class="va">jit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">jittered</span></span>
-<span class="r-in"><span class="va">jit</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">jit</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1965 1978 1989 1991 1995 1996 1997 1998 2002 2007 2008 2009 2011 2014 2015</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] 2016 2017 2019 2020</span>
 <span class="r-in"></span>
@@ -115,6 +117,50 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mntmode &lt;dbl&gt;, mntgrad &lt;dbl&gt;, mntavgdays &lt;dbl&gt;, mntratiodays &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mntratio &lt;dbl&gt;, niter &lt;dbl&gt;, a &lt;dbl&gt;, k &lt;dbl&gt;, C &lt;dbl&gt;, aq &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   padding &lt;dbl&gt;, passes &lt;dbl&gt;, filter &lt;chr&gt;, ftcomp &lt;dbl&gt;</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># extract and tweak parameters for selected year</span></span>
+<span class="r-in"><span class="va">p</span> <span class="op">=</span> <span class="va">parlist</span><span class="op">[[</span><span class="st">'1989'</span><span class="op">]</span><span class="op">]</span></span>
+<span class="r-in"><span class="va">p</span><span class="op">$</span><span class="va">grad1</span> <span class="op">=</span> <span class="fl">1</span></span>
+<span class="r-in"><span class="va">p</span><span class="op">$</span><span class="va">grad2</span> <span class="op">=</span> <span class="fl">2.5</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># use tweaked parameters for all years</span></span>
+<span class="r-in"><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu">gr_separate</span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="va">p</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1974</span> years were not separated. Check the input data for possible errors. Use <span style="color: #00BBBB; font-style: italic;">gr_get_gaps()</span> and <span style="color: #00BBBB; font-style: italic;">gr_fill_gaps()</span> functions to detect and fill missing data.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1995, 1997, 2002, 2008, 2014, 2015, 2019, 2020</span> years were processed with jittered parameters</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Visualize</span></span>
+<span class="r-in"><span class="fu"><a href="gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span> </span>
+<span class="r-plt img"><img src="gr_separate-3.png" alt="" width="700" height="433"></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (position_stack).</span>
+<span class="r-plt img"><img src="gr_separate-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># actual params used for each year</span></span>
+<span class="r-in"><span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># tweak parameters for selected year</span></span>
+<span class="r-in"><span class="va">parlist</span><span class="op">[[</span><span class="st">'1989'</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">grad1</span> <span class="op">=</span> <span class="fl">3</span></span>
+<span class="r-in"><span class="va">parlist</span><span class="op">[[</span><span class="st">'1989'</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">grad2</span> <span class="op">=</span> <span class="fl">6</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># set the ftrecdays parameter for multiple years</span></span>
+<span class="r-in"><span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="gr_set_param.html">gr_set_param</a></span><span class="op">(</span><span class="va">parlist</span>, <span class="va">ftrecdays</span>, </span>
+<span class="r-in">                       years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">:</span><span class="fl">1995</span><span class="op">)</span>, </span>
+<span class="r-in">                       value <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># use the list of parameters for separation</span></span>
+<span class="r-in"><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu">gr_separate</span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="va">parlist</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1974</span> years were not separated. Check the input data for possible errors. Use <span style="color: #00BBBB; font-style: italic;">gr_get_gaps()</span> and <span style="color: #00BBBB; font-style: italic;">gr_fill_gaps()</span> functions to detect and fill missing data.</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Visualize</span></span>
+<span class="r-in"><span class="fu"><a href="gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="gr_separate-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="gr_separate-6.png" alt="" width="700" height="433"></span>
+<span class="r-in"></span>
+<span class="r-in"></span>
+<span class="r-in"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
