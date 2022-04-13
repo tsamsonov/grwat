@@ -1,5 +1,8 @@
 template:
   bootstrap: 5
+figures:
+  dpi: 300
+  fig.width: 10
 reference:
 - title: Data preparation
   contents:

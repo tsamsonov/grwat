@@ -314,41 +314,43 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
     
     # TEST
     if (!is.null(tests)) {
+      
+      varname = prms$Name[i]
 
-      if (!is.null(tests$ptt[[i]])) { # if test for this variable was successfull
+      if (!is.null(tests$ptt[[varname]])) { # if test for this variable was successfull
 
         ltype = ifelse(tests$fixed_year, 'dotted',
-                       ifelse(tests$ptt[[i]]$p.value > 0.05, 'dashed', 'solid'))
+                       ifelse(tests$ptt[[varname]]$p.value > 0.05, 'dashed', 'solid'))
         g = g +
-          ggplot2::geom_vline(xintercept = tests$year[i], color = "red",
+          ggplot2::geom_vline(xintercept = tests$year[varname], color = "red",
                      size=0.5, linetype = ltype) +
-          ggplot2::annotate("text", label = tests$year[i],
-                   x = tests$year[i] + 4, y = tests$maxval[[i]],
+          ggplot2::annotate("text", label = tests$year[varname],
+                   x = tests$year[varname] + 4, y = tests$maxval[[varname]],
                    size = 4, colour = "red")
       }
 
-      if(!is.null(tests$tst[[i]]) && !is.null(tests$ts_fit[[i]])) {
-        ts_ltype = ifelse(mblm::summary.mblm(tests$ts_fit[[i]])$coefficients[2, 4] > 0.05, 'dashed', 'solid')
+      if(!is.null(tests$tst[[varname]]) && !is.null(tests$ts_fit[[varname]])) {
+        ts_ltype = ifelse(mblm::summary.mblm(tests$ts_fit[[varname]])$coefficients[2, 4] > 0.05, 'dashed', 'solid')
         
-        g = g + ggplot2::geom_abline(intercept = coef(tests$ts_fit[[i]])[1], slope = coef(tests$ts_fit[[i]])[2],
-                            color = 'red', size=1, linetype = ts_ltype)
+        g = g + ggplot2::geom_abline(intercept = coef(tests$ts_fit[[varname]])[1], slope = coef(tests$ts_fit[[varname]])[2],
+                            color = 'red', size = 1, linetype = ts_ltype)
       }
 
       fixedstr = ifelse(tests$fixed_year, '',
-                        paste0(labs$pettitt.u, ' = ', ifelse(is.null(tests$ptt[[i]]), 'NA',
-                                                             round(tests$ptt[[i]]$statistic, 3)), ', ',
-                               labs$label.p, ' = ', ifelse(is.null(tests$ptt[[i]]), 'NA',
-                                                           round(tests$ptt[[i]]$p.value, 5))))
+                        paste0(labs$pettitt.u, ' = ', ifelse(is.null(tests$ptt[[varname]]), 'NA',
+                                                             round(tests$ptt[[varname]]$statistic, 3)), ', ',
+                               labs$label.p, ' = ', ifelse(is.null(tests$ptt[[varname]]), 'NA',
+                                                           round(tests$ptt[[varname]]$p.value, 5))))
 
       g = g + #labs(subtitle = as.expression(bquote(bold(.(labs$kendall.z))~'=')))
-        ggplot2::labs(subtitle = paste0(labs$kendall.z, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
-                                                             round(tests$mkt[[i]]$statistic, 3)), ', ',
-                               labs$label.p, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
-                                                           round(tests$mkt[[i]]$p.value, 5)), '\n',
-                               labs$theil.i, ' = ', ifelse(is.null(tests$ts_fit[[i]]), 'NA',
-                                                           round(coef(tests$ts_fit[[i]])[2], 5)), ', ',
-                               labs$label.p, ' = ', ifelse(is.null(tests$ts_fit[[i]]), 'NA',
-                                                           round(mblm::summary.mblm(tests$ts_fit[[i]])$coefficients[2, 4], 5)), '. ',
+        ggplot2::labs(subtitle = paste0(labs$kendall.z, ' = ', ifelse(is.null(tests$mkt[[varname]]), 'NA',
+                                                             round(tests$mkt[[varname]]$statistic, 3)), ', ',
+                               labs$label.p, ' = ', ifelse(is.null(tests$mkt[[varname]]), 'NA',
+                                                           round(tests$mkt[[varname]]$p.value, 5)), '\n',
+                               labs$theil.i, ' = ', ifelse(is.null(tests$ts_fit[[varname]]), 'NA',
+                                                           round(coef(tests$ts_fit[[varname]])[2], 5)), ', ',
+                               labs$label.p, ' = ', ifelse(is.null(tests$ts_fit[[varname]]), 'NA',
+                                                           round(mblm::summary.mblm(tests$ts_fit[[varname]])$coefficients[2, 4], 5)), '. ',
                                fixedstr))
     }
     
@@ -607,9 +609,9 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
   
 }
 
-#' Plot minimum discharge month
+#' Plot minimum runoff month
 #' 
-#' Generate a histogram of a minimum discharge month for two periods: before and after the change year set by `year` parameter.
+#' Generate a histogram of a minimum runoff month for two periods: before and after the change year set by `year` parameter.
 #'
 #' @param df `data.frame` of hydrograph and meteorological variables as produced by [grwat::gr_summarize()].
 #' @param year Integer. Change year value to separate two periods.

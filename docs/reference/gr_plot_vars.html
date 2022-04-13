@@ -85,8 +85,56 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span>
 <span class="r-in"></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># separate</span></span>
+<span class="r-in"><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'Midplain'</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># summarize</span></span>
+<span class="r-in"><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># plot one selected variable</span></span>
+<span class="r-in"><span class="fu">gr_plot_vars</span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span><span class="op">)</span> </span>
+<span class="r-plt img"><img src="gr_plot_vars-1.png" alt="" width="3000" height="1854"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># plot one selected variable</span></span>
+<span class="r-in"><span class="fu">gr_plot_vars</span><span class="op">(</span><span class="va">vars</span>, <span class="va">datestart</span><span class="op">)</span> </span>
+<span class="r-plt img"><img src="gr_plot_vars-2.png" alt="" width="3000" height="1854"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># plot two variables sequentially</span></span>
+<span class="r-in"><span class="fu">gr_plot_vars</span><span class="op">(</span><span class="va">vars</span>, <span class="va">date10w1</span>, <span class="va">Wpol3</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="gr_plot_vars-3.png" alt="" width="3000" height="1854"></span>
+<span class="r-plt img"><img src="gr_plot_vars-4.png" alt="" width="3000" height="1854"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># plot four variables in matrix layout</span></span>
+<span class="r-in"><span class="fu">gr_plot_vars</span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qmax</span>, <span class="va">Qygr</span>, <span class="va">date10w1</span>, <span class="va">Wpol3</span>,</span>
+<span class="r-in">             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span>
+<span class="r-plt img"><img src="gr_plot_vars-5.png" alt="" width="3000" height="1854"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># add tests calculated on the fly (only plotted variables are tested)</span></span>
+<span class="r-in"><span class="fu">gr_plot_vars</span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qmax</span>, <span class="va">Qygr</span>, <span class="va">date10w1</span>, <span class="va">Wpol3</span>,</span>
+<span class="r-in">             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span class="r-in">             tests <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
+<span class="r-plt img"><img src="gr_plot_vars-6.png" alt="" width="3000" height="1854"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># calculate tests beforehand</span></span>
+<span class="r-in"><span class="va">tests</span> <span class="op">=</span> <span class="fu"><a href="gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">gr_plot_vars</span><span class="op">(</span><span class="va">vars</span>, <span class="va">date10w1</span>, <span class="va">Wpol3</span>, <span class="va">DaysThawWin</span>, <span class="va">Qmaxpavs</span>,</span>
+<span class="r-in">             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span class="r-in">             tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing non-finite values (stat_smooth).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (geom_rect).</span>
+<span class="r-plt img"><img src="gr_plot_vars-7.png" alt="" width="3000" height="1854"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

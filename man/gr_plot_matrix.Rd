@@ -29,9 +29,9 @@ sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
 # matrix plot for runoff
 gr_plot_matrix(sep, type = 'runoff')
 
-# matrix plot for season
+# matrix plot for seasons
 gr_plot_matrix(sep, type = 'season')
 
-# matrix plot for genetic component
+# matrix plot for genetic components
 gr_plot_matrix(sep, type = 'component')
 }
