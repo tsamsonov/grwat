@@ -12,7 +12,7 @@ params:
     span: 5
     eol: "\n"
 date: "`r Sys.Date()`"
-title: "`r params$name`"
+title: "`r tools::file_path_sans_ext(basename(params$name))`"
 author: "`r switch(params$locale, 'EN' = 'Report produced by grwat R package', 'RU' = 'Отчет подготовлен с помощью пакета R grwat')`"
 output: 
   html_document:
@@ -119,15 +119,15 @@ grwat::gr_plot_periods(vars,
 <!-- Stats -->
 ```{r, include=TRUE}
 if (params$locale == 'EN') {
-  knitr::asis_output("## Discharge matrices")
+  knitr::asis_output("## Runoff matrices")
 } else {
   knitr::asis_output("## Матрица расходов {#matrix}")
 }
 ```
 
 ```{r, fig.height=5, fig.width=10, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
-message(' > Plotting discharge matrices...\n')
-grwat::gr_plot_matrix(sep, type = 'value')
+message(' > Plotting runoff matrices...\n')
+grwat::gr_plot_matrix(sep, type = 'runoff')
 grwat::gr_plot_matrix(sep, type = 'season')
 grwat::gr_plot_matrix(sep, type = 'component')
 ```

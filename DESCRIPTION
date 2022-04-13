@@ -1,8 +1,8 @@
 Package: grwat
 Type: Package
 Title: Hydrograph separation and analysis
-Version: 0.0.0.9000
-Date: 2021-04-30
+Version: 0.0.0.9001
+Date: 2022-04-13
 Authors@R: c(
     person("Timofey", "Samsonov",, "tsamsonov@geogr.msu.ru", role = c("aut", "cre"), 
       comment = c(ORCID = "0000-0001-5994-0302")

@@ -276,7 +276,7 @@ gr_plot_ridge(sep, years = c(1960, 1965, 1989, 2001, 2012))
 gr_plot_hori(sep, years = 1960:1980)
 
 ## ---- eval = FALSE------------------------------------------------------------
-#  report = paste(getwd(), 'Spas-Zagorye.html', sep = '/')
+#  report = '~/Spas-Zagorye.html'
 #  gr_report(sep, vars, output = report)
 #  browseURL(report)
 
