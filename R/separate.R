@@ -152,8 +152,8 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   
   df = df %>% 
     dplyr::rename(Date = 1) %>% 
-    dplyr::filter(!is.na(Date)) %>% 
-    tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day'))
+    dplyr::filter(!is.na(.data$Date)) %>% 
+    tidyr::complete(Date = seq(min(.data$Date, na.rm = T), max(.data$Date, na.rm = T), by = 'day'))
   
   if (!is.list(params[[1]]))
     params = list(params)
@@ -164,10 +164,9 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
                df[[2]], df[[3]], df[[4]],
                params, debug) 
   
-  sep = sepraw %>%
-    dplyr::bind_cols(df, .) %>%
+  sep = dplyr::bind_cols(df, sepraw) %>%
     dplyr::rename(Date = 1, Q = 2, Temp = 3, Prec = 4) %>%
-    dplyr::relocate(Temp, Prec, .after = dplyr::last_col()) %>%
+    dplyr::relocate(.data$Temp, .data$Prec, .after = dplyr::last_col()) %>%
     dplyr::mutate(dplyr::across(3:9, ~ replace(.x, .x < 0, NA)))
   
   if (debug) {
@@ -232,7 +231,7 @@ gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5,
 #' 
 gr_get_params <- function(reg = 'Midplain', lon = NULL, lat = NULL) {
   params_in %>% 
-    dplyr::filter(region == reg) %>% 
+    dplyr::filter(.data$region == reg) %>% 
     dplyr::select(-1) %>%
     as.list()
 }

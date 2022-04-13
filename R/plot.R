@@ -31,18 +31,18 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
            'windows' = Sys.setlocale("LC_ALL", "English"))
   }
   
-  df = df %>% dplyr::mutate(Year = lubridate::year(Date))
+  df = df %>% dplyr::mutate(Year = lubridate::year(.data$Date))
   
   if(!is.null(years)){
-    df = df %>% dplyr::filter(Year %in% unique(c(years, years + 1)))
+    df = df %>% dplyr::filter(.data$Year %in% unique(c(years, years + 1)))
   } else {
-    years = df %>% dplyr::pull(Year) %>% unique() %>% order() 
+    years = df %>% dplyr::pull(.data$Year) %>% unique() %>% order() 
   }
   
-  yrs = df %>% dplyr::group_by(Year) %>% 
-    dplyr::summarise(nydate = Date[which(Qseas>0)[1]],
-                     datepolend = max(Date[which(Qseas>0)])) %>% 
-    dplyr::filter(!is.na(nydate))
+  yrs = df %>% dplyr::group_by(.data$Year) %>% 
+    dplyr::summarise(nydate = .data$Date[which(.data$Qseas>0)[1]],
+                     datepolend = max(.data$Date[which(.data$Qseas>0)])) %>% 
+    dplyr::filter(!is.na(.data$nydate))
   
   n = nrow(yrs)
   
@@ -52,7 +52,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   
   max.prec = max(df$Prec, na.rm = T)
   if (prec && (span > 1)) {
-    df = dplyr::mutate(df, Preccum = zoo::rollapply(Prec, span, sum, align = 'right', fill = NA))
+    df = dplyr::mutate(df, Preccum = zoo::rollapply(.data$Prec, span, sum, align = 'right', fill = NA))
     max.prec = max(df$Preccum, na.rm = T)
     # print("YEAH!!!")
     # print(max.prec)
@@ -100,13 +100,13 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
     }
     
     yeardata = df %>%  
-      dplyr::filter(dplyr::between(Date, begin.date-1, end.date))
+      dplyr::filter(dplyr::between(.data$Date, begin.date-1, end.date))
     
     graphdata = yeardata %>% 
-      tidyr::pivot_longer(c(Qthaw, Qrain, Qseas, Qbase),
+      tidyr::pivot_longer(c(.data$Qthaw, .data$Qrain, .data$Qseas, .data$Qbase),
                           names_to = "Runtype", values_to = "Runoff") %>%
                           # factor_key=TRUE) %>% 
-      dplyr::mutate(Runoff = ifelse(Runoff < 0, 0, Runoff))
+      dplyr::mutate(Runoff = ifelse(.data$Runoff < 0, 0, .data$Runoff))
     
     graphdata$Runtype = factor(graphdata$Runtype,
                                levels = c("Qrain", "Qseas", "Qthaw", "Qbase"),
@@ -118,7 +118,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
                ymax = max.runoff, ymin = 0,
                fill = 'black',
                alpha = 0.1) +
-      ggplot2::geom_area(data = graphdata, mapping = ggplot2::aes(x = Date, y = Runoff, fill = Runtype),
+      ggplot2::geom_area(data = graphdata, mapping = ggplot2::aes(x = .data$Date, y = .data$Runoff, fill = .data$Runtype),
                          size = 0.1, color = 'black', na.rm = TRUE) + 
       # geom_line(aes(group = Runtype), size = 0.1, color = 'black') +
       ggplot2::coord_cartesian(ylim = c(0, max.runoff), clip = 'off') +
@@ -137,37 +137,37 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
             ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~ . * coef_prec, 
                                                                      name = paste0(labs$preccum, ' (', span, ' ',  labs$day, ')'))) +
             ggplot2::geom_line(data = yeardata,
-                               mapping = ggplot2::aes(x = Date, y = Preccum / coef_prec),
+                               mapping = ggplot2::aes(x = .data$Date, y = .data$Preccum / coef_prec),
                                color = 'springgreen1', size = 0.5, na.rm = TRUE)
         } else {
           g = g +
             ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~ . * coef_prec, name = labs$prec)) +
             ggplot2::geom_line(data = yeardata,
-                               mapping = ggplot2::aes(x = Date, y = Prec / coef_prec),
+                               mapping = ggplot2::aes(x = .data$Date, y = .data$Prec / coef_prec),
                                color = 'springgreen1', size = 0.5, na.rm = TRUE)
         }
     }
     
     if (temp) {
         yeardata = dplyr::mutate(yeardata, 
-                                 Negat = ifelse(Temp < 0, Temp, NA),
-                                 Posit = ifelse(Temp > 0, Temp, NA))
+                                 Negat = ifelse(.data$Temp < 0, .data$Temp, NA),
+                                 Posit = ifelse(.data$Temp > 0, .data$Temp, NA))
         g = g +
           ggplot2::geom_line(data = yeardata,
-                             mapping = ggplot2::aes(x = Date, 
-                                                    y = (Temp - min.temp) / coef_temp),
+                             mapping = ggplot2::aes(x = .data$Date, 
+                                                    y = (.data$Temp - min.temp) / coef_temp),
                              color = 'purple',
                              size = 0.5, 
                              na.rm = TRUE) +
           ggplot2::geom_line(data = yeardata,
-                             mapping = ggplot2::aes(x = Date, 
-                                                    y = (Posit - min.temp) / coef_temp),
+                             mapping = ggplot2::aes(x = .data$Date, 
+                                                    y = (.data$Posit - min.temp) / coef_temp),
                              color = 'red',
                              size = 0.5,
                              na.rm = TRUE) +
           ggplot2::geom_line(data = yeardata,
-                             mapping = ggplot2::aes(x = Date, 
-                                                    y = (Negat - min.temp) / coef_temp),
+                             mapping = ggplot2::aes(x = .data$Date, 
+                                                    y = (.data$Negat - min.temp) / coef_temp),
                              color = 'blue',
                              size = 0.5,
                              na.rm = TRUE) +
@@ -184,12 +184,12 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
       ggplot2::geom_label(data = data.frame(x = datestart, 
                                             y = 0.9 * max.runoff, 
                                             text = format(datestart, format="%d-%m")),
-                          mapping = ggplot2::aes(x, y, label = text, hjust = 1),
+                          mapping = ggplot2::aes(.data$x, .data$y, label = .data$text, hjust = 1),
                           size = 3, fill = "white", label.padding = ggplot2::unit(0.15, "lines")) +
       ggplot2::geom_label(data = data.frame(x = datepolend, 
                                             y = 0.9 * max.runoff, 
                                             text = format(datepolend, format="%d-%m")),
-                          mapping = ggplot2::aes(x, y, label = text, hjust = 0),
+                          mapping = ggplot2::aes(.data$x, .data$y, label = .data$text, hjust = 0),
                           size = 3, fill = "white", label.padding = ggplot2::unit(0.15, "lines"))
     
     plotlist[[j]] = g
@@ -1108,13 +1108,13 @@ gr_animate <- function(df, plot = TRUE, file = NULL, fps = 20, kframes = 10, wid
   
   tab = df %>%
     dplyr::rename(Date = 1, Q = 2) %>%
-    dplyr::mutate(yDate = Date,
-                  Year = lubridate::year(Date))
+    dplyr::mutate(yDate = .data$Date,
+                  Year = lubridate::year(.data$Date))
   
   lubridate::year(tab$yDate) <- 2000 # fake year for animations
   
-  anim = ggplot2::ggplot(tab, mapping = ggplot2::aes(x = yDate, y = Q)) +
-    ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = Q), alpha = 0.5) +
+  anim = ggplot2::ggplot(tab, mapping = ggplot2::aes(x = .data$yDate, y = .data$Q)) +
+    ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = .data$Q), alpha = 0.5) +
     ggplot2::geom_line() +
     ggplot2::scale_x_date(date_breaks = "1 month", date_labels = "%b") +
     ggplot2::labs(title = "Runoff",
@@ -1122,7 +1122,7 @@ gr_animate <- function(df, plot = TRUE, file = NULL, fps = 20, kframes = 10, wid
     ggplot2::xlab('Date') +
     ggplot2::ylab('m3/s') +
     ggplot2::theme(text = ggplot2::element_text(size = 18, family = 'Open Sans')) +
-    gganimate::transition_states(Year, state_length = 0) +
+    gganimate::transition_states(.data$Year, state_length = 0) +
     gganimate::view_follow(fixed_y = TRUE)
   
   anim = gganimate::animate(anim, 

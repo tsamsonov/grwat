@@ -1,7 +1,11 @@
 #' @useDynLib grwat
 #' @importFrom Rcpp sourceCpp
+#' @importFrom rlang .data
+#' @importFrom graphics text
+#' @importFrom stats acf coef complete.cases density sd setNames t.test var.test
 #' 
 NULL
+
 
 # General
 usethis::use_package('Rcpp')

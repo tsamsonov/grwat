@@ -21,13 +21,13 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
   
   if(length(fields) == 0)
     fields = params_out %>% 
-      dplyr::filter(Order != 0) %>% 
-      dplyr::arrange(Order) %>% 
-      dplyr::pull(Name)
+      dplyr::filter(.data$Order != 0) %>% 
+      dplyr::arrange(.data$Order) %>% 
+      dplyr::pull(.data$Name)
   
   prms = params_out %>% 
-    dplyr::filter(Name %in% fields) %>% 
-    dplyr::slice(match(fields, Name))
+    dplyr::filter(.data$Name %in% fields) %>% 
+    dplyr::slice(match(fields, .data$Name))
   
   fixed = !is.null(year)
   
@@ -58,7 +58,7 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
   ft = setNames(vector(mode = 'list', length = nn), prms$Name) # Fisher F test for periods
   
   df = df %>% 
-    dplyr::filter(!(Year1 %in% exclude)) %>% 
+    dplyr::filter(!(.data$Year1 %in% exclude)) %>% 
     dplyr::mutate_if(params_out$Winter == 1, 
                      replace_year)
   
