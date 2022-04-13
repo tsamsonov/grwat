@@ -798,7 +798,7 @@ gr_plot_tests <- function(tests, locale = 'EN') {
 #'
 #' The function plots the autocorrelation function (ACF) for daily runoff time series. A number of days corresponding to the specified `autocorr` value is highlighted.
 #'
-#' @param hdata `data.frame` with two columns: date and runoff.
+#' @param hdata `data.frame` with first column as `Date` and the second column as runoff
 #' @param autocorr Numeric value of the autocorrelation for which the time period will be highlighted. Defaults to `0.7`.
 #' @param maxlag Integer value of the maximum daily lag used to calculate the correlation. Defaults to `30`.
 #'
@@ -809,12 +809,12 @@ gr_plot_tests <- function(tests, locale = 'EN') {
 gr_plot_acf <- function(hdata, autocorr = 0.7, maxlag = 30) {
   
   max_period = hdata %>% 
-    gr_get_gaps() %>% 
+    grwat::gr_get_gaps() %>% 
     dplyr::filter(type == 'data', duration == max(duration))
   
   acf_data = hdata %>% 
     dplyr::filter(dplyr::between(.[[1]], max_period$start_date, max_period$end_date)) %>% 
-    pull(2)
+    dplyr::pull(2)
   
   afun = acf(acf_data, lag.max = maxlag, plot = FALSE)
     

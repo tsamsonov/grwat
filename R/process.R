@@ -39,7 +39,7 @@ gr_get_gaps <- function(hdata) {
     dplyr::rename(Date = 1) %>% 
     dplyr::filter(!is.na(Date)) %>% 
     tidyr::complete(Date = seq(min(Date, na.rm = T), max(Date, na.rm = T), by = 'day')) %>% 
-    dplyr::mutate(type = if_else(complete.cases(.[-1]), 'data', 'gap'),
+    dplyr::mutate(type = dplyr::if_else(complete.cases(.[-1]), 'data', 'gap'),
                   num = with(rle(type), rep(seq_along(lengths), lengths))) %>% 
     dplyr::group_by(num) %>% 
     dplyr::summarise(start_date = min(Date),

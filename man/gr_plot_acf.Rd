@@ -7,7 +7,7 @@
 gr_plot_acf(hdata, autocorr = 0.7, maxlag = 30)
 }
 \arguments{
-\item{hdata}{\code{data.frame} with two columns: date and runoff.}
+\item{hdata}{\code{data.frame} with first column as \code{Date} and the second column as runoff}
 
 \item{autocorr}{Numeric value of the autocorrelation for which the time period will be highlighted. Defaults to \code{0.7}.}
 
@@ -17,5 +17,12 @@ gr_plot_acf(hdata, autocorr = 0.7, maxlag = 30)
 The function plots the autocorrelation function (ACF) for daily runoff time series. A number of days corresponding to the specified \code{autocorr} value is highlighted.
 }
 \examples{
+library(grwat)
 
+# example Spas-Zagorye data is included with grwat package
+data(spas)
+print(spas)
+
+# plot ACF
+gr_plot_acf(spas, 0.65)
 }
