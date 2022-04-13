@@ -23,5 +23,13 @@ gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6, locale = "EN")
 A convenient wrapper around \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}} to visualize multiple river hydrographs at once.
 }
 \examples{
+library(grwat)
 
+data(spas) # example Spas-Zagorye data is included with grwat package
+
+# separate
+sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+
+# horizon plot for selected years
+gr_plot_hori(sep, years = 1960:1980)
 }

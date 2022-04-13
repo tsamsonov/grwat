@@ -525,10 +525,10 @@ gr_plot_minmonth(vars, year = 1985)
 
 ## Plot discharge parameters
 
-There is a dedicated `gr_plot_matrix()` function that plot the whole time series in a convenient matrix form. Currently it supports plotting the value, seasons and components of the discharge:
+There is a dedicated `gr_plot_matrix()` function that plot the whole time series in a convenient matrix form. Currently it supports plotting the runoff, season and component:
 
 ```{r, fig.width=10, fig.height=5}
-gr_plot_matrix(sep, type = 'value')
+gr_plot_matrix(sep, type = 'runoff')
 gr_plot_matrix(sep, type = 'season')
 gr_plot_matrix(sep, type = 'component')
 ```

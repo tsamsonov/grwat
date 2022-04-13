@@ -846,14 +846,14 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, maxlag = 30) {
 #'
 #' @param df `data.frame` of hydrograph separation produced by [grwat::gr_separate()].
 #' @param years Integer vector of years to be plotted. Defaults to `NULL`.
-#' @param type Character string. Supported options are `'value'`, `'components'`, and `'season'`. Defaults to `'value'`.
+#' @param type Character string. Supported options are `'runoff'`, `'component'`, and `'season'`. Defaults to `'runoff'`.
 #' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
 #'
 #' @export
 #'
 #' @example inst/examples/gr_plot_matrix.R
 #' 
-gr_plot_matrix <- function(df, years = NULL, type = 'value', locale='EN') {
+gr_plot_matrix <- function(df, years = NULL, type = 'runoff', locale='EN') {
   
   if (locale == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -882,7 +882,7 @@ gr_plot_matrix <- function(df, years = NULL, type = 'value', locale='EN') {
   
   date_labels = "%b"
   
-  if (type == 'value') {
+  if (type == 'runoff') {
     
     ggplot2::ggplot(tab, ggplot2::aes(Datefake, Yearfake)) +
       ggplot2::geom_raster(ggplot2::aes(fill = Q)) +

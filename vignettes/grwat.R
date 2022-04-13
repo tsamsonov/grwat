@@ -235,7 +235,7 @@ gr_plot_periods(vars, Qy, Qmax, date10w1, Wpol3,
 gr_plot_minmonth(vars, year = 1985)
 
 ## ---- fig.width=10, fig.height=5----------------------------------------------
-gr_plot_matrix(sep, type = 'value')
+gr_plot_matrix(sep, type = 'runoff')
 gr_plot_matrix(sep, type = 'season')
 gr_plot_matrix(sep, type = 'component')
 

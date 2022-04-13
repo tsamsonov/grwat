@@ -4,14 +4,14 @@
 \alias{gr_plot_matrix}
 \title{Runoff matrix plot}
 \usage{
-gr_plot_matrix(df, years = NULL, type = "value", locale = "EN")
+gr_plot_matrix(df, years = NULL, type = "runoff", locale = "EN")
 }
 \arguments{
 \item{df}{\code{data.frame} of hydrograph separation produced by \code{\link[=gr_separate]{gr_separate()}}.}
 
 \item{years}{Integer vector of years to be plotted. Defaults to \code{NULL}.}
 
-\item{type}{Character string. Supported options are \code{'value'}, \code{'components'}, and \code{'season'}. Defaults to \code{'value'}.}
+\item{type}{Character string. Supported options are \code{'runoff'}, \code{'component'}, and \code{'season'}. Defaults to \code{'runoff'}.}
 
 \item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
@@ -19,5 +19,19 @@ gr_plot_matrix(df, years = NULL, type = "value", locale = "EN")
 The function plots runoff values, components and seasons using the matrix-based approach. The X axis corresponds to the day of the year, and the Y axis corresponds to the year. The function is useful when the whole picture of river runoff needs to be assessed.
 }
 \examples{
+library(grwat)
 
+data(spas) # example Spas-Zagorye data is included with grwat package
+
+# separate
+sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+
+# matrix plot for runoff
+gr_plot_matrix(sep, type = 'runoff')
+
+# matrix plot for season
+gr_plot_matrix(sep, type = 'season')
+
+# matrix plot for genetic component
+gr_plot_matrix(sep, type = 'component')
 }
