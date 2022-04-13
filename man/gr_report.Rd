@@ -53,7 +53,7 @@ vars = gr_summarize(sep)
 report = '~/Spas-Zagorye.html'
 
 \dontrun{
-gr_report(sep, vars, output = report)
-browseURL(report)
+  gr_report(sep, vars, output = report)
+  browseURL(report)
 }
 }

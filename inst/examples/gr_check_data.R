@@ -2,7 +2,7 @@ library(grwat)
 
 # example Spas-Zagorye data is included with grwat package
 data(spas)
-print(spas)
+head(spas)
 
 gr_check_data(spas)
 
@@ -17,7 +17,7 @@ hdata_raw = readr::read_delim(path,
 
 print(hdata_raw)
 
-gr_check_data(hdata_raw)
+try(gr_check_data(hdata_raw))
 
 
 

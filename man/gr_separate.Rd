@@ -36,6 +36,7 @@ Separates the runoff into genetic components: groundwater, thaw, rain and spring
 library(grwat)
 
 data(spas) # example Spas-Zagorye data is included with grwat package
+head(spas)
 
 # separate
 sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))

@@ -11,6 +11,9 @@
 #' @example inst/examples/gr_buffer_geo.R
 #' 
 gr_buffer_geo <- function(g, bufsize){
+  
+  rlang::check_installed("sf", reason = "to use `gr_buffer_geo()`")
+  
   box = sf::st_bbox(g)
   lon0 = 0.5 * (box[1] + box[3]) # longitude
   lat0 = 0.5 * (box[2] + box[4]) # latitude
@@ -93,7 +96,10 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
         dplyr::pull(i) %>% 
         acf(plot = FALSE)
       
-      purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
+      # purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
+      
+      min(which(afun$acf < autocorr, arr.ind = TRUE)) - 1
+      
     }) %>% setNames(nms)
   } else {
     nvars = ncol(hdata)-1
@@ -125,7 +131,7 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
 #' 
 #' The function performs spatial join of meteorological variables (temperature and precipitation) from [grwat reanalysis](http://carto.geogr.msu.ru/grwat/) to the daily runoff time series. Reanalysis covers the East European Plain with 0.75 degrees spatial resolution and is obtained based on CIRES-DOE (1880-1949) and ERA5 (1950-2021) data. This function is useful when the data from meteorological stations are missing inside the basin.
 #' 
-#' Download the reanalysis archive from [http://carto.geogr.msu.ru/grwat/].
+#' Download the reanalysis archive from [http://carto.geogr.msu.ru/grwat/](http://carto.geogr.msu.ru/grwat/).
 #'
 #' @param hdata `data.frame` containing 2 columns: `Date` and runoff
 #' @param rean `list` as returned by [grwat::gr_read_rean()]
@@ -137,6 +143,8 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
 #' @example inst/examples/gr_join_rean.R
 #' 
 gr_join_rean <- function(hdata, rean, buffer){
+  
+  rlang::check_installed("sf", reason = "to use `gr_join_rean()`")
   
   # determine the first and last date
   date_first = min(hdata[[1]], na.rm = T)

@@ -43,20 +43,20 @@ multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
   }
 }
 
-st_transform_opt <- function(s){
-  box = sf::st_bbox(s)
-  # TODO: projections over 180 meridian
-  L0 = 0.5 * (box[1] + box[3]) # central meridian
-  db = box[4] - box[2] # latitude range
-  B1 = box[2] + db * 0.25 # southern standard parallel
-  B2 = box[2] + db * 0.75 # northern standard parallel
-  
-  datum = sf::st_crs(s)$datum
-  
-  p4s = stringr::str_interp('+proj=lcc +lat_1=${B2} +lat_0=${B1} +lon_0=${L0} +datum=${datum} +no_defs')
-  
-  return(s %>% sf::st_transform(p4s))
-}
+# st_transform_opt <- function(s){
+#   box = sf::st_bbox(s)
+#   # TODO: projections over 180 meridian
+#   L0 = 0.5 * (box[1] + box[3]) # central meridian
+#   db = box[4] - box[2] # latitude range
+#   B1 = box[2] + db * 0.25 # southern standard parallel
+#   B2 = box[2] + db * 0.75 # northern standard parallel
+#   
+#   datum = sf::st_crs(s)$datum
+#   
+#   p4s = stringr::str_interp('+proj=lcc +lat_1=${B2} +lat_0=${B1} +lon_0=${L0} +datum=${datum} +no_defs')
+#   
+#   return(s %>% sf::st_transform(p4s))
+# }
 
 replace_year <- function(d) {
   dates = sapply(d, function(X) {
@@ -77,12 +77,12 @@ get_idx <- function(s, x) {
   stringr::str_locate(s, x)[1, 1]
 }
 
-get_col_type = function(s) {
-  switch(s,
-         Date = readr::col_date(format = "%d%.%m%.%Y"),
-         double = readr::col_double(),
-         integer = readr::col_integer())
-}
+# get_col_type = function(s) {
+#   switch(s,
+#          Date = readr::col_date(format = "%d%.%m%.%Y"),
+#          double = readr::col_double(),
+#          integer = readr::col_integer())
+# }
 
 condrollmean = function(values, needed, w) {
   w1 = min(which(needed))
@@ -109,6 +109,7 @@ condrollmeanidx = function(values, needed, w) {
 }
 
 gr_mamba <- function() {
+  rlang::check_installed("beepr", reason = "to use `gr_mamba()`")
   beepr::beep(system.file('extdata', 'mamba.wav', package = 'grwat'))
 }
 

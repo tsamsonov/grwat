@@ -50,7 +50,7 @@ gr_plot_sep(sep, 1978)
 gr_plot_sep(sep, c(1978, 1989)) 
 
 # Four years in a matrix layout
-gr_plot_sep(sep, 1988:1991, layout = matrix(1:4, nrow = 2, byrow = T)) 
+gr_plot_sep(sep, 1988:1991, layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
 
 # Add temperature
 gr_plot_sep(sep, 1991, temp = TRUE) 
