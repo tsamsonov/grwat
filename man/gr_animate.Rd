@@ -39,5 +39,14 @@ The return value of the \code{\link[gganimate:animate]{gganimate::animate()}} fu
 A convenient wrapper around \code{\link[gganimate:animate]{gganimate::animate()}} to animate river hydrograph through years.
 }
 \examples{
+library(grwat)
 
+# example Spas-Zagorye data is included with grwat package
+data(spas)
+
+# select years if needed
+df = spas[spas$Date < as.Date('1960-01-01'), ]
+
+# animate
+gr_animate(df)
 }

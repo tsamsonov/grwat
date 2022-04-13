@@ -1101,7 +1101,7 @@ gr_animate <- function(df, plot = TRUE, file = NULL, fps = 20, kframes = 10, wid
     ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = Q), alpha = 0.5) +
     ggplot2::geom_line() +
     ggplot2::scale_x_date(date_breaks = "1 month", date_labels = "%b") +
-    ggplot2::labs(title = "Discharge animation",
+    ggplot2::labs(title = "Runoff",
                   subtitle = 'Year: {closest_state}') +
     ggplot2::xlab('Date') +
     ggplot2::ylab('m3/s') +
@@ -1123,6 +1123,6 @@ gr_animate <- function(df, plot = TRUE, file = NULL, fps = 20, kframes = 10, wid
     gganimate::anim_save(file, anim)
   }
   
-  invisible(anim)
+  return(anim)
   
 }
