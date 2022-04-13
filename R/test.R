@@ -113,7 +113,7 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
     # THEIL-SEN SLOPE ESTIMATION
     
     df.theil = df %>% 
-      dplyr::select_('Year1', prms$Name[i])
+      dplyr::select('Year1', prms$Name[i])
     
     # values = df.theil[[prms$Name[i]]] %>% 
       # as.matrix() %>%

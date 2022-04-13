@@ -13,5 +13,7 @@ gr_help_vars()
 Use this function to learn the meaning of the variables that are calculated by \code{\link[=gr_summarize]{gr_summarize()}}.
 }
 \examples{
+library(grwat)
 
+gr_help_vars()
 }

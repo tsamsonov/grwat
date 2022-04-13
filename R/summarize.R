@@ -37,13 +37,13 @@ gr_summarize <- function(df) {
   startflt = df$Date %in% limits$datestart
   
   df %>% 
-    mutate(Year = if_else(Date %in% limits$datestart,
+    dplyr::mutate(Year = dplyr::if_else(Date %in% limits$datestart,
                           as.integer(lubridate::year(Date)),
                           NA_integer_)) %>% 
     tidyr::fill(Year) %>% 
-    filter(!is.na(Year)) %>% 
-    group_by(Year) %>% 
-    summarise(Year1 = min(Year),
+    dplyr::filter(!is.na(Year)) %>% 
+    dplyr::group_by(Year) %>% 
+    dplyr::summarise(Year1 = min(Year),
               Year2 = max(lubridate::year(Date)),
               datestart = min(Date),
               datepolend = max(Date[which(Qseas>0)]),
@@ -78,19 +78,19 @@ gr_summarize <- function(df) {
               Q5w = condrollmean(Q, Type == 2, 5),
               date5w1 = Date[condrollmeanidx(Q, Type == 2, 5)],
               date5w2 = date5w1 + 4,
-              Wy = sum(Q, na.rm = TRUE) * kmyr * n(),
-              Wgr = sum(Qbase, na.rm = TRUE) * kmyr * n(),
-              Wpol2 = sum(Qseas, na.rm = TRUE) * kmyr * n(),
-              Wpol1 = Wpol2 + sum((Qseas > 0) * Qbase, na.rm = TRUE) * kmyr * n(),
-              Wpol3 = Wpol1 + sum((Qseas > 0) * Qrain, na.rm = TRUE) * kmyr * n(),
-              Wpavs2 = sum(Qrain, na.rm = TRUE) * kmyr * n(),
-              Wpavs1 = Wpavs2 + sum((Qrain > 0) * Qbase, na.rm = TRUE) * kmyr * n(),
-              Wpavthaw2 = sum(Qthaw, na.rm = TRUE) * kmyr * n(),
-              Wpavthaw1 = Wpavs2 + sum((Qrain > 0) * Qbase, na.rm = TRUE) * kmyr * n(),
-              WgrS = sum(Qbase * (Type == 1), na.rm = TRUE) * kmyr * n(),
-              WS = sum(Q * (Type == 1), na.rm = TRUE) * kmyr * n(),
-              WgrW = sum(Qbase * (Type == 2), na.rm = TRUE) * kmyr * n(),
-              WW = sum(Q * (Type == 2), na.rm = TRUE) * kmyr * n(),
+              Wy = sum(Q, na.rm = TRUE) * kmyr * dplyr::n(),
+              Wgr = sum(Qbase, na.rm = TRUE) * kmyr * dplyr::n(),
+              Wpol2 = sum(Qseas, na.rm = TRUE) * kmyr * dplyr::n(),
+              Wpol1 = Wpol2 + sum((Qseas > 0) * Qbase, na.rm = TRUE) * kmyr * dplyr::n(),
+              Wpol3 = Wpol1 + sum((Qseas > 0) * Qrain, na.rm = TRUE) * kmyr * dplyr::n(),
+              Wpavs2 = sum(Qrain, na.rm = TRUE) * kmyr * dplyr::n(),
+              Wpavs1 = Wpavs2 + sum((Qrain > 0) * Qbase, na.rm = TRUE) * kmyr * dplyr::n(),
+              Wpavthaw2 = sum(Qthaw, na.rm = TRUE) * kmyr * dplyr::n(),
+              Wpavthaw1 = Wpavs2 + sum((Qrain > 0) * Qbase, na.rm = TRUE) * kmyr * dplyr::n(),
+              WgrS = sum(Qbase * (Type == 1), na.rm = TRUE) * kmyr * dplyr::n(),
+              WS = sum(Q * (Type == 1), na.rm = TRUE) * kmyr * dplyr::n(),
+              WgrW = sum(Qbase * (Type == 2), na.rm = TRUE) * kmyr * dplyr::n(),
+              WW = sum(Q * (Type == 2), na.rm = TRUE) * kmyr * dplyr::n(),
               Qmaxpavs = max(Qrain, na.rm = TRUE),
               Qmaxpavthaw = max(Qthaw, na.rm = TRUE),
               datemaxpavs = Date[which.max(Qrain)[1]],
@@ -103,5 +103,5 @@ gr_summarize <- function(df) {
               CvSum = sd(Q[Type == 1], na.rm = TRUE) / mean(Q[Type == 1], na.rm = TRUE),
               CountPavs = sum(rle(Qrain > 0)$values),
               CountThaws = sum(rle(Qthaw > 0)$values)) %>% 
-    ungroup()
+    dplyr::ungroup()
 }

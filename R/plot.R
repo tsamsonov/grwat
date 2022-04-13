@@ -341,7 +341,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
                                                            round(tests$ptt[[i]]$p.value, 5))))
 
       g = g + #labs(subtitle = as.expression(bquote(bold(.(labs$kendall.z))~'=')))
-        labs(subtitle = paste0(labs$kendall.z, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
+        ggplot2::labs(subtitle = paste0(labs$kendall.z, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
                                                              round(tests$mkt[[i]]$statistic, 3)), ', ',
                                labs$label.p, ' = ', ifelse(is.null(tests$mkt[[i]]), 'NA',
                                                            round(tests$mkt[[i]]$p.value, 5)), '\n',
