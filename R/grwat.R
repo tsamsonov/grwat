@@ -1,5 +1,6 @@
 #' @useDynLib grwat
 #' @importFrom Rcpp sourceCpp
+#' 
 NULL
 
 # General
@@ -20,6 +21,7 @@ usethis::use_package('ggplot2')
 usethis::use_package('knitr')
 usethis::use_package('rmarkdown')
 usethis::use_package('kableExtra')
+usethis::use_package('testthat')
 usethis::use_package('readr', type = "Suggests")
 usethis::use_package('ggthemes', type = "Suggests")
 usethis::use_package('gganimate', type = "Suggests")
