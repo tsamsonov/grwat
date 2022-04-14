@@ -110,7 +110,7 @@ condrollmeanidx = function(values, needed, w) {
 
 gr_mamba <- function() {
   rlang::check_installed("beepr", reason = "to use `gr_mamba()`")
-  beepr::beep(system.file('extdata', 'mamba.wav', package = 'grwat'))
+  beepr::beep('http://carto.geogr.msu.ru/grwat/mamba.wav')
 }
 
 gr_console <- function(...) {

@@ -1,7 +1,7 @@
 template:
   bootstrap: 5
 figures:
-  dpi: 300
+  dpi: 96
   fig.width: 10
 reference:
 - title: Data preparation
@@ -49,3 +49,4 @@ reference:
 - title: Datasets
   contents:
   - spas
+  
