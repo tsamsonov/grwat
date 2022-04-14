@@ -1,8 +1,10 @@
 ^Meta$
 ^doc$
+^docs$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data/.xlsx$
 ^data-raw$
 ^\.httr-oauth$
 ^codecov\.yml$
+^_pkgdown\.yaml$

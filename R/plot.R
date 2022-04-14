@@ -962,7 +962,7 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff', locale='EN') {
       ggplot2::theme_bw()
     
   } else {
-    stop(crayon::white$bgRed$bold('grwat:'), ' ', crayon::white$italic(type), ' — unknown plot type')
+    stop(crayon::white$bgRed$bold('grwat:'), ' ', crayon::white$italic(type), ' - unknown plot type')
   }
 }
 

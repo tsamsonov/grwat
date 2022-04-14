@@ -45,3 +45,7 @@ reference:
   contents:
   - gr_kable_tests
   - gr_report
+
+- title: Datasets
+  contents:
+  - spas

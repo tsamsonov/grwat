@@ -16,9 +16,6 @@
     <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/report-example.html</loc>
-  </url>
-  <url>
     <loc>/authors.html</loc>
   </url>
   <url>
@@ -149,5 +146,8 @@
   </url>
   <url>
     <loc>/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/spas.html</loc>
   </url>
 </urlset>

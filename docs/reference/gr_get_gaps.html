@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">grwat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,17 +114,21 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># fill gaps</span></span>
 <span class="r-in"><span class="va">fhdata</span> <span class="op">=</span> <span class="fu"><a href="gr_fill_gaps.html">gr_fill_gaps</a></span><span class="op">(</span><span class="va">hdata</span>, autocorr <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> filled 5 observations using 4 days window for each variable</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> filled 0 observations using 0 days window for each variable</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># check the results</span></span>
 <span class="r-in"><span class="fu">gr_get_gaps</span><span class="op">(</span><span class="va">fhdata</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     num start_date end_date   duration   type </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;drtn&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 1956-01-01 2011-05-09 20218 days data </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2 2011-05-10 2011-05-14     5 days gap  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     3 2011-05-15 2020-12-26  3514 days data </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     4 2020-12-27 2020-12-31     5 days gap  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 1956-01-01 1970-04-09  5213 days data </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2 1970-04-10 1970-04-12     3 days gap  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     3 1970-04-13 1979-09-09  3437 days data </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     4 1979-09-10 1979-09-11     2 days gap  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     5 1979-09-12 2011-05-09 11563 days data </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     6 2011-05-10 2011-05-14     5 days gap  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span>     7 2011-05-15 2020-12-26  3514 days data </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span>     8 2020-12-27 2020-12-31     5 days gap  </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># fill gaps</span></span>
 <span class="r-in"><span class="va">fhdata</span> <span class="op">=</span> <span class="fu"><a href="gr_fill_gaps.html">gr_fill_gaps</a></span><span class="op">(</span><span class="va">hdata</span>, nobserv <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>

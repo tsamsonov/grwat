@@ -39,10 +39,11 @@ gr_buffer_geo <- function(g, bufsize){
 #' 
 gr_get_gaps <- function(hdata) {
   hdata %>% 
-    dplyr::rename(Date = 1) %>% 
+    dplyr::rename(Date = 1,
+                  Q = 2) %>% 
     dplyr::filter(!is.na(.data$Date)) %>% 
     tidyr::complete(Date = seq(min(.data$Date, na.rm = T), max(.data$Date, na.rm = T), by = 'day')) %>% 
-    dplyr::mutate(type = dplyr::if_else(complete.cases(.data[-1]), 'data', 'gap'),
+    dplyr::mutate(type = dplyr::if_else(is.na(.data$Q), 'gap', 'data'),
                   num = with(rle(.data$type), rep(seq_along(lengths), lengths))) %>% 
     dplyr::group_by(.data$num) %>% 
     dplyr::summarise(start_date = min(.data$Date),
