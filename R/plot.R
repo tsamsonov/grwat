@@ -244,13 +244,13 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
   
   if(length(fields) == 0)
     fields = params_out %>% 
-      dplyr::filter(Order != 0) %>% 
-      dplyr::arrange(Order) %>% 
-      dplyr::pull(Name)
+      dplyr::filter(.data$Order != 0) %>% 
+      dplyr::arrange(.data$Order) %>% 
+      dplyr::pull(.data$Name)
   
   prms = params_out %>% 
-    dplyr::filter(Name %in% fields) %>% 
-    dplyr::slice(match(fields, Name))
+    dplyr::filter(.data$Name %in% fields) %>% 
+    dplyr::slice(match(fields, .data$Name))
   
   if (is.logical(tests))
     if (tests == TRUE)
@@ -262,7 +262,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
       return(X)
     }) %>%  
     dplyr::mutate_if(params_out$Winter == 1, replace_year) %>% 
-    dplyr::mutate_at(dplyr::vars(-Year1, -Year2), function(X) {
+    dplyr::mutate_at(dplyr::vars(-.data$Year1, -.data$Year2), function(X) {
       structure(ifelse(df$Year1 %in% exclude, NA, X), class = class(X))
     }) # EXCLUDE YEARS
   
@@ -449,20 +449,20 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
 
   if(length(fields) == 0)
     fields = params_out %>% 
-    dplyr::filter(Order != 0) %>% 
-    dplyr::arrange(Order) %>% 
-    dplyr::pull(Name)
+    dplyr::filter(.data$Order != 0) %>% 
+    dplyr::arrange(.data$Order) %>% 
+    dplyr::pull(.data$Name)
   
   prms = params_out %>% 
-    dplyr::filter(Name %in% fields) %>% 
-    dplyr::slice(match(fields, Name))
+    dplyr::filter(.data$Name %in% fields) %>% 
+    dplyr::slice(match(fields, .data$Name))
   
   if (is.logical(tests))
     if (tests == TRUE)
       tests = gr_test_vars(df, ...)
   
   df = df %>% 
-    dplyr::filter(!(Year1 %in% exclude)) %>% 
+    dplyr::filter(!(.data$Year1 %in% exclude)) %>% 
     dplyr::mutate_if(params_out$Winter == 1, replace_year)
   
   labs = get_plot_labels(locale)
@@ -522,7 +522,7 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
                                    rep(periodtitle2, n2)))
     
     g = ggplot2::ggplot() + 
-      ggplot2::geom_boxplot(data = df.plot, ggplot2::aes(x = Period, y = Value)) +
+      ggplot2::geom_boxplot(data = df.plot, ggplot2::aes(x = .data$Period, y = .data$Value)) +
       ggplot2::coord_flip() +
       ggplot2::labs(title = stringr::str_wrap(desc[i], width = labs$wraplength),
            x = NULL, 
@@ -546,8 +546,8 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
       rsd2 = round(sd(d2, na.rm = TRUE)/m2, 3)
       
       means <- df.plot %>% 
-        dplyr::group_by(Period) %>% 
-        dplyr::summarise(Value = mean(Value, na.rm = TRUE))
+        dplyr::group_by(.data$Period) %>% 
+        dplyr::summarise(Value = mean(.data$Value, na.rm = TRUE))
       
       mean1 = ifelse(is_date, 
                      m1 %>% as.integer() %>% as.Date(origin = '1970-01-01') %>% format("%d-%b"),
@@ -571,7 +571,7 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
                          Period = c(periodtitle1, periodtitle2))
       
       g = g + 
-        ggplot2::geom_point(data = pt.df, ggplot2::aes(x = Period, y = Value), colour="steelblue", shape=20, size=3) +
+        ggplot2::geom_point(data = pt.df, ggplot2::aes(x = .data$Period, y = .data$Value), colour="steelblue", shape=20, size=3) +
         ggplot2::labs(subtitle = paste0(labs$student.t, ' = ', ifelse(is.null(tests$tt[[i]]), 'NA',
                                                              round(tests$tt[[i]]$statistic, 3)), ', ',
                                labs$label.p, ' = ', ifelse(is.null(tests$tt[[i]]), 'NA', 
@@ -659,13 +659,13 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
   periodtitle2_winter = paste0(labs$aftertitle, year_winter)
   
   chart.data = df %>% 
-    dplyr::filter(!(Year1 %in% exclude)) %>% 
-    dplyr::select(monmmsummer, nommwin, Year1) %>% 
-    dplyr::filter(!is.na(monmmsummer) & !is.na(nommwin)) %>% 
-    dplyr::mutate(summermonth = lubridate::month(monmmsummer),
-                  wintermonth = lubridate::month(nommwin),
-                  old_summer = as.integer(Year1 >= year_summer),
-                  old_winter = as.integer(Year1 >= year_winter))
+    dplyr::filter(!(.data$Year1 %in% exclude)) %>% 
+    dplyr::select(.data$monmmsummer, .data$nommwin, .data$Year1) %>% 
+    dplyr::filter(!is.na(.data$monmmsummer) & !is.na(.data$nommwin)) %>% 
+    dplyr::mutate(summermonth = lubridate::month(.data$monmmsummer),
+                  wintermonth = lubridate::month(.data$nommwin),
+                  old_summer = as.integer(.data$Year1 >= year_summer),
+                  old_winter = as.integer(.data$Year1 >= year_winter))
   
   chart.data$old_summer = factor(chart.data$old_summer, 
                           levels = c(0,1), 
@@ -687,37 +687,37 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
                                    labels = winterlabels)
   
   df.summer = chart.data %>% 
-    dplyr::group_by(old_summer, summermonth) %>% 
+    dplyr::group_by(.data$old_summer, .data$summermonth) %>% 
     dplyr::tally() %>% 
-    dplyr::ungroup() %>%
-    tidyr::complete(summermonth, tidyr::nesting(old_summer), fill = list(n=0)) %>%  
-    dplyr::mutate(perc = 100*n/sum(n))
+    dplyr::ungroup() %>% 
+    tidyr::complete(.data$summermonth, tidyr::nesting(old_summer), fill = list(n=0)) %>%  
+    dplyr::mutate(perc = 100*.data$n/sum(.data$n))
   
   df.winter = chart.data %>% 
-    dplyr::group_by(old_winter, wintermonth) %>% 
+    dplyr::group_by(.data$old_winter, .data$wintermonth) %>% 
     dplyr::tally() %>% 
-    dplyr::ungroup() %>%
-    tidyr::complete(wintermonth, tidyr::nesting(old_winter), fill = list(n=0)) %>%  
-    dplyr::mutate(perc = 100*n/sum(n))
+    dplyr::ungroup() %>% 
+    tidyr::complete(.data$wintermonth, tidyr::nesting(old_winter), fill = list(n=0)) %>%  
+    dplyr::mutate(perc = 100*.data$n/sum(.data$n))
   
   df.summer.all = chart.data %>% 
-    dplyr::group_by(summermonth) %>% 
+    dplyr::group_by(.data$summermonth) %>% 
     dplyr::tally() %>% 
     dplyr::ungroup() %>%
-    dplyr::mutate(perc = 100*n/sum(n))
+    dplyr::mutate(perc = 100*.data$n/sum(.data$n))
   
   df.winter.all = chart.data %>% 
-    dplyr::group_by(wintermonth) %>% 
+    dplyr::group_by(.data$wintermonth) %>% 
     dplyr::tally() %>% 
     dplyr::ungroup() %>%
-    dplyr::mutate(perc = 100*n/sum(n))
+    dplyr::mutate(perc = 100*.data$n/sum(.data$n))
   
   g.summer = ggplot2::ggplot() +
     ggplot2::geom_col(data = df.summer, 
-                      ggplot2::aes(x = summermonth, y = perc, fill = old_summer), 
+                      ggplot2::aes(x = .data$summermonth, y = .data$perc, fill = .data$old_summer), 
              position = "dodge") +
     ggplot2::geom_col(data = df.summer.all, 
-                      ggplot2::aes(x = summermonth, y = perc), 
+                      ggplot2::aes(x = .data$summermonth, y = .data$perc), 
              colour = "black", 
              fill = NA, 
              size = 1) +
@@ -737,10 +737,10 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
   
   g.winter = ggplot2::ggplot() +
     ggplot2::geom_col(data = df.winter, 
-                      ggplot2::aes(x = wintermonth, y = perc, fill = old_winter), 
+                      ggplot2::aes(x = .data$wintermonth, y = .data$perc, fill = .data$old_winter), 
              position = "dodge") +
     ggplot2::geom_col(data = df.winter.all, 
-                      ggplot2::aes(x = wintermonth, y = perc), 
+                      ggplot2::aes(x = .data$wintermonth, y = .data$perc), 
              colour="black", 
              fill = NA, 
              size = 1) +
