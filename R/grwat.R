@@ -11,7 +11,6 @@ NULL
 usethis::use_package('Rcpp')
 usethis::use_package('progress')
 usethis::use_package('crayon')
-usethis::use_package('beepr', type = "Suggests")
 
 # Tidyverse and related
 usethis::use_package('magrittr')
@@ -26,18 +25,21 @@ usethis::use_package('knitr')
 usethis::use_package('rmarkdown')
 usethis::use_package('kableExtra')
 usethis::use_package('testthat')
-usethis::use_package('readr', type = "Suggests")
-# usethis::use_package('gganimate', type = "Suggests")
-# usethis::use_package('ggridges', type = "Suggests")
-# usethis::use_package('ggHoriPlot', type = "Suggests")
-# usethis::use_package('ggthemes', type = "Suggests")
 
-# Statistics and spatial
+# Statistics
 usethis::use_package('zoo')
 usethis::use_package('trend')
 usethis::use_package('mblm')
 usethis::use_package('scales')
-usethis::use_package('ncdf4', type = "Suggests")
+
+# Suggested
+# usethis::use_package('beepr', type = "Suggests")
+# usethis::use_package('readr', type = "Suggests")
+# usethis::use_package('gganimate', type = "Suggests")
+# usethis::use_package('ggridges', type = "Suggests")
+# usethis::use_package('ggHoriPlot', type = "Suggests")
+# usethis::use_package('ggthemes', type = "Suggests")
+# usethis::use_package('ncdf4', type = "Suggests")
 # usethis::use_package('sf', type = "Suggests")
 
 # Specific for pipe
