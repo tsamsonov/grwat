@@ -187,6 +187,7 @@ std::vector<double> get_baseflow_cpp(const std::vector<double> &Qin,
       return grwat::get_baseflow_recursive(Qin, a, padding, passes, b);
     case grwat::FUREY:
     case grwat::KUDELIN:
+    default:
         return Qin;
   }
 }
