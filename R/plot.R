@@ -1105,7 +1105,7 @@ gr_plot_hori <- function(df, years, pal = 'Blues', rev = T, scale = 6, locale='E
 #' 
 gr_animate <- function(df, plot = TRUE, file = NULL, fps = 20, kframes = 10, width = 800, height = 600, locale = 'EN') {
   
-  rlang::check_installed(c("gganimate", "transformr"), reason = "to use `gr_animate()`")
+  rlang::check_installed(c("gganimate", "transformr", "gifski", "png"), reason = "to use `gr_animate()`")
   
   tab = df %>%
     dplyr::rename(Date = 1, Q = 2) %>%
