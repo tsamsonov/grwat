@@ -27,18 +27,18 @@ usethis::use_package('rmarkdown')
 usethis::use_package('kableExtra')
 usethis::use_package('testthat')
 usethis::use_package('readr', type = "Suggests")
-# usethis::use_package('ggthemes', type = "Suggests")
 usethis::use_package('gganimate', type = "Suggests")
 # usethis::use_package('ggridges', type = "Suggests")
 # usethis::use_package('ggHoriPlot', type = "Suggests")
+# usethis::use_package('ggthemes', type = "Suggests")
 
 # Statistics and spatial
 usethis::use_package('zoo')
 usethis::use_package('trend')
 usethis::use_package('mblm')
 usethis::use_package('scales')
-# usethis::use_package('sf', type = "Suggests")
 usethis::use_package('ncdf4', type = "Suggests")
+# usethis::use_package('sf', type = "Suggests")
 
 # Specific for pipe
 usethis::use_pipe(export = TRUE)
