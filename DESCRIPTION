@@ -35,6 +35,7 @@ Imports:
     rlang,
     grid,
     ggplot2,
+    ggthemes,
     knitr,
     rmarkdown,
     kableExtra,
@@ -46,7 +47,6 @@ Imports:
 Suggests: 
     readr,
     beepr,
-    ggthemes,
     gganimate,
     ggridges,
     ggHoriPlot,
