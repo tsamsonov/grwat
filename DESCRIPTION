@@ -47,5 +47,4 @@ Suggests:
     readr,
     beepr,
     gganimate,
-    ggHoriPlot,
     ncdf4

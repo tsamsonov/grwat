@@ -30,7 +30,7 @@ usethis::use_package('readr', type = "Suggests")
 # usethis::use_package('ggthemes', type = "Suggests")
 usethis::use_package('gganimate', type = "Suggests")
 # usethis::use_package('ggridges', type = "Suggests")
-usethis::use_package('ggHoriPlot', type = "Suggests")
+# usethis::use_package('ggHoriPlot', type = "Suggests")
 
 # Statistics and spatial
 usethis::use_package('zoo')
