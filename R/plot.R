@@ -820,7 +820,7 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, maxlag = 30) {
     dplyr::filter(.data$type == 'data', .data$duration == max(.data$duration))
   
   acf_data = hdata %>% 
-    dplyr::select(Date = 1, Q = 2) %>% 
+    dplyr::rename(Date = 1) %>% 
     dplyr::filter(dplyr::between(.data$Date, max_period$start_date, max_period$end_date)) %>% 
     dplyr::pull(2)
   
@@ -828,9 +828,7 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, maxlag = 30) {
     
   tab = data.frame(Days = seq_along(afun$acf), ACF = afun$acf)
   
-  # days = purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
-  
-  days = min(which(afun$acf < autocorr, arr.ind = TRUE)) - 1
+  days = min(which(afun$acf[,1,1] < autocorr, arr.ind = TRUE)) - 1
   
   ggplot2::ggplot(tab, ggplot2::aes(.data$Days, .data$ACF)) +
     ggplot2::geom_line() +
