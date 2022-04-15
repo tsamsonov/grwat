@@ -1,5 +1,3 @@
-library(grwat)
-
 data(spas)
 
 test_that("Boughton filtering works", {
