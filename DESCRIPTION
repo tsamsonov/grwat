@@ -35,20 +35,17 @@ Imports:
     rlang,
     grid,
     ggplot2,
-    ggthemes,
     knitr,
     rmarkdown,
     kableExtra,
+    testthat,
     zoo,
     trend,
     mblm,
-    scales,
-    testthat
+    scales
 Suggests: 
     readr,
     beepr,
     gganimate,
-    ggridges,
     ggHoriPlot,
-    sf,
     ncdf4
