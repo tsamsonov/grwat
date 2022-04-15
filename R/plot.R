@@ -690,14 +690,14 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
     dplyr::group_by(.data$old_summer, .data$summermonth) %>% 
     dplyr::tally() %>% 
     dplyr::ungroup() %>% 
-    tidyr::complete(.data$summermonth, tidyr::nesting(old_summer), fill = list(n=0)) %>%  
+    tidyr::complete(.data$summermonth, .data$old_summer, fill = list(n=0)) %>%  
     dplyr::mutate(perc = 100*.data$n/sum(.data$n))
   
   df.winter = chart.data %>% 
     dplyr::group_by(.data$old_winter, .data$wintermonth) %>% 
     dplyr::tally() %>% 
     dplyr::ungroup() %>% 
-    tidyr::complete(.data$wintermonth, tidyr::nesting(old_winter), fill = list(n=0)) %>%  
+    tidyr::complete(.data$wintermonth, .data$old_winter, fill = list(n=0)) %>%  
     dplyr::mutate(perc = 100*.data$n/sum(.data$n))
   
   df.summer.all = chart.data %>% 
@@ -786,8 +786,8 @@ gr_plot_tests <- function(tests, type = 'year', locale = 'EN') {
   modeval = as.integer(dens$x[which.max(dens$y)])
   
   ggplot2::ggplot() +    
-    ggplot2::geom_line(data = ddf, ggplot2::aes(x = year, y = dens), color = 'black') +
-    ggplot2::geom_area(data = ddf, ggplot2::aes(x = year, y = dens), alpha = 0.2) +
+    ggplot2::geom_line(data = ddf, ggplot2::aes(x = .data$year, y = dens), color = 'black') +
+    ggplot2::geom_area(data = ddf, ggplot2::aes(x = .data$year, y = dens), alpha = 0.2) +
     ggplot2::geom_vline(xintercept = modeval, color = "steelblue4", size = 1) +
     ggplot2::annotate("text", label = modeval, 
              x = modeval + 0.05 * (max(dens$x) - min(dens$x)), y = 0.01, 
@@ -817,10 +817,11 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, maxlag = 30) {
   
   max_period = hdata %>% 
     grwat::gr_get_gaps() %>% 
-    dplyr::filter(type == 'data', duration == max(duration))
+    dplyr::filter(.data$type == 'data', .data$duration == max(.data$duration))
   
   acf_data = hdata %>% 
-    dplyr::filter(dplyr::between(.[[1]], max_period$start_date, max_period$end_date)) %>% 
+    dplyr::select(Date = 1, Q = 2) %>% 
+    dplyr::filter(dplyr::between(.data$Date, max_period$start_date, max_period$end_date)) %>% 
     dplyr::pull(2)
   
   afun = acf(acf_data, lag.max = maxlag, plot = FALSE)
@@ -831,7 +832,7 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, maxlag = 30) {
   
   days = min(which(afun$acf < autocorr, arr.ind = TRUE)) - 1
   
-  ggplot2::ggplot(tab, ggplot2::aes(Days, ACF)) +
+  ggplot2::ggplot(tab, ggplot2::aes(.data$Days, .data$ACF)) +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
     ggplot2::geom_hline(ggplot2::aes(yintercept = autocorr), 
@@ -893,8 +894,8 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff', locale='EN') {
   
   if (type == 'runoff') {
     
-    ggplot2::ggplot(tab, ggplot2::aes(Datefake, Yearfake)) +
-      ggplot2::geom_raster(ggplot2::aes(fill = Q)) +
+    ggplot2::ggplot(tab, ggplot2::aes(.data$Datefake, .data$Yearfake)) +
+      ggplot2::geom_raster(ggplot2::aes(fill = .data$Q)) +
       ggplot2::scale_fill_distiller(palette = "Blues", direction = 1, 
                                     na.value = "white") +
       ggplot2::scale_x_date(date_labels = date_labels,
@@ -915,8 +916,8 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff', locale='EN') {
                                            tab$Type == 1 ~ 'Summer',
                                            tab$Type == 2 ~ 'Winter'))
     
-    ggplot2::ggplot(tab, ggplot2::aes(Datefake, Yearfake)) +
-      ggplot2::geom_raster(ggplot2::aes(fill = Typefake)) +
+    ggplot2::ggplot(tab, ggplot2::aes(.data$Datefake, .data$Yearfake)) +
+      ggplot2::geom_raster(ggplot2::aes(fill = .data$Typefake)) +
       ggplot2::scale_fill_manual(values = c('cadetblue1', 'coral', 'steelblue'),
                                  na.value = "white") +
       ggplot2::scale_x_date(date_labels = date_labels,
@@ -943,8 +944,8 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff', locale='EN') {
                                         tab$Qfake == 4 ~ 'Ground'), 
                        levels = c('Spring', 'Rain', 'Thaw', 'Ground'))
     
-    ggplot2::ggplot(tab, ggplot2::aes(Datefake, Yearfake)) +
-      ggplot2::geom_raster(ggplot2::aes(fill = Qfake)) +
+    ggplot2::ggplot(tab, ggplot2::aes(.data$Datefake, .data$Yearfake)) +
+      ggplot2::geom_raster(ggplot2::aes(fill = .data$Qfake)) +
       ggplot2::scale_fill_manual(values=c("deepskyblue3", "coral2", 
                                           "darkturquoise", "bisque4"),
                                  na.value = "white") +
@@ -1003,17 +1004,17 @@ gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha =
   
   df_sel = df %>%
     dplyr::rename(Date = 1, Q = 2) %>%
-    dplyr::mutate(Year = lubridate::year(Date),
-                  Datefake = lubridate::ymd(20000101) + lubridate::yday(Date)) %>%
-    dplyr::filter(Year %in% years)
+    dplyr::mutate(Year = lubridate::year(.data$Date),
+                  Datefake = lubridate::ymd(20000101) + lubridate::yday(.data$Date)) %>%
+    dplyr::filter(.data$Year %in% years)
 
   ggplot2::ggplot(df_sel, 
                   ggplot2::aes(
-                    x = Datefake, 
-                    y = factor(Year),
-                    height = Q, 
-                    group = factor(Year), 
-                    fill = Year
+                    x = .data$Datefake, 
+                    y = factor(.data$Year),
+                    height = .data$Q, 
+                    group = factor(.data$Year), 
+                    fill = .data$Year
                   )
                 ) + 
     ggridges::geom_ridgeline(scale = scale, alpha = alpha) +
@@ -1060,13 +1061,13 @@ gr_plot_hori <- function(df, years, pal = 'Blues', rev = T, scale = 6, locale='E
   
   df_sel = df %>%
     dplyr::rename(Date = 1, Q = 2) %>%
-    dplyr::mutate(Year = lubridate::year(Date),
-                  Datefake = lubridate::ymd(20000101) + lubridate::yday(Date)) %>%
-    dplyr::filter(Year %in% years)
+    dplyr::mutate(Year = lubridate::year(.data$Date),
+                  Datefake = lubridate::ymd(20000101) + lubridate::yday(.data$Date)) %>%
+    dplyr::filter(.data$Year %in% years)
   
-  ggplot2::ggplot(df_sel,  ggplot2::aes(Datefake, Q)) +
+  ggplot2::ggplot(df_sel,  ggplot2::aes(.data$Datefake, .data$Q)) +
     ggHoriPlot::geom_horizon(origin = 'min', horizonscale = scale) +
-    ggplot2::facet_wrap(~factor(Year), ncol = 1, strip.position = 'left') +
+    ggplot2::facet_wrap(~factor(.data$Year), ncol = 1, strip.position = 'left') +
     ggplot2::scale_x_date(date_labels = "%b", date_breaks = "1 month") +
     ggplot2::scale_fill_brewer(palette = pal, direction = 1 - 2*rev) +
     ggthemes::theme_few() +
