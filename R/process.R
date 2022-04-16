@@ -99,7 +99,7 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
       
       # purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
       
-      min(which(afun$acf < autocorr, arr.ind = TRUE)) - 1
+      min(which(afun$acf[,1,1] < autocorr, arr.ind = TRUE)) - 1
       
     }) %>% setNames(nms)
   } else {
