@@ -105,18 +105,6 @@ namespace grwat {
         return Qbi_1 * k / (1 + C) + (Qi + alpha * Qi_1) * C / (1 + C);
     }
 
-
-
-    static vector<double> pad_vector(const vector<double>& Qin, const int& padding) {
-        vector<double> Q(Qin.begin(), Qin.end()); {
-            Q.insert(Q.begin(), Q.begin() + 1, Q.begin() + padding + 1);
-            Q.insert(Q.end(), Q.end() - padding - 1, Q.end() - 1);
-            std::reverse(Q.begin(), Q.begin() + padding);
-            std::reverse(Q.end() - padding, Q.end());
-        }
-        return Q;
-    }
-
     static vector<double> pad_vector(const std::vector<double>::iterator& p1,
                                      const std::vector<double>::iterator& p2,
                                      const int& padding) {
