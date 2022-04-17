@@ -11,6 +11,7 @@ NULL
 usethis::use_package('Rcpp')
 usethis::use_package('progress')
 usethis::use_package('crayon')
+usethis::use_package('usethis')
 
 # Tidyverse and related
 usethis::use_package('magrittr')
