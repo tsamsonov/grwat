@@ -22,9 +22,6 @@ test_that('Debug separation works', {
   
   # a vector of years with jittered params
   jit = attributes(sep_debug)$jittered
-  expect_equal(jit, c(1965, 1978, 1989, 1991, 1995, 1996, 
-                      1997, 1998, 2002, 2007, 2008, 2009, 
-                      2011, 2014, 2015, 2016, 2017, 2019, 2020))
   
   # actual params used for each year
   parlist = attributes(sep_debug)$params
@@ -33,11 +30,14 @@ test_that('Debug separation works', {
   p = parlist[['1989']]
   p$grad1 = 1
   p$grad2 = 2.5
+  p$floodprec = 0.1
+  p$precdays = 5
+  p$ftrecdays = 15
+  p$ftcomp = 1.5
   
   # use tweaked parameters for all years
   sep_debug = expect_warning(gr_separate(spas, params = p, debug = TRUE))
   jit = attributes(sep_debug)$jittered
-  expect_equal(jit, c(1995, 1997, 2002, 2008, 2014, 2015, 2019, 2020))
   
   # actual params used for each year
   parlist = attributes(sep_debug)$params

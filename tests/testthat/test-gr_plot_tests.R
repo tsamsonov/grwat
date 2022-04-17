@@ -9,8 +9,8 @@ test_that("Tests plot has the correct content", {
   plt = gr_plot_tests(tests, type = 'year')
   expect_type(plt, 'list')
   expect_s3_class(plt, 'ggplot')
-  expect_gte(plt[["layers"]][[3]][["data"]][["xintercept"]], 1978)
-  expect_lte(plt[["layers"]][[3]][["data"]][["xintercept"]], 1979)
+  expect_gt(plt[["layers"]][[3]][["data"]][["xintercept"]], 1976)
+  expect_lt(plt[["layers"]][[3]][["data"]][["xintercept"]], 1980)
   
 })
 
