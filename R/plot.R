@@ -758,8 +758,13 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
       ggplot2::theme(plot.caption = ggplot2::element_text(hjust = 0))
   }
   
-  multiplot(plotlist = list(g.summer, g.winter))
+  plist = list(g.summer, g.winter)
+  
+  multiplot(plotlist = plist)
+  
   if (pagebreak) cat("\n\n\\pagebreak\n")
+  
+  invisible(plist)
 }
 
 
