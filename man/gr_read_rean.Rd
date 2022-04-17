@@ -22,15 +22,19 @@ The function reads meteorological variables (temperature and precipitation) from
 Download the reanalysis archive from \url{http://carto.geogr.msu.ru/grwat/}.
 }
 \examples{
-library(grwat)
-
-# read reanalysis data
-\dontrun{
-  rean = gr_read_rean(
-    '/Volumes/Data/Spatial/Reanalysis/grwat/pre_1880-2021.nc',
-    '/Volumes/Data/Spatial/Reanalysis/grwat/temp_1880-2021.nc'
-  ) 
+if (require("sf") && require("ncdf4")) {
   
-  str(rean)
+  library(grwat)
+  
+  # read reanalysis data
+  \dontrun{
+    rean = gr_read_rean(
+      '/Volumes/Data/Spatial/Reanalysis/grwat/pre_1880-2021.nc',
+      '/Volumes/Data/Spatial/Reanalysis/grwat/temp_1880-2021.nc'
+    ) 
+    
+    str(rean)
+  }
+  
 }
 }

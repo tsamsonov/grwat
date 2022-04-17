@@ -24,10 +24,10 @@ VignetteBuilder: knitr
 Depends: 
     R (>= 3.3)
 Imports: 
-    magrittr,
     crayon,
     progress,
     Rcpp,
+    magrittr,
     dplyr,
     tidyr,
     lubridate,
@@ -38,17 +38,19 @@ Imports:
     knitr,
     rmarkdown,
     kableExtra,
-    testthat,
     zoo,
     trend,
     mblm,
-    scales,
-    usethis
+    scales
 Suggests: 
     gganimate,
+    transformr,
+    gifski,
+    png,
     beepr,
     ggridges,
     ggHoriPlot,
     ggthemes,
     ncdf4,
-    sf
+    sf,
+    testthat

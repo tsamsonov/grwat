@@ -13,16 +13,17 @@
 gr_buffer_geo <- function(g, bufsize){
   
   rlang::check_installed("sf", reason = "to use `gr_buffer_geo()`")
-  
+
   box = sf::st_bbox(g)
   lon0 = 0.5 * (box[1] + box[3]) # longitude
   lat0 = 0.5 * (box[2] + box[4]) # latitude
   prj = stringr::str_interp('+proj=aeqd +lat_0=${lat0} +lon_0=${lon0} +x_0=0 +y_0=0 +datum=WGS84')
-  
-  g %>% 
-    sf::st_transform(prj) %>% 
-    sf::st_buffer(bufsize) %>% 
+
+  g %>%
+    sf::st_transform(prj) %>%
+    sf::st_buffer(bufsize) %>%
     sf::st_transform(4326)
+  
 }
 
 
@@ -146,34 +147,34 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
 gr_join_rean <- function(hdata, rean, buffer){
   
   rlang::check_installed("sf", reason = "to use `gr_join_rean()`")
-  
+
   # determine the first and last date
   date_first = min(hdata[[1]], na.rm = T)
   date_last = max(hdata[[1]], na.rm = T)
-  
+
   # generate sequence of dates
   hdates = seq(date_first, date_last, "days")
   ndates = length(hdates)
-   
+
   # Select points
   pts_selected = rean$pts[buffer, ]
   npts = nrow(pts_selected)
-  
+
   sum_table_with_dates = NULL
-  
+
   if (npts > 0){
     # Extract point numbers for subsetting ncdf array
-    pts_numbers = pts_selected %>% 
+    pts_numbers = pts_selected %>%
       dplyr::select(.data$nlon, .data$nlat) %>%
       sf::st_drop_geometry()
     # st_geometry(pts_numbers) <- NULL
-    
+
     # Extract dates for subsetting ncdf array
     datevals = lubridate::ymd(18000101) + lubridate::hours(rean$vals.full)
     flt = (datevals >= hdates[1]) & (datevals <= hdates[length(hdates)]) # !!!!
     days = seq_along(rean$vals.full)[flt]
     ndays = length(days)
-    
+
     if (ndays == 0) {
       stop(crayon::white$bgRed$bold('grwat:'), ' no reanalysis data for hydrological series time period')
     } else if (ndays < ndates) {
@@ -183,34 +184,34 @@ gr_join_rean <- function(hdata, rean, buffer){
       ndates = length(hdates)
       warning(crayon::white$bgBlue$bold('grwat:'), ' reanalysis data does not cover the full hydrological series time period, only common dates are kept')
     }
-    
+
     # Replicate position each day
     pts_positions = sapply(pts_numbers, rep.int, times = ndays)
     pts_days = rep(days, each = npts)
-    
+
     # Generate index table for subsetting
     selection_table = data.frame(pts_positions, pts_days)
-    
+
     # Subset data
     temp_selected = rean$temp[as.matrix(selection_table)]
     prate_selected = rean$prate[as.matrix(selection_table)]
     result = data.frame(selection_table, temp_selected, prate_selected)
-    
+
     # calculate average temp and prate per day
     sum_table = result %>%
-      dplyr::group_by(.data$pts_days) %>% 
+      dplyr::group_by(.data$pts_days) %>%
       dplyr::summarise(Temp = mean(.data$temp_selected) %>% round(2),
-                       Prec = mean(.data$prate_selected) %>% round(3)) %>% 
-      dplyr::mutate(Date = hdates) %>% 
-      dplyr::rename_at(4, ~ names(hdata)[[1]]) %>% 
+                       Prec = mean(.data$prate_selected) %>% round(3)) %>%
+      dplyr::mutate(Date = hdates) %>%
+      dplyr::rename_at(4, ~ names(hdata)[[1]]) %>%
       dplyr::select(-1)
-    
+
     sum_table_with_dates = hdata %>%
       dplyr::inner_join(sum_table)
-    
+
   } else {
     stop(crayon::white$bgRed$bold('grwat:'), ' no reanalysis data for requested location')
   }
-  
+
   return(sum_table_with_dates)
 }

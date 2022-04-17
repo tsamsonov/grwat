@@ -39,7 +39,7 @@ The return value of the \code{\link[gganimate:animate]{gganimate::animate()}} fu
 A convenient wrapper around \code{\link[gganimate:animate]{gganimate::animate()}} to animate river hydrograph through years.
 }
 \examples{
-if (require("gganimate")) {
+if (require("gganimate") && require("transformr") && require("gifski") && require("png")) {
   
   library(grwat)
   

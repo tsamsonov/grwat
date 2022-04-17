@@ -27,9 +27,9 @@ library(dplyr)
 path = system.file("extdata", "spas-zagorye.txt", 
                    package = "grwat")
 
-hdata_raw = readr::read_delim(path, 
-                              col_names = c('d', 'm', 'y', 'q'), 
-                              col_types = 'iiid', delim = ' ')
+hdata_raw = read.delim(path, header = FALSE, 
+                       sep = ' ', na.strings = c('-999', '-999.0', '-'),
+                       col.names = c('d', 'm', 'y', 'q'))
 
 hdata = hdata_raw \%>\% 
   transmute(Date = lubridate::make_date(y, m, d), 

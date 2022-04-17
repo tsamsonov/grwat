@@ -1,4 +1,4 @@
-if (require("gganimate")) {
+if (require("gganimate") && require("transformr") && require("gifski") && require("png")) {
   
   library(grwat)
   
