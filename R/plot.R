@@ -474,6 +474,7 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
                 'RU' = prms$Desc,
                 'EN' = prms$Descen)
   
+  allplotlist = list()
   plotlist = list()
   j = 1
   
@@ -598,6 +599,7 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
     if (j == length(layout)+1) {
       multiplot(plotlist = plotlist, layout = layout)
       if (pagebreak) cat("\n\n\\pagebreak\n")
+      allplotlist = c(allplotlist, plotlist)
       plotlist = list()
       j = 1
     }
@@ -605,7 +607,10 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
   
   if (j > 1) {
     multiplot(plotlist = plotlist, layout = layout)
+    allplotlist = c(allplotlist, plotlist)
   }
+  
+  invisible(allplotlist)
   
 }
 
