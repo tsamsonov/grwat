@@ -34,14 +34,13 @@ usethis::use_package('mblm')
 usethis::use_package('scales')
 
 # Suggested
-# usethis::use_package('beepr', type = "Suggests")
-# usethis::use_package('readr', type = "Suggests")
-# usethis::use_package('gganimate', type = "Suggests")
-# usethis::use_package('ggridges', type = "Suggests")
-# usethis::use_package('ggHoriPlot', type = "Suggests")
-# usethis::use_package('ggthemes', type = "Suggests")
-# usethis::use_package('ncdf4', type = "Suggests")
-# usethis::use_package('sf', type = "Suggests")
+usethis::use_package('beepr', type = "suggests")
+usethis::use_package('gganimate', type = "suggests")
+usethis::use_package('ggridges', type = "suggests")
+usethis::use_package('ggHoriPlot', type = "suggests")
+usethis::use_package('ggthemes', type = "suggests")
+usethis::use_package('ncdf4', type = "suggests")
+usethis::use_package('sf', type = "suggests")
 
 # Specific for pipe
 usethis::use_pipe(export = TRUE)

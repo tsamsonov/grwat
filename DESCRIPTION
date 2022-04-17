@@ -44,3 +44,11 @@ Imports:
     mblm,
     scales,
     usethis
+Suggests: 
+    gganimate,
+    beepr,
+    ggridges,
+    ggHoriPlot,
+    ggthemes,
+    ncdf4,
+    sf

@@ -11,9 +11,9 @@ gr_check_data(spas)
 path = system.file("extdata", "spas-zagorye.txt", 
                    package = "grwat")
 
-hdata_raw = readr::read_delim(path, 
-                       col_names = c('d', 'm', 'y', 'q'), 
-                       col_types = 'iiid', delim = ' ')
+hdata_raw = read.delim(path, header = FALSE, 
+                       sep = ' ', na.strings = c('-999', '-999.0', '-'),
+                       col.names = c('d', 'm', 'y', 'q'))
 
 print(hdata_raw)
 
