@@ -1,6 +1,6 @@
 [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![Codecov test coverage](https://codecov.io/gh/tsamsonov/grwat/branch/master/graph/badge.svg)](https://app.codecov.io/gh/tsamsonov/grwat?branch=master)
+[![Coverage Status](https://img.shields.io/codecov/c/github/tsamsonov/grwat/main.svg)](https://codecov.io/github/tsamsonov/grwat?branch=main)
 
 # grwat
 
