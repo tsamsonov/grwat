@@ -1031,7 +1031,7 @@ gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha =
 #' @param years Integer vector of years to be plotted.
 #' @param pal Numeric or character string. Color palette identifier passed to [ggplot2::scale_fill_distiller()].
 #' @param rev Boolean. Reverse the palette? Defaults to `FALSE`.
-#' @param scale Numeric scale factor passed to [ggHoriPlot::geom_horizon()]. Defaults to `0.01`.
+#' @param scale Numeric scale factor passed to [ggHoriPlot::geom_horizon()]. Defaults to `6`.
 #' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
 #'
 #' @export
