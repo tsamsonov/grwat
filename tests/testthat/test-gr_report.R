@@ -6,6 +6,7 @@ sep = gr_separate(df, params = gr_get_params(reg = 'Midplain'))
 vars = suppressWarnings(gr_summarize(sep))
 
 test_that("Report is correctly generated", {
+  skip_on_os("windows")
   expect_message(suppressWarnings(gr_report(sep, vars, output = '~/Spas-Zagorye.html')))
 })
   

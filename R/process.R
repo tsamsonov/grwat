@@ -200,8 +200,8 @@ gr_join_rean <- function(hdata, rean, buffer){
     # calculate average temp and prate per day
     sum_table = result %>%
       dplyr::group_by(.data$pts_days) %>%
-      dplyr::summarise(Temp = mean(.data$temp_selected) %>% round(2),
-                       Prec = mean(.data$prate_selected) %>% round(3)) %>%
+      dplyr::summarise(Temp = mean(.data$temp_selected, na.rm = TRUE) %>% round(2),
+                       Prec = mean(.data$prate_selected, na.rm = TRUE) %>% round(3)) %>%
       dplyr::mutate(Date = hdates) %>%
       dplyr::rename_at(4, ~ names(hdata)[[1]]) %>%
       dplyr::select(-1)
