@@ -63,6 +63,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   coef_prec = max.prec / max.runoff
   
   labs = get_plot_labels(locale)
+  allplotlist = list()
   plotlist = list()
   j = 1
   
@@ -197,6 +198,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
     if (j == length(layout)+1) {
       multiplot(plotlist = plotlist, layout = layout)
       if (pagebreak) cat("\n\n\\pagebreak\n")
+      allplotlist = c(allplotlist, plotlist)
       plotlist = list()
       j = 1
     }
@@ -204,7 +206,10 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   
   if (j > 1) {
     multiplot(plotlist = plotlist, layout = layout)
+    allplotlist = c(allplotlist, plotlist)
   }
+  
+  invisible(allplotlist)
 }
 
 #' Plot interannual hydrograph variable changes
