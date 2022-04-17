@@ -1,3 +1,5 @@
 docs/* linguist-vendored
+docs/articles/* linguist-vendored
+docs/reference/* linguist-vendored
 vignettes/* linguist-vendored
 slides/* linguist-vendored
