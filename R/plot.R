@@ -285,6 +285,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
                 'RU' = prms$Desc,
                 'EN' = prms$Descen)
   
+  allplotlist = list()
   plotlist = list()
   j = 1
   
@@ -404,6 +405,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
     if (j == length(layout)+1) {
       multiplot(plotlist = plotlist, layout = layout)
       if (pagebreak) cat("\n\n\\pagebreak\n")
+      allplotlist = c(allplotlist, plotlist)
       plotlist = list()
       j = 1
     }
@@ -411,7 +413,10 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
   
   if (j > 1) {
     multiplot(plotlist = plotlist, layout = layout)
+    allplotlist = c(allplotlist, plotlist)
   }
+  
+  invisible(allplotlist)
 }
 
 #' Plot long-term hydrograph variable changes
@@ -490,7 +495,6 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
   for (i in 1:nn) {
     
     bar$tick()
-    #Sys.sleep(0.01)
     
     if(!is.null(tests)){
       year = tests$year[i]
