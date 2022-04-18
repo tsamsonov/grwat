@@ -249,6 +249,9 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
   
   labs = grlabs[[grenv$loc]]
   
+  if (grenv$loc != 'EN')
+    labs = gr_unescape(labs)
+  
   fields = rlang::exprs(...) %>% as.character()
   
   if(length(fields) == 0)
@@ -458,6 +461,9 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
   
   labs = grlabs[[grenv$loc]]
   
+  if (grenv$loc != 'EN')
+    labs = gr_unescape(labs)
+  
   fields = rlang::exprs(...) %>% as.character()
 
   if(length(fields) == 0)
@@ -666,6 +672,9 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
   
   labs = grlabs[[grenv$loc]]
   
+  if (grenv$loc != 'EN')
+    labs = gr_unescape(labs)
+  
   periodtitle1_summer = paste0(labs$beforetitle, year_summer)
   periodtitle2_summer = paste0(labs$aftertitle, year_summer)
   
@@ -810,6 +819,9 @@ gr_plot_tests <- function(tests, type = 'year') {
   
   labs = grlabs[[grenv$loc]]
   
+  if (grenv$loc != 'EN')
+    labs = gr_unescape(labs)
+  
   years = tests$year[!is.na(tests$year)]
   dens = density(years, from = min(years), to = max(years), n = max(years) - min(years) + 1)
   ddf = data.frame(year = dens$x, dens = dens$y)
@@ -907,6 +919,9 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff') {
   }
   
   labs = grlabs[[grenv$loc]]
+  
+  if (grenv$loc != 'EN')
+    labs = gr_unescape(labs)
   
   tab = df
   
@@ -1029,6 +1044,9 @@ gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha =
   
   labs = grlabs[[grenv$loc]]
   
+  if (grenv$loc != 'EN')
+    labs = gr_unescape(labs)
+  
   df_sel = df %>%
     dplyr::rename(Date = 1, Q = 2) %>%
     dplyr::mutate(Year = lubridate::year(.data$Date),
@@ -1084,6 +1102,9 @@ gr_plot_hori <- function(df, years, pal = 'Blues', rev = T, scale = 6) {
   }
   
   labs = grlabs[[grenv$loc]]
+  
+  if (grenv$loc != 'EN')
+    labs = gr_unescape(labs)
   
   df_sel = df %>%
     dplyr::rename(Date = 1, Q = 2) %>%
@@ -1146,6 +1167,9 @@ gr_animate <- function(df, plot = TRUE, file = NULL, fps = 20, kframes = 10, wid
   }
   
   labs = grlabs[[grenv$loc]]
+  
+  if (grenv$loc != 'EN')
+    labs = gr_unescape(labs)
   
   tab = df %>%
     dplyr::rename(Date = 1, Q = 2) %>%
