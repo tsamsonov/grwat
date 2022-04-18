@@ -53,4 +53,5 @@ Suggests:
     ggthemes,
     ncdf4,
     sf,
-    testthat
+    testthat,
+    stringi

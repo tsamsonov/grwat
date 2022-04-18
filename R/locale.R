@@ -18,3 +18,10 @@ gr_set_locale <- function(locale = 'EN') {
             " locale is not supported yet. Use 'EN' or 'RU' locale.")
   }
 }
+
+gr_unescape <- function(labs) {
+  for (i in seq_along(labs))
+    if (is.character(labs[[i]]))
+      labs[[i]] = stringi::stri_unescape_unicode(labs[[i]])
+  return(labs)
+}

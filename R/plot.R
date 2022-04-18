@@ -30,7 +30,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
            'windows' = Sys.setlocale("LC_ALL", "English"))
   }
   
-  labs = grlabs[[grenv$loc]]
+  labs = gr_unescape(grlabs[[grenv$loc]])
   
   df = df %>% dplyr::mutate(Year = lubridate::year(.data$Date))
   
