@@ -22,6 +22,6 @@ gr_set_locale <- function(locale = 'EN') {
 gr_unescape <- function(labs) {
   for (i in seq_along(labs))
     if (is.character(labs[[i]]))
-      labs[[i]] = stringi::stri_unescape_unicode(labs[[i]])
+      labs[[i]] = suppressWarnings(stringi::stri_unescape_unicode(labs[[i]]))
   return(labs)
 }
