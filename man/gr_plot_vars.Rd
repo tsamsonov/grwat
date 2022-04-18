@@ -11,8 +11,7 @@ gr_plot_vars(
   exclude = NULL,
   smooth = TRUE,
   layout = as.matrix(1),
-  pagebreak = FALSE,
-  locale = "EN"
+  pagebreak = FALSE
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ gr_plot_vars(
 \item{layout}{\code{matrix} that encodes the order of plotting.}
 
 \item{pagebreak}{Logical. Whether to break page between plots (\code{\link[=gr_report]{gr_report()}}). Defaults to \code{FALSE}.}
-
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \description{
 This function plots the hydrograph separation variables produced by \code{\link[=gr_summarize]{gr_summarize()}}. Different background fill colors and line types are used to differentiate seasons and variable types.

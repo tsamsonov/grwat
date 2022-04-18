@@ -7,6 +7,6 @@ vars = suppressWarnings(gr_summarize(sep))
 
 test_that("Report is correctly generated", {
   skip_on_os("windows")
-  expect_message(suppressWarnings(gr_report(sep, vars, output = '~/Spas-Zagorye.html')))
+  expect_message(suppressWarnings(gr_report(sep, vars, output = '~/Spas-Zagorye.html', locale = 'RU')))
 })
   

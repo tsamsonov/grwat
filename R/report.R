@@ -7,7 +7,7 @@
 #' @param output Character string path to the output file. Must have `.html` extension.
 #' @param year Integer value of year used to divide series in two samples compared by Student and Fisher tests. Defaults to `NULL` which means that the year is calculated automatically by Pettitt test. Defaults to `NULL`.
 #' @param exclude Integer vector of years to be excluded from reporting. Defaults to `NULL`.
-#' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
+#' @param locale Character string locale. Currently only English (`'EN'`) and Russian (`'RU'`) locales are supported. Defaults to `'EN'`.
 #' @param temp Boolean. Plot temperature on the top of hydrograph? Defaults to `FALSE`. If both `temp = TRUE` and `prec = TRUE`, then the axis is drawn for precipitation.
 #' @param prec Boolean. Plot precipitation on the top of hydrograph? Defaults to `FALSE`. If both `temp = TRUE` and `prec = TRUE`, then the axis is drawn for precipitation.
 #' @param span Integer number of days to accumulate precipitation for plotting. Defaults to `5`.
@@ -43,7 +43,6 @@ gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = 
 #' This function is used to represent the results of [grwat::gr_test_vars()] in a tabular form. Used mainly in [grwat::gr_report()], but can be used for your own purposes.
 #'
 #' @param tests `list` of tests as returned by [grwat::gr_test_vars()] function.
-#' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
 #' @param format Character string encoding the type of output. Currently `'html'` only is supported.
 #'
 #' @return HTML table as returned by [knitr::kable()] function.
@@ -51,7 +50,7 @@ gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = 
 #' 
 #' @example inst/examples/gr_kable_tests.R
 #' 
-gr_kable_tests <- function(tests, format = 'html', locale = 'EN'){
+gr_kable_tests <- function(tests, format = 'html'){
   gcolor = '#99cc00' # green
   ycolor = '#e6e600' # yellow
   rcolor = '#ff9966' # red
@@ -60,7 +59,7 @@ gr_kable_tests <- function(tests, format = 'html', locale = 'EN'){
   dcolor = '#ADD8E6' # down
   zcolor = '#D3D3D3' # zero
   
-  labs = get_plot_labels(locale)
+  labs = grlabs[[grenv$loc]]
   
   pvalues = tests$pvalues %>% dplyr::mutate(
     Trend = dplyr::case_when(!is.na(Trend) ~ kableExtra::cell_spec(Trend, format,

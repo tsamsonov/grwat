@@ -11,8 +11,7 @@ gr_plot_sep(
   pagebreak = FALSE,
   temp = FALSE,
   prec = FALSE,
-  span = 5,
-  locale = "EN"
+  span = 5
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ gr_plot_sep(
 \item{prec}{Boolean. Add precipitation curve to the plot? Defaults to \code{FALSE}. If both \code{temp = TRUE} and \code{prec = TRUE}, then the axis is drawn for precipitation.}
 
 \item{span}{Integer number of days to accumulate precipitation for plotting.}
-
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \description{
 The function plots river hydrograph by filling the different flow types using colors. Matrix layouts can be used if multiple plots are needed. Temperature and precipitation can be overlaid.

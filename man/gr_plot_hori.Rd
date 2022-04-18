@@ -4,7 +4,7 @@
 \alias{gr_plot_hori}
 \title{Horizon hydrograph plot}
 \usage{
-gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6, locale = "EN")
+gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6)
 }
 \arguments{
 \item{df}{\code{data.frame} with date (1st) and discharge (2nd) columns.}
@@ -16,8 +16,6 @@ gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6, locale = "EN")
 \item{rev}{Boolean. Reverse the palette? Defaults to \code{FALSE}.}
 
 \item{scale}{Numeric scale factor passed to \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}}. Defaults to \code{6}.}
-
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \description{
 A convenient wrapper around \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}} to visualize multiple river hydrographs at once.

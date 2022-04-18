@@ -4,14 +4,12 @@
 \alias{gr_kable_tests}
 \title{Tabular representation of tests}
 \usage{
-gr_kable_tests(tests, format = "html", locale = "EN")
+gr_kable_tests(tests, format = "html")
 }
 \arguments{
 \item{tests}{\code{list} of tests as returned by \code{\link[=gr_test_vars]{gr_test_vars()}} function.}
 
 \item{format}{Character string encoding the type of output. Currently \code{'html'} only is supported.}
-
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 HTML table as returned by \code{\link[knitr:kable]{knitr::kable()}} function.

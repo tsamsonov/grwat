@@ -1,6 +1,6 @@
 ---
 params:
-    name: "Хопёр"
+    name: "Protva"
     sep: NULL
     vars: NULL
     locale: "EN"
@@ -39,6 +39,9 @@ header-includes:
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(include=FALSE)
+
+library(grwat)
+gr_set_locale(params$locale)
 ```
 
 # {.tabset}
@@ -57,9 +60,8 @@ if (params$locale == 'EN') {
 
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
 message(' > Plotting separation...\n')
-grwat::gr_plot_sep(params$sep, years = params$vars$Year, layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
+gr_plot_sep(params$sep, years = params$vars$Year, layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
                    temp = params$temp, prec = params$prec, span = params$span,
-                   locale = params$locale,
                    pagebreak = FALSE)
 ```
 
@@ -75,18 +77,16 @@ if (params$locale == 'EN') {
 
 ```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
 message(' > Testing variables...\n')
-tests = grwat::gr_test_vars(vars, 
-                            year = params$year, 
-                            exclude = params$exclude, 
-                            locale = params$locale)
+tests = gr_test_vars(vars, 
+                    year = params$year, 
+                    exclude = params$exclude)
 
 message(' > Plotting interannual changes...\n')
-grwat::gr_plot_vars(vars, 
-                    exclude = params$exclude,
-                    tests = tests,
-                    layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
-                    locale = params$locale,
-                    pagebreak = FALSE)
+gr_plot_vars(vars, 
+            exclude = params$exclude,
+            tests = tests,
+            layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
+            pagebreak = FALSE)
 ```
 
 ```{r, include=TRUE}
@@ -100,20 +100,18 @@ if (params$locale == 'EN') {
 
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting long-term changes...\n')
-grwat::gr_plot_minmonth(vars, 
-                        year = params$year, 
-                        exclude = params$exclude, 
-                        tests = tests,
-                        locale = params$locale, 
-                        pagebreak = FALSE)
+gr_plot_minmonth(vars, 
+                year = params$year, 
+                exclude = params$exclude, 
+                tests = tests,
+                pagebreak = FALSE)
 ```
 ```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
-grwat::gr_plot_periods(vars,
-                       exclude = params$exclude,
-                       tests = tests,
-                       layout = matrix(1:8, nrow=4, byrow=TRUE),
-                       locale = params$locale,
-                       pagebreak = FALSE)
+gr_plot_periods(vars,
+               exclude = params$exclude,
+               tests = tests,
+               layout = matrix(1:8, nrow=4, byrow=TRUE),
+               pagebreak = FALSE)
 ```
 
 <!-- Stats -->
@@ -127,9 +125,9 @@ if (params$locale == 'EN') {
 
 ```{r, fig.height=5, fig.width=10, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting runoff matrices...\n')
-grwat::gr_plot_matrix(sep, type = 'runoff')
-grwat::gr_plot_matrix(sep, type = 'season')
-grwat::gr_plot_matrix(sep, type = 'component')
+gr_plot_matrix(sep, type = 'runoff')
+gr_plot_matrix(sep, type = 'season')
+gr_plot_matrix(sep, type = 'component')
 ```
 
 <!-- Stats -->
@@ -144,9 +142,6 @@ if (params$locale == 'EN') {
 <!-- Knit table to PDF -->
 ```{r, include = TRUE, results='asis', warning=FALSE, message=FALSE}
 message(' > Kabling statistical tests...\n')
-grwat::gr_kable_tests(tests, 
-                      format = 'html', 
-                      locale = params$locale)
-grwat::gr_plot_tests(tests, 
-                     locale = params$locale)
+gr_kable_tests(tests, format = 'html')
+gr_plot_tests(tests)
 ```

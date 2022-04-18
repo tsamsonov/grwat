@@ -40,7 +40,7 @@ if (require("sf") && require("ncdf4")) {
     transmute(Date = lubridate::make_date(y, m, d),
               Q = q)
 
-  print(hdata)
+  head(hdata)
 
   # read basin
   basin_path = system.file("extdata", "spas-zagorye.gpkg",

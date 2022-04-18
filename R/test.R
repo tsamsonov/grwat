@@ -8,14 +8,13 @@
 #' @param ... Names of the tested variables (quoted).
 #' @param year Integer value of year used to divide series in two samples compared by Student and Fisher tests. Defaults to `NULL` which means that the year is calculated automatically by Pettitt test.
 #' @param exclude Integer vector of years to be excluded from tests.
-#' @param locale Character string locale. Currently only English locale is supported. Defaults to `'EN'`.
 #'
 #' @return `list` of testing results
 #' @export
 #' 
 #' @example inst/examples/gr_test_vars.R
 #' 
-gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
+gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
   
   fields = rlang::exprs(...) %>% as.character()
   
@@ -31,7 +30,7 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL, locale='EN'){
   
   fixed = !is.null(year)
   
-  desc = switch(locale,
+  desc = switch(grenv$loc,
                 'RU' = prms$Desc,
                 'EN' = prms$Descen)
   

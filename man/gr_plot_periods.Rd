@@ -11,8 +11,7 @@ gr_plot_periods(
   exclude = NULL,
   tests = NULL,
   layout = as.matrix(1),
-  pagebreak = FALSE,
-  locale = "EN"
+  pagebreak = FALSE
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ gr_plot_periods(
 \item{layout}{\code{matrix} that encodes the order of plotting.}
 
 \item{pagebreak}{Logical. Whether to break page between plots (needed for reporting). Defaults to \code{FALSE}.}
-
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \description{
 This function generates boxplots of the hydrograph separation variables produced by \code{\link[=gr_summarize]{gr_summarize()}}. The data for each variable is divided into two samples: before and after the change year either set by \code{year} parameter or extracted from \code{tests} (statistically estimated). Different background fill colors are used to differentiate seasons types.

@@ -11,8 +11,7 @@ gr_animate(
   fps = 20,
   kframes = 10,
   width = 800,
-  height = 600,
-  locale = "EN"
+  height = 600
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ gr_animate(
 \item{width}{Integer width of the animation (in pixels). Defaults to 800.}
 
 \item{height}{Integer height of the animation (in pixels). Defaults to 600}
-
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 The return value of the \code{\link[gganimate:animate]{gganimate::animate()}} function

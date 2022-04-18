@@ -4,7 +4,7 @@
 \alias{gr_test_vars}
 \title{Test hydrograph changes}
 \usage{
-gr_test_vars(df, ..., year = NULL, exclude = NULL, locale = "EN")
+gr_test_vars(df, ..., year = NULL, exclude = NULL)
 }
 \arguments{
 \item{df}{\code{data.frame} as produced by \code{\link[=gr_summarize]{gr_summarize()}} function.}
@@ -14,8 +14,6 @@ gr_test_vars(df, ..., year = NULL, exclude = NULL, locale = "EN")
 \item{year}{Integer value of year used to divide series in two samples compared by Student and Fisher tests. Defaults to \code{NULL} which means that the year is calculated automatically by Pettitt test.}
 
 \item{exclude}{Integer vector of years to be excluded from tests.}
-
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \value{
 \code{list} of testing results

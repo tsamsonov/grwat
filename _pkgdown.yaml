@@ -40,6 +40,10 @@ reference:
   - gr_plot_sep
   - gr_plot_tests
   - gr_plot_vars
+  
+- title: Locale
+  contents:
+  - gr_set_locale
 
 - title: Reporting
   contents:

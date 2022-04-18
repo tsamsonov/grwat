@@ -4,7 +4,7 @@
 \alias{gr_plot_matrix}
 \title{Runoff matrix plot}
 \usage{
-gr_plot_matrix(df, years = NULL, type = "runoff", locale = "EN")
+gr_plot_matrix(df, years = NULL, type = "runoff")
 }
 \arguments{
 \item{df}{\code{data.frame} of hydrograph separation produced by \code{\link[=gr_separate]{gr_separate()}}.}
@@ -12,8 +12,6 @@ gr_plot_matrix(df, years = NULL, type = "runoff", locale = "EN")
 \item{years}{Integer vector of years to be plotted. Defaults to \code{NULL}.}
 
 \item{type}{Character string. Supported options are \code{'runoff'}, \code{'component'}, and \code{'season'}. Defaults to \code{'runoff'}.}
-
-\item{locale}{Character string locale. Currently only English locale is supported. Defaults to \code{'EN'}.}
 }
 \description{
 The function plots runoff values, components and seasons using the matrix-based approach. The X axis corresponds to the day of the year, and the Y axis corresponds to the year. The function is useful when the whole picture of river runoff needs to be assessed.
