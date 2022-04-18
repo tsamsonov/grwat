@@ -1,4 +1,4 @@
-docs/* linguist-vendored
-docs/articles/* linguist-vendored
-docs/reference/* linguist-vendored
+* linguist-vendored
+articles/* linguist-vendored
+reference/* linguist-vendored
 vignettes/* linguist-vendored
