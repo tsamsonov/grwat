@@ -32,6 +32,7 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
   
   desc = switch(grenv$loc,
                 'RU' = prms$Desc,
+                'UA' = prms$Descua,
                 'EN' = prms$Descen)
   
   nn = nrow(prms)

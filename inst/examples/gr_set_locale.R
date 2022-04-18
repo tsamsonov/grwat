@@ -10,7 +10,11 @@ gr_plot_sep(sep, 1978)
 
 # Change to Russian
 gr_set_locale('RU')
-gr_plot_sep(sep, 1978) 
+gr_plot_sep(sep, 1978)
+
+# Change to Ukrainian
+gr_set_locale('UA')
+gr_plot_sep(sep, 1978)
 
 # Restore English
 gr_set_locale('EN')

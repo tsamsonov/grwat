@@ -13,7 +13,7 @@ params:
     eol: "\n"
 date: "`r Sys.Date()`"
 title: "`r tools::file_path_sans_ext(basename(params$name))`"
-author: "`r switch(params$locale, 'EN' = 'Report produced by grwat R package', 'RU' = 'Отчет подготовлен с помощью пакета R grwat')`"
+author: "`r switch(params$locale, 'EN' = 'Report produced by grwat R package', 'RU' = 'Отчет подготовлен с помощью пакета R grwat', 'UA' = 'Звіт підготовлений за допомогою пакету')`"
 output: 
   html_document:
     # toc: true
@@ -50,10 +50,12 @@ message('\nGenerating hydrograph separation report for ', params$name, '\n')
 ```
 
 ```{r, include=TRUE}
-if (params$locale == 'EN') {
-  knitr::asis_output("## Hydrograph separation")
-} else {
+if (params$locale == 'RU') {
   knitr::asis_output("## Расчленение гидрографа {#separation}")
+} else if (params$locale == 'UA') {
+  knitr::asis_output("## Розчленування гідрографа {#separation}")
+} else {
+  knitr::asis_output("## Hydrograph separation {#separation}")
 }
 ```
 
@@ -67,10 +69,12 @@ gr_plot_sep(params$sep, years = params$vars$Year, layout = matrix(c(1,2,3,4), nr
 
 <!-- Main plots -->
 ```{r, include=TRUE}
-if (params$locale == 'EN') {
-  knitr::asis_output("## Interannual changes")
-} else {
+if (params$locale == 'RU') {
   knitr::asis_output("## Межгодичные изменения {#interannual}")
+} else if (params$locale == 'UA') {
+  knitr::asis_output("## Міжрічні зміни {#interannual}")
+} else {
+  knitr::asis_output("## Interannual changes {#interannual}")
 }
 ```
 
@@ -90,10 +94,12 @@ gr_plot_vars(vars,
 ```
 
 ```{r, include=TRUE}
-if (params$locale == 'EN') {
-  knitr::asis_output("## Long-term changes")
-} else {
+if (params$locale == 'RU') {
   knitr::asis_output("## Долгопериодные изменения {#longterm}")
+} else if (params$locale == 'UA') {
+  knitr::asis_output("## Довгоперіодні зміни {#longterm}")
+} else {
+  knitr::asis_output("## Long-term changes {#longterm}")
 }
 ```
 
@@ -116,10 +122,12 @@ gr_plot_periods(vars,
 
 <!-- Stats -->
 ```{r, include=TRUE}
-if (params$locale == 'EN') {
-  knitr::asis_output("## Runoff matrices")
-} else {
+if (params$locale == 'RU') {
   knitr::asis_output("## Матрица расходов {#matrix}")
+} else if (params$locale == 'UA') {
+  knitr::asis_output("## Матриця витрат {#matrix}")
+} else {
+  knitr::asis_output("## Runoff matrices {#matrix}")
 }
 ```
 
@@ -132,10 +140,12 @@ gr_plot_matrix(sep, type = 'component')
 
 <!-- Stats -->
 ```{r, include=TRUE}
-if (params$locale == 'EN') {
-  knitr::asis_output("## Statistical tests")
-} else {
+if (params$locale == 'RU') {
   knitr::asis_output("## Тесты {#tests}")
+} else if (params$locale == 'UA') {
+  knitr::asis_output("## Тести {#tests}")
+} else {
+  knitr::asis_output("## Statistical tests {#tests}")
 }
 ```
 

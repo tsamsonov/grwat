@@ -23,6 +23,12 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
            'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
            'windows' = Sys.setlocale("LC_ALL", "Russian"))
     
+  } else if (grenv$loc == 'UA') {
+    Sys.setenv(LANGUAGE="uk")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "uk_UA.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Ukrainian"))
+    
   } else {
     Sys.setenv(LANGUAGE="en")
     switch(.Platform$OS.type,
@@ -240,6 +246,12 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
            'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
            'windows' = Sys.setlocale("LC_ALL", "Russian"))
     
+  } else if (grenv$loc == 'UA') {
+    Sys.setenv(LANGUAGE="uk")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "uk_UA.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Ukrainian"))
+    
   } else {
     Sys.setenv(LANGUAGE="en")
     switch(.Platform$OS.type,
@@ -285,9 +297,11 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
   
   units = switch(grenv$loc,
                  'RU' = prms$Units,
+                 'UA' = prms$Unitsua,
                  'EN' = prms$Unitsen)
   desc = switch(grenv$loc,
                 'RU' = prms$Desc,
+                'UA' = prms$Descua,
                 'EN' = prms$Descen)
   
   allplotlist = list()
@@ -452,6 +466,12 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
            'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
            'windows' = Sys.setlocale("LC_ALL", "Russian"))
     
+  } else if (grenv$loc == 'UA') {
+    Sys.setenv(LANGUAGE="uk")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "uk_UA.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Ukrainian"))
+    
   } else {
     Sys.setenv(LANGUAGE="en")
     switch(.Platform$OS.type,
@@ -486,9 +506,11 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
   
   units = switch(grenv$loc,
                  'RU' = prms$Units,
+                 'UA' = prms$Unitsua,
                  'EN' = prms$Unitsen)
   desc = switch(grenv$loc,
                 'RU' = prms$Desc,
+                'UA' = prms$Descua,
                 'EN' = prms$Descen)
   
   allplotlist = list()
@@ -663,6 +685,12 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
            'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
            'windows' = Sys.setlocale("LC_ALL", "Russian"))
     
+  } else if (grenv$loc == 'UA') {
+    Sys.setenv(LANGUAGE="uk")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "uk_UA.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Ukrainian"))
+    
   } else {
     Sys.setenv(LANGUAGE="en")
     switch(.Platform$OS.type,
@@ -810,6 +838,12 @@ gr_plot_tests <- function(tests, type = 'year') {
            'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
            'windows' = Sys.setlocale("LC_ALL", "Russian"))
     
+  } else if (grenv$loc == 'UA') {
+    Sys.setenv(LANGUAGE="uk")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "uk_UA.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Ukrainian"))
+    
   } else {
     Sys.setenv(LANGUAGE="en")
     switch(.Platform$OS.type,
@@ -910,6 +944,12 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff') {
     switch(.Platform$OS.type,
            'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
            'windows' = Sys.setlocale("LC_ALL", "Russian"))
+    
+  } else if (grenv$loc == 'UA') {
+    Sys.setenv(LANGUAGE="uk")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "uk_UA.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Ukrainian"))
     
   } else {
     Sys.setenv(LANGUAGE="en")
@@ -1035,6 +1075,12 @@ gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha =
            'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
            'windows' = Sys.setlocale("LC_ALL", "Russian"))
     
+  } else if (grenv$loc == 'UA') {
+    Sys.setenv(LANGUAGE="uk")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "uk_UA.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Ukrainian"))
+    
   } else {
     Sys.setenv(LANGUAGE="en")
     switch(.Platform$OS.type,
@@ -1093,6 +1139,12 @@ gr_plot_hori <- function(df, years, pal = 'Blues', rev = T, scale = 6) {
     switch(.Platform$OS.type,
            'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
            'windows' = Sys.setlocale("LC_ALL", "Russian"))
+    
+  } else if (grenv$loc == 'UA') {
+    Sys.setenv(LANGUAGE="uk")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "uk_UA.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Ukrainian"))
     
   } else {
     Sys.setenv(LANGUAGE="en")
@@ -1158,6 +1210,12 @@ gr_animate <- function(df, plot = TRUE, file = NULL, fps = 20, kframes = 10, wid
     switch(.Platform$OS.type,
            'unix' = Sys.setlocale("LC_ALL", "ru_RU.UTF-8"),
            'windows' = Sys.setlocale("LC_ALL", "Russian"))
+    
+  } else if (grenv$loc == 'UA') {
+    Sys.setenv(LANGUAGE="uk")
+    switch(.Platform$OS.type,
+           'unix' = Sys.setlocale("LC_ALL", "uk_UA.UTF-8"),
+           'windows' = Sys.setlocale("LC_ALL", "Ukrainian"))
     
   } else {
     Sys.setenv(LANGUAGE="en")
