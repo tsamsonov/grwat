@@ -1,7 +1,0 @@
-pandoc: 2.17.1.1
-pkgdown: 2.0.1
-pkgdown_sha: ~
-articles:
-  grwat: grwat.html
-last_built: 2022-04-17T14:39Z
-
