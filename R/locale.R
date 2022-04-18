@@ -15,6 +15,6 @@ gr_set_locale <- function(locale = 'EN') {
   } else {
     warning(crayon::white$bgBlue$bold('grwat:'), ' ',
             crayon::white$italic(locale),
-            " locale is not supported yeat. Use 'EN' or 'RU' locale.")
+            " locale is not supported yet. Use 'EN' or 'RU' locale.")
   }
 }
