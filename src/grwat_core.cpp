@@ -742,24 +742,60 @@ namespace grwat {
 
             // search for upwards floods
 
-            for (unsigned pp = LocMax1; pp > start; --pp) {
-                if ((Qin[pp] < Qin[Flex1]) and (deltaQ[pp - 1] <= ((Qin[Flex1] - Qin[pp]) / (Flex1 - pp)))) {
-                    Bend1 = pp;
-                    break;
-                }
-            }
-
-            for (auto pp = Bend1 - 2 * HalfSt; pp < LocMax1; ++pp) {
-
-                if (FlagsPcr[pp]) { // Rain
-
-                    auto afunc = (Qin[Flex1] - Qin[Bend1]) / (Flex1 - Bend1);
-                    auto bfunc = Qin[Flex1] - afunc * Flex1;
-
-                    for (unsigned qq = Bend1; qq < Flex1; ++qq) {
-                        if (auto qval = afunc * qq + bfunc; qval < Qin[qq]) {
-                            Qrain[qq] = Qin[qq] - qval;
+            for (auto p = nmax-2; p > startPol[i]; --p) {
+                unsigned FlexPrev = start;
+                if (p < Bend1) {
+                    if ((deltaQ[p] <= -Qin[nmax] * par.SignDelta) or ((deltaQ[p] + deltaQ[p-1]) <= -Qin[nmax] * par.SignDelta)) {
+                        for (auto pp = p; pp < nmax-2; ++pp) {
+                            if (deltaQ[pp] > 0) {
+                                Flex1 = pp;
+                                break;
+                            }
                         }
+                    }
+
+                    if (Flex1 >= start) {
+                        for (auto u = Flex1; u > startPol[i]; --u) { // 602
+                            if ((deltaQ[u] <= (-Qin[nmax] * par.SignDelta * 0.5)) or ((deltaQ[u] + deltaQ[u - 1]) <= (-Qin[nmax] * par.SignDelta * 0.5))) {
+                                for (auto pp = u; pp < Flex1-1; ++pp) {
+                                    if (deltaQ[pp] > 0) {
+                                        FlexPrev = pp;
+                                    }
+                                }
+                            }
+                        } // 611
+
+                        if (FlexPrev > start) {
+                            LocMax1 = std::distance(Qin.begin() + FlexPrev, max_element(Qin.begin() + FlexPrev, Qin.begin() + Flex1)) + FlexPrev - 1;
+                        } else {
+                            LocMax1 = std::distance(Qin.begin() + start, max_element(Qin.begin() + start, Qin.begin() + Flex1)) + start;
+                        } // 617
+
+                        // Frosts — backup/removed.cpp
+
+                        // Rains
+                        for (unsigned pp = LocMax1; pp > start; --pp) {
+                            if ((Qin[pp] < Qin[Flex1]) and (deltaQ[pp - 1] <= ((Qin[Flex1] - Qin[pp]) / (Flex1 - pp)))) {
+                                Bend1 = pp;
+                                break;
+                            }
+                        }
+
+                        for (auto pp = Bend1 - 2 * HalfSt; pp < LocMax1; ++pp) {
+
+                            if (FlagsPcr[pp]) { // Rain
+
+                                auto afunc = (Qin[Flex1] - Qin[Bend1]) / (Flex1 - Bend1);
+                                auto bfunc = Qin[Flex1] - afunc * Flex1;
+
+                                for (unsigned qq = Bend1; qq < Flex1; ++qq) {
+                                    if (auto qval = afunc * qq + bfunc; qval < Qin[qq]) {
+                                        Qrain[qq] = Qin[qq] - qval;
+                                    }
+                                }
+                            }
+                        }
+
                     }
                 }
             }
