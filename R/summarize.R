@@ -37,10 +37,10 @@ gr_summarize <- function(df) {
   startflt = df$Date %in% limits$datestart
   
   df %>% 
-    dplyr::mutate(Year = dplyr::if_else(.data$Date %in% limits$datestart,
-                          as.integer(lubridate::year(.data$Date)),
-                          NA_integer_)) %>% 
-    tidyr::fill(.data$Year) %>% 
+    # dplyr::mutate(Year = dplyr::if_else(.data$Date %in% limits$datestart,
+    #                       as.integer(lubridate::year(.data$Date)),
+    #                       NA_integer_)) %>% 
+    # tidyr::fill(.data$Year) %>% 
     dplyr::filter(!is.na(.data$Year)) %>% 
     dplyr::group_by(.data$Year) %>% 
     dplyr::summarise(Year1 = min(.data$Year),
@@ -103,5 +103,8 @@ gr_summarize <- function(df) {
               CvSum = sd(.data$Q[.data$Type == 1], na.rm = TRUE) / mean(.data$Q[.data$Type == 1], na.rm = TRUE),
               CountPavs = sum(rle(.data$Qrain > 0)$values),
               CountThaws = sum(rle(.data$Qthaw > 0)$values)) %>% 
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    tidyr::complete(Year = tidyr::full_seq(.data$Year, period = 1)) %>%
+    dplyr::mutate(Year1 = .data$Year,
+                  Year2 = .data$Year+1)
 }
