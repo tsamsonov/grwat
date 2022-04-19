@@ -9,9 +9,9 @@ sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
 vars = gr_summarize(sep)
 
 # report
-report = '~/Spas-Zagorye_UA.html'
+report = '~/Spas-Zagorye.html'
 
 \dontrun{
-  gr_report(sep, vars, output = report, locale = 'UA')
+  gr_report(sep, vars, output = report)
   browseURL(report)
 }
