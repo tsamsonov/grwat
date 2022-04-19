@@ -86,7 +86,7 @@ gr_summarize <- function(df) {
               Wpavs2 = sum(.data$Qrain, na.rm = TRUE) * kmyr * dplyr::n(),
               Wpavs1 = .data$Wpavs2 + sum((.data$Qrain > 0) * .data$Qbase, na.rm = TRUE) * kmyr * dplyr::n(),
               Wpavthaw2 = sum(.data$Qthaw, na.rm = TRUE) * kmyr * dplyr::n(),
-              Wpavthaw1 = .data$Wpavs2 + sum((.data$Qrain > 0) * .data$Qbase, na.rm = TRUE) * kmyr * dplyr::n(),
+              Wpavthaw1 = .data$Wpavthaw2 + sum((.data$Qthaw > 0) * .data$Qbase, na.rm = TRUE) * kmyr * dplyr::n(),
               WgrS = sum(.data$Qbase * (.data$Type == 1), na.rm = TRUE) * kmyr * dplyr::n(),
               WS = sum(.data$Q * (.data$Type == 1), na.rm = TRUE) * kmyr * dplyr::n(),
               WgrW = sum(.data$Qbase * (.data$Type == 2), na.rm = TRUE) * kmyr * dplyr::n(),
