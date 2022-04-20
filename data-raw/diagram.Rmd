@@ -1,0 +1,65 @@
+---
+title: "A Diagram"
+output: html_document
+---
+
+```{r, setup, include=FALSE}
+library(nomnoml)
+```
+
+```{nomnoml, fig.width = 10}
+#padding: 4
+#fontSize: 10
+#lineWidth: 0.5
+#arrowSize: 0.5
+#leading: 1.25
+#edges: rounded
+[<frame>grwat workflow|
+  [Daily runoff data] -> [gr_get_gaps()]
+  [gr_get_gaps()| Are there missing data? ]
+  [Daily runoff data] -> [gr_fill_gaps()]
+  [gr_fill_gaps()| Fill missing data]
+  [Daily runoff data] -> [gr_baseflow()]
+  [gr_fill_gaps()] -> [Daily runoff data]
+  [gr_baseflow()| Get baseflow]
+  [gr_animate()| Hydrograph animation]
+  [gr_get_gaps()] initiate --:> [gr_fill_gaps()]
+  [gr_plot_acf()| Plot autocorrelation]
+  [gr_read_rean()| Read reanalysis]
+  [gr_join_rean()| Join runoff and meteo data]
+  [Daily runoff data] -> [gr_plot_acf()]
+  [gr_plot_acf()] infer --:> [gr_fill_gaps()]
+  [Daily runoff data] -> [gr_animate()]
+  [Daily meteo data] -> [gr_read_rean()]
+  [gr_read_rean()] -> [gr_join_rean()]
+  [Daily runoff data] -> [gr_join_rean()]
+  [gr_join_rean()] -> [Daily runoff and meteo data]
+  [Daily runoff and meteo data] -> [gr_separate()]
+  [gr_separate()| Hydrograph separation]
+  [gr_get_params()| Separation parameters]
+  [gr_get_params()] -> [gr_separate()]
+  [gr_summarize()| Annual variables]
+  [gr_separate()] -> [gr_summarize()]
+  [gr_test_vars()| Statistical testing]
+  [gr_summarize()] -> [gr_test_vars()]
+  [gr_plot_sep()| Separation plot]
+  [gr_separate()] -> [gr_plot_sep()]
+  [gr_plot_matrix()| Matrix plot]
+  [gr_plot_ridge()| Ridgeline plot]
+  [gr_plot_hori()| Horizon plot]
+  [gr_separate()] -> [gr_plot_matrix()]
+  [Daily runoff data] -> [gr_plot_ridge()]
+  [Daily runoff data] -> [gr_plot_hori()]
+  [gr_plot_vars()| Interannual changes plot]
+  [gr_plot_periods()| Two period changes plot]
+  [gr_plot_tests()| Change year density plot]
+  [gr_summarize()] -> [gr_plot_vars()]
+  [gr_summarize()] -> [gr_plot_periods()]
+  [gr_test_vars()] -> [gr_plot_tests()]
+  [gr_test_vars()] --:> [gr_plot_vars()]
+  [gr_test_vars()] --:> [gr_plot_periods()]
+  [gr_report()| Generate report]
+  [gr_separate()] -> [gr_report()]
+  [gr_summarize()] -> [gr_report()]
+]
+```
