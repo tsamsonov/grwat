@@ -13,13 +13,15 @@
 gr_buffer_geo <- function(g, bufsize){
   
   rlang::check_installed("sf", reason = "to use `gr_buffer_geo()`")
-
-  box = sf::st_bbox(g)
+  
+  ggeo = st_transform(g, crs = st_crs(4326))
+  
+  box = sf::st_bbox(ggeo)
   lon0 = 0.5 * (box[1] + box[3]) # longitude
   lat0 = 0.5 * (box[2] + box[4]) # latitude
   prj = stringr::str_interp('+proj=aeqd +lat_0=${lat0} +lon_0=${lon0} +x_0=0 +y_0=0 +datum=WGS84')
 
-  g %>%
+  ggeo %>%
     sf::st_transform(prj) %>%
     sf::st_buffer(bufsize) %>%
     sf::st_transform(4326)
