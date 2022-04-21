@@ -51,6 +51,9 @@ test_that('Debug separation works', {
                          years = c(1978, 1989:1995), 
                          value = 15)
   
+  # set the ftcomp parameter for all years
+  parlist = gr_set_param(parlist, ftcomp, value = 2.5)
+  
   # use the list of parameters for separation
   sep_debug = suppressWarnings(gr_separate(spas, params = parlist, debug = TRUE)) # TODO: expect warning, but unstable
   jit = attributes(sep_debug)$jittered

@@ -46,6 +46,9 @@ parlist = gr_set_param(parlist, ftrecdays,
                        years = c(1978, 1989:1995), 
                        value = 15)
 
+# set the ftcomp parameter for all years
+parlist = gr_set_param(parlist, ftcomp, value = 2.5)
+
 # use the list of parameters for separation
 sep_debug = gr_separate(spas, params = parlist, debug = TRUE)
 
