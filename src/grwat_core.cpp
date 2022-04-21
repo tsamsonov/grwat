@@ -2,6 +2,7 @@
 #include <map>
 #include <random>
 #include <algorithm>
+#include <numeric>
 #include <functional>
 using namespace std;
 
@@ -61,7 +62,7 @@ namespace grwat {
     };
 
     static bool is_singlepass(const basefilter& flt) {
-        return (flt == MAXWELL) or (flt == BOUGHTON) or (flt == JAKEMAN);
+        return (flt == MAXWELL) || (flt == BOUGHTON) || (flt == JAKEMAN);
     }
 
     static double baseflow_lyne(const double& Qfi_1,
@@ -243,7 +244,7 @@ namespace grwat {
         auto n = Qin.size();
         vector<double> Qb(n, 0);
 
-        if (linear or nmax <= 0 or nmax >= n-1) {
+        if (linear || nmax <= 0 || nmax >= n-1) {
             auto afunc = (Qin[n-1] - Qin[0]) / (n - 1);
 
             for (unsigned x = 0; x < n; ++x) {
@@ -272,7 +273,7 @@ namespace grwat {
                                   const vector<int> &Sumdonep) {
 
         // jitter parameters depending on what particular donep does not work effectively
-        bool vsebylo = (Sumdonep[0] > 0 and Sumdonep[1] > 0 and Sumdonep[2] > 0) ? 1 : 0;
+        bool vsebylo = (Sumdonep[0] > 0 && Sumdonep[1] > 0 && Sumdonep[2] > 0) ? 1 : 0;
 
         auto Smallestdonep = min({Sumdonep[0], Sumdonep[1], Sumdonep[2]});
 
@@ -280,7 +281,7 @@ namespace grwat {
         default_random_engine seed(rdev());
         uniform_real_distribution<> ran(0, 1);
 
-        if (Sumdonep[0] == 0 or (vsebylo == 1 and Sumdonep[0] == Smallestdonep)) {
+        if (Sumdonep[0] == 0 || (vsebylo == 1 && Sumdonep[0] == Smallestdonep)) {
             auto choose = ran(seed);
             if (choose <= 0.5)
                 p.polgrad1 = p.polgrad1 - 0.1 * p.polgrad1;
@@ -291,16 +292,16 @@ namespace grwat {
 
         }
 
-        if (Sumdonep[1] == 0 or (vsebylo == 1 and Sumdonep[1] == Smallestdonep)) {
+        if (Sumdonep[1] == 0 || (vsebylo == 1 && Sumdonep[1] == Smallestdonep)) {
             p.polkol2 = p.polkol2 - 1;
         }
 
-        if (Sumdonep[2] == 0 or (vsebylo == 1 and Sumdonep[2] == Smallestdonep)) {
+        if (Sumdonep[2] == 0 || (vsebylo == 1 && Sumdonep[2] == Smallestdonep)) {
             auto choose = ran(seed);
             if (p.ModeMountain) {
                 if (choose <= 0.2) {
                     p.polkolMount1 = p.polkolMount1 - 5;
-                } else if (choose > 0.2 and choose <= 0.6) {
+                } else if (choose > 0.2 && choose <= 0.6) {
                     if (p.polkolMount2 > 1)
                         p.polkolMount1 = p.polkolMount1 - 1;
                     else
@@ -354,7 +355,7 @@ namespace grwat {
                          vector<parameters> &params_out, bool debug = false) {
 
         for (unsigned i = 0; i < Day.size(); i++) {
-            if (Day[i] > 31 or (Day[i] > 29 and Mon[i] == 28))
+            if (Day[i] > 31 || (Day[i] > 29 && Mon[i] == 28))
                 return false;
         }
 
@@ -365,7 +366,7 @@ namespace grwat {
         auto ndays = Qin.size();
 
         auto nparams = params.size();
-        if (nparams < 1 or (nparams > 1 and nparams != nyears))
+        if (nparams < 1 || (nparams > 1 && nparams != nyears))
             return false;
 
         vector<unsigned> iy(nyears, -99); // indices of water resource years starts
@@ -401,11 +402,11 @@ namespace grwat {
 
                     donep = {-1, -1, -1};
 
-                    if (Mon[l] >= par_new.polmon1 and Mon[l] <= par_new.polmon2 and !isnan(Qin[l])) { //223
+                    if (Mon[l] >= par_new.polmon1 && Mon[l] <= par_new.polmon2 && !isnan(Qin[l])) { //223
                         dQ = 0.0;
                         proceed = true;
                         for (auto ff = 1; ff <= par_new.polkol1; ff++) {
-                            if (isnan(Qin[l + ff]) or isnan(Qin[l + ff - 1])) { // goto 8787
+                            if (isnan(Qin[l + ff]) || isnan(Qin[l + ff - 1])) { // goto 8787
                                 proceed = false;
                                 break;
                             } else {
@@ -460,7 +461,7 @@ namespace grwat {
                             }
                         }
 
-                        if (donep[0] == 1 and donep[1] == 1 and donep[2] == 1) {
+                        if (donep[0] == 1 && donep[1] == 1 && donep[2] == 1) {
                             iy[ng] = l;
                             separated = true;
                             break;
@@ -476,7 +477,7 @@ namespace grwat {
                         jittered = true;
                         Jittered.push_back(Year[year.first]);
                     }
-                    jitter_parameters(par_new, params[i], sumdonep);
+                    jitter_parameters(par_new, single ? params[0] : params[i], sumdonep);
                 }
 
             }
@@ -545,7 +546,7 @@ namespace grwat {
 
             auto par = single ? params[0] : params[i];
 
-            if (YGaps[i] or Mon[start] > par.polmon2) {
+            if (YGaps[i] || Mon[start] > par.polmon2) {
                 fill_nodata(Qbase, Quick, Qspri, Qrain, Qthaw, Type, Hyear, start, end);
                 continue;
             }
@@ -564,7 +565,7 @@ namespace grwat {
                 deltaQ[n] = Qin[n+1] - Qin[n];
                 gradQ[n] = 100 * deltaQ[n] / Qin[n];
 
-                if (n == start or n == end-1) { // ground in first and last is equal to Qin
+                if (n == start || n == end-1) { // ground in first && last is equal to Qin
                     Qbase[n] = Qin[n];
                     Qgrlast1 = Qin[n];
                     Qgrlast = Qin[n];
@@ -577,18 +578,18 @@ namespace grwat {
                     dQgr2 = 100 * abs(Qgrlast - Qin[n]) / ((n - nlast + 1) * Qgrlast);
                     dQgr2abs = abs(Qgrlast - Qin[n]) / (n - nlast + 1);
 
-                    if (Qin[n] > Qgrlast or n > (nlast + 20)) {
-                        auto con1 = ((n - nmax) > par.prodspada) and
-                                    (dQ > par.grad or dQgr1 > par.kdQgr1 or dQgr2 > par.grad or
-                                     dQabs > par.gradabs or dQgr2abs > par.gradabs);
-                        auto con2 = dQ > par.grad1 or dQgr1 > par.kdQgr1 or dQgr2 > par.grad1  or
-                                    dQabs > par.gradabs or dQgr2abs > par.gradabs;
-                        if (con1 or con2)
+                    if (Qin[n] > Qgrlast || n > (nlast + 20)) {
+                        auto con1 = ((n - nmax) > par.prodspada)  &&
+                                    (dQ > par.grad || dQgr1 > par.kdQgr1 || dQgr2 > par.grad ||
+                                     dQabs > par.gradabs || dQgr2abs > par.gradabs);
+                        auto con2 = dQ > par.grad1 || dQgr1 > par.kdQgr1 || dQgr2 > par.grad1  ||
+                                    dQabs > par.gradabs || dQgr2abs > par.gradabs;
+                        if (con1 || con2)
                             continue;
                     } else {
-                        auto con1 = dQ > 20 * par.grad or dQgr1 > 20 * par.kdQgr1 or dQgr2 > 20 * par.grad;
+                        auto con1 = dQ > 20 * par.grad || dQgr1 > 20 * par.kdQgr1 || dQgr2 > 20 * par.grad;
                         auto con2 = abs(Qin[n + 1] - Qin[n - 1]) < abs(Qin[n + 1] - Qin[n]);
-                        if (con1 and con2)
+                        if (con1 && con2)
                             continue;
                     }
 
@@ -613,20 +614,19 @@ namespace grwat {
 
             // 508: Smoothing of Qbase (NEW)
 
-
             for (auto k = start; k < end;) {
                 if (Qbase[k] < 0) { // NEW
                     auto kk = k + 1;
                     while (kk < end) {
                         if (Qbase[kk] >= 0) {
                             auto quick = std::vector<double>(Qin.begin() + k - 1, Qin.begin() + kk + 1);
-                            auto a = quick[0];
-                            auto b = quick[quick.size() - 1];
                             auto nx = quick.size();
+                            auto a = quick[0];
+                            auto b = quick[nx - 1];
                             auto dx = b - a;
                             auto is_freshet = (kk == polend[i]);
 
-                            auto dquick = std::vector<double>(quick.size());
+                            auto dquick = std::vector<double>(nx);
                             for (unsigned x = 0; x < nx; x++) {
                                 dquick[x] = quick[x] - quick[0] - dx * x / (nx-1);
                             }
@@ -636,18 +636,17 @@ namespace grwat {
                                 std::copy(baseflow.begin(), baseflow.end(), Qbase.begin() + k - 1);
                             } else {
                                 auto qbaseflow =
-                                    is_singlepass(par.filter) ?
+                                        is_singlepass(par.filter) ?
                                         get_baseflow_singlepass(dquick, par.k, par.C, par.aq, par.padding, par.filter) :
-                                    get_baseflow_recursive(dquick, par.a, par.padding, par.passes, par.filter);
+                                        get_baseflow_recursive(dquick, par.a, par.padding, par.passes, par.filter);
 
                                 auto baseflow = std::vector<double>(quick.size());
                                 for (unsigned x = 0; x < nx; x++) {
-                                    baseflow[x] = qbaseflow[x] + quick[0] + dx * x / (nx-1);
+                                    baseflow[x] = qbaseflow[x] + quick[0] + dx * x / (nx - 1);
                                 }
 
                                 std::copy(baseflow.begin(), baseflow.end(), Qbase.begin() + k - 1);
                             }
-
                             k = kk;
                             break;
                         }
@@ -702,9 +701,9 @@ namespace grwat {
             polend[i] = maxend;
 
 
-            // FLOODS AND THAWS SEPARATION
+            // FLOODS && THAWS SEPARATION
 
-            // Check rain and thaws
+            // Check rain && thaws
             for (unsigned m = start + HalfSt; m < end - HalfSt; ++m) {
 
                 Psumi = std::accumulate(Pin.begin() + m - HalfSt, Pin.begin() + m + HalfSt, 0.0);
@@ -712,7 +711,7 @@ namespace grwat {
 
                 Psums[m] = Psumi;
 
-                if (Psumi >= par.Pcr and Tsri >= par.Tcr1) { // critical rain
+                if (Psumi >= par.Pcr && Tsri >= par.Tcr1) { // critical rain
                     FactPcr[i]++;
                     FlagsPcr[m] = true;
                 }
@@ -745,7 +744,7 @@ namespace grwat {
             for (auto p = nmax-2; p > startPol[i]; --p) {
                 unsigned FlexPrev = start;
                 if (p < Bend1) {
-                    if ((deltaQ[p] <= -Qin[nmax] * par.SignDelta) or ((deltaQ[p] + deltaQ[p-1]) <= -Qin[nmax] * par.SignDelta)) {
+                    if ((deltaQ[p] <= -Qin[nmax] * par.SignDelta) || ((deltaQ[p] + deltaQ[p-1]) <= -Qin[nmax] * par.SignDelta)) {
                         for (auto pp = p; pp < nmax-2; ++pp) {
                             if (deltaQ[pp] > 0) {
                                 Flex1 = pp;
@@ -756,7 +755,7 @@ namespace grwat {
 
                     if (Flex1 >= start) {
                         for (auto u = Flex1; u > startPol[i]; --u) { // 602
-                            if ((deltaQ[u] <= (-Qin[nmax] * par.SignDelta * 0.5)) or ((deltaQ[u] + deltaQ[u - 1]) <= (-Qin[nmax] * par.SignDelta * 0.5))) {
+                            if ((deltaQ[u] <= (-Qin[nmax] * par.SignDelta * 0.5)) || ((deltaQ[u] + deltaQ[u - 1]) <= (-Qin[nmax] * par.SignDelta * 0.5))) {
                                 for (auto pp = u; pp < Flex1-1; ++pp) {
                                     if (deltaQ[pp] > 0) {
                                         FlexPrev = pp;
@@ -775,7 +774,7 @@ namespace grwat {
 
                         // Rains
                         for (unsigned pp = LocMax1; pp > start; --pp) {
-                            if ((Qin[pp] < Qin[Flex1]) and (deltaQ[pp - 1] <= ((Qin[Flex1] - Qin[pp]) / (Flex1 - pp)))) {
+                            if ((Qin[pp] < Qin[Flex1]) && (deltaQ[pp - 1] <= ((Qin[Flex1] - Qin[pp]) / (Flex1 - pp)))) {
                                 Bend1 = pp;
                                 break;
                             }
@@ -802,7 +801,7 @@ namespace grwat {
 
             // if this peak is the first seasonal freshet
 
-            auto nmax2 = nmax; // (plus_found or minus_found) ? nmax : LocMax1; TODO: repair true maximum
+            auto nmax2 = nmax; // (plus_found || minus_found) ? nmax : LocMax1; TODO: repair true maximum
             auto nmax2_bend = polend[i];
 
             // DOWNWARD FLOODS
@@ -816,8 +815,8 @@ namespace grwat {
             bool early_polend = false;
 
             for (auto p = nmax2; p < polend[i] - 1; ++p) {
-                if ((p > Bend2) and
-                  ((deltaQ[p] >= Qin[nmax2] * par.SignDelta) or ((deltaQ[p] + deltaQ[p + 1]) >= Qin[nmax2] * par.SignDelta))) {
+                if ((p > Bend2)  &&
+                  ((deltaQ[p] >= Qin[nmax2] * par.SignDelta) || ((deltaQ[p] + deltaQ[p + 1]) >= Qin[nmax2] * par.SignDelta))) {
                     for (auto pp = p; pp >= nmax2; --pp) {
                         if (deltaQ[pp] < 0) {
                             Flex2 = pp + 1;
@@ -831,8 +830,8 @@ namespace grwat {
 
                     for (unsigned pp = Flex2 + 1; pp < polend[i]; ++pp) {
                         if (((Qin[pp] < Qin[Flex2])
-                            and  (deltaQ[pp] >= (Qin[pp] - Qin[Flex2]) / (pp - Flex2)))
-                            or (pp == polend[i]-1)) {
+                            &&  (deltaQ[pp] >= (Qin[pp] - Qin[Flex2]) / (pp - Flex2)))
+                            || (pp == polend[i]-1)) {
                             Bend2 = pp;
 
                             for (auto ppp = Bend2 - HalfSt; ppp > Flex2 - 2*HalfSt; --ppp) {
@@ -881,7 +880,7 @@ namespace grwat {
             }
 
             // least squares freshet flood decay
-            if (floods_found and not early_polend and ((polend[i] - start) >= (par.prodspada * par.polcomp))) {
+            if (floods_found && !early_polend && ((polend[i] - start) >= (par.prodspada * par.polcomp))) {
 
                 auto z = -log(Qin[nmax2_bend] / Qin[nmax2]) / (nmax2_bend - nmax2);
 
