@@ -24,6 +24,18 @@
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/01_Gapfilling.html">1. Filling gaps</a>
+    <a class="dropdown-item" href="../articles/02_Baseflow.html">2. Baseflow Separation</a>
+    <a class="dropdown-item" href="../articles/03_Meteojoin.html">3. Meteo Variables</a>
+    <a class="dropdown-item" href="../articles/04_Separation.html">4. Hydrograph Separation</a>
+    <a class="dropdown-item" href="../articles/05_Variables.html">5. Hydrograph Variables</a>
+    <a class="dropdown-item" href="../articles/06_Advplotting.html">6. Advanced Plotting</a>
+    <a class="dropdown-item" href="../articles/07_Reports.html">7. Reports</a>
+  </div>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -90,9 +102,7 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Visualize</span></span>
 <span class="r-in"><span class="fu"><a href="gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (position_stack).</span>
 <span class="r-plt img"><img src="gr_separate-1.png" alt="" width="960" height="593"></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (position_stack).</span>
 <span class="r-plt img"><img src="gr_separate-2.png" alt="" width="960" height="593"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Debug mode gives access to additional information</span></span>
@@ -141,7 +151,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1974, 1975</span> years were not separated. Check the input data for possible errors. Use <span style="color: #00BBBB; font-style: italic;">gr_get_gaps()</span> and <span style="color: #00BBBB; font-style: italic;">gr_fill_gaps()</span> functions to detect and fill missing data.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1961, 1978, 1987, 1995, 1997, 2002, 2003, 2007, 2008, 2010, 2013, 2014, 2015, 2017, 2019, 2020</span> years were processed with jittered parameters</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1961, 1978, 1997, 2002, 2007, 2008, 2014, 2015, 2017, 2019, 2020</span> years were processed with jittered parameters</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Visualize</span></span>
 <span class="r-in"><span class="fu"><a href="gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span> </span>

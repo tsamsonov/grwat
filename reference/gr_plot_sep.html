@@ -24,6 +24,18 @@
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/01_Gapfilling.html">1. Filling gaps</a>
+    <a class="dropdown-item" href="../articles/02_Baseflow.html">2. Baseflow Separation</a>
+    <a class="dropdown-item" href="../articles/03_Meteojoin.html">3. Meteo Variables</a>
+    <a class="dropdown-item" href="../articles/04_Separation.html">4. Hydrograph Separation</a>
+    <a class="dropdown-item" href="../articles/05_Variables.html">5. Hydrograph Variables</a>
+    <a class="dropdown-item" href="../articles/06_Advplotting.html">6. Advanced Plotting</a>
+    <a class="dropdown-item" href="../articles/07_Reports.html">7. Reports</a>
+  </div>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -93,18 +105,15 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># One year</span></span>
 <span class="r-in"><span class="fu">gr_plot_sep</span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1978</span><span class="op">)</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (position_stack).</span>
 <span class="r-plt img"><img src="gr_plot_sep-1.png" alt="" width="960" height="593"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Two years</span></span>
 <span class="r-in"><span class="fu">gr_plot_sep</span><span class="op">(</span><span class="va">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (position_stack).</span>
 <span class="r-plt img"><img src="gr_plot_sep-2.png" alt="" width="960" height="593"></span>
 <span class="r-plt img"><img src="gr_plot_sep-3.png" alt="" width="960" height="593"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Four years in a matrix layout</span></span>
 <span class="r-in"><span class="fu">gr_plot_sep</span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1988</span><span class="op">:</span><span class="fl">1991</span>, layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (position_stack).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (position_stack).</span>
 <span class="r-plt img"><img src="gr_plot_sep-4.png" alt="" width="960" height="593"></span>
 <span class="r-in"></span>
