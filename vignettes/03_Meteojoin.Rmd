@@ -1,0 +1,20 @@
+---
+title: "3. Meteo Variables"
+author: "Timofey Samsonov"
+date: "`r Sys.Date()`"
+dpi: 300
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{3. Meteorological variables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+knitr::opts_chunk$set(collapse = TRUE)
+```

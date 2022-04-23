@@ -1,0 +1,20 @@
+---
+title: "2. Baseflow Separation"
+author: "Timofey Samsonov"
+date: "`r Sys.Date()`"
+dpi: 300
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{2. Baseflow Separation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+knitr::opts_chunk$set(collapse = TRUE)
+```
