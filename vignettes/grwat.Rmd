@@ -79,7 +79,7 @@ gr_plot_sep(sep, years = c(1978, 1989))
 
 # Summarizing annual variables
 
-> For more information on advanced separation, read the [__Annual variables__]() vignette.
+> For more information on annual variables, read the [__Annual variables__]() vignette.
 
 After hydrograph is separated, its characteristics can be summarized by `gr_summarize()` into annual variables which characterize the annual runoff, its components (ground, spring, rain and thaw) and low flow periods (summer and winter):
 
