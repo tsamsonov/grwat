@@ -104,7 +104,7 @@
 <blockquote>
 <p>For more information on baseflow filtering, read the <a href=""><strong>Baseflow filtering</strong></a> vignette.</p>
 </blockquote>
-<p>grwat implements several methods for baseflow filtering, including those by Lyne-Hollick, Boughton, Chapman, Jakeman and Maxwell. The <code>get_baseflow()</code> function does the job:</p>
+<p><strong><code>grwat</code></strong> implements several methods for baseflow filtering, including those by Lyne-Hollick, Boughton, Chapman, Jakeman and Maxwell. The <code>get_baseflow()</code> function does the job:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Qbase</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">spas</span><span class="op">$</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'lynehollick'</span>, a <span class="op">=</span> <span class="fl">0.925</span>, passes <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">Qbase</span><span class="op">)</span>
@@ -113,8 +113,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate baseflow using Jakeman approach</span>
 <span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Qbase <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'jakeman'</span>, 
-                             a <span class="op">=</span> <span class="fl">0.925</span>, passes <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Qbase <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'jakeman'</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Visualize for 2020 year</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hdata</span><span class="op">)</span> <span class="op">+</span>
@@ -131,7 +130,8 @@
 <blockquote>
 <p>For more information on advanced separation, read the <a href=""><strong>Advanced separation</strong></a> vignette.</p>
 </blockquote>
-<p>Advanced separation by <code><a href="../reference/gr_separate.html">gr_separate()</a></code> implements the method by <span class="citation">(Rets et al. 2022)</span>, which involves additional data on temperatures and precipitation to detect and classify flood events into the rain, thaw and spring (seasonal thaw). Between these events <span class="math inline">\(100\%\)</span> of the runoff is considered to be ground. Inside those events the ground flow is filtered either by one of the baseflow functions, or by Kudelin’s method, which degrades baseflow to <span class="math inline">\(0\)</span> under the maximum runoff value during the year. The method is controlled by more than 20 parameters, which can be region-specific. Therefore, to ease the management and distribution of these parameters, they are organized as list, as returned by <code><a href="../reference/gr_get_params.html">gr_get_params()</a></code>:</p>
+<p>Advanced separation by <code><a href="../reference/gr_separate.html">gr_separate()</a></code> implements the method by <span class="citation">(Rets et al. 2022)</span>, which involves additional data on temperatures and precipitation to detect and classify flood events into the rain, thaw and spring (seasonal thaw). Between these events <span class="math inline">\(100\%\)</span> of the runoff is considered to be ground. Inside those events the ground flow is filtered either by one of the baseflow functions, or by Kudelin’s method, which degrades baseflow to <span class="math inline">\(0\)</span> under the maximum runoff value during the year.</p>
+<p>The method is controlled by more than 20 parameters, which can be region-specific. Therefore, to ease the management and distribution of these parameters, they are organized as list, as returned by <code><a href="../reference/gr_get_params.html">gr_get_params()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'Midplain'</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
@@ -215,6 +215,7 @@
 <li><p><a href="">Missing data</a> vignette describes how to find and interpolate the periods of missing runoff and meteorological data which may affect your analysis with <strong><code>grwat</code></strong>.</p></li>
 <li><p><a href="">Meteo data</a> vignette shows how to join temperature and precipitation data from daily reanalysis provided by <strong><code>grwat</code></strong>. This can be useful if you do not have meteorological observations inside the basin.</p></li>
 <li><p><a href="">Fancy runoff plots</a> vignette presents some fascinating graphical techniques which can be used to compare hydrographs for different years. These include matrix plots, horizon plots, ridgeline plots and hydrograph animations.</p></li>
+<li><p><a href="">Localization</a> vignette shows how the plots and reports generated by <strong><code>grwat</code></strong> can be easily translated to the specified language.</p></li>
 </ul>
 <div id="refs" class="references">
 <div id="ref-rets2022">
