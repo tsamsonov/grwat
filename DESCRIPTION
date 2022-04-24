@@ -11,7 +11,7 @@ Authors@R: c(
     person("Maria", "Kireeva", role = "ctb", comment = c(ORCID = "0000-0002-8285-9761"))
     )
 Description: Welcome to grwat, an R package package for the automatic hydrograph separation and hydrological time series analysis. High-performance `C++17` computation is used for hydrograph processing that separates runoff into ground, seasonal, thaw, and flood runoff. Interannual and long-term characteristics of each runoff type are derived. Results are visualized in a form of high-quality reports making use of ggplot2 graphics and knitr report generation.
-License: GPL (>= 2)
+License: GPL (>= 2) | MIT + file LICENSE
 URL: https://github.com/tsamsonov/grwat
 BugReports: https://github.com/tsamsonov/grwat/issues
 Encoding: UTF-8
