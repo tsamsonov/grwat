@@ -17,10 +17,10 @@ gr_join_rean(hdata, rean, buffer)
 \code{data.frame} with four columns: date, runoff, temperature, precipitation.
 }
 \description{
-The function performs spatial join of meteorological variables (temperature and precipitation) from \href{http://carto.geogr.msu.ru/grwat/}{grwat reanalysis} to the daily runoff time series. Reanalysis covers the East European Plain with 0.75 degrees spatial resolution and is obtained based on CIRES-DOE (1880-1949) and ERA5 (1950-2021) data. This function is useful when the data from meteorological stations are missing inside the basin.
+The function performs spatial join of meteorological variables (temperature and precipitation) from \href{https://carto.geogr.msu.ru/grwat/}{grwat reanalysis} to the daily runoff time series. Reanalysis covers the East European Plain with 0.75 degrees spatial resolution and is obtained based on CIRES-DOE (1880-1949) and ERA5 (1950-2021) data. This function is useful when the data from meteorological stations are missing inside the basin.
 }
 \details{
-Download the reanalysis archive from \url{http://carto.geogr.msu.ru/grwat/}.
+Download the reanalysis archive from \url{https://carto.geogr.msu.ru/grwat/}.
 }
 \examples{
 if (require("sf") && require("ncdf4")) {

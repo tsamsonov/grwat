@@ -1,8 +1,8 @@
 #' Read reanalysis data
 #' 
-#' The function reads meteorological variables (temperature and precipitation) from [grwat reanalysis](http://carto.geogr.msu.ru/grwat/) for using with [gr_join_rean()]. Reanalysis covers the East European Plain with 0.75 degrees spatial resolution and is obtained based on CIRES-DOE (1880-1949) and ERA5 (1950-2021) data.
+#' The function reads meteorological variables (temperature and precipitation) from [grwat reanalysis](https://carto.geogr.msu.ru/grwat/) for using with [gr_join_rean()]. Reanalysis covers the East European Plain with 0.75 degrees spatial resolution and is obtained based on CIRES-DOE (1880-1949) and ERA5 (1950-2021) data.
 #' 
-#' Download the reanalysis archive from [http://carto.geogr.msu.ru/grwat/](http://carto.geogr.msu.ru/grwat/).
+#' Download the reanalysis archive from [https://carto.geogr.msu.ru/grwat/](https://carto.geogr.msu.ru/grwat/).
 #'
 #' @param file_prec Character string path to precipitation NetCDF file.
 #' @param file_temp Character string path to temperature NetCDF file.

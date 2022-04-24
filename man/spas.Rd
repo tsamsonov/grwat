@@ -18,7 +18,7 @@ A data frame with 23742 rows and 4 variables:
 
 \url{https://gmvo.skniivh.ru}
 
-\url{http://meteo.ru}
+\url{https://meteo.ru}
 
 \url{https://www.ecmwf.int/en/forecasts/dataset/ecmwf-reanalysis-v5}
 

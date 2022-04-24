@@ -20,7 +20,11 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 7, out.width = '100%', dpi = 
 Sys.setlocale("LC_TIME", "en_US.UTF-8")
 ```
 
-# Quick start
+# Introduction
+
+grwat is a 
+
+# Baseflow separation
 
 The starting point for hydrograph analysis is to obtain the source data. Let's see how it goes with sample `spas` discharge data for $1956-2020$ year range provided with grwat. This data is for [Spas-Zagorye](https://allrivers.info/gauge/protva-obninsk) gauge on [Protva](https://en.wikipedia.org/wiki/Protva) river in Central European plane:
 

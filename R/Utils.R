@@ -1,7 +1,7 @@
 # Multiple plot function
 # 
 # Produces matrix layout for ggplot graphics. 
-# Taken from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+# Taken from https://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
 #
 #  Layout is a matrix specifying the layout. If present, 'cols' is ignored. 
 #  If the layout is something like `matrix(c(1,2,3,3), nrow=2, byrow=TRUE)`, 
@@ -106,11 +106,6 @@ condrollmeanidx = function(values, needed, w) {
   means = zoo::rollmean(cleaned, w, align = 'left')
   
   which.min(means)[1]
-}
-
-gr_mamba <- function() {
-  rlang::check_installed("beepr", reason = "to use `gr_mamba()`")
-  beepr::beep('http://carto.geogr.msu.ru/grwat/mamba.wav')
 }
 
 gr_console <- function(...) {

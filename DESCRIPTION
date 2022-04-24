@@ -52,7 +52,6 @@ Suggests:
     transformr,
     gifski,
     png,
-    beepr,
     ggridges,
     ggHoriPlot,
     ggthemes,

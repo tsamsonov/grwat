@@ -1,4 +1,4 @@
-[![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
+[![License](https://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-yellow.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Coverage Status](https://img.shields.io/codecov/c/github/tsamsonov/grwat/main.svg)](https://codecov.io/github/tsamsonov/grwat?branch=main)
 [![R-CMD-check](https://github.com/tsamsonov/grwat/workflows/R-CMD-check/badge.svg)](https://github.com/tsamsonov/grwat/actions)
@@ -58,6 +58,6 @@ devtools::install_github("tsamsonov/grwat")
 
 __grwat__ package is being developed with financial support of Russian Science Foundation (Project [19-77-10032](https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf)).
 
-The main separation algoritm was developed in 2016-2018 with financial support of RFBR (Project [16-35-60080](http://www.rfbr.ru/rffi/ru/project_search/o_2031785)).
+The main separation algoritm was developed in 2016-2018 with financial support of RFBR (Project [16-35-60080](https://www.rfbr.ru/rffi/ru/project_search/o_2031785)).
 
-The mountain block of the main separation algoritm was developed in 2018-2019 with financial support of Russian Science Foundation (Project [17-77-10169](http://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf)).
+The mountain block of the main separation algoritm was developed in 2018-2019 with financial support of Russian Science Foundation (Project [17-77-10169](https://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf)).
