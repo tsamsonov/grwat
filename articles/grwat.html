@@ -101,6 +101,9 @@
 <div class="section level2">
 <h2 id="baseflow-filtering">Baseflow filtering<a class="anchor" aria-label="anchor" href="#baseflow-filtering"></a>
 </h2>
+<blockquote>
+<p>For more information on baseflow filtering, read the <a href=""><strong>Baseflow filtering</strong></a> vignette.</p>
+</blockquote>
 <p>grwat implements several methods for baseflow filtering, including those by Lyne-Hollick, Boughton, Chapman, Jakeman and Maxwell. The <code>get_baseflow()</code> function does the job:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Qbase</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">spas</span><span class="op">$</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'lynehollick'</span>, a <span class="op">=</span> <span class="fl">0.925</span>, passes <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
@@ -121,13 +124,13 @@
 <span class="co">#&gt; Warning: Removed 23376 rows containing missing values (position_stack).</span>
 <span class="co">#&gt; Removed 23376 rows containing missing values (position_stack).</span></code></pre></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-3-1.png" width="960"></p>
-<blockquote>
-<p>For more information on baseflow filtering, read the <a href=""><strong>Baseflow filtering</strong></a> vignette.</p>
-</blockquote>
 </div>
 <div class="section level2">
 <h2 id="advanced-separation">Advanced separation<a class="anchor" aria-label="anchor" href="#advanced-separation"></a>
 </h2>
+<blockquote>
+<p>For more information on advanced separation, read the <a href=""><strong>Advanced separation</strong></a> vignette.</p>
+</blockquote>
 <p>Advanced separation by <code><a href="../reference/gr_separate.html">gr_separate()</a></code> implements the method by <span class="citation">(Rets et al. 2022)</span>, which involves additional data on temperatures and precipitation to detect and classify flood events into the rain, thaw and spring (seasonal thaw). Between these events <span class="math inline">\(100\%\)</span> of the runoff is considered to be ground. Inside those events the ground flow is filtered either by one of the baseflow functions, or by Kudelin’s method, which degrades baseflow to <span class="math inline">\(0\)</span> under the maximum runoff value during the year. The method is controlled by more than 20 parameters, which can be region-specific. Therefore, to ease the management and distribution of these parameters, they are organized as list, as returned by <code><a href="../reference/gr_get_params.html">gr_get_params()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'Midplain'</span><span class="op">)</span><span class="op">)</span>
@@ -147,13 +150,13 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-5-1.png" width="960"><img src="grwat_files/figure-html/unnamed-chunk-5-2.png" width="960"></p>
-<blockquote>
-<p>For more information on advanced separation, read the <a href=""><strong>Advanced separation</strong></a> vignette.</p>
-</blockquote>
 </div>
 <div class="section level2">
 <h2 id="summarizing-annual-variables">Summarizing annual variables<a class="anchor" aria-label="anchor" href="#summarizing-annual-variables"></a>
 </h2>
+<blockquote>
+<p>For more information on advanced separation, read the <a href=""><strong>Annual variables</strong></a> vignette.</p>
+</blockquote>
 <p>After hydrograph is separated, its characteristics can be summarized by <code><a href="../reference/gr_summarize.html">gr_summarize()</a></code> into annual variables which characterize the annual runoff, its components (ground, spring, rain and thaw) and low flow periods (summer and winter):</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span>
@@ -189,13 +192,13 @@
 <span class="co">#&gt; Warning: Removed 2 rows containing missing values (geom_rect).</span>
 <span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_smooth).</span></code></pre></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-7-2.png" width="960"></p>
-<blockquote>
-<p>For more information on advanced separation, read the <a href=""><strong>Annual variables</strong></a> vignette.</p>
-</blockquote>
 </div>
 <div class="section level2">
 <h2 id="reporting">Reporting<a class="anchor" aria-label="anchor" href="#reporting"></a>
 </h2>
+<blockquote>
+<p>For more information on reporting, read the <a href=""><strong>Reporting</strong></a> vignette.</p>
+</blockquote>
 <p>Hydrograph separation and its annual variables can be aggregated into one information-rich graphical report that brings everything into one place. Just pass the results of <code><a href="../reference/gr_separate.html">gr_separate()</a></code> and <code><a href="../reference/gr_summarize.html">gr_summarize()</a></code> into <code><a href="../reference/gr_report.html">gr_report()</a></code> function and provide the path to the ouput <code>HTML</code> file:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">report</span> <span class="op">=</span> <span class="st">'~/Spas-Zagorye.html'</span>
@@ -203,9 +206,6 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/browseURL.html" class="external-link">browseURL</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></code></pre></div>
 <iframe src="https://carto.geogr.msu.ru/grwat/Spas-Zagorye.html" width="960" height="800px" data-external="1">
 </iframe>
-<blockquote>
-<p>For more information on reporting, read the <a href=""><strong>Reporting</strong></a> vignette.</p>
-</blockquote>
 <div id="refs" class="references">
 <div id="ref-rets2022">
 <p>Rets, E. P., M. B. Kireeva, T. E. Samsonov, N. N. Ezerova, A. V. Gorbarenko, and N. L. Frolova. 2022. “Algorithm Grwat for Automated Hydrograph Separation by B.i. Kudelin’s Method: Problems and Perspectives.” <em>Water Resources</em> 49 (1): 23–37. <a href="https://doi.org/10.1134/S0097807822010146" class="external-link">https://doi.org/10.1134/S0097807822010146</a>.</p>
@@ -225,7 +225,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>
