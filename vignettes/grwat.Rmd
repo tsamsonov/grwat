@@ -36,6 +36,8 @@ This 4-column representation is standard for advanced separation discussed below
 
 # Baseflow filtering
 
+> For more information on baseflow filtering, read the [__Baseflow filtering__]() vignette.
+
 grwat implements several methods for baseflow filtering, including those by Lyne-Hollick, Boughton, Chapman, Jakeman and Maxwell. The `get_baseflow()` function does the job:
 
 ```{r}
@@ -58,9 +60,9 @@ ggplot(hdata) +
   scale_x_date(limits = c(ymd(19800101), ymd(19801231)))
 ```
 
-> For more information on baseflow filtering, read the [__Baseflow filtering__]() vignette.
-
 # Advanced separation
+
+> For more information on advanced separation, read the [__Advanced separation__]() vignette.
 
 Advanced separation by `gr_separate()` implements the method by [@rets2022], which involves additional data on temperatures and precipitation to detect and classify flood events into the rain, thaw and spring (seasonal thaw). Between these events $100\%$ of the runoff is considered to be ground. Inside those events the ground flow is filtered either by one of the baseflow functions, or by Kudelin's method, which degrades baseflow to $0$ under the maximum runoff value during the year. The method is controlled by more than 20 parameters, which can be region-specific. Therefore, to ease the management and distribution of these parameters, they are organized as list, as returned by `gr_get_params()`:
 
@@ -75,9 +77,9 @@ Resulting separation can be visualized by `gr_plot_sep()` function. In addition 
 gr_plot_sep(sep, years = c(1978, 1989))
 ```
 
-> For more information on advanced separation, read the [__Advanced separation__]() vignette.
-
 # Summarizing annual variables
+
+> For more information on advanced separation, read the [__Annual variables__]() vignette.
 
 After hydrograph is separated, its characteristics can be summarized by `gr_summarize()` into annual variables which characterize the annual runoff, its components (ground, spring, rain and thaw) and low flow periods (summer and winter):
 
@@ -94,9 +96,9 @@ gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs, tests = TRUE,
              layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
 ```
 
-> For more information on advanced separation, read the [__Annual variables__]() vignette.
-
 # Reporting
+
+> For more information on reporting, read the [__Reporting__]() vignette.
 
 Hydrograph separation and its annual variables can be aggregated into one information-rich graphical report that brings everything into one place. Just pass the results of `gr_separate()` and `gr_summarize()` into `gr_report()` function and provide the path to the ouput `HTML` file: 
 
@@ -109,5 +111,3 @@ browseURL(report)
 ```{r, echo=FALSE}
 knitr::include_url('https://carto.geogr.msu.ru/grwat/Spas-Zagorye.html', height = '800px')
 ```
-
-> For more information on reporting, read the [__Reporting__]() vignette.
