@@ -76,90 +76,141 @@
     
     
 <div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
 </h2>
-<p>grwat is a</p>
-</div>
-<div class="section level2">
-<h2 id="baseflow-separation">Baseflow separation<a class="anchor" aria-label="anchor" href="#baseflow-separation"></a>
-</h2>
-<p>The starting point for hydrograph analysis is to obtain the source data. Let’s see how it goes with sample <code>spas</code> discharge data for <span class="math inline">\(1956-2020\)</span> year range provided with grwat. This data is for <a href="https://allrivers.info/gauge/protva-obninsk" class="external-link">Spas-Zagorye</a> gauge on <a href="https://en.wikipedia.org/wiki/Protva" class="external-link">Protva</a> river in Central European plane:</p>
+<p>Throughout package documentation a sample dataset <code>spas</code> containing the daily runoff data for <a href="https://allrivers.info/gauge/protva-obninsk" class="external-link">Spas-Zagorye</a> gauge on <a href="https://en.wikipedia.org/wiki/Protva" class="external-link">Protva</a> river in Central European plane is used. The dataset is supplemented by meteorological variables (temperature and precipitation) obtained from CIRES-DOE (1880-1949) and ERA5 (1950-2021) data averaged inside gauge’s basin:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span>
-
-<span class="co"># separate</span>
-<span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'Midplain'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Visualize</span>
-<span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-1-1.png" width="100%"><img src="grwat_files/figure-html/unnamed-chunk-1-2.png" width="100%"></p>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span>
+<span class="co">#&gt;   Date           Q   Temp  Prec</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1956-01-01  5.18  -<span style="color: #BB0000;">6.46</span> 0.453</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1956-01-02  5.18 -<span style="color: #BB0000;">11.4</span>  0.825</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1956-01-03  5.44 -<span style="color: #BB0000;">10.7</span>  0.26 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1956-01-04  5.44  -<span style="color: #BB0000;">8.05</span> 0.397</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 1956-01-05  5.44 -<span style="color: #BB0000;">11.7</span>  0.102</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1956-01-06  5.58 -<span style="color: #BB0000;">20.1</span>  0.032</span></code></pre></div>
+<p>This 4-column representation is standard for advanced separation discussed below.</p>
+</div>
+<div class="section level2">
+<h2 id="baseflow-filtering">Baseflow filtering<a class="anchor" aria-label="anchor" href="#baseflow-filtering"></a>
+</h2>
+<p>grwat implements several methods for baseflow filtering, including those by Lyne-Hollick, Boughton, Chapman, Jakeman and Maxwell. The <code>get_baseflow()</code> function does the job:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Debug mode gives access to additional information</span>
-<span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, 
-                        params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'Midplain'</span><span class="op">)</span>, 
-                        debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="co"># a vector of years with jittered params</span>
-<span class="va">jit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">jittered</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">jit</span><span class="op">)</span>
-<span class="co">#&gt;  [1] 1965 1978 1989 1991 1995 1996 1997 1998 2002 2007 2008 2009 2011 2014 2015</span>
-<span class="co">#&gt; [16] 2016 2017 2019 2020</span>
-
-<span class="co"># actual params used for each year</span>
-<span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span>
-<span class="va">partab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span>, <span class="va">parlist</span><span class="op">)</span> <span class="co"># View as table</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">partab</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 39</span></span>
-<span class="co">#&gt;   winmon grad1 grad2 gratio ftmon1 ftmon2 ftrisedays1 ftrisedays2 ftdays ftrise</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     11     1   1.5   <span style="text-decoration: underline;">1</span>500      1      5           5          15     25     10</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 29 more variables: ftratio &lt;dbl&gt;, ftrecdays &lt;dbl&gt;, precdays &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   frostdays &lt;dbl&gt;, windays &lt;dbl&gt;, floodprec &lt;dbl&gt;, floodtemp &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   frosttemp &lt;dbl&gt;, wintemp &lt;dbl&gt;, signratio1 &lt;dbl&gt;, signratio2 &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   floodratio &lt;dbl&gt;, gaplen &lt;dbl&gt;, snowtemp &lt;dbl&gt;, gradabs &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   mntmode &lt;dbl&gt;, mntgrad &lt;dbl&gt;, mntavgdays &lt;dbl&gt;, mntratiodays &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   mntratio &lt;dbl&gt;, niter &lt;dbl&gt;, a &lt;dbl&gt;, k &lt;dbl&gt;, C &lt;dbl&gt;, aq &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   padding &lt;dbl&gt;, passes &lt;dbl&gt;, filter &lt;chr&gt;, ftcomp &lt;dbl&gt;</span></span>
-
-<span class="co"># extract and tweak parameters for selected year</span>
-<span class="va">p</span> <span class="op">=</span> <span class="va">parlist</span><span class="op">[[</span><span class="st">'1989'</span><span class="op">]</span><span class="op">]</span>
-<span class="va">p</span><span class="op">$</span><span class="va">grad1</span> <span class="op">=</span> <span class="fl">1</span>
-<span class="va">p</span><span class="op">$</span><span class="va">grad2</span> <span class="op">=</span> <span class="fl">2.5</span>
-
-<span class="co"># use tweaked parameters for all years</span>
-<span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="va">p</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="co"># Visualize</span>
-<span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-1-3.png" width="100%"><img src="grwat_files/figure-html/unnamed-chunk-1-4.png" width="100%"></p>
+<code class="sourceCode R"><span class="va">Qbase</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">spas</span><span class="op">$</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'lynehollick'</span>, a <span class="op">=</span> <span class="fl">0.925</span>, passes <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">Qbase</span><span class="op">)</span>
+<span class="co">#&gt; [1] 3.698598 3.789843 3.876099 3.958334 4.037031 4.112454</span></code></pre></div>
+<p>Though <code>get_baseflow()</code> needs just a vector of runoff values, it can be applied in a traditional tidyverse pipeline like follows:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># actual params used for each year</span>
-<span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span>
+<code class="sourceCode R"><span class="co"># Calculate baseflow using Jakeman approach</span>
+<span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Qbase <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'jakeman'</span>, 
+                             a <span class="op">=</span> <span class="fl">0.925</span>, passes <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
 
-<span class="co"># tweak parameters for selected year</span>
-<span class="va">parlist</span><span class="op">[[</span><span class="st">'1989'</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">grad1</span> <span class="op">=</span> <span class="fl">3</span>
-<span class="va">parlist</span><span class="op">[[</span><span class="st">'1989'</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">grad2</span> <span class="op">=</span> <span class="fl">6</span>
-
-<span class="co"># set the ftrecdays parameter for multiple years</span>
-<span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_set_param.html">gr_set_param</a></span><span class="op">(</span><span class="va">parlist</span>, <span class="va">ftrecdays</span>, 
-                       years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">:</span><span class="fl">1995</span><span class="op">)</span>, 
-                       value <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>
-
-<span class="co"># use the list of parameters for separation</span>
-<span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="va">parlist</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="co"># Visualize</span>
-<span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-1-5.png" width="100%"><img src="grwat_files/figure-html/unnamed-chunk-1-6.png" width="100%"></p>
+<span class="co"># Visualize for 2020 year</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hdata</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_area</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">Q</span><span class="op">)</span>, fill <span class="op">=</span> <span class="st">'steelblue'</span>, color <span class="op">=</span> <span class="st">'black'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_area</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">Qbase</span><span class="op">)</span>, fill <span class="op">=</span> <span class="st">'orangered'</span>, color <span class="op">=</span> <span class="st">'black'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_date</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fl">19800101</span><span class="op">)</span>, <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fl">19801231</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Removed 23376 rows containing missing values (position_stack).</span>
+<span class="co">#&gt; Removed 23376 rows containing missing values (position_stack).</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-3-1.png" width="960"></p>
+<blockquote>
+<p>For more information on baseflow filtering, read the <a href=""><strong>Baseflow filtering</strong></a> vignette.</p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2 id="advanced-separation">Advanced separation<a class="anchor" aria-label="anchor" href="#advanced-separation"></a>
+</h2>
+<p>Advanced separation by <code><a href="../reference/gr_separate.html">gr_separate()</a></code> implements the method by <span class="citation">(Rets et al. 2022)</span>, which involves additional data on temperatures and precipitation to detect and classify flood events into the rain, thaw and spring (seasonal thaw). Between these events <span class="math inline">\(100\%\)</span> of the runoff is considered to be ground. Inside those events the ground flow is filtered either by one of the baseflow functions, or by Kudelin’s method, which degrades baseflow to <span class="math inline">\(0\)</span> under the maximum runoff value during the year. The method is controlled by more than 20 parameters, which can be region-specific. Therefore, to ease the management and distribution of these parameters, they are organized as list, as returned by <code><a href="../reference/gr_get_params.html">gr_get_params()</a></code>:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'Midplain'</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
+<span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 11</span></span>
+<span class="co">#&gt;   Date           Q Qbase Quick Qseas Qrain Qthaw  Type  Year   Temp  Prec</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1956-01-01  5.18    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>  -<span style="color: #BB0000;">6.46</span> 0.453</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1956-01-02  5.18    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> -<span style="color: #BB0000;">11.4</span>  0.825</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1956-01-03  5.44    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> -<span style="color: #BB0000;">10.7</span>  0.26 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1956-01-04  5.44    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>  -<span style="color: #BB0000;">8.05</span> 0.397</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 1956-01-05  5.44    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> -<span style="color: #BB0000;">11.7</span>  0.102</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1956-01-06  5.58    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> -<span style="color: #BB0000;">20.1</span>  0.032</span></code></pre></div>
+<p>Resulting separation can be visualized by <code><a href="../reference/gr_plot_sep.html">gr_plot_sep()</a></code> function. In addition to classification of the flow, the function shows the dates of the spring seasonal flood:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-5-1.png" width="960"><img src="grwat_files/figure-html/unnamed-chunk-5-2.png" width="960"></p>
+<blockquote>
+<p>For more information on advanced separation, read the <a href=""><strong>Advanced separation</strong></a> vignette.</p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2 id="summarizing-annual-variables">Summarizing annual variables<a class="anchor" aria-label="anchor" href="#summarizing-annual-variables"></a>
+</h2>
+<p>After hydrograph is separated, its characteristics can be summarized by <code><a href="../reference/gr_summarize.html">gr_summarize()</a></code> into annual variables which characterize the annual runoff, its components (ground, spring, rain and thaw) and low flow periods (summer and winter):</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 57</span></span>
+<span class="co">#&gt;    Year Year1 Year2 datestart  datepolend PolProd    Qy  Qmax datemax     Qygr</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>956  <span style="text-decoration: underline;">1</span>956  <span style="text-decoration: underline;">1</span>957 1956-04-11 1956-05-05      24  18.4   467 1956-04-22  8.45</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">1</span>957  <span style="text-decoration: underline;">1</span>957  <span style="text-decoration: underline;">1</span>958 1957-03-27 1957-05-22      56  20.3   460 1957-04-08  9.33</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">1</span>958  <span style="text-decoration: underline;">1</span>958  <span style="text-decoration: underline;">1</span>959 1958-04-03 1958-05-31      58  27.4   537 1958-04-21  9.90</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">1</span>959  <span style="text-decoration: underline;">1</span>959  <span style="text-decoration: underline;">1</span>960 1959-03-27 1959-04-27      31  27.1   406 1959-04-16 10.6 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>960  <span style="text-decoration: underline;">1</span>960  <span style="text-decoration: underline;">1</span>961 1960-03-26 1960-04-26      31  29.4   406 1960-04-15 12.0 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">1</span>961  <span style="text-decoration: underline;">1</span>961  <span style="text-decoration: underline;">1</span>962 1961-03-10 1961-05-08      59  18.8   296 1961-04-10 10.5 </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 47 more variables: Qmmsummer &lt;dbl&gt;, monmmsummer &lt;date&gt;, Qmmwin &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   nommwin &lt;date&gt;, Q30s &lt;dbl&gt;, date30s1 &lt;date&gt;, date30s2 &lt;date&gt;, Q30w &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   date30w1 &lt;date&gt;, date30w2 &lt;date&gt;, Q10s &lt;dbl&gt;, date10s1 &lt;date&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   date10s2 &lt;date&gt;, Q10w &lt;dbl&gt;, date10w1 &lt;date&gt;, date10w2 &lt;date&gt;, Q5s &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   date5s1 &lt;date&gt;, date5s2 &lt;date&gt;, Q5w &lt;dbl&gt;, date5w1 &lt;date&gt;, date5w2 &lt;date&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   Wy &lt;dbl&gt;, Wgr &lt;dbl&gt;, Wpol2 &lt;dbl&gt;, Wpol1 &lt;dbl&gt;, Wpol3 &lt;dbl&gt;, Wpavs2 &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   Wpavs1 &lt;dbl&gt;, Wpavthaw2 &lt;dbl&gt;, Wpavthaw1 &lt;dbl&gt;, WgrS &lt;dbl&gt;, WS &lt;dbl&gt;, …</span></span></code></pre></div>
+<p>These characteristics can be plotted by <code><a href="../reference/gr_plot_vars.html">gr_plot_vars()</a></code>:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_smooth).</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-7-1.png" width="960"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">date10w1</span>, <span class="va">Wpol3</span>, <span class="va">DaysThawWin</span>, <span class="va">Qmaxpavs</span>, tests <span class="op">=</span> <span class="cn">TRUE</span>,
+             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> 
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_smooth).</span>
+<span class="co">#&gt; Warning: Removed 2 rows containing missing values (geom_point).</span>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_smooth).</span>
+<span class="co">#&gt; Removed 2 rows containing non-finite values (stat_smooth).</span>
+<span class="co">#&gt; Warning: Removed 2 rows containing missing values (geom_rect).</span>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_smooth).</span></code></pre></div>
+<p><img src="grwat_files/figure-html/unnamed-chunk-7-2.png" width="960"></p>
+<blockquote>
+<p>For more information on advanced separation, read the <a href=""><strong>Annual variables</strong></a> vignette.</p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2 id="reporting">Reporting<a class="anchor" aria-label="anchor" href="#reporting"></a>
+</h2>
+<p>Hydrograph separation and its annual variables can be aggregated into one information-rich graphical report that brings everything into one place. Just pass the results of <code><a href="../reference/gr_separate.html">gr_separate()</a></code> and <code><a href="../reference/gr_summarize.html">gr_summarize()</a></code> into <code><a href="../reference/gr_report.html">gr_report()</a></code> function and provide the path to the ouput <code>HTML</code> file:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">report</span> <span class="op">=</span> <span class="st">'~/Spas-Zagorye.html'</span>
+<span class="fu"><a href="../reference/gr_report.html">gr_report</a></span><span class="op">(</span><span class="va">sep</span>, <span class="va">vars</span>, output <span class="op">=</span> <span class="va">report</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/browseURL.html" class="external-link">browseURL</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></code></pre></div>
+<iframe src="https://carto.geogr.msu.ru/grwat/Spas-Zagorye.html" width="960" height="800px" data-external="1">
+</iframe>
+<blockquote>
+<p>For more information on reporting, read the <a href=""><strong>Reporting</strong></a> vignette.</p>
+</blockquote>
+<div id="refs" class="references">
+<div id="ref-rets2022">
+<p>Rets, E. P., M. B. Kireeva, T. E. Samsonov, N. N. Ezerova, A. V. Gorbarenko, and N. L. Frolova. 2022. “Algorithm Grwat for Automated Hydrograph Separation by B.i. Kudelin’s Method: Problems and Perspectives.” <em>Water Resources</em> 49 (1): 23–37. <a href="https://doi.org/10.1134/S0097807822010146" class="external-link">https://doi.org/10.1134/S0097807822010146</a>.</p>
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
