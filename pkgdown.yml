@@ -2,13 +2,6 @@ pandoc: 2.7.3
 pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
-  01_Gapfilling: 01_Gapfilling.html
-  02_Baseflow: 02_Baseflow.html
-  03_Meteojoin: 03_Meteojoin.html
-  04_Separation: 04_Separation.html
-  05_Variables: 05_Variables.html
-  06_Advplotting: 06_Advplotting.html
-  07_Reports: 07_Reports.html
   grwat: grwat.html
-last_built: 2022-04-23T19:15Z
+last_built: 2022-04-24T10:27Z
 
