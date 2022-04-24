@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 # Example data
 
-Throughout package documentation a sample dataset `spas` containing the daily runoff data for [Spas-Zagorye](https://allrivers.info/gauge/protva-obninsk) gauge on [Protva](https://en.wikipedia.org/wiki/Protva) river in Central European plane is used. The dataset is supplemented by meteorological variables (temperature and precipitation) obtained from CIRES-DOE (1880-1949) and ERA5 (1950-2021) data averaged inside gauge's basin:
+Throughout __`grwat`__ package documentation a sample dataset `spas` containing the daily runoff data for [Spas-Zagorye](https://allrivers.info/gauge/protva-obninsk) gauge on [Protva](https://en.wikipedia.org/wiki/Protva) river in Central European plane is used. The dataset is supplemented by meteorological variables (temperature and precipitation) obtained from CIRES-DOE (1880-1949) and ERA5 (1950-2021) data averaged inside gauge's basin:
 
 ```{r, warning=FALSE, message=FALSE}
 library(grwat)
@@ -111,3 +111,13 @@ browseURL(report)
 ```{r, echo=FALSE}
 knitr::include_url('https://carto.geogr.msu.ru/grwat/Spas-Zagorye.html', height = '800px')
 ```
+
+# Additional features
+
+__`grwat`__ contains some useful functions that can ease your work with runoff data and make it more fun. In particular:
+
+- [Missing data]() vignette describes how to find and interpolate the periods of missing runoff and meteorological data which may affect your analysis with __`grwat`__.
+
+- [Meteo data]() vignette shows how to join temperature and precipitation data from daily reanalysis provided by __`grwat`__. This can be useful if you do not have meteorological observations inside the basin.
+
+- [Fancy runoff plots]() vignette presents some fascinating graphical techniques which can be used to compare hydrographs for different years. These include matrix plots, horizon plots, ridgeline plots and hydrograph animations.
