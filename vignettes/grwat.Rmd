@@ -8,6 +8,7 @@ vignette: >
   %\VignetteIndexEntry{Intro}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: references.bib
 ---
 
 ```{r setup, include = FALSE}
@@ -15,72 +16,98 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-knitr::opts_chunk$set(fig.width = 10, fig.height = 7, out.width = '100%', dpi = 300, collapse = TRUE)
-Sys.setlocale("LC_TIME", "en_US.UTF-8")
 ```
 
-# Introduction
+# Example data
 
-grwat is a 
+Throughout package documentation a sample dataset `spas` containing the daily runoff data for [Spas-Zagorye](https://allrivers.info/gauge/protva-obninsk) gauge on [Protva](https://en.wikipedia.org/wiki/Protva) river in Central European plane is used. The dataset is supplemented by meteorological variables (temperature and precipitation) obtained from CIRES-DOE (1880-1949) and ERA5 (1950-2021) data averaged inside gauge's basin:
 
-# Baseflow separation
-
-The starting point for hydrograph analysis is to obtain the source data. Let's see how it goes with sample `spas` discharge data for $1956-2020$ year range provided with grwat. This data is for [Spas-Zagorye](https://allrivers.info/gauge/protva-obninsk) gauge on [Protva](https://en.wikipedia.org/wiki/Protva) river in Central European plane:
-
-```{r, message=FALSE, warning=FALSE}
+```{r, warning=FALSE, message=FALSE}
 library(grwat)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
 
-data(spas) # example Spas-Zagorye data is included with grwat package
-
-# separate
-sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
-
-# Visualize
-gr_plot_sep(sep, c(1978, 1989)) 
-
-# Debug mode gives access to additional information
-sep_debug = gr_separate(spas, 
-                        params = gr_get_params(reg = 'Midplain'), 
-                        debug = TRUE)
-
-# a vector of years with jittered params
-jit = attributes(sep_debug)$jittered
-print(jit)
-
-# actual params used for each year
-parlist = attributes(sep_debug)$params
-partab = do.call(dplyr::bind_rows, parlist) # View as table
-head(partab)
-
-# extract and tweak parameters for selected year
-p = parlist[['1989']]
-p$grad1 = 1
-p$grad2 = 2.5
-
-# use tweaked parameters for all years
-sep_debug = gr_separate(spas, params = p, debug = TRUE)
-
-# Visualize
-gr_plot_sep(sep_debug, c(1978, 1989)) 
-
-# actual params used for each year
-parlist = attributes(sep_debug)$params
-
-# tweak parameters for selected year
-parlist[['1989']]$grad1 = 3
-parlist[['1989']]$grad2 = 6
-
-# set the ftrecdays parameter for multiple years
-parlist = gr_set_param(parlist, ftrecdays, 
-                       years = c(1978, 1989:1995), 
-                       value = 15)
-
-# use the list of parameters for separation
-sep_debug = gr_separate(spas, params = parlist, debug = TRUE)
-
-# Visualize
-gr_plot_sep(sep_debug, c(1978, 1989))
+data(spas)
+head(spas)
 ```
 
+This 4-column representation is standard for advanced separation discussed below.
 
+# Baseflow filtering
+
+grwat implements several methods for baseflow filtering, including those by Lyne-Hollick, Boughton, Chapman, Jakeman and Maxwell. The `get_baseflow()` function does the job:
+
+```{r}
+Qbase = gr_baseflow(spas$Q, method = 'lynehollick', a = 0.925, passes = 3)
+head(Qbase)
+```
+
+Though `get_baseflow()` needs just a vector of runoff values, it can be applied in a traditional tidyverse pipeline like follows:
+
+```{r}
+# Calculate baseflow using Jakeman approach
+hdata = spas %>% 
+  mutate(Qbase = gr_baseflow(Q, method = 'jakeman', 
+                             a = 0.925, passes = 3))
+
+# Visualize for 2020 year
+ggplot(hdata) +
+  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black') +
+  scale_x_date(limits = c(ymd(19800101), ymd(19801231)))
+```
+
+> For more information on baseflow filtering, read the [__Baseflow filtering__]() vignette.
+
+# Advanced separation
+
+Advanced separation by `gr_separate()` implements the method by [@rets2022], which involves additional data on temperatures and precipitation to detect and classify flood events into the rain, thaw and spring (seasonal thaw). Between these events $100\%$ of the runoff is considered to be ground. Inside those events the ground flow is filtered either by one of the baseflow functions, or by Kudelin's method, which degrades baseflow to $0$ under the maximum runoff value during the year. The method is controlled by more than 20 parameters, which can be region-specific. Therefore, to ease the management and distribution of these parameters, they are organized as list, as returned by `gr_get_params()`:
+
+```{r}
+sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+head(sep)
+```
+
+Resulting separation can be visualized by `gr_plot_sep()` function. In addition to classification of the flow, the function shows the dates of the spring seasonal flood:
+
+```{r, warning=FALSE}
+gr_plot_sep(sep, years = c(1978, 1989))
+```
+
+> For more information on advanced separation, read the [__Advanced separation__]() vignette.
+
+# Summarizing annual variables
+
+After hydrograph is separated, its characteristics can be summarized by `gr_summarize()` into annual variables which characterize the annual runoff, its components (ground, spring, rain and thaw) and low flow periods (summer and winter):
+
+```{r, warning=FALSE}
+vars = gr_summarize(sep)
+head(vars)
+```
+
+These characteristics can be plotted by `gr_plot_vars()`:
+
+```{r}
+gr_plot_vars(vars, Qygr)
+gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs, tests = TRUE,
+             layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
+```
+
+> For more information on advanced separation, read the [__Annual variables__]() vignette.
+
+# Reporting
+
+Hydrograph separation and its annual variables can be aggregated into one information-rich graphical report that brings everything into one place. Just pass the results of `gr_separate()` and `gr_summarize()` into `gr_report()` function and provide the path to the ouput `HTML` file: 
+
+```{r, eval=FALSE}
+report = '~/Spas-Zagorye.html'
+gr_report(sep, vars, output = report)
+browseURL(report)
+```
+
+```{r, echo=FALSE}
+knitr::include_url('https://carto.geogr.msu.ru/grwat/Spas-Zagorye.html', height = '800px')
+```
+
+> For more information on reporting, read the [__Reporting__]() vignette.
