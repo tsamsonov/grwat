@@ -13,7 +13,7 @@ hdata = hdata_raw %>%
   transmute(Date = lubridate::make_date(y, m, d), 
             Q = q)
 
-print(hdata)
+head(hdata)
 
 # identify gaps
 gr_get_gaps(hdata) 

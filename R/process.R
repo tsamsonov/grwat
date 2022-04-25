@@ -29,11 +29,11 @@ gr_buffer_geo <- function(g, bufsize){
 }
 
 
-#' Get gaps in the runoff data
+#' Get gaps in the daily data
 #' 
-#' Use the function to detect periods of missing data. These can be both missing dates and missing runoff values
+#' Use the function to detect periods of missing data. The first column must be of `Date` type. The data is considered to be a gap if any value in the row is missing.
 #'
-#' @param hdata `data.frame` with two columns, where the first column is `Date`, and the second column is numeric runoff value
+#' @param hdata `data.frame` with at least two columns, where the first column is `Date`
 #'
 #' @return `data.frame` with periods of data and periods of gaps
 #' @export
@@ -41,12 +41,17 @@ gr_buffer_geo <- function(g, bufsize){
 #' @example inst/examples/gr_get_gaps.R
 #' 
 gr_get_gaps <- function(hdata) {
-  hdata %>% 
-    dplyr::rename(Date = 1,
-                  Q = 2) %>% 
+  
+  if (!lubridate::is.Date(hdata[[1]]))
+    stop(crayon::white$bgRed$bold('grwat:'), ' the first column of data frame must have Date type')
+  
+  hdata_dates = hdata %>% 
+    dplyr::rename(Date = 1) %>% 
     dplyr::filter(!is.na(.data$Date)) %>% 
-    tidyr::complete(Date = seq(min(.data$Date, na.rm = T), max(.data$Date, na.rm = T), by = 'day')) %>% 
-    dplyr::mutate(type = dplyr::if_else(is.na(.data$Q), 'gap', 'data'),
+    tidyr::complete(Date = seq(min(.data$Date, na.rm = T), max(.data$Date, na.rm = T), by = 'day'))
+  
+  hdata_dates %>%
+    dplyr::mutate(type = dplyr::if_else(complete.cases(hdata_dates), 'data', 'gap'),
                   num = with(rle(.data$type), rep(seq_along(lengths), lengths))) %>% 
     dplyr::group_by(.data$num) %>% 
     dplyr::summarise(start_date = min(.data$Date),
@@ -55,11 +60,11 @@ gr_get_gaps <- function(hdata) {
                      type = dplyr::first(.data$type))
 }
   
-#' Fill missing runoff data
+#' Fill missing daily data
 #' 
-#' Use the function to fill the missing runoff data by linear interpolation. These can be both missing dates and missing runoff values. A preliminary summary of missing data can be viewed by [grwat::gr_get_gaps()]
+#' Use the function to fill the missing daily data by linear interpolation. These can be both missing dates and missing runoff or temperature values. A preliminary summary of missing data can be viewed by [grwat::gr_get_gaps()]
 #'
-#' @param hdata `data.frame` with two columns, where the first column is `Date`, and the second column is numeric runoff value.
+#' @param hdata `data.frame` with at least two columns, where the first column is `Date`, and the remaining columns have numeric type.
 #' @param autocorr Autocorrelation value that defines possible length of the period that can be filled. Defaults to 0.7.  If `nobserv` parameter is set, then this parameter is ignored. If both parameters are `NULL`, then all gaps are filled disregard of their lengths (not recommended).
 #' @param nobserv Maximum number of contiguous observations that can be interpolated. Defaults to `NULL`. If this parameter is set, then `autocorr` parameter is ignored. If both parameters are `NULL`, then all gaps are filled disregard of their lengths (not recommended).
 #'
@@ -100,9 +105,12 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
         dplyr::pull(i) %>% 
         acf(plot = FALSE)
       
-      # purrr::detect_index(afun$acf, ~ .x < autocorr) - 1
+      idx = which(afun$acf[,1,1] < autocorr, arr.ind = TRUE)
       
-      min(which(afun$acf[,1,1] < autocorr, arr.ind = TRUE)) - 1
+      if (length(idx) > 0)
+        min(idx) - 1
+      else
+        Inf
       
     }) %>% setNames(nms)
   } else {
@@ -123,8 +131,11 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
                                          maxgap = nobserv[dplyr::cur_column()], na.rm = FALSE))) %>% 
     setNames(colnames(hdata))
   
-  message(crayon::white$bold('grwat:'), ' filled ', 
-          sum(complete.cases(tabres)) - sum(complete.cases(tab)), 
+  nfilled = sapply(2:ncol(tab), function(i) {
+    sum(complete.cases(tabres[i])) - sum(complete.cases(tab[i]))
+  })
+  
+  message(crayon::white$bold('grwat:'), ' filled ', paste(nfilled, collapse = ', '), 
           ' observations using ', paste(nobserv, collapse = ', '), ' days window for each variable')
   
   return(tabres)
