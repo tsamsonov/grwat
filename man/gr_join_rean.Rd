@@ -62,5 +62,4 @@ if (require("sf") && require("ncdf4")) {
   }
 
 }
-
 }

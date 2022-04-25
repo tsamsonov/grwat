@@ -2,12 +2,12 @@
 % Please edit documentation in R/process.R
 \name{gr_fill_gaps}
 \alias{gr_fill_gaps}
-\title{Fill missing runoff data}
+\title{Fill missing daily data}
 \usage{
 gr_fill_gaps(hdata, autocorr = 0.7, nobserv = NULL)
 }
 \arguments{
-\item{hdata}{\code{data.frame} with two columns, where the first column is \code{Date}, and the second column is numeric runoff value.}
+\item{hdata}{\code{data.frame} with at least two columns, where the first column is \code{Date}, and the remaining columns have numeric type.}
 
 \item{autocorr}{Autocorrelation value that defines possible length of the period that can be filled. Defaults to 0.7.  If \code{nobserv} parameter is set, then this parameter is ignored. If both parameters are \code{NULL}, then all gaps are filled disregard of their lengths (not recommended).}
 
@@ -17,7 +17,7 @@ gr_fill_gaps(hdata, autocorr = 0.7, nobserv = NULL)
 \code{data.frame} which is a filled version of \code{hdata}
 }
 \description{
-Use the function to fill the missing runoff data by linear interpolation. These can be both missing dates and missing runoff values. A preliminary summary of missing data can be viewed by \code{\link[=gr_get_gaps]{gr_get_gaps()}}
+Use the function to fill the missing daily data by linear interpolation. These can be both missing dates and missing runoff or temperature values. A preliminary summary of missing data can be viewed by \code{\link[=gr_get_gaps]{gr_get_gaps()}}
 }
 \examples{
 library(grwat)
@@ -35,7 +35,7 @@ hdata = hdata_raw \%>\%
   transmute(Date = lubridate::make_date(y, m, d), 
             Q = q)
 
-print(hdata)
+head(hdata)
 
 # identify gaps
 gr_get_gaps(hdata) 

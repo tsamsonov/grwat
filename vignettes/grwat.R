@@ -4,60 +4,51 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-knitr::opts_chunk$set(fig.width = 10, fig.height = 7, out.width = '100%', dpi = 300, collapse = TRUE)
-Sys.setlocale("LC_TIME", "en_US.UTF-8")
-
-## ---- message=FALSE, warning=FALSE--------------------------------------------
+## ---- warning=FALSE, message=FALSE--------------------------------------------
 library(grwat)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
 
-data(spas) # example Spas-Zagorye data is included with grwat package
+data(spas)
+head(spas)
 
-# separate
+## -----------------------------------------------------------------------------
+Qbase = gr_baseflow(spas$Q, method = 'lynehollick', a = 0.925, passes = 3)
+head(Qbase)
+
+## -----------------------------------------------------------------------------
+# Calculate baseflow using Jakeman approach
+hdata = spas %>% 
+  mutate(Qbase = gr_baseflow(Q, method = 'jakeman'))
+
+# Visualize for 2020 year
+ggplot(hdata) +
+  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black') +
+  scale_x_date(limits = c(ymd(19800101), ymd(19801231)))
+
+## -----------------------------------------------------------------------------
 sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+head(sep)
 
-# Visualize
-gr_plot_sep(sep, c(1978, 1989)) 
+## ---- warning=FALSE-----------------------------------------------------------
+gr_plot_sep(sep, years = c(1978, 1989))
 
-# Debug mode gives access to additional information
-sep_debug = gr_separate(spas, 
-                        params = gr_get_params(reg = 'Midplain'), 
-                        debug = TRUE)
+## ---- warning=FALSE-----------------------------------------------------------
+vars = gr_summarize(sep)
+head(vars)
 
-# a vector of years with jittered params
-jit = attributes(sep_debug)$jittered
-print(jit)
+## -----------------------------------------------------------------------------
+gr_plot_vars(vars, Qygr)
+gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs, tests = TRUE,
+             layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
 
-# actual params used for each year
-parlist = attributes(sep_debug)$params
-partab = do.call(dplyr::bind_rows, parlist) # View as table
-head(partab)
+## ---- eval=FALSE--------------------------------------------------------------
+#  report = '~/Spas-Zagorye.html'
+#  gr_report(sep, vars, output = report)
+#  browseURL(report)
 
-# extract and tweak parameters for selected year
-p = parlist[['1989']]
-p$grad1 = 1
-p$grad2 = 2.5
-
-# use tweaked parameters for all years
-sep_debug = gr_separate(spas, params = p, debug = TRUE)
-
-# Visualize
-gr_plot_sep(sep_debug, c(1978, 1989)) 
-
-# actual params used for each year
-parlist = attributes(sep_debug)$params
-
-# tweak parameters for selected year
-parlist[['1989']]$grad1 = 3
-parlist[['1989']]$grad2 = 6
-
-# set the ftrecdays parameter for multiple years
-parlist = gr_set_param(parlist, ftrecdays, 
-                       years = c(1978, 1989:1995), 
-                       value = 15)
-
-# use the list of parameters for separation
-sep_debug = gr_separate(spas, params = parlist, debug = TRUE)
-
-# Visualize
-gr_plot_sep(sep_debug, c(1978, 1989))
+## ---- echo=FALSE--------------------------------------------------------------
+knitr::include_url('https://carto.geogr.msu.ru/grwat/Spas-Zagorye.html', height = '800px')
 

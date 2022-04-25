@@ -2,18 +2,18 @@
 % Please edit documentation in R/process.R
 \name{gr_get_gaps}
 \alias{gr_get_gaps}
-\title{Get gaps in the runoff data}
+\title{Get gaps in the daily data}
 \usage{
 gr_get_gaps(hdata)
 }
 \arguments{
-\item{hdata}{\code{data.frame} with two columns, where the first column is \code{Date}, and the second column is numeric runoff value}
+\item{hdata}{\code{data.frame} with at least two columns, where the first column is \code{Date}}
 }
 \value{
 \code{data.frame} with periods of data and periods of gaps
 }
 \description{
-Use the function to detect periods of missing data. These can be both missing dates and missing runoff values
+Use the function to detect periods of missing data. The first column must be of \code{Date} type. The data is considered to be a gap if any value in the row is missing.
 }
 \examples{
 library(grwat)
@@ -31,7 +31,7 @@ hdata = hdata_raw \%>\%
   transmute(Date = lubridate::make_date(y, m, d), 
             Q = q)
 
-print(hdata)
+head(hdata)
 
 # identify gaps
 gr_get_gaps(hdata) 
