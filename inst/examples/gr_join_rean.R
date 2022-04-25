@@ -37,5 +37,3 @@ if (require("sf") && require("ncdf4")) {
   }
 
 }
-
-gr_fill_gaps(hdata_rean, autocorr = 0.6)
