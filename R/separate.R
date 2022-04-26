@@ -34,6 +34,11 @@ gr_check_data <- function(df) {
     stop(crayon::white$bgRed$bold('grwat:'), 
          ' there are negative values in precipitation (4th) column, please fix the data before proceeding')
   
+  if (anyDuplicated(df[[1]]) > 0)
+    stop(crayon::white$bgRed$bold('grwat:'), 
+         ' there are duplicated dates the 1st column, please fix the data before proceeding. Run ',
+         crayon::white$italic('duplicated()'), ' on the dates column to learn which dates are duplicates')
+  
   message(crayon::white$bold('grwat:'), ' data frame is correct')
 }
 
