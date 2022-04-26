@@ -7,7 +7,7 @@
 gr_plot_ridge(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha = 0.8)
 }
 \arguments{
-\item{df}{\code{data.frame} with date (1st) and discharge (2nd) columns.}
+\item{df}{\code{data.frame} with date (1st) and runoff (2nd) columns.}
 
 \item{years}{Integer vector of years to be plotted.}
 

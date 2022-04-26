@@ -15,7 +15,7 @@ gr_animate(
 )
 }
 \arguments{
-\item{df}{\code{data.frame} with date (1st) and discharge (2nd) columns.}
+\item{df}{\code{data.frame} with date (1st) and runoff (2nd) columns.}
 
 \item{plot}{Boolean. Plot the animation in the viewer? Defaults to \code{TRUE}.}
 

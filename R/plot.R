@@ -1054,7 +1054,7 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff') {
 #' 
 #' A convenient wrapper around [ggridges::geom_ridgeline()] to visualize multiple river hydrographs at once.
 #'
-#' @param df `data.frame` with date (1st) and discharge (2nd) columns.
+#' @param df `data.frame` with date (1st) and runoff (2nd) columns.
 #' @param years Integer vector of years to be plotted.
 #' @param pal Numeric or character string. Color palette identifier passed to [ggplot2::scale_fill_distiller()].
 #' @param rev Boolean. Reverse the palette? Defaults to `FALSE`.
@@ -1120,7 +1120,7 @@ gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha =
 #' 
 #' A convenient wrapper around [ggHoriPlot::geom_horizon()] to visualize multiple river hydrographs at once.
 #'
-#' @param df `data.frame` with date (1st) and discharge (2nd) columns.
+#' @param df `data.frame` with date (1st) and runoff (2nd) columns.
 #' @param years Integer vector of years to be plotted.
 #' @param pal Numeric or character string. Color palette identifier passed to [ggplot2::scale_fill_distiller()].
 #' @param rev Boolean. Reverse the palette? Defaults to `FALSE`.
@@ -1187,7 +1187,7 @@ gr_plot_hori <- function(df, years, pal = 'Blues', rev = T, scale = 6) {
 #' 
 #' A convenient wrapper around [gganimate::animate()] to animate river hydrograph through years.
 #'
-#' @param df `data.frame` with date (1st) and discharge (2nd) columns.
+#' @param df `data.frame` with date (1st) and runoff (2nd) columns.
 #' @param plot Boolean. Plot the animation in the viewer? Defaults to `TRUE`.
 #' @param file Character string path to the output file.
 #' @param fps Integer value of the frames per second. Defaults to `20`.

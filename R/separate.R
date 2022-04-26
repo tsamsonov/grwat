@@ -9,9 +9,9 @@ update_core <- function() {
 #' 
 #' This function is called inside [gr_separate()], but can be used explicitly inside your code.
 #'
-#' @param df `data.frame` with four columns: date, discharge, temperature, precipitation, as required by [gr_separate()].
+#' @param df `data.frame` with four columns: date, runoff, temperature, precipitation, as required by [gr_separate()].
 #'
-#' @return stops execution if `df` contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. discharge or precipitation are negative).
+#' @return stops execution if `df` contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. runoff or precipitation are negative).
 #' @export
 #'
 #' @example inst/examples/gr_check_data.R
@@ -23,12 +23,12 @@ gr_check_data <- function(df) {
   
   if (!lubridate::is.Date(df[[1]]) || !is.numeric(df[[2]]) || !is.numeric(df[[3]]) || !is.numeric(df[[4]]))
     stop(crayon::white$bgRed$bold('grwat:'), 
-         ' the four columns of input data frame (date, discharge, temperature, precipitation) must be of ', 
+         ' the four columns of input data frame (date, runoff, temperature, precipitation) must be of ', 
          crayon::white$italic('Date, numeric, numeric, numeric'), ' data types')
   
   if (sum(df[[2]] < 0, na.rm = T) > 0)
     stop(crayon::white$bgRed$bold('grwat:'), 
-         ' there are negative values in discharge (2nd) column, please fix the data before proceeding')
+         ' there are negative values in runoff (2nd) column, please fix the data before proceeding')
   
   if (sum(df[[4]] < 0, na.rm = T) > 0)
     stop(crayon::white$bgRed$bold('grwat:'), 
@@ -45,7 +45,7 @@ gr_check_data <- function(df) {
 #' Check the correctness of parameters list for separating
 #'
 #' @param params `list` of separation parameters, as returned by [grwat::gr_get_params()] function
-#' @param df `data.frame` with four columns: date, discharge, temperature, precipitation, as required by [gr_separate()]. Required when params is a `list` of parameter `list`s. Defaults to `NULL`.
+#' @param df `data.frame` with four columns: date, runoff, temperature, precipitation, as required by [gr_separate()]. Required when params is a `list` of parameter `list`s. Defaults to `NULL`.
 #'
 #' @return stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prints the message that everything is OK
 #' @export

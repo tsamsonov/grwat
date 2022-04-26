@@ -7,7 +7,7 @@
 gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6)
 }
 \arguments{
-\item{df}{\code{data.frame} with date (1st) and discharge (2nd) columns.}
+\item{df}{\code{data.frame} with date (1st) and runoff (2nd) columns.}
 
 \item{years}{Integer vector of years to be plotted.}
 

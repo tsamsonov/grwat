@@ -9,7 +9,7 @@ gr_check_params(params, df = NULL)
 \arguments{
 \item{params}{\code{list} of separation parameters, as returned by \code{\link[=gr_get_params]{gr_get_params()}} function}
 
-\item{df}{\code{data.frame} with four columns: date, discharge, temperature, precipitation, as required by \code{\link[=gr_separate]{gr_separate()}}. Required when params is a \code{list} of parameter \code{list}s. Defaults to \code{NULL}.}
+\item{df}{\code{data.frame} with four columns: date, runoff, temperature, precipitation, as required by \code{\link[=gr_separate]{gr_separate()}}. Required when params is a \code{list} of parameter \code{list}s. Defaults to \code{NULL}.}
 }
 \value{
 stops the execution if anything is wrong and prints the exact reason of the error. Otherwise prints the message that everything is OK
