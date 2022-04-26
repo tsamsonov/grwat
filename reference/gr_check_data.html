@@ -57,11 +57,11 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>df</dt>
-<dd><p><code>data.frame</code> with four columns: date, discharge, temperature, precipitation, as required by <code><a href="gr_separate.html">gr_separate()</a></code>.</p></dd>
+<dd><p><code>data.frame</code> with four columns: date, runoff, temperature, precipitation, as required by <code><a href="gr_separate.html">gr_separate()</a></code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>stops execution if <code>df</code> contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. discharge or precipitation are negative).</p>
+    <p>stops execution if <code>df</code> contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. runoff or precipitation are negative).</p>
     </div>
 
     <div class="section level2">
@@ -23830,7 +23830,7 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">gr_check_data</span><span class="op">(</span><span class="va">hdata_raw</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in gr_check_data(hdata_raw) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #BBBBBB; background-color: #BB0000; font-weight: bold;">grwat:</span> the four columns of input data frame (date, discharge, temperature, precipitation) must be of <span style="color: #BBBBBB; font-style: italic;">Date, numeric, numeric, numeric</span> data types</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #BBBBBB; background-color: #BB0000; font-weight: bold;">grwat:</span> the four columns of input data frame (date, runoff, temperature, precipitation) must be of <span style="color: #BBBBBB; font-style: italic;">Date, numeric, numeric, numeric</span> data types</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
