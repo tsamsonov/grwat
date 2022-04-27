@@ -12,6 +12,14 @@ test_that("Incorrect column number is handled", {
 
 })
 
+
+test_that("Duplicated dates are handled", {
+  
+  expect_error(gr_check_data(rbind(spas[1:10, ], spas[1:10, ])))
+  
+})
+
+
 test_that("Incorrect column types are handled", {
   
   spas2 = data.frame(d = 1:3, m = 1:3, y = 2020:2022, q = 5:7)
