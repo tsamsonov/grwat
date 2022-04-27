@@ -16,7 +16,7 @@ Description: River hydrograph separation and daily runoff time series analysis. 
   ground, rain, thaw and spring (seasonal thaw). High-performance `C++17` computation, 
   annually aggregated variables, statistical testing and numerous ggplot-based functions 
   for high-quality visualization.
-License: GPL (>= 2) | MIT + file LICENSE
+License: GPL (>= 2) + file LICENSE
 URL: https://github.com/tsamsonov/grwat
 BugReports: https://github.com/tsamsonov/grwat/issues
 Encoding: UTF-8
