@@ -7,7 +7,7 @@
 
 <img src="https://raw.githubusercontent.com/tsamsonov/grwat/master/vignettes/grwat_logo.svg" align="right" alt="" width="150" />
 
-Welcome to grwat, an R package package for the automatic hydrograph separation and hydrological time series analysis. High-performance `C++17` computation is used for hydrograph processing that separates runoff into ground, seasonal, thaw, and flood runoff. Interannual and long-term characteristics of each runoff type are derived. Results are visualized in a form of high-quality reports making use of ggplot2 graphics and knitr report generation.
+Welcome to __`grwat`__, an R package package for the automatic hydrograph separation and hydrological time series analysis. __`grwat`__ provides various filters to separate baseflow and quickflow. Implements advanced separation technique which involves meteorological data to revealgenetic components of the runoff: ground, rain, thaw and spring (seasonal thaw). High-performance `C++17` computation, annually aggregated variables, statistical testing and numerous [ggplot](https://ggplot2.tidyverse.org)-based functions for informative plotting.
 
 ## Installing
 
