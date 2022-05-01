@@ -1,10 +1,11 @@
 ---
-title: "Baseflow filtering"
+title: "2. Baseflow filtering"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Baseflow filtering}
+  %\VignetteIndexEntry{2. Baseflow filtering}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: references.bib
 ---
 
 ```{r, include = FALSE}
@@ -14,6 +15,68 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, warning=F, message=F}
 library(grwat)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+```
+
+**`grwat`** implements several methods for baseflow filtering, including those by @lynehollick1979, @chapman1991, @boughton1993, @jakeman1993 and @maxwell1996. The `get_baseflow()` function does the job:
+
+```{r}
+Qbase = gr_baseflow(spas$Q, method = 'lynehollick', a = 0.925, passes = 3)
+head(Qbase)
+```
+
+Though `get_baseflow()` needs just a vector of runoff values, it can be applied in a traditional tidyverse pipeline like follows:
+
+```{r}
+# Calculate baseflow using Jakeman approach
+hdata = spas %>% 
+  mutate(Qbase = gr_baseflow(Q, method = 'jakeman'))
+
+# Visualize for 2020 year
+ggplot(hdata) +
+  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black') +
+  scale_x_date(limits = c(ymd(19800101), ymd(19801231)))
+```
+
+Different methods can be compared in a similar way:
+
+```{r}
+hdata = spas %>%
+  mutate(lynehollick = gr_baseflow(Q, method = 'lynehollick', a = 0.9),
+         boughton = gr_baseflow(Q, method = 'boughton', k = 0.9),
+         jakeman = gr_baseflow(Q, method = 'jakeman', k = 0.9),
+         maxwell = gr_baseflow(Q, method = 'maxwell', k = 0.9)) %>% 
+  pivot_longer(lynehollick:maxwell, names_to = 'Method', values_to = 'Qbase')
+
+ggplot(hdata) +
+  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black') +
+  scale_x_date(limits = c(ymd(19810101), ymd(19811231))) +
+  facet_wrap(~Method)
+```
+
+In case of 100% hydraulic connection between ground waters and river discharge, according to @kudelin1960 the baseflow is equal to zero level at the point of maximum discharge during the spring flood event. Since extraction of the spring flood requires meteorological data, it cannot be extracted by simple filtering. Instead, you can use the advanced separation method by @rets2022, which incorporates Kudelin's approach during the spring flood:
+
+```{r}
+p = gr_get_params('Midplain')
+p$filter = 'kudelin'
+
+hdata = spas %>% 
+  mutate(lynehollick = gr_baseflow(Q, method = 'lynehollick', 
+                                   a = 0.925, passes = 3),
+         kudelin = gr_separate(spas, p)$Qbase) %>% 
+  pivot_longer(lynehollick:kudelin, names_to = 'Method', values_to = 'Qbase')
+
+# Visualize for 1980 year
+ggplot(hdata) +
+  geom_area(aes(Date, Q), fill = 'steelblue', color = 'black') +
+  geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black') +
+  scale_x_date(limits = c(ymd(19800101), ymd(19801231))) +
+  facet_wrap(~Method)
 ```

@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 dpi: 300
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Intro}
+  %\VignetteIndexEntry{Introduction to grwat R package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
@@ -36,9 +36,9 @@ This 4-column representation is standard for advanced separation discussed below
 
 # Baseflow filtering
 
-> For more information on baseflow filtering, read the [__Baseflow filtering__]() vignette.
+> For more information on baseflow filtering, read the [__Baseflow filtering__](https://tsamsonov.github.io/grwat/articles/baseflow.html) vignette.
 
-__`grwat`__  implements several methods for baseflow filtering, including those by Lyne-Hollick, Boughton, Chapman, Jakeman and Maxwell. The `get_baseflow()` function does the job:
+__`grwat`__  implements several methods for baseflow filtering. The `get_baseflow()` function does the job:
 
 ```{r}
 Qbase = gr_baseflow(spas$Q, method = 'lynehollick', a = 0.925, passes = 3)
