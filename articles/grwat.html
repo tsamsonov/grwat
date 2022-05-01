@@ -44,7 +44,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/baseflow.html">Baseflow filtering</a>
+    <a class="dropdown-item" href="../articles/baseflow.html">2. Baseflow filtering</a>
   </div>
 </li>
       </ul>
@@ -73,7 +73,7 @@
       <img src="" class="logo" alt=""><h1>Introduction to grwat R package</h1>
                         <h4 data-toc-skip class="author">Timofey Samsonov</h4>
             
-            <h4 data-toc-skip class="date">2022-04-30</h4>
+            <h4 data-toc-skip class="date">2022-05-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/HEAD/vignettes/grwat.Rmd" class="external-link"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="d-none name"><code>grwat.Rmd</code></div>
@@ -108,9 +108,9 @@
 <h2 id="baseflow-filtering">Baseflow filtering<a class="anchor" aria-label="anchor" href="#baseflow-filtering"></a>
 </h2>
 <blockquote>
-<p>For more information on baseflow filtering, read the <a href=""><strong>Baseflow filtering</strong></a> vignette.</p>
+<p>For more information on baseflow filtering, read the <a href="https://tsamsonov.github.io/grwat/articles/baseflow.html" class="external-link"><strong>Baseflow filtering</strong></a> vignette.</p>
 </blockquote>
-<p><strong><code>grwat</code></strong> implements several methods for baseflow filtering, including those by Lyne-Hollick, Boughton, Chapman, Jakeman and Maxwell. The <code>get_baseflow()</code> function does the job:</p>
+<p><strong><code>grwat</code></strong> implements several methods for baseflow filtering. The <code>get_baseflow()</code> function does the job:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Qbase</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">spas</span><span class="op">$</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'lynehollick'</span>, a <span class="op">=</span> <span class="fl">0.925</span>, passes <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">Qbase</span><span class="op">)</span>
