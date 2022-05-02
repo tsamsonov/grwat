@@ -30,7 +30,6 @@ reference:
 
 - title: Plotting
   contents:
-  - gr_animate
   - gr_plot_acf
   - gr_plot_hori
   - gr_plot_matrix
