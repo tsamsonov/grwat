@@ -47,11 +47,7 @@ Imports:
     trend,
     mblm,
     scales
-Suggests: 
-    gganimate,
-    transformr,
-    gifski,
-    png,
+Suggests:
     ggridges,
     ggHoriPlot,
     ggthemes,
