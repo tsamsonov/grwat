@@ -108,6 +108,16 @@ condrollmeanidx = function(values, needed, w) {
   which.min(means)[1]
 }
 
-gr_console <- function(...) {
-  paste(list(crayon::white$bold('grwat:'), ...), recycle = '')
+# adopted from scales::fullseq
+# https://github.com/r-lib/scales/blob/main/R/full-seq.r
+gr_fullseq <- function(range, delta) {
+  if (diff(range) == 0) {
+    return(range + delta * c(-1, 1) / 2)
+  } else {
+    seq (
+      floor(range[1] / delta) * delta,
+      ceiling(range[2] / delta) * delta,
+      by = delta
+    )
+  }
 }

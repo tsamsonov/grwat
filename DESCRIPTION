@@ -1,8 +1,8 @@
 Package: grwat
 Type: Package
 Title: Hydrograph separation and analysis
-Version: 0.0.0.9001
-Date: 2022-04-13
+Version: 0.1.0.9001
+Date: 2022-05-05
 Authors@R: c(
     person("Timofey", "Samsonov",, "tsamsonov@geogr.msu.ru", role = c("aut", "cre"), 
       comment = c(ORCID = "0000-0001-5994-0302")
@@ -16,7 +16,7 @@ Description: River hydrograph separation and daily runoff time series analysis. 
   ground, rain, thaw and spring (seasonal thaw). High-performance `C++17` computation, 
   annually aggregated variables, statistical testing and numerous ggplot-based functions 
   for high-quality visualization.
-License: GPL (>= 2) + file LICENSE
+License: MIT + file LICENSE
 URL: https://github.com/tsamsonov/grwat
 BugReports: https://github.com/tsamsonov/grwat/issues
 Encoding: UTF-8
@@ -45,8 +45,7 @@ Imports:
     kableExtra,
     zoo,
     trend,
-    mblm,
-    scales
+    mblm
 Suggests:
     ggridges,
     ggHoriPlot,

@@ -292,8 +292,8 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
   
   minyear = min(df$Year1)
   maxyear = max(df$Year1)
-  breaks = scales::fullseq(c(minyear, maxyear), 10)
-  minbreaks = scales::fullseq(c(minyear, maxyear), 5)
+  breaks = gr_fullseq(c(minyear, maxyear), 10)
+  minbreaks = gr_fullseq(c(minyear, maxyear), 5)
   
   units = switch(grenv$loc,
                  'RU' = prms$Units,
@@ -987,7 +987,7 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff') {
                             limits = c(lubridate::ymd(20010101), 
                                        lubridate::ymd(20011231))) +
       ggplot2::scale_y_continuous(expand = c(0,0), 
-                                  breaks = scales::fullseq(range(tab$Yearfake), 5)) +
+                                  breaks = gr_fullseq(range(tab$Yearfake), 5)) +
       ggplot2::labs(title = labs$discharge.value,
                     x = labs$date, 
                     y = labs$subtitle,
@@ -1009,7 +1009,7 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff') {
                             limits = c(lubridate::ymd(20010101), 
                                        lubridate::ymd(20011231))) +
       ggplot2::scale_y_continuous(expand = c(0,0), 
-                                  breaks = scales::fullseq(range(tab$Yearfake), 5)) +
+                                  breaks = gr_fullseq(range(tab$Yearfake), 5)) +
       ggplot2::labs(title = labs$season,
                     x = labs$date, 
                     y = labs$subtitle,
@@ -1038,7 +1038,7 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff') {
                             limits = c(lubridate::ymd(20010101), 
                                        lubridate::ymd(20011231))) +
       ggplot2::scale_y_continuous(expand = c(0,0), 
-                                  breaks = scales::fullseq(range(tab$Yearfake), 5)) +
+                                  breaks = gr_fullseq(range(tab$Yearfake), 5)) +
       ggplot2::labs(title = labs$components,
                     x = labs$date, 
                     y = labs$subtitle,
