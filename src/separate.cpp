@@ -91,6 +91,7 @@ std::vector<std::string> parnames = {
   "sprise",
   "spratio",
   "sprecdays",
+  "spcomp",
   "precdays",
   "frostdays",
   "windays",
