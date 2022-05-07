@@ -1,7 +1,7 @@
 data(spas)
 
 test_that('Separation with various filters works', {
-  params = gr_get_params(reg = 'Midplain')
+  params = gr_get_params(reg = 'center')
   filters = c('kudelin', 'boughton', 'chapman', 'jakeman', 'lynehollick', 'maxwell')
   
   for (flt in filters) {
@@ -14,7 +14,7 @@ test_that('Separation with various filters works', {
 
 test_that('Debug separation works', {
   
-  params = gr_get_params(reg = 'Midplain')
+  params = gr_get_params(reg = 'center')
   params$filter = 'kudelin'
   
   sep_debug = expect_warning(gr_separate(spas, params, debug = TRUE))
@@ -32,8 +32,8 @@ test_that('Debug separation works', {
   p$grad2 = 2.5
   p$floodprec = 0.1
   p$precdays = 5
-  p$ftrecdays = 15
-  p$ftcomp = 1.5
+  p$sprecdays = 15
+  p$spcomp = 1.5
   
   # use tweaked parameters for all years
   sep_debug = suppressWarnings(gr_separate(spas, params = p, debug = TRUE)) # TODO: expect warning, but unstable
@@ -46,13 +46,13 @@ test_that('Debug separation works', {
   parlist[['1989']]$grad1 = 3
   parlist[['1989']]$grad2 = 6
   
-  # set the ftrecdays parameter for multiple years
-  parlist = gr_set_param(parlist, ftrecdays, 
+  # set the sprecdays parameter for multiple years
+  parlist = gr_set_param(parlist, sprecdays, 
                          years = c(1978, 1989:1995), 
                          value = 15)
   
-  # set the ftcomp parameter for all years
-  parlist = gr_set_param(parlist, ftcomp, value = 2.5)
+  # set the spcomp parameter for all years
+  parlist = gr_set_param(parlist, spcomp, value = 2.5)
   
   # use the list of parameters for separation
   sep_debug = suppressWarnings(gr_separate(spas, params = parlist, debug = TRUE)) # TODO: expect warning, but unstable

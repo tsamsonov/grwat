@@ -74,7 +74,7 @@ ggplot(hdata) +
   facet_wrap(~Method)
 
 # Compare Lyne to Kudelin
-p = gr_get_params('Midplain')
+p = gr_get_params('center')
 p$filter = 'kudelin'
 
 hdata = spas \%>\% 

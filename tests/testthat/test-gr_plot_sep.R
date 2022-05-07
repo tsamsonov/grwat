@@ -1,7 +1,7 @@
 data(spas) # example Spas-Zagorye data is included with grwat package
 
 # separate
-sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
 
 test_that("Period plot has the correct content", {
   

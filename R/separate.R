@@ -225,7 +225,7 @@ gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5,
 #' 
 #' The function returns the list of parameters that can be used by [grwat::gr_separate()]. Since the parameters are region-specific, the location must be selected. It can be identified by region name or geographic coordinates. If both are specified, then region have a higher priority
 #'
-#' @param reg Character string — the name of the region. Defaults to `'Midplain'`.
+#' @param reg Character string — the name of the region. Defaults to `'center'`.
 #' @param lon Numeric value of the longitude. Ignored if `reg` is specified.
 #' @param lat Numeric value of the latitude. Ignored if `reg` is specified.
 #'
@@ -234,11 +234,43 @@ gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5,
 #'
 #' @example inst/examples/gr_get_params.R
 #' 
-gr_get_params <- function(reg = 'Midplain', lon = NULL, lat = NULL) {
-  params_in %>% 
-    dplyr::filter(.data$region == reg) %>% 
-    dplyr::select(-1) %>%
-    as.list()
+gr_get_params <- function(reg = 'center', lon = NULL, lat = NULL) {
+  if (reg %in% params_in$index) {
+    params_in %>% 
+      dplyr::filter(.data$index == reg) %>% 
+      dplyr::select(-.data$index, -.data$region) %>%
+      as.list()
+  } else if (reg %in% params_in$region) {
+    params_in %>% 
+      dplyr::filter(.data$region == reg) %>% 
+      dplyr::select(-.data$index, -.data$region) %>%
+      as.list()
+  } else if (is.numeric(lon) && is.numeric(lat) && !is.na(lon) && !is.na(lat)) {
+    if (lon >= -180 && lon < 180 && lat >= -90 && lat <= 90) {
+      rlang::check_installed("sf", reason = "to use `gr_get_params()` with `lon` and `lat` params")
+      
+      pt = sf::st_sfc(sf::st_point(c(lon, lat)), crs = 4326)
+      reg = sf::st_intersects(pt, regions)
+      
+      if (length(reg) > 0) {
+        dplyr::left_join(
+          regions[reg[[1]], ],
+          params_in,
+          by = 'index'
+        ) %>% 
+          sf::st_drop_geometry() %>% 
+          dplyr::select(-.data$index, -.data$region) %>%
+          as.list()
+      } else {
+        stop(crayon::white$bgRed$bold('grwat:'), 
+             ' there are no recommended separation parameters for specified lon/lat coordinates')
+      }
+    }
+  } else {
+    stop(crayon::white$bgRed$bold('grwat:'), 
+         ' parameters are incorrect. Either the specified region does not exist in the database, or lon/lat coordinates fall out of [-180, 180] x [-90, 90] geographic domain')
+  }
+  
 }
 
 #' Get the information about parameters used to separate the hydrograph

@@ -1,5 +1,5 @@
 data(spas)
-sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
 vars = suppressWarnings(gr_summarize(sep))
 
 test_that("Minimum month plot has the correct content", {

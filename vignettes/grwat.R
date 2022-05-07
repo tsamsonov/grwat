@@ -29,7 +29,7 @@ ggplot(hdata) +
   scale_x_date(limits = c(ymd(19800101), ymd(19801231)))
 
 ## -----------------------------------------------------------------------------
-sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
 head(sep)
 
 ## ---- warning=FALSE-----------------------------------------------------------

@@ -3,7 +3,7 @@ skip_if_not_installed('ggridges')
 test_that("Ridgeline plot has the correct content", {
   
   data(spas)
-  sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+  sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
   plt = gr_plot_ridge(sep, years = c(1960, 1965, 1989, 2001, 2012)) 
   
   expect_type(plt, 'list')

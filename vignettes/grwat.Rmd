@@ -68,7 +68,7 @@ Advanced separation by `gr_separate()` implements the method by [@rets2022], whi
 The method is controlled by more than 20 parameters, which can be region-specific. Therefore, to ease the management and distribution of these parameters, they are organized as list, as returned by `gr_get_params()`:
 
 ```{r}
-sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
 head(sep)
 ```
 

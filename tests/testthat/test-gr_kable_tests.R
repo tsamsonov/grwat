@@ -1,6 +1,6 @@
 data(spas)
 
-sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
 vars = suppressWarnings(gr_summarize(sep))
 tests = gr_test_vars(vars)
 

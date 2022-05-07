@@ -39,14 +39,14 @@ data(spas) # example Spas-Zagorye data is included with grwat package
 head(spas)
 
 # separate
-sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
 
 # Visualize
 gr_plot_sep(sep, c(1978, 1989)) 
 
 # Debug mode gives access to additional information
 sep_debug = gr_separate(spas, 
-                        params = gr_get_params(reg = 'Midplain'), 
+                        params = gr_get_params(reg = 'center'), 
                         debug = TRUE)
 
 # a vector of years with jittered params
@@ -76,13 +76,13 @@ parlist = attributes(sep_debug)$params
 parlist[['1989']]$grad1 = 3
 parlist[['1989']]$grad2 = 6
 
-# set the ftrecdays parameter for multiple years
-parlist = gr_set_param(parlist, ftrecdays, 
+# set the sprecdays parameter for multiple years
+parlist = gr_set_param(parlist, sprecdays, 
                        years = c(1978, 1989:1995), 
                        value = 15)
 
-# set the ftcomp parameter for all years
-parlist = gr_set_param(parlist, ftcomp, value = 2.5)
+# set the spcomp parameter for all years
+parlist = gr_set_param(parlist, spcomp, value = 2.5)
 
 # use the list of parameters for separation
 sep_debug = gr_separate(spas, params = parlist, debug = TRUE)

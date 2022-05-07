@@ -1,6 +1,6 @@
 test_that("Params are correct", {
   
-  params = gr_get_params(reg = 'Midplain')
+  params = gr_get_params(reg = 'center')
   
   expect_equal(length(params), 39)
   expect_type(params, 'list')

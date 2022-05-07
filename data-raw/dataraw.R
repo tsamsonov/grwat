@@ -121,10 +121,13 @@ grlabs = list(
   )
 )
 
+regions = sf::st_read('data-raw/params.gpkg', 'regions')
+
 usethis::use_data(params_out,
                   params_in,
                   params_in_desc,
                   grlabs,
+                  regions,
                   internal = TRUE,
                   overwrite = TRUE)
 

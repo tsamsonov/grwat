@@ -2,7 +2,7 @@ skip_on_cran()
 
 data(spas) 
 df = spas[spas$Date < as.Date('1960-01-01'), ]
-sep = gr_separate(df, params = gr_get_params(reg = 'Midplain'))
+sep = gr_separate(df, params = gr_get_params(reg = 'center'))
 vars = suppressWarnings(gr_summarize(sep))
 
 test_that("Report is correctly generated", {

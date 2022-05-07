@@ -23,7 +23,7 @@ library(grwat)
 # example Spas-Zagorye data is included with grwat package
 data(spas)
 
-params = gr_get_params(reg = 'Midplain')
+params = gr_get_params(reg = 'center')
 
 gr_check_params(params)
 
@@ -41,7 +41,7 @@ params$grad1 = NULL
 try(gr_check_params(params))
 
 # reset
-params = gr_get_params(reg = 'Midplain')
+params = gr_get_params(reg = 'center')
 
 sep = gr_separate(spas, params, debug = TRUE)
 parlist = attributes(sep)$params

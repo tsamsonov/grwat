@@ -35,15 +35,15 @@ std::vector<grwat::parameters> set_params(List rparams) {
     cpar.grad = rpar["grad1"];
     cpar.grad1 = rpar["grad2"];
     cpar.kdQgr1 = rpar["gratio"];
-    cpar.polmon1 = rpar["ftmon1"];
-    cpar.polmon2 = rpar["ftmon2"];
-    cpar.polkol1 = rpar["ftrisedays1"];
-    cpar.polkol2 = rpar["ftrisedays2"];
-    cpar.polkol3 = rpar["ftdays"];
-    cpar.polgrad1 = rpar["ftrise"];
-    cpar.polgrad2 = rpar["ftratio"];
-    cpar.prodspada = rpar["ftrecdays"];
-    cpar.polcomp = rpar["ftcomp"];
+    cpar.polmon1 = rpar["spmon1"];
+    cpar.polmon2 = rpar["spmon2"];
+    cpar.polkol1 = rpar["sprisedays1"];
+    cpar.polkol2 = rpar["sprisedays2"];
+    cpar.polkol3 = rpar["spdays"];
+    cpar.polgrad1 = rpar["sprise"];
+    cpar.polgrad2 = rpar["spratio"];
+    cpar.prodspada = rpar["sprecdays"];
+    cpar.polcomp = rpar["spcomp"];
     cpar.nPav = rpar["precdays"];
     cpar.nZam = rpar["frostdays"];
     cpar.nWin = rpar["windays"];
@@ -83,14 +83,14 @@ std::vector<std::string> parnames = {
   "grad1",
   "grad2",
   "gratio",
-  "ftmon1",
-  "ftmon2",
-  "ftrisedays1",
-  "ftrisedays2",
-  "ftdays",
-  "ftrise",
-  "ftratio",
-  "ftrecdays",
+  "spmon1",
+  "spmon2",
+  "sprisedays1",
+  "sprisedays2",
+  "spdays",
+  "sprise",
+  "spratio",
+  "sprecdays",
   "precdays",
   "frostdays",
   "windays",
@@ -128,15 +128,15 @@ List get_params(grwat::parameters p) {
   params["grad1"] = double(p.grad);
   params["grad2"] = double(p.grad1);
   params["gratio"] = double(p.kdQgr1);
-  params["ftmon1"] = double(p.polmon1);
-  params["ftmon2"] = double(p.polmon2);
-  params["ftrisedays1"] = double(p.polkol1);
-  params["ftrisedays2"] = double(p.polkol2);
-  params["ftdays"] = double(p.polkol3);
-  params["ftrise"] = double(p.polgrad1);
-  params["ftratio"] = double(p.polgrad2);
-  params["ftrecdays"] = double(p.prodspada);
-  params["ftcomp"] = double(p.polcomp);
+  params["spmon1"] = double(p.polmon1);
+  params["spmon2"] = double(p.polmon2);
+  params["sprisedays1"] = double(p.polkol1);
+  params["sprisedays2"] = double(p.polkol2);
+  params["spdays"] = double(p.polkol3);
+  params["sprise"] = double(p.polgrad1);
+  params["spratio"] = double(p.polgrad2);
+  params["sprecdays"] = double(p.prodspada);
+  params["spcomp"] = double(p.polcomp);
   params["precdays"] = double(p.nPav);
   params["frostdays"] = double(p.nZam);
   params["windays"] = double(p.nWin);

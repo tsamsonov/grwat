@@ -4,10 +4,10 @@
 \alias{gr_get_params}
 \title{Get hydrograph separation parameters}
 \usage{
-gr_get_params(reg = "Midplain", lon = NULL, lat = NULL)
+gr_get_params(reg = "center", lon = NULL, lat = NULL)
 }
 \arguments{
-\item{reg}{Character string — the name of the region. Defaults to \code{'Midplain'}.}
+\item{reg}{Character string — the name of the region. Defaults to \code{'center'}.}
 
 \item{lon}{Numeric value of the longitude. Ignored if \code{reg} is specified.}
 
@@ -22,7 +22,7 @@ The function returns the list of parameters that can be used by \code{\link[=gr_
 \examples{
 library(grwat)
 
-params = gr_get_params(reg = 'Midplain')
+params = gr_get_params(reg = 'center')
 
 print(params)
 }

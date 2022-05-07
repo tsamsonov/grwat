@@ -4,7 +4,7 @@ skip_if_not_installed('ggthemes')
 test_that("Horizon plot has the correct content", {
   
   data(spas)
-  sep = gr_separate(spas, params = gr_get_params(reg = 'Midplain'))
+  sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
   plt = gr_plot_hori(sep, years = 1960:1980)
   
   expect_s3_class(plt, 'ggplot')

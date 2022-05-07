@@ -64,7 +64,7 @@ ggplot(hdata) +
 In case of 100% hydraulic connection between ground waters and river discharge, according to @kudelin1960 the baseflow is equal to zero level at the point of maximum discharge during the spring flood event. Since extraction of the spring flood requires meteorological data, it cannot be extracted by simple filtering. Instead, you can use the advanced separation method by @rets2022, which incorporates Kudelin's approach during the spring flood:
 
 ```{r}
-p = gr_get_params('Midplain')
+p = gr_get_params('center')
 p$filter = 'kudelin'
 
 hdata = spas %>% 
