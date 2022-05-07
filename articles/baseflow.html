@@ -123,7 +123,7 @@
 <p><img src="baseflow_files/figure-html/unnamed-chunk-4-1.png" width="960"></p>
 <p>In case of 100% hydraulic connection between ground waters and river discharge, according to <span class="citation">Kudelin (1960)</span> the baseflow is equal to zero level at the point of maximum discharge during the spring flood event. Since extraction of the spring flood requires meteorological data, it cannot be extracted by simple filtering. Instead, you can use the advanced separation method by <span class="citation">Rets et al. (2022)</span>, which incorporates Kudelin’s approach during the spring flood:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span><span class="st">'Midplain'</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">p</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span><span class="st">'center'</span><span class="op">)</span>
 <span class="va">p</span><span class="op">$</span><span class="va">filter</span> <span class="op">=</span> <span class="st">'kudelin'</span>
 
 <span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
