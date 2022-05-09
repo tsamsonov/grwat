@@ -5,7 +5,7 @@ test_that('Separation with various filters works', {
   filters = c('kudelin', 'boughton', 'chapman', 'jakeman', 'lynehollick', 'maxwell')
   
   for (flt in filters) {
-    params$filter = flt
+    params$filter = 'jakeman'
     sep = expect_message(gr_separate(spas, params))
     expect_gt(sep$Quick[115], 0)
   }

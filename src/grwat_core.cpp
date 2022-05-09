@@ -699,6 +699,9 @@ namespace grwat {
             iy[i] = maxstart;
             start = maxstart;
             polend[i] = maxend;
+            nmax = start + distance(Qin.begin() + start,
+                                    max_element(Qin.begin() + start,
+                                                Qin.begin() + polend[i]));
 
 
             // FLOODS && THAWS SEPARATION
