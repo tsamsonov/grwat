@@ -41,7 +41,7 @@ head(vars)
 
 ## -----------------------------------------------------------------------------
 gr_plot_vars(vars, Qygr)
-gr_plot_vars(vars, date10w1, Wpol3, DaysThawWin, Qmaxpavs, tests = TRUE,
+gr_plot_vars(vars, D10w1, Wsprngr, Nthw, Qrnmax, tests = TRUE,
              layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
 
 ## ---- eval=FALSE--------------------------------------------------------------

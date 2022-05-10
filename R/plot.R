@@ -50,8 +50,8 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   }
   
   yrs = df %>% dplyr::group_by(.data$Year) %>% 
-    dplyr::summarise(nydate = .data$Date[which(.data$Qseas>0)[1]],
-                     datepolend = max(.data$Date[which(.data$Qseas>0)])) %>% 
+    dplyr::summarise(nydate = .data$Date[which(.data$Qspri>0)[1]],
+                     dspend = max(.data$Date[which(.data$Qspri>0)])) %>% 
     dplyr::filter(!is.na(.data$nydate))
   
   n = nrow(yrs)
@@ -94,11 +94,11 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
     clipped.remark = labs$clipped.remark
     year = yrs$Year[i]
     
-    datestart = begin.date
-    lubridate::year(datestart) = lubridate::year(begin.date)
+    dspstart = begin.date
+    lubridate::year(dspstart) = lubridate::year(begin.date)
     
-    datepolend = yrs$datepolend[i]
-    lubridate::year(datepolend) = lubridate::year(begin.date)
+    dspend = yrs$dspend[i]
+    lubridate::year(dspend) = lubridate::year(begin.date)
     
     if (i != n){
       nextyear <- yrs$Year[i+1]
@@ -113,18 +113,18 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
       dplyr::filter(dplyr::between(.data$Date, begin.date-1, end.date))
     
     graphdata = yeardata %>% 
-      tidyr::pivot_longer(c(.data$Qthaw, .data$Qrain, .data$Qseas, .data$Qbase),
+      tidyr::pivot_longer(c(.data$Qthaw, .data$Qrain, .data$Qspri, .data$Qbase),
                           names_to = "Runtype", values_to = "Runoff") %>%
                           # factor_key=TRUE) %>% 
       dplyr::mutate(Runoff = ifelse(.data$Runoff < 0, 0, .data$Runoff))
     
     graphdata$Runtype = factor(graphdata$Runtype,
-                               levels = c("Qrain", "Qseas", "Qthaw", "Qbase"),
+                               levels = c("Qrain", "Qspri", "Qthaw", "Qbase"),
                                labels = c(labs$rain, labs$seasonal, labs$thaw, labs$ground))
     
     g = ggplot2::ggplot() + 
       ggplot2::annotate("rect", 
-               xmin = datestart-1, xmax = datepolend+1,
+               xmin = dspstart-1, xmax = dspend+1,
                ymax = max.runoff, ymin = 0,
                fill = 'black',
                alpha = 0.1) +
@@ -189,16 +189,16 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
     }
     
     g = g + 
-      ggplot2::geom_vline(xintercept = datestart-1, color = "black", size=0.3) +
-      ggplot2::geom_vline(xintercept = datepolend+1, color = "black", size=0.3) +
-      ggplot2::geom_label(data = data.frame(x = datestart, 
+      ggplot2::geom_vline(xintercept = dspstart-1, color = "black", size=0.3) +
+      ggplot2::geom_vline(xintercept = dspend+1, color = "black", size=0.3) +
+      ggplot2::geom_label(data = data.frame(x = dspstart, 
                                             y = 0.9 * max.runoff, 
-                                            text = format(datestart, format="%d-%m")),
+                                            text = format(dspstart, format="%d-%m")),
                           mapping = ggplot2::aes(.data$x, .data$y, label = .data$text, hjust = 1),
                           size = 3, fill = "white", label.padding = ggplot2::unit(0.15, "lines")) +
-      ggplot2::geom_label(data = data.frame(x = datepolend, 
+      ggplot2::geom_label(data = data.frame(x = dspend, 
                                             y = 0.9 * max.runoff, 
-                                            text = format(datepolend, format="%d-%m")),
+                                            text = format(dspend, format="%d-%m")),
                           mapping = ggplot2::aes(.data$x, .data$y, label = .data$text, hjust = 0),
                           size = 3, fill = "white", label.padding = ggplot2::unit(0.15, "lines"))
     
@@ -673,8 +673,8 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
   
   if(is.null(year)) {
     if (!is.null(tests)) {
-      year_summer = tests[['year']]['monmmsummer']
-      year_winter = tests[['year']]['nommwin']
+      year_summer = tests[['year']]['Dsmin']
+      year_winter = tests[['year']]['Dwmin']
     }
     else stop('You must supply either year or tests parameter')
   }
@@ -711,10 +711,10 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
   
   chart.data = df %>% 
     dplyr::filter(!(.data$Year1 %in% exclude)) %>% 
-    dplyr::select(.data$monmmsummer, .data$nommwin, .data$Year1) %>% 
-    dplyr::filter(!is.na(.data$monmmsummer) & !is.na(.data$nommwin)) %>% 
-    dplyr::mutate(summermonth = lubridate::month(.data$monmmsummer),
-                  wintermonth = lubridate::month(.data$nommwin),
+    dplyr::select(.data$Dsmin, .data$Dwmin, .data$Year1) %>% 
+    dplyr::filter(!is.na(.data$Dsmin) & !is.na(.data$Dwmin)) %>% 
+    dplyr::mutate(summermonth = lubridate::month(.data$Dsmin),
+                  wintermonth = lubridate::month(.data$Dwmin),
                   old_summer = as.integer(.data$Year1 >= year_summer),
                   old_winter = as.integer(.data$Year1 >= year_winter))
   
@@ -1017,7 +1017,7 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff') {
       ggplot2::theme_bw()
     
   } else if (type == 'component') {
-    tab$Qfake = apply(cbind(tab$Qseas, 
+    tab$Qfake = apply(cbind(tab$Qspri, 
                             tab$Qrain, 
                             tab$Qthaw), MARGIN = 1, FUN = which.max)
     tab$Qfake = ifelse(tab$Quick == 0, 4, tab$Qfake)

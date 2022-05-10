@@ -51,10 +51,10 @@ gr_plot_periods(vars, Qygr, tests = TRUE)
 
 # calculate test beforehand
 tests = gr_test_vars(vars)
-gr_plot_periods(vars, Qmax, tests = tests)
+gr_plot_periods(vars, Qspmax, tests = tests)
 
 # use matrix layout to plot multiple variables
-gr_plot_periods(vars, Qygr, Qmax, date10w1, Wpol3,
+gr_plot_periods(vars, Qygr, Qspmax, D10w1, Wsprngr,
                 layout = matrix(1:4, nrow = 2),
                 tests = tests)
 }
