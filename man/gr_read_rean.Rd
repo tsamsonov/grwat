@@ -16,7 +16,7 @@ gr_read_rean(file_prec, file_temp)
 and spatial points (sf)
 }
 \description{
-The function reads meteorological variables (temperature and precipitation) from \href{https://carto.geogr.msu.ru/grwat/}{grwat reanalysis} for using with \code{\link[=gr_join_rean]{gr_join_rean()}}. Reanalysis covers the East European Plain with 0.75 degrees spatial resolution and is obtained based on CIRES-DOE (1880-1949) and ERA5 (1950-2021) data.
+The function reads meteorological variables (temperature and precipitation) from \href{https://www.dropbox.com/sh/5xjnf620tlwfk7a/AABhTaPEDWLII8rV04dp0MWna?dl=0}{grwat reanalysis} for using with \code{\link[=gr_join_rean]{gr_join_rean()}}. Reanalysis covers the East European Plain with 0.75 degrees spatial resolution and is obtained based on CIRES-DOE (1880-1949) and ERA5 (1950-2021) data.
 }
 \details{
 Download the reanalysis archive from \href{https://www.dropbox.com/sh/5xjnf620tlwfk7a/AABhTaPEDWLII8rV04dp0MWna?dl=0}{here}.
