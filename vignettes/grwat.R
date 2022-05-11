@@ -50,5 +50,5 @@ gr_plot_vars(vars, D10w1, Wsprngr, Nthw, Qrnmax, tests = TRUE,
 #  browseURL(report)
 
 ## ---- echo=FALSE--------------------------------------------------------------
-knitr::include_url('https://carto.geogr.msu.ru/grwat/Spas-Zagorye.html', height = '800px')
+knitr::include_url('https://www.dropbox.com/s/747xyqp65ipriy5/Spas-Zagorye.html', height = '800px')
 

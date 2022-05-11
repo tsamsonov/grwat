@@ -18,19 +18,21 @@ HTML table as returned by \code{\link[knitr:kable]{knitr::kable()}} function.
 This function is used to represent the results of \code{\link[=gr_test_vars]{gr_test_vars()}} in a tabular form. Used mainly in \code{\link[=gr_report]{gr_report()}}, but can be used for your own purposes.
 }
 \examples{
-library(grwat)
-
-data(spas) # example Spas-Zagorye data is included with grwat package
-
-# separate
-sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
-
-# summarize
-vars = gr_summarize(sep)
-
-# test all variables
-tests = gr_test_vars(vars)
-
-# kable tests
-gr_kable_tests(tests)
+\dontrun{
+  library(grwat)
+  
+  data(spas) # example Spas-Zagorye data is included with grwat package
+  
+  # separate
+  sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
+  
+  # summarize
+  vars = gr_summarize(sep)
+  
+  # test all variables
+  tests = gr_test_vars(vars)
+  
+  # kable tests
+  gr_kable_tests(tests)
+}
 }
