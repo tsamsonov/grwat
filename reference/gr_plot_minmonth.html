@@ -94,28 +94,23 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># separate</span></span>
-<span class="r-in"><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># summarize</span></span>
-<span class="r-in"><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot minimum runoff month for two periods divided by Pettitt test</span></span>
-<span class="r-in"><span class="fu">gr_plot_minmonth</span><span class="op">(</span><span class="va">vars</span>, tests <span class="op">=</span> <span class="fu"><a href="gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="gr_plot_minmonth-1.png" alt="" width="960" height="593"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot minimum runoff month for two periods divided by fixed year</span></span>
-<span class="r-in"><span class="fu">gr_plot_minmonth</span><span class="op">(</span><span class="va">vars</span>, year <span class="op">=</span> <span class="fl">1978</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="gr_plot_minmonth-2.png" alt="" width="960" height="593"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span>
+<span class="r-in">  </span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span></span>
+<span class="r-in">  </span>
+<span class="r-in">  <span class="co"># separate</span></span>
+<span class="r-in">  <span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in">  </span>
+<span class="r-in">  <span class="co"># summarize</span></span>
+<span class="r-in">  <span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span>
+<span class="r-in">  </span>
+<span class="r-in">  <span class="co"># plot minimum runoff month for two periods divided by Pettitt test</span></span>
+<span class="r-in">  <span class="fu">gr_plot_minmonth</span><span class="op">(</span><span class="va">vars</span>, tests <span class="op">=</span> <span class="fu"><a href="gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in">  </span>
+<span class="r-in">  <span class="co"># plot minimum runoff month for two periods divided by fixed year</span></span>
+<span class="r-in">  <span class="fu">gr_plot_minmonth</span><span class="op">(</span><span class="va">vars</span>, year <span class="op">=</span> <span class="fl">1978</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
