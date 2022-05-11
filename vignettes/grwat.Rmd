@@ -97,23 +97,11 @@ gr_plot_vars(vars, D10w1, Wsprngr, Nthw, Qrnmax, tests = TRUE,
              layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
 ```
 
-# Reporting
-
-Hydrograph separation and its annual variables can be aggregated into one information-rich graphical report that brings everything into one place. Just pass the results of `gr_separate()` and `gr_summarize()` into `gr_report()` function and provide the path to the output `HTML` file: 
-
-```{r, eval=FALSE}
-report = '~/Spas-Zagorye.html'
-gr_report(sep, vars, output = report)
-browseURL(report)
-```
-
-```{r, echo=FALSE}
-knitr::include_url('https://www.dropbox.com/s/747xyqp65ipriy5/Spas-Zagorye.html', height = '800px')
-```
-
 # Additional features
 
 __`grwat`__ contains some useful functions that can ease your work with runoff data and make it more fun. In particular:
+
+- `gr_report()` aggregates hydrograph separation and its summaries into one information-rich graphical report that brings everything into one place. Just pass the results of `gr_separate()` and `gr_summarize()` into `gr_report()` function and provide the path to the output `HTML` file.
 
 - `gr_get_gaps()` and `gr_fill_gaps()` find and interpolate the periods of missing runoff and meteorological data which may affect the results.
 
