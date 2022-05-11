@@ -58,7 +58,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gr_plot_acf</span><span class="op">(</span><span class="va">hdata</span>, autocorr <span class="op">=</span> <span class="fl">0.7</span>, maxlag <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gr_plot_acf</span><span class="op">(</span><span class="va">hdata</span>, autocorr <span class="op">=</span> <span class="fl">0.7</span>, maxlag <span class="op">=</span> <span class="fl">30</span>, print <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -69,7 +69,13 @@
 <dd><p>Numeric value of the autocorrelation for which the time period will be highlighted. Defaults to <code>0.7</code>.</p></dd>
 <dt>maxlag</dt>
 <dd><p>Integer value of the maximum daily lag used to calculate the correlation. Defaults to <code>30</code>.</p></dd>
+<dt>print</dt>
+<dd><p>Boolean. Print plot? Defaults to <code>TRUE</code>. Use <code>FALSE</code> if you want to tweak the plot aesthetics before plotting.</p></dd>
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>ggplot2</code> object</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

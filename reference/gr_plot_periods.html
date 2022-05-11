@@ -65,7 +65,8 @@
   exclude <span class="op">=</span> <span class="cn">NULL</span>,
   tests <span class="op">=</span> <span class="cn">NULL</span>,
   layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,
-  pagebreak <span class="op">=</span> <span class="cn">FALSE</span>
+  pagebreak <span class="op">=</span> <span class="cn">FALSE</span>,
+  print <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -85,7 +86,13 @@
 <dd><p><code>matrix</code> that encodes the order of plotting.</p></dd>
 <dt>pagebreak</dt>
 <dd><p>Logical. Whether to break page between plots (needed for reporting). Defaults to <code>FALSE</code>.</p></dd>
+<dt>print</dt>
+<dd><p>Boolean. Print plot? Defaults to <code>TRUE</code>. Use <code>FALSE</code> if you want to tweak the plot aesthetics before plotting.</p></dd>
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>list</code> of <code>ggplot2</code> objects</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
