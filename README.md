@@ -1,5 +1,5 @@
-[![License](https://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-2.0.html)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-yellow.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat)](https://opensource.org/licenses/MIT/)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-yellow.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Coverage Status](https://img.shields.io/codecov/c/github/tsamsonov/grwat/main.svg)](https://app.codecov.io/github/tsamsonov/grwat?branch=main)
 [![R-CMD-check](https://github.com/tsamsonov/grwat/workflows/R-CMD-check/badge.svg)](https://github.com/tsamsonov/grwat/actions/)
 
@@ -33,7 +33,7 @@ __Linux__ users should have the compiler already installed in their system.
 
 __macOS__ users have to:
 
-1. Install [Xcode command-line tools](https://developer.apple.com/download/more/).
+1. Install [Xcode command-line tools](https://developer.apple.com/download/all/).
 2. Restart R session.
 
 __Windows__ users have to:
