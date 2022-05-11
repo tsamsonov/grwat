@@ -4,7 +4,7 @@
 \alias{gr_plot_acf}
 \title{Plot runoff ACF}
 \usage{
-gr_plot_acf(hdata, autocorr = 0.7, maxlag = 30)
+gr_plot_acf(hdata, autocorr = 0.7, maxlag = 30, print = TRUE)
 }
 \arguments{
 \item{hdata}{\code{data.frame} with first column as \code{Date} and the second column as runoff}
@@ -12,6 +12,11 @@ gr_plot_acf(hdata, autocorr = 0.7, maxlag = 30)
 \item{autocorr}{Numeric value of the autocorrelation for which the time period will be highlighted. Defaults to \code{0.7}.}
 
 \item{maxlag}{Integer value of the maximum daily lag used to calculate the correlation. Defaults to \code{30}.}
+
+\item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
+}
+\value{
+\code{ggplot2} object
 }
 \description{
 The function plots the autocorrelation function (ACF) for daily runoff time series. A number of days corresponding to the specified \code{autocorr} value is highlighted.

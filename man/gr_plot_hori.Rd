@@ -4,7 +4,7 @@
 \alias{gr_plot_hori}
 \title{Horizon hydrograph plot}
 \usage{
-gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6)
+gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6, print = TRUE)
 }
 \arguments{
 \item{df}{\code{data.frame} with date (1st) and runoff (2nd) columns.}
@@ -16,6 +16,11 @@ gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6)
 \item{rev}{Boolean. Reverse the palette? Defaults to \code{FALSE}.}
 
 \item{scale}{Numeric scale factor passed to \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}}. Defaults to \code{6}.}
+
+\item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
+}
+\value{
+\code{ggplot2} object
 }
 \description{
 A convenient wrapper around \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}} to visualize multiple river hydrographs at once.

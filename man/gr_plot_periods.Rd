@@ -11,7 +11,8 @@ gr_plot_periods(
   exclude = NULL,
   tests = NULL,
   layout = as.matrix(1),
-  pagebreak = FALSE
+  pagebreak = FALSE,
+  print = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,11 @@ gr_plot_periods(
 \item{layout}{\code{matrix} that encodes the order of plotting.}
 
 \item{pagebreak}{Logical. Whether to break page between plots (needed for reporting). Defaults to \code{FALSE}.}
+
+\item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
+}
+\value{
+\code{list} of \code{ggplot2} objects
 }
 \description{
 This function generates boxplots of the hydrograph separation variables produced by \code{\link[=gr_summarize]{gr_summarize()}}. The data for each variable is divided into two samples: before and after the change year either set by \code{year} parameter or extracted from \code{tests} (statistically estimated). Different background fill colors are used to differentiate seasons types.

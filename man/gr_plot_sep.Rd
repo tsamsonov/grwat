@@ -11,7 +11,8 @@ gr_plot_sep(
   pagebreak = FALSE,
   temp = FALSE,
   prec = FALSE,
-  span = 5
+  span = 5,
+  print = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,11 @@ gr_plot_sep(
 \item{prec}{Boolean. Add precipitation curve to the plot? Defaults to \code{FALSE}. If both \code{temp = TRUE} and \code{prec = TRUE}, then the axis is drawn for precipitation.}
 
 \item{span}{Integer number of days to accumulate precipitation for plotting.}
+
+\item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
+}
+\value{
+\code{list} of \code{ggplot2} objects
 }
 \description{
 The function plots river hydrograph by filling the different flow types using colors. Matrix layouts can be used if multiple plots are needed. Temperature and precipitation can be overlaid.

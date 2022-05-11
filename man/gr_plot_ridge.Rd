@@ -4,7 +4,15 @@
 \alias{gr_plot_ridge}
 \title{Ridgeline hydrograph plot}
 \usage{
-gr_plot_ridge(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha = 0.8)
+gr_plot_ridge(
+  df,
+  years,
+  pal = 4,
+  rev = FALSE,
+  scale = 0.01,
+  alpha = 0.8,
+  print = TRUE
+)
 }
 \arguments{
 \item{df}{\code{data.frame} with date (1st) and runoff (2nd) columns.}
@@ -18,6 +26,11 @@ gr_plot_ridge(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha = 0.8)
 \item{scale}{Numeric scale factor passed to \code{\link[ggridges:geom_ridgeline]{ggridges::geom_ridgeline()}}. Defaults to \code{0.01}.}
 
 \item{alpha}{Numeric opacity value of the ridgeline plot. Defaults to \code{0.8}.}
+
+\item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
+}
+\value{
+\code{ggplot2} object
 }
 \description{
 A convenient wrapper around \code{\link[ggridges:geom_ridgeline]{ggridges::geom_ridgeline()}} to visualize multiple river hydrographs at once.

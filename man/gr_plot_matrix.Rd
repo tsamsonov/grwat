@@ -4,7 +4,7 @@
 \alias{gr_plot_matrix}
 \title{Runoff matrix plot}
 \usage{
-gr_plot_matrix(df, years = NULL, type = "runoff")
+gr_plot_matrix(df, years = NULL, type = "runoff", print = TRUE)
 }
 \arguments{
 \item{df}{\code{data.frame} of hydrograph separation produced by \code{\link[=gr_separate]{gr_separate()}}.}
@@ -12,6 +12,11 @@ gr_plot_matrix(df, years = NULL, type = "runoff")
 \item{years}{Integer vector of years to be plotted. Defaults to \code{NULL}.}
 
 \item{type}{Character string. Supported options are \code{'runoff'}, \code{'component'}, and \code{'season'}. Defaults to \code{'runoff'}.}
+
+\item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
+}
+\value{
+\code{ggplot2} object
 }
 \description{
 The function plots runoff values, components and seasons using the matrix-based approach. The X axis corresponds to the day of the year, and the Y axis corresponds to the year. The function is useful when the whole picture of river runoff needs to be assessed.

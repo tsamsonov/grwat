@@ -11,7 +11,8 @@ gr_plot_vars(
   exclude = NULL,
   smooth = TRUE,
   layout = as.matrix(1),
-  pagebreak = FALSE
+  pagebreak = FALSE,
+  print = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,11 @@ gr_plot_vars(
 \item{layout}{\code{matrix} that encodes the order of plotting.}
 
 \item{pagebreak}{Logical. Whether to break page between plots (\code{\link[=gr_report]{gr_report()}}). Defaults to \code{FALSE}.}
+
+\item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
+}
+\value{
+\code{list} of \code{ggplot2} objects
 }
 \description{
 This function plots the hydrograph separation variables produced by \code{\link[=gr_summarize]{gr_summarize()}}. Different background fill colors and line types are used to differentiate seasons and variable types.
