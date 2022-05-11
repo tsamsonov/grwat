@@ -91,18 +91,6 @@ gr_kable_tests <- function(tests, format = 'html'){
                           ifelse(Fisher < 0.01, gcolor, 
                           ifelse(Fisher < 0.05, ycolor, rcolor)))))
   )
-  
-  # if (locale == 'RU')
-  #   pvalues = pvalues %>%
-  #     dplyr::rename(Переменная = Variable,
-  #                  `Переломный год` = Change.Year,
-  #                   Тренд = Trend,
-  #                  `M,%` = MeanRatio,
-  #                  `sd,%` = sdRatio,
-  #                  `Манн-Кендалл` = Mann.Kendall,
-  #                   Петтитт = Pettitt,
-  #                   Стьюдент = Student,
-  #                   Фишер = Fisher)
     
   tab = knitr::kable(pvalues, booktabs = T, longtable = T, escape = FALSE, format = format,
                      caption = labs$pheader)

@@ -2,8 +2,9 @@
 
 There were no ERRORs or WARNINGs
 
-There is 1 NOTE:
+There are 2 NOTEs:
 
-* This is a submission of a new package.
+* This is a submission of a new package. 
+* Hydrograph, hydrograph, quickflow, and baseflow in DESCRIPTION are correct words.
 
 Maintainer: 'Timofey Samsonov <tsamsonov@geogr.msu.ru>'
