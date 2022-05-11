@@ -10,3 +10,5 @@
 ^_pkgdown\.yaml$
 ^\.github$
 ^LICENSE\.md$
+^cran-comments\.md$
+^CRAN-RELEASE$
