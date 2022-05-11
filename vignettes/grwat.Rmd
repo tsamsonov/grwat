@@ -61,7 +61,7 @@ ggplot(hdata) +
 
 # Advanced separation
 
-> For more information on advanced separation, read the [__Advanced separation__]() vignette.
+> For more information on advanced separation, read the [__Advanced separation__](https://tsamsonov.github.io/grwat/articles/separation.html) vignette.
 
 Advanced separation by `gr_separate()` implements the method by [@rets2022], which involves additional data on temperatures and precipitation to detect and classify flood events into the rain, thaw and spring (seasonal thaw). Between these events $100\%$ of the runoff is considered to be ground. Inside those events the ground flow is filtered either by one of the baseflow functions, or by Kudelin's method, which degrades baseflow to $0$ under the maximum runoff value during the year. 
 

@@ -995,9 +995,9 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff') {
       ggplot2::theme_bw()
     
   } else if (type == 'season') {
-    tab$Typefake = factor(dplyr::case_when(tab$Type == 0 ~ 'Spring',
-                                           tab$Type == 1 ~ 'Summer',
-                                           tab$Type == 2 ~ 'Winter'))
+    tab$Typefake = factor(dplyr::case_when(tab$Season == 0 ~ 'Spring',
+                                           tab$Season == 1 ~ 'Summer',
+                                           tab$Season == 2 ~ 'Winter'))
     
     ggplot2::ggplot(tab, ggplot2::aes(.data$Datefake, .data$Yearfake)) +
       ggplot2::geom_raster(ggplot2::aes(fill = .data$Typefake)) +

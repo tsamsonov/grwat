@@ -1,0 +1,170 @@
+---
+title: "2. Advanced hydrograph separation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{2. Advanced hydrograph separation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+The core of the `_grwat_` package is the advanced hydrograph separation method by @rets2022, which utilizes supplementary temperature and precipitation data to classify quickflow events by their genesis. The genetic types are rain, thaw and spring. The latter is a specific kind of thaw flood (sometimes called a _freshet_) that appears in cold climates at the beginning of the spring during the massive snow melting in a watershed. It is not uncommon that a spring flood is significantly larger than others during the year, and produces the major part of the annual runoff volume.
+
+Throughout __`grwat`__ package documentation a sample dataset `spas` containing the daily runoff data for [Spas-Zagorye](https://allrivers.info/gauge/protva-obninsk) gauge on [Protva](https://en.wikipedia.org/wiki/Protva) river in Central European plane is used. The dataset is supplemented by meteorological variables (temperature and precipitation) obtained from CIRES-DOE (1880-1949) and ERA5 (1950-2021) data averaged inside gauge's basin:
+
+```{r setup, warning=F, message=F}
+library(grwat)
+data(spas) # example Spas-Zagorye data is included with grwat package
+head(spas)
+```
+
+> This 4-column representation of the date, runoff, temperature and precipitation is a standardized form of a data frame required for advanced separation
+
+## Separation basics
+
+Advanced separation is a formal analytical procedure that is performed in several stages [@rets2022]:
+
+A. Identify the start dates of water resources years. The start date is the first day of the spring flood. 
+
+B. For each water-resources year:
+
+  1. Separate quickflow and baseflow. Identify the end date of the spring flood as the first day after the start without quickflow.
+  1. Calculate the long periods of significant precipitation and low temperatures.
+  1. Identify second-order rain floods during the spring flood.
+  1. Calculate the first day of winter season.
+  1. Attribute all quickflow between the last day of spring flood and the first day of winter season as the rain flow.
+  1. Attribute all quickflow between the first day of winter and the last day of water-resources year as the thaw flow.
+
+This algorithm is executed by `gr_separate()` function, which requires a 4-column data frame as specified earlier, and the list of parameters. The number parameters is quite big ($39$ for the current version of the package), and the parameters depend on the regional climate and the size of the river basin. Currently the recommended parameters are available for some regions in the center of the East European Plane. You can use them as the starting point for experimentation. The regions are:
+
+1. `northwest`
+2. `center`
+3. `south`
+4. `northeast`
+5. `volga`
+6. `oka`
+7. `southeast`
+
+```{r, echo=F, out.width='100%'}
+knitr::include_graphics('regions.jpg')
+```
+
+To ease the exchange of the parameters, they are organized as list, as returned by `gr_get_params()`. You can pass either the number of region, or its name in `reg` argument:
+
+```{r}
+params = gr_get_params(reg = 'south')
+head(params)
+
+params = gr_get_params(reg = 2)
+head(params)
+```
+
+To ease the understanding of the parameters, grwat contains the helper `gr_help_params()` function, which describes the meaning of each:
+
+```{r}
+gr_help_params()
+```
+You can tweak the parameters just by changing their values in the list:
+
+```{r}
+params$sprise = 12
+params$gratio = 500
+```
+
+It is quite hard to predict how effective will be parameters for the particular basin. Therefore, the search for optimal values is experimental work. After a preliminary parameters are set, you can separate the hydrograph by `gr_separate()`:
+
+```{r}
+# separate
+sep = gr_separate(spas, params)
+head(sep)
+```
+
+Resulting data frame is enriched with information about different kinds of flow. To evaluate the results, you can use separation plots provided by `gr_plot_sep()`:
+
+```{r}
+# One year
+gr_plot_sep(sep, 1978) 
+
+# Two years
+gr_plot_sep(sep, c(1978, 2014)) 
+
+# Four years in a matrix layout
+gr_plot_sep(sep, 1988:1991, layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
+```
+
+## Tweaking of the parameters
+
+Sometimes global parameters do not work, and you need to tweak the values for selected years. For this you use a `list` of parameter `list`s instead of the one list. In such case the number of parameter `list`s must be equal to the number of water-resources years in a runoff data. Instead of constructing such list manually, you can use `gr_separate()` in `debug = TRUE` mode. If this mode is activated, grwat will return two additional attributes: 
+
+- `jittered` attribute shows the years for which grwat tweaked some parameters because it was unable to identify the beginning of water-resources year based ion global parameters;
+- `params` attribute contains a `list` of parameter `list`s used for each year (including those thar were jittered).
+
+The attributes are extracted via a base R function `attributes()`:
+
+```{r}
+# Debug mode gives access to additional information
+sep_debug = gr_separate(spas, 
+                        params = gr_get_params(reg = 'center'), 
+                        debug = TRUE)
+
+# a vector of years with jittered params
+jit = attributes(sep_debug)$jittered
+print(jit)
+
+# actual params used for each year
+parlist = attributes(sep_debug)$params
+partab = do.call(dplyr::bind_rows, parlist) # View as table
+head(partab)
+```
+
+
+After the list of parameters is extracted, any of those can be referenced by the character string of the water-resources year. For example, if you want to apply the parameters of one tweaked your globally, the following will work:
+
+```{r}
+# extract and tweak parameters for selected year
+p = parlist[['2014']]
+p$grad1 = 1
+p$grad2 = 2.5
+
+# use tweaked parameters for all years
+sep_debug = gr_separate(spas, params = p, debug = TRUE)
+
+# Visualize
+gr_plot_sep(sep_debug, c(1978, 2014)) 
+```
+
+However, the most powerful strategy is to keep the nested list structure and change the parameters individually for different years. If you want to set some parameter for multiple years, then use `gr_set_param()`:
+
+```{r}
+# actual params used for each year
+parlist = attributes(sep_debug)$params
+
+# tweak parameters for selected year
+parlist[['2014']]$grad1 = 3
+parlist[['2014']]$grad2 = 6
+
+# set the sprecdays parameter for multiple years
+parlist = gr_set_param(parlist, sprecdays, 
+                       years = c(1978, 1999:2015), 
+                       value = 15)
+
+# set the spcomp parameter for all years
+parlist = gr_set_param(parlist, spcomp, value = 2.5)
+
+# use the list of parameters for separation
+sep_debug = gr_separate(spas, params = parlist, debug = TRUE)
+
+# Visualize
+gr_plot_sep(sep_debug, c(1978, 2014))
+```
+
+## References

@@ -18,15 +18,15 @@ A \code{data.frame} with 11 columns:\tabular{ll}{
    \strong{Column} \tab \strong{Description} \cr
    \code{Date} \tab date \cr
    \code{Q} \tab total runoff \cr
+   \code{Temp} \tab temperature \cr
+   \code{Prec} \tab precipitation \cr
    \code{Qbase} \tab baseflow \cr
    \code{Quick} \tab quickflow \cr
    \code{Qspri} \tab spring flood \cr
    \code{Qrain} \tab rain floods \cr
    \code{Qthaw} \tab thaw floods \cr
-   \code{Type} \tab a combination of flow types \cr
+   \code{Season} \tab a combination of flow types \cr
    \code{Year} \tab a water-resources year \cr
-   \code{Temp} \tab temperature \cr
-   \code{Prec} \tab precipitation \cr
 }
 }
 \description{

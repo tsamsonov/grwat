@@ -134,15 +134,15 @@ gr_check_params <- function(params, df = NULL) {
 #' | ------ | ----------- |
 #' | `Date`   | date |
 #' | `Q`      | total runoff |
+#' | `Temp`   | temperature |
+#' | `Prec`   | precipitation |
 #' | `Qbase`  | baseflow |
 #' | `Quick`  | quickflow |
 #' | `Qspri`  | spring flood |
 #' | `Qrain`  | rain floods | 
 #' | `Qthaw`  | thaw floods |
-#' | `Type`   | a combination of flow types |
+#' | `Season`   | a combination of flow types |
 #' | `Year`   | a water-resources year |
-#' | `Temp`   | temperature |
-#' | `Prec`   | precipitation |
 #' 
 #' @export
 #'
@@ -171,8 +171,8 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   
   sep = dplyr::bind_cols(df, sepraw) %>%
     dplyr::rename(Date = 1, Q = 2, Temp = 3, Prec = 4) %>%
-    dplyr::relocate(.data$Temp, .data$Prec, .after = dplyr::last_col()) %>%
-    dplyr::mutate(dplyr::across(3:9, ~ replace(.x, .x < 0, NA)))
+    # dplyr::relocate(.data$Temp, .data$Prec, .after = dplyr::last_col()) %>%
+    dplyr::mutate(dplyr::across(5:11, ~ replace(.x, .x < 0, NA)))
   
   if (debug) {
     
