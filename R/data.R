@@ -12,7 +12,6 @@
 #' 
 #' @source \url{https://allrivers.info/gauge/protva-obninsk}
 #' @source \url{https://gmvo.skniivh.ru}
-#' @source \url{https://meteo.ru}
 #' @source \url{https://www.ecmwf.int/en/forecasts/dataset/ecmwf-reanalysis-v5}
 #' @source \url{https://psl.noaa.gov/data/gridded/data.20thC_ReanV3.html}
 #' 
