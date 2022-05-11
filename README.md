@@ -33,7 +33,7 @@ __Linux__ users should have the compiler already installed in their system.
 
 __macOS__ users have to:
 
-1. Install [Xcode command-line tools](https://developer.apple.com/download/all/).
+1. Install [Xcode command-line tools](https://developer.apple.com/xcode/resources/).
 2. Restart R session.
 
 __Windows__ users have to:
