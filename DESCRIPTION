@@ -12,7 +12,7 @@ Authors@R: c(
     )
 Description: River hydrograph separation and daily runoff time series analysis. Provides
   various filters to separate baseflow and quickflow. Implements advanced separation 
-  technique which involves meteorological data to revealgenetic components of the runoff: 
+  technique which involves meteorological data to reveal genetic components of the runoff: 
   ground, rain, thaw and spring (seasonal thaw). High-performance `C++17` computation, 
   annually aggregated variables, statistical testing and numerous ggplot-based functions 
   for high-quality visualization.
@@ -20,6 +20,7 @@ License: MIT + file LICENSE
 URL: https://github.com/tsamsonov/grwat
 BugReports: https://github.com/tsamsonov/grwat/issues
 Encoding: UTF-8
+Language: en-US
 LinkingTo: Rcpp
 SystemRequirements: pandoc
 LazyData: true

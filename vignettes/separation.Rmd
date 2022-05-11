@@ -106,7 +106,7 @@ gr_plot_sep(sep, 1988:1991, layout = matrix(1:4, nrow = 2, byrow = TRUE))
 Sometimes global parameters do not work, and you need to tweak the values for selected years. For this you use a `list` of parameter `list`s instead of the one list. In such case the number of parameter `list`s must be equal to the number of water-resources years in a runoff data. Instead of constructing such list manually, you can use `gr_separate()` in `debug = TRUE` mode. If this mode is activated, grwat will return two additional attributes: 
 
 - `jittered` attribute shows the years for which grwat tweaked some parameters because it was unable to identify the beginning of water-resources year based ion global parameters;
-- `params` attribute contains a `list` of parameter `list`s used for each year (including those thar were jittered).
+- `params` attribute contains a `list` of parameter `list`s used for each year (including those that were jittered).
 
 The attributes are extracted via a base R function `attributes()`:
 

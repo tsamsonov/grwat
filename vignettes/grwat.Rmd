@@ -99,7 +99,7 @@ gr_plot_vars(vars, D10w1, Wsprngr, Nthw, Qrnmax, tests = TRUE,
 
 # Reporting
 
-Hydrograph separation and its annual variables can be aggregated into one information-rich graphical report that brings everything into one place. Just pass the results of `gr_separate()` and `gr_summarize()` into `gr_report()` function and provide the path to the ouput `HTML` file: 
+Hydrograph separation and its annual variables can be aggregated into one information-rich graphical report that brings everything into one place. Just pass the results of `gr_separate()` and `gr_summarize()` into `gr_report()` function and provide the path to the output `HTML` file: 
 
 ```{r, eval=FALSE}
 report = '~/Spas-Zagorye.html'

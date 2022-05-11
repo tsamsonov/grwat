@@ -143,4 +143,4 @@ Test plots produced by `gr_plot_tests()` are intended to facilitate the visual a
 gr_plot_tests(tests, type = 'year')
 ```
 
-As can be seen from this plot, most of the variables demonstrate the change in their statistical behaviour around $1979$ year. 
+As can be seen from this plot, most of the variables demonstrate the change in their statistical behavior around $1979$ year. 
