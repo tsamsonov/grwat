@@ -78,9 +78,9 @@ Resulting separation can be visualized by `gr_plot_sep()` function. In addition 
 gr_plot_sep(sep, years = c(1978, 1989))
 ```
 
-# Annual summaries
+# Summaries
 
-> For more information on annual variables, read the [__Annual summaries__]() vignette.
+> For more information on annual variables, read the [__Summaries__](https://tsamsonov.github.io/grwat/articles/summaries.html) vignette.
 
 After hydrograph is separated, its characteristics can be summarized by `gr_summarize()` into annual variables which characterize the annual runoff, its components (ground, spring, rain and thaw) and low flow periods (summer and winter):
 

@@ -1,0 +1,146 @@
+---
+title: "3. Summaries"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{3. Summaries}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction 
+
+Annual variables are useful statistics calculated for the results of hydrograph separation. While separation is performed on a daily basis, the summaries calculated by `_grwat_` are annual. Examples are maximum spring flood runoff, mean annual groundwater ("baseflow") runoff, thaw flood runoff volume (w/o groundwater) or the number of rain flood days. Users proficient in R can calculate such variables simply by summarizing the results of `gr_separate()` function. However, summarizing functionality is implemented in the package for a more streamlined analysis. The benefits are that the standardized variables can be supplemented by additional functions that perform their statistical testing and plotting.
+
+First of all, we need to separate the hydrograph:
+
+```{r setup, warning=F, message=F}
+library(grwat)
+data(spas) # example Spas-Zagorye data is included with grwat package
+head(spas) # separate
+sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
+```
+
+> For more information on advanced separation, read the [__Advanced separation__](https://tsamsonov.github.io/grwat/articles/separation.html) vignette.
+
+After that we can use `gr_summarize()` to summarize the result:
+```{r}
+# summarize
+vars = gr_summarize(sep)
+
+head(vars)
+```
+
+Resulting data frame contains more than 50 variables that can be used in the analysis of interannual changes. To get familiar with the variables and their names, just use the `gr_help_vars()` function:
+
+```{r}
+gr_help_vars()
+```
+
+# Statistical tests
+
+Variable testing by `gr_test_vars()` can be used to estimate the statistical significance of the interannual changes. Pettitt test is performed to detect the change year — i.e. the year which divides the time series into the statistically most differing samples. Student (Welch) and Fisher tests are used to estimate the significance of mean and variance differences of these samples. Theil-Sen test calculates the trend slope value. Mann-Kendall test is performed to reveal the significance of the trend. `gr_test_vars()` returns the list of tests for each variable:
+
+```{r}
+# test all variables
+tests = gr_test_vars(vars)
+
+# view Pettitt test for Qygr
+tests$ptt$Qygr
+
+# view Fisher test for Q30s
+tests$ft$Q30s
+
+# test only Qygr and Q30s using 1978 as fixed year and excluding 1988-1991 yrs
+gr_test_vars(vars, Qygr, year = 1979, exclude = 1988:1991)
+```
+
+The tests can be represented in a clear tabular form for visual analysis:
+
+```{r}
+gr_kable_tests(tests)
+```
+
+# Interannual plots
+
+Summarized variables can be ploted and statistically tested to reveal interannual changes. The basic function for plotting is `gr_plot_vars()`. Just pass the names of the variables that you want to plot, and the desired plotting layout. Different background fill colors are used to differentiate seasons:
+
+```{r}
+# plot one selected variable
+gr_plot_vars(vars, Qygr) 
+
+# plot one selected variable
+gr_plot_vars(vars, Dspstart) 
+
+# plot two variables sequentially
+gr_plot_vars(vars, D10w1, Wsprngr)
+
+# plot four variables in matrix layout
+gr_plot_vars(vars, Qspmax, Qygr, D10w1, Wsprngr,
+             layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
+```
+
+Tests can be calculated on the fly during the variable plotting or passed into `tests = ` parameters. In this case the plots are supplemented with trend line and change year:
+
+```{r}
+# add tests calculated on the fly (only plotted variables are tested)
+gr_plot_vars(vars, Qspmax, Qygr, D10w1, Wsprngr,
+             layout = matrix(1:4, nrow = 2, byrow = TRUE),
+             tests = TRUE) 
+
+# calculate tests beforehand
+tests = gr_test_vars(vars)
+gr_plot_vars(vars, D10w1, Wsprngr, Nthw, Qrnmax,
+             layout = matrix(1:4, nrow = 2, byrow = TRUE),
+             tests = tests) 
+```
+
+# Period plots
+
+Period plots are boxplots produced by `gr_plot_periods()` for hydrograph separation variables. The data for each variable is divided into two sample periods: before and after the change year either set by `year` parameter or extracted from `tests` (statistically estimated). Different background fill colors are used to differentiate seasons:
+
+```{r}
+# plot periods with fixed change year
+gr_plot_periods(vars, Qygr, year = 1979)
+
+# plot periods with change year from Pettitt test
+gr_plot_periods(vars, Qygr, tests = TRUE)
+
+# calculate test beforehand
+gr_plot_periods(vars, Qspmax, tests = tests)
+
+# use matrix layout to plot multiple variables
+gr_plot_periods(vars, Qygr, Qspmax, D10w1, Wsprngr,
+                layout = matrix(1:4, nrow = 2),
+                tests = tests)
+```
+
+# Minimum runoff month plots
+
+A histogram of a minimum runoff month for two periods: before and after the change year set by `year` parameter. This kind of plot is produced by `gr_plot_minmonth()`:
+
+```{r}
+# plot minimum runoff month for two periods divided by Pettitt test
+gr_plot_minmonth(vars, tests = gr_test_vars(vars))
+
+# plot minimum runoff month for two periods divided by fixed year
+gr_plot_minmonth(vars, year = 1979)
+```
+
+# Test plots
+
+Test plots produced by `gr_plot_tests()` are intended to facilitate the visual analysis of statistical tests. Currently only the change year density is available as a plotting variable:
+
+```{r}
+# plot change year from Pettitt test
+gr_plot_tests(tests, type = 'year')
+```
+
+As can be seen from this plot, most of the variables demonstrate the change in their statistical behaviour around $1979$ year. 
