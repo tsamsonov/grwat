@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-The core of the `_grwat_` package is the advanced hydrograph separation method by @rets2022, which utilizes supplementary temperature and precipitation data to classify quickflow events by their genesis. The genetic types are rain, thaw and spring. The latter is a specific kind of thaw flood (sometimes called a _freshet_) that appears in cold climates at the beginning of the spring during the massive snow melting in a watershed. It is not uncommon that a spring flood is significantly larger than others during the year, and produces the major part of the annual runoff volume.
+The core of the _`grwat`_ package is the advanced hydrograph separation method by @rets2022, which utilizes supplementary temperature and precipitation data to classify quickflow events by their genesis. The genetic types are rain, thaw and spring. The latter is a specific kind of thaw flood (sometimes called a _freshet_) that appears in cold climates at the beginning of the spring during the massive snow melting in a watershed. It is not uncommon that a spring flood is significantly larger than others during the year, and produces the major part of the annual runoff volume.
 
 Throughout __`grwat`__ package documentation a sample dataset `spas` containing the daily runoff data for [Spas-Zagorye](https://allrivers.info/gauge/protva-obninsk) gauge on [Protva](https://en.wikipedia.org/wiki/Protva) river in Central European plane is used. The dataset is supplemented by meteorological variables (temperature and precipitation) obtained from CIRES-DOE (1880-1949) and ERA5 (1950-2021) data averaged inside gauge's basin:
 

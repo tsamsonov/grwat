@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 # Introduction 
 
-Annual variables are useful statistics calculated for the results of hydrograph separation. While separation is performed on a daily basis, the summaries calculated by `_grwat_` are annual. Examples are maximum spring flood runoff, mean annual groundwater ("baseflow") runoff, thaw flood runoff volume (w/o groundwater) or the number of rain flood days. Users proficient in R can calculate such variables simply by summarizing the results of `gr_separate()` function. However, summarizing functionality is implemented in the package for a more streamlined analysis. The benefits are that the standardized variables can be supplemented by additional functions that perform their statistical testing and plotting.
+Annual variables are useful statistics calculated for the results of hydrograph separation. While separation is performed on a daily basis, the summaries calculated by _`grwat`_ are annual. Examples are maximum spring flood runoff, mean annual groundwater ("baseflow") runoff, thaw flood runoff volume (w/o groundwater) or the number of rain flood days. Users proficient in R can calculate such variables simply by summarizing the results of `gr_separate()` function. However, summarizing functionality is implemented in the package for a more streamlined analysis. The benefits are that the standardized variables can be supplemented by additional functions that perform their statistical testing and plotting.
 
 First of all, we need to separate the hydrograph:
 
