@@ -44,11 +44,3 @@ gr_plot_vars(vars, Qygr)
 gr_plot_vars(vars, D10w1, Wsprngr, Nthw, Qrnmax, tests = TRUE,
              layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
 
-## ---- eval=FALSE--------------------------------------------------------------
-#  report = '~/Spas-Zagorye.html'
-#  gr_report(sep, vars, output = report)
-#  browseURL(report)
-
-## ---- echo=FALSE--------------------------------------------------------------
-knitr::include_url('https://www.dropbox.com/s/747xyqp65ipriy5/Spas-Zagorye.html', height = '800px')
-
