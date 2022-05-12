@@ -1,4 +1,4 @@
-\dontrun{
+\donttest{
   library(grwat)
   
   data(spas) # example Spas-Zagorye data is included with grwat package

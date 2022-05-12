@@ -39,7 +39,7 @@ Numeric baseflow vector
 Extract baseflow from hydrological series using the filtering approach
 }
 \examples{
-\dontrun{
+\donttest{
   library(grwat)
   library(ggplot2)
   library(dplyr)

@@ -33,7 +33,7 @@ gr_plot_minmonth(
 Generate a histogram of a minimum runoff month for two periods: before and after the change year set by \code{year} parameter.
 }
 \examples{
-\dontrun{
+\donttest{
   library(grwat)
   
   data(spas) # example Spas-Zagorye data is included with grwat package

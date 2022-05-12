@@ -1,4 +1,4 @@
-\dontrun{
+\donttest{
   library(grwat)
   library(ggplot2)
   library(dplyr)

@@ -39,7 +39,7 @@ gr_plot_sep(
 The function plots river hydrograph by filling the different flow types using colors. Matrix layouts can be used if multiple plots are needed. Temperature and precipitation can be overlaid.
 }
 \examples{
-\dontrun{
+\donttest{
   library(grwat)
   
   data(spas) # example Spas-Zagorye data is included with grwat package
