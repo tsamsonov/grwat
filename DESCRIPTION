@@ -11,9 +11,15 @@ Authors@R: c(
     person("Maria", "Kireeva", role = "ctb", comment = c(ORCID = "0000-0002-8285-9761"))
     )
 Description: River hydrograph separation and daily runoff time series analysis. Provides
-  various filters to separate baseflow and quickflow. Implements advanced separation 
-  technique which involves meteorological data to reveal genetic components of the runoff: 
-  ground, rain, thaw and spring (seasonal thaw). High-performance `C++17` computation, 
+  various filters to separate baseflow and quickflow using methods by 
+  Lyne and Hollick (1979) <https://www.researchgate.net/publication/272491803_Stochastic_Time-Variable_Rainfall-Runoff_Modeling>, 
+  Chapman (1991) <doi:10.1029/91WR01007>, Boughton (1993) <https://cir.nii.ac.jp/crid/1572543026556977024>, 
+  Jakeman and Hornberger (1993) <doi:10.1029/93WR00877>, 
+  Chapman and Maxwell (1996) <https://search.informit.org/doi/10.3316/informit.360361071346753>,
+  and Kudelin (1960) <https://www.worldcat.org/title/printsipy-regionalnoi-otsenki-estestvennykh-resursov-podzemnykh-vod/>.
+  Implements advanced separation technique by Rets et al. (2022) <doi:10.1134/S0097807822010146> 
+  which involves meteorological data to reveal genetic components of the runoff: 
+  ground, rain, thaw and spring (seasonal thaw). High-performance C++17 computation, 
   annually aggregated variables, statistical testing and numerous plotting functions 
   for high-quality visualization.
 License: MIT + file LICENSE
