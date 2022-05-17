@@ -92,7 +92,7 @@ gr_kable_tests <- function(tests, format = 'html'){
                           ifelse(Fisher < 0.05, ycolor, rcolor)))))
   )
     
-  tab = knitr::kable(pvalues, booktabs = T, longtable = T, escape = FALSE, format = format,
+  tab = knitr::kable(pvalues, booktabs = TRUE, longtable = TRUE, escape = FALSE, format = format,
                      caption = labs$pheader)
   if (format == 'latex')
      kableExtra::kable_styling(tab, font_size = 11,

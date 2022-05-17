@@ -48,7 +48,7 @@ gr_get_gaps <- function(hdata) {
   hdata_dates = hdata %>% 
     dplyr::rename(Date = 1) %>% 
     dplyr::filter(!is.na(.data$Date)) %>% 
-    tidyr::complete(Date = seq(min(.data$Date, na.rm = T), max(.data$Date, na.rm = T), by = 'day'))
+    tidyr::complete(Date = seq(min(.data$Date, na.rm = TRUE), max(.data$Date, na.rm = TRUE), by = 'day'))
   
   hdata_dates %>%
     dplyr::mutate(type = dplyr::if_else(complete.cases(hdata_dates), 'data', 'gap'),
@@ -83,7 +83,7 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
   tab = hdata %>% 
     dplyr::rename(Date = 1) %>% 
     dplyr::filter(!is.na(.data$Date)) %>% 
-    tidyr::complete(Date = seq(min(.data$Date, na.rm = T), max(.data$Date, na.rm = T), by = 'day'))
+    tidyr::complete(Date = seq(min(.data$Date, na.rm = TRUE), max(.data$Date, na.rm = TRUE), by = 'day'))
   
   # Calculate via autocorrelation
   if (is.null(nobserv)) {
@@ -162,8 +162,8 @@ gr_join_rean <- function(hdata, rean, buffer){
   rlang::check_installed("sf", reason = "to use `gr_join_rean()`")
 
   # determine the first and last date
-  date_first = min(hdata[[1]], na.rm = T)
-  date_last = max(hdata[[1]], na.rm = T)
+  date_first = min(hdata[[1]], na.rm = TRUE)
+  date_last = max(hdata[[1]], na.rm = TRUE)
 
   # generate sequence of dates
   hdates = seq(date_first, date_last, "days")

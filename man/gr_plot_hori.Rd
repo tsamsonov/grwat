@@ -4,7 +4,7 @@
 \alias{gr_plot_hori}
 \title{Horizon hydrograph plot}
 \usage{
-gr_plot_hori(df, years, pal = "Blues", rev = T, scale = 6, print = TRUE)
+gr_plot_hori(df, years, pal = "Blues", rev = TRUE, scale = 6, print = TRUE)
 }
 \arguments{
 \item{df}{\code{data.frame} with date (1st) and runoff (2nd) columns.}

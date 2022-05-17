@@ -173,7 +173,7 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
     
     # Student and Fisher tests requre at least two observations in each sample
     if (length(d1) > 1 & length(d2) > 1) { 
-      if ((sum(abs(diff(d1)), na.rm = T) != 0) && (sum(abs(diff(d2)), na.rm = T) != 0)) {
+      if ((sum(abs(diff(d1)), na.rm = TRUE) != 0) && (sum(abs(diff(d2)), na.rm = TRUE) != 0)) {
         tt[[i]] = t.test(d1, d2)
         ft[[i]] = var.test(d1, d2)
       }

@@ -26,11 +26,11 @@ gr_check_data <- function(df) {
          ' the four columns of input data frame (date, runoff, temperature, precipitation) must be of ', 
          crayon::white$italic('Date, numeric, numeric, numeric'), ' data types')
   
-  if (sum(df[[2]] < 0, na.rm = T) > 0)
+  if (sum(df[[2]] < 0, na.rm = TRUE) > 0)
     stop(crayon::white$bgRed$bold('grwat:'), 
          ' there are negative values in runoff (2nd) column, please fix the data before proceeding')
   
-  if (sum(df[[4]] < 0, na.rm = T) > 0)
+  if (sum(df[[4]] < 0, na.rm = TRUE) > 0)
     stop(crayon::white$bgRed$bold('grwat:'), 
          ' there are negative values in precipitation (4th) column, please fix the data before proceeding')
   
@@ -158,7 +158,7 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   df = df %>% 
     dplyr::rename(Date = 1) %>% 
     dplyr::filter(!is.na(.data$Date)) %>% 
-    tidyr::complete(Date = seq(min(.data$Date, na.rm = T), max(.data$Date, na.rm = T), by = 'day'))
+    tidyr::complete(Date = seq(min(.data$Date, na.rm = TRUE), max(.data$Date, na.rm = TRUE), by = 'day'))
   
   if (!is.list(params[[1]]))
     params = list(params)

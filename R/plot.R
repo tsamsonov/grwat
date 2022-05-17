@@ -59,14 +59,14 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   
   n = nrow(yrs)
   
-  max.runoff = max(df$Q, na.rm = T)
-  max.temp = max(df$Temp, na.rm = T)
-  min.temp = min(df$Temp, na.rm = T)
+  max.runoff = max(df$Q, na.rm = TRUE)
+  max.temp = max(df$Temp, na.rm = TRUE)
+  min.temp = min(df$Temp, na.rm = TRUE)
   
-  max.prec = max(df$Prec, na.rm = T)
+  max.prec = max(df$Prec, na.rm = TRUE)
   if (prec && (span > 1)) {
     df = dplyr::mutate(df, Preccum = zoo::rollapply(.data$Prec, span, sum, align = 'right', fill = NA))
-    max.prec = max(df$Preccum, na.rm = T)
+    max.prec = max(df$Preccum, na.rm = TRUE)
     # print("YEAH!!!")
     # print(max.prec)
   }
@@ -1182,7 +1182,7 @@ gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha =
 #'
 #' @example inst/examples/gr_plot_hori.R
 #' 
-gr_plot_hori <- function(df, years, pal = 'Blues', rev = T, scale = 6, print = TRUE) {
+gr_plot_hori <- function(df, years, pal = 'Blues', rev = TRUE, scale = 6, print = TRUE) {
   
   rlang::check_installed(c("ggHoriPlot", "ggthemes"), reason = "to use `gr_plot_hori()`")
   
