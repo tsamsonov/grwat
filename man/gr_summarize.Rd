@@ -15,20 +15,18 @@ gr_summarize(df)
 \description{
 Use this function to get meaningful summary statistics for hydrograph separation. Resulting variables are described by \code{\link[=gr_help_vars]{gr_help_vars()}}. This function is a convenient wrapper around \href{https://dplyr.tidyverse.org}{dplyr}'s \code{df \%>\% group_by \%>\% summarize} idiom.
 }
-\examples{
-\donttest{
-  library(grwat)
-  
-  data(spas) # example Spas-Zagorye data is included with grwat package
-  
-  # separate
-  sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
-  
-  # summarize
-  vars = gr_summarize(sep)
-  
-  head(vars)
-  
-  gr_plot_vars(vars, Qygr, tests = TRUE)
-}
-}
+\examples{\donttest{
+library(grwat)
+
+data(spas) # example Spas-Zagorye data is included with grwat package
+
+# separate
+sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
+
+# summarize
+vars = gr_summarize(sep)
+
+head(vars)
+
+gr_plot_vars(vars, Qygr, tests = TRUE)
+}}

@@ -32,22 +32,20 @@ gr_plot_minmonth(
 \description{
 Generate a histogram of a minimum runoff month for two periods: before and after the change year set by \code{year} parameter.
 }
-\examples{
-\donttest{
-  library(grwat)
-  
-  data(spas) # example Spas-Zagorye data is included with grwat package
-  
-  # separate
-  sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
-  
-  # summarize
-  vars = gr_summarize(sep)
-  
-  # plot minimum runoff month for two periods divided by Pettitt test
-  gr_plot_minmonth(vars, tests = gr_test_vars(vars))
-  
-  # plot minimum runoff month for two periods divided by fixed year
-  gr_plot_minmonth(vars, year = 1978)
-}
-}
+\examples{\donttest{
+library(grwat)
+
+data(spas) # example Spas-Zagorye data is included with grwat package
+
+# separate
+sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
+
+# summarize
+vars = gr_summarize(sep)
+
+# plot minimum runoff month for two periods divided by Pettitt test
+gr_plot_minmonth(vars, tests = gr_test_vars(vars))
+
+# plot minimum runoff month for two periods divided by fixed year
+gr_plot_minmonth(vars, year = 1978)
+}}

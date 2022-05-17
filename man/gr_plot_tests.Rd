@@ -19,22 +19,20 @@ gr_plot_tests(tests, type = "year", print = TRUE)
 \description{
 The function extracts change years from results of \code{\link[=gr_test_vars]{gr_test_vars()}} and plots their probability density. Since for every variable the change year is individual, this procedure allows finding the one most probable year, which is the mode of the distribution. This year is highlighted by the line and labeled on the plot.
 }
-\examples{
-\donttest{
-  library(grwat)
-  
-  data(spas) # example Spas-Zagorye data is included with grwat package
-  
-  # separate
-  sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
-  
-  # summarize
-  vars = gr_summarize(sep)
-  
-  # test all variables
-  tests = gr_test_vars(vars)
-  
-  # plot change year from Pettitt test
-  gr_plot_tests(tests, type = 'year')
-}
-}
+\examples{\donttest{
+library(grwat)
+
+data(spas) # example Spas-Zagorye data is included with grwat package
+
+# separate
+sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
+
+# summarize
+vars = gr_summarize(sep)
+
+# test all variables
+tests = gr_test_vars(vars)
+
+# plot change year from Pettitt test
+gr_plot_tests(tests, type = 'year')
+}}
