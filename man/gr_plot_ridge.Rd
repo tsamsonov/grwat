@@ -30,7 +30,7 @@ gr_plot_ridge(
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
 }
 \value{
-\code{ggplot2} object
+\code{ggplot2} object representing the multiple river hydrographs at once using the ridgeline plot approach
 }
 \description{
 A convenient wrapper around \code{\link[ggridges:geom_ridgeline]{ggridges::geom_ridgeline()}} to visualize multiple river hydrographs at once.

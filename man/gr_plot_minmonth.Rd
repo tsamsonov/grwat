@@ -27,7 +27,7 @@ gr_plot_minmonth(
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
 }
 \value{
-\code{list} of \code{ggplot2} objects
+\code{list} of two \code{ggplot2} objects, representing the histogram of a minimum runoff month for two periods: before and after the change year
 }
 \description{
 Generate a histogram of a minimum runoff month for two periods: before and after the change year set by \code{year} parameter.

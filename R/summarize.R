@@ -17,7 +17,7 @@ gr_help_vars <- function() {
 #'
 #' @param df `data.frame` of hydrograph separation resulting from [grwat::gr_separate()] function
 #'
-#' @return `data.frame` with one row for each water-resources year and multiple columns of statistics.
+#' @return `data.frame` with one row for each water-resources year and multiple columns of statistics explained by [grwat::gr_help_vars()].
 #' @export
 #'
 #' @example inst/examples/gr_summarize.R

@@ -14,7 +14,7 @@ gr_plot_tests(tests, type = "year", print = TRUE)
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
 }
 \value{
-\code{ggplot2} object
+\code{ggplot2} object representing the selected type of the tested variable
 }
 \description{
 The function extracts change years from results of \code{\link[=gr_test_vars]{gr_test_vars()}} and plots their probability density. Since for every variable the change year is individual, this procedure allows finding the one most probable year, which is the mode of the distribution. This year is highlighted by the line and labeled on the plot.

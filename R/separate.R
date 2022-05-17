@@ -131,7 +131,7 @@ gr_check_params <- function(params, df = NULL) {
 #' @return A `data.frame` with 11 columns: 
 #' 
 #' | __Column__ | __Description__ |
-#' | ------ | ----------- |
+#' | -------- | ----------- |
 #' | `Date`   | date |
 #' | `Q`      | total runoff |
 #' | `Temp`   | temperature |
@@ -141,7 +141,7 @@ gr_check_params <- function(params, df = NULL) {
 #' | `Qspri`  | spring flood |
 #' | `Qrain`  | rain floods | 
 #' | `Qthaw`  | thaw floods |
-#' | `Season`   | a combination of flow types |
+#' | `Season`   | a season of the year |
 #' | `Year`   | a water-resources year |
 #' 
 #' @export
@@ -211,7 +211,7 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
 #' @param C Numeric value of a separation shape parameter used in `'boughton'`, `'jakeman'` and `'maxwell'` methods
 #' @param aq Numeric value of a filtering parameter used in `'jakeman'` method. Defaults to `-0.5`.
 #'
-#' @return Numeric baseflow vector
+#' @return Numeric baseflow vector with length equal to `Q`
 #' @export
 #'
 #' @example inst/examples/gr_baseflow.R

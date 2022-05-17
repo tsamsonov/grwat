@@ -16,7 +16,19 @@ gr_test_vars(df, ..., year = NULL, exclude = NULL)
 \item{exclude}{Integer vector of years to be excluded from tests.}
 }
 \value{
-\code{list} of testing results
+\code{list} of testing results with following elements:\tabular{ll}{
+   \strong{Element} \tab \strong{Description} \cr
+   \code{ptt} \tab Pettitt tests for change year \cr
+   \code{mkt} \tab Mann-Kendall test for trend significance \cr
+   \code{tst} \tab Theil-Sen test for slope estimation \cr
+   \code{ts_fit} \tab Theil-Sen linear model fit \cr
+   \code{tt} \tab Student (Welch) test for significance of mean differences between two periods \cr
+   \code{ft} \tab Fisher test for significance of variance differences between two periods \cr
+   \code{year} \tab Integer value of year used to divide series in two samples compared by Student and Fisher tests \cr
+   \code{maxval} \tab Maximum value for the variable along the full time series \cr
+   \code{fixed_year} \tab Boolean \code{TRUE} or \code{FALSE} value indicating if the year was fixed \cr
+   \code{pvalues} \tab p-values of all tests summarized as a single table for all variables \cr
+}
 }
 \description{
 Use this function to test interannual changes or hydrograph separation variables returned by \code{\link[=gr_summarize]{gr_summarize()}}. Pettitt test is used to detect the change year — i.e. the year which divides the time series into the statistically most differing samples. Student (Welch) and Fisher tests are used to estimate the significance of mean and variance differences of these samples. Theil-Sen test calculates the trend slope value. Mann-Kendall test is performed to reveal the significance of the trend.

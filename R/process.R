@@ -35,7 +35,7 @@ gr_buffer_geo <- function(g, bufsize){
 #'
 #' @param hdata `data.frame` with at least two columns, where the first column is `Date`
 #'
-#' @return `data.frame` with periods of data and periods of gaps
+#' @return `data.frame` with periods of data and periods of gaps, containing five columns: number of the period (num), start of the period (start_date), end of the period (end_date), duration of the period (duration) and type of the period (type).
 #' @export
 #'
 #' @example inst/examples/gr_get_gaps.R

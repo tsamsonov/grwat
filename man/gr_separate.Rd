@@ -25,7 +25,7 @@ A \code{data.frame} with 11 columns:\tabular{ll}{
    \code{Qspri} \tab spring flood \cr
    \code{Qrain} \tab rain floods \cr
    \code{Qthaw} \tab thaw floods \cr
-   \code{Season} \tab a combination of flow types \cr
+   \code{Season} \tab a season of the year \cr
    \code{Year} \tab a water-resources year \cr
 }
 }

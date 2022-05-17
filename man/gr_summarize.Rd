@@ -10,7 +10,7 @@ gr_summarize(df)
 \item{df}{\code{data.frame} of hydrograph separation resulting from \code{\link[=gr_separate]{gr_separate()}} function}
 }
 \value{
-\code{data.frame} with one row for each water-resources year and multiple columns of statistics.
+\code{data.frame} with one row for each water-resources year and multiple columns of statistics explained by \code{\link[=gr_help_vars]{gr_help_vars()}}.
 }
 \description{
 Use this function to get meaningful summary statistics for hydrograph separation. Resulting variables are described by \code{\link[=gr_help_vars]{gr_help_vars()}}. This function is a convenient wrapper around \href{https://dplyr.tidyverse.org}{dplyr}'s \code{df \%>\% group_by \%>\% summarize} idiom.

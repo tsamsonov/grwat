@@ -20,7 +20,7 @@ gr_plot_hori(df, years, pal = "Blues", rev = TRUE, scale = 6, print = TRUE)
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
 }
 \value{
-\code{ggplot2} object
+\code{ggplot2} object representing multiple river hydrographs at once using the horizon plot approach
 }
 \description{
 A convenient wrapper around \code{\link[ggHoriPlot:geom_horizon]{ggHoriPlot::geom_horizon()}} to visualize multiple river hydrographs at once.

@@ -33,7 +33,7 @@ gr_plot_periods(
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
 }
 \value{
-\code{list} of \code{ggplot2} objects
+\code{list} of \code{ggplot2}  objects, one for each variable, representing its long-term changes
 }
 \description{
 This function generates boxplots of the hydrograph separation variables produced by \code{\link[=gr_summarize]{gr_summarize()}}. The data for each variable is divided into two samples: before and after the change year either set by \code{year} parameter or extracted from \code{tests} (statistically estimated). Different background fill colors are used to differentiate seasons types.

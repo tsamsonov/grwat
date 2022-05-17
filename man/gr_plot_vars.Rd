@@ -33,7 +33,7 @@ gr_plot_vars(
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
 }
 \value{
-\code{list} of \code{ggplot2} objects
+\code{list} of \code{ggplot2} objects, one for each variable, representing its interannual changes
 }
 \description{
 This function plots the hydrograph separation variables produced by \code{\link[=gr_summarize]{gr_summarize()}}. Different background fill colors and line types are used to differentiate seasons and variable types.

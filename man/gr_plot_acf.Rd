@@ -16,7 +16,7 @@ gr_plot_acf(hdata, autocorr = 0.7, maxlag = 30, print = TRUE)
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
 }
 \value{
-\code{ggplot2} object
+\code{ggplot2} object representing the autocorrelation function (ACF) for daily runoff time series
 }
 \description{
 The function plots the autocorrelation function (ACF) for daily runoff time series. A number of days corresponding to the specified \code{autocorr} value is highlighted.

@@ -10,7 +10,7 @@ gr_get_gaps(hdata)
 \item{hdata}{\code{data.frame} with at least two columns, where the first column is \code{Date}}
 }
 \value{
-\code{data.frame} with periods of data and periods of gaps
+\code{data.frame} with periods of data and periods of gaps, containing five columns: number of the period (num), start of the period (start_date), end of the period (end_date), duration of the period (duration) and type of the period (type).
 }
 \description{
 Use the function to detect periods of missing data. The first column must be of \code{Date} type. The data is considered to be a gap if any value in the row is missing.

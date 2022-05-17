@@ -33,7 +33,7 @@ gr_baseflow(
 \item{method}{Character string to set baseflow filtering method. Available methods are \code{'boughton'}, \code{'chapman'}, \code{'furey'}, \code{'jakeman'}, \code{'lynehollick'} and \code{'maxwell'}. Default is \code{'lynehollick'}, which corresponds to Lyne-Hollick (1979) hydrograph separation method.}
 }
 \value{
-Numeric baseflow vector
+Numeric baseflow vector with length equal to \code{Q}
 }
 \description{
 Extract baseflow from hydrological series using the filtering approach

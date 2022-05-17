@@ -11,7 +11,7 @@
 #' @param span Integer number of days to accumulate precipitation for plotting.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
 #'
-#' @return `list` of `ggplot2` objects
+#' @return `list` of `ggplot2` objects, one for each year, representing the hydrograph separation
 #' 
 #' @export
 #' 
@@ -237,7 +237,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
 #' @param pagebreak Logical. Whether to break page between plots ([grwat::gr_report()]). Defaults to `FALSE`.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
 #'
-#' @return `list` of `ggplot2` objects
+#' @return `list` of `ggplot2` objects, one for each variable, representing its interannual changes 
 #' 
 #' @export
 #'
@@ -457,7 +457,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
 #' @param pagebreak Logical. Whether to break page between plots (needed for reporting). Defaults to `FALSE`.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
 #'
-#' @return `list` of `ggplot2` objects
+#' @return `list` of `ggplot2`  objects, one for each variable, representing its long-term changes
 #' 
 #' @export
 #' 
@@ -672,7 +672,7 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
 #' @param pagebreak Logical. Whether to break page between plots (needed for reporting). Defaults to `FALSE`.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
 #'
-#' @return `list` of `ggplot2` objects
+#' @return `list` of two `ggplot2` objects, representing the histogram of a minimum runoff month for two periods: before and after the change year
 #' 
 #' @export
 #' 
@@ -839,7 +839,7 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
 #' @param type Character string type of the plot. Currently only `'year'` is supported, which means that the distribution density of the change year detected by Pettitt test is visualized. Ignored until other types are implemented.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
 #'
-#' @return `ggplot2` object
+#' @return `ggplot2` object representing the selected type of the tested variable
 #' 
 #' @export
 #'
@@ -906,7 +906,7 @@ gr_plot_tests <- function(tests, type = 'year', print = TRUE) {
 #' @param maxlag Integer value of the maximum daily lag used to calculate the correlation. Defaults to `30`.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
 #'
-#' @return `ggplot2` object
+#' @return `ggplot2` object representing the autocorrelation function (ACF) for daily runoff time series
 #' 
 #' @export
 #'
@@ -961,7 +961,7 @@ gr_plot_acf <- function(hdata, autocorr = 0.7, maxlag = 30, print = TRUE) {
 #' @param type Character string. Supported options are `'runoff'`, `'component'`, and `'season'`. Defaults to `'runoff'`.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
 #'
-#' @return `ggplot2` object
+#' @return `ggplot2` object representing the runoff values, components or seasons using the matrix-based approach
 #' 
 #' @export
 #'
@@ -1104,7 +1104,7 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff', print = TRUE) {
 #' @param alpha Numeric opacity value of the ridgeline plot. Defaults to `0.8`.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
 #'
-#' @return `ggplot2` object
+#' @return `ggplot2` object representing the multiple river hydrographs at once using the ridgeline plot approach
 #' 
 #' @export
 #'
@@ -1176,7 +1176,7 @@ gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha =
 #' @param scale Numeric scale factor passed to [ggHoriPlot::geom_horizon()]. Defaults to `6`.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
 #'
-#' @return `ggplot2` object
+#' @return `ggplot2` object representing multiple river hydrographs at once using the horizon plot approach
 #' 
 #' @export
 #'

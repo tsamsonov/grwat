@@ -33,7 +33,7 @@ gr_plot_sep(
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
 }
 \value{
-\code{list} of \code{ggplot2} objects
+\code{list} of \code{ggplot2} objects, one for each year, representing the hydrograph separation
 }
 \description{
 The function plots river hydrograph by filling the different flow types using colors. Matrix layouts can be used if multiple plots are needed. Temperature and precipitation can be overlaid.

@@ -9,7 +9,21 @@
 #' @param year Integer value of year used to divide series in two samples compared by Student and Fisher tests. Defaults to `NULL` which means that the year is calculated automatically by Pettitt test.
 #' @param exclude Integer vector of years to be excluded from tests.
 #'
-#' @return `list` of testing results
+#' @return `list` of testing results with following elements:
+#' 
+#' | __Element__  | __Description__ |
+#' | ------------ | --------------- |
+#' | `ptt`        | Pettitt tests for change year |
+#' | `mkt`        | Mann-Kendall test for trend significance |
+#' | `tst`        | Theil-Sen test for slope estimation |
+#' | `ts_fit`     | Theil-Sen linear model fit |
+#' | `tt`         | Student (Welch) test for significance of mean differences between two periods |
+#' | `ft`         | Fisher test for significance of variance differences between two periods |
+#' | `year`       | Integer value of year used to divide series in two samples compared by Student and Fisher tests |
+#' | `maxval`     | Maximum value for the variable along the full time series | 
+#' | `fixed_year` | Boolean `TRUE` or `FALSE` value indicating if the year was fixed |
+#' | `pvalues`    | p-values of all tests summarized as a single table for all variables |
+#' 
 #' @export
 #' 
 #' @example inst/examples/gr_test_vars.R
