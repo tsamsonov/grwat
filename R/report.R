@@ -12,6 +12,8 @@
 #' @param prec Boolean. Plot precipitation on the top of hydrograph? Defaults to `FALSE`. If both `temp = TRUE` and `prec = TRUE`, then the axis is drawn for precipitation.
 #' @param span Integer number of days to accumulate precipitation for plotting. Defaults to `5`.
 #'
+#' @return No return value, called for side effects
+#'
 #' @export
 #'
 #' @example inst/examples/gr_report.R

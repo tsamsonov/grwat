@@ -21,6 +21,8 @@ grenv$loc = 'EN'
 #'
 #' @param locale Character string locale. Currently only English (`'EN'`), Russian (`'RU'`) and Ukrainian (`'UA'`) locales are supported. More locales can be requested at issue on GitHub. Defaults to `'EN'`.
 #'
+#' @return No return value, called for side effects
+#'
 #' @export
 #'
 #' @example inst/examples/gr_set_locale.R

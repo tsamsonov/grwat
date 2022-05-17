@@ -9,6 +9,9 @@ gr_set_locale(locale = "EN")
 \arguments{
 \item{locale}{Character string locale. Currently only English (\code{'EN'}), Russian (\code{'RU'}) and Ukrainian (\code{'UA'}) locales are supported. More locales can be requested at issue on GitHub. Defaults to \code{'EN'}.}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Run this function once at the beginning of the session. All plots will be labeled using the selected language.
 }
