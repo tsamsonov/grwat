@@ -102,20 +102,26 @@
 <p><img src="https://raw.githubusercontent.com/tsamsonov/grwat/master/vignettes/grwat_logo.svg" align="right" alt="" width="150"></p>
 <p>Welcome to <strong><code>grwat</code></strong>, an R package for the automatic hydrograph separation and hydrological time series analysis. <strong><code>grwat</code></strong> provides various filters to separate baseflow and quickflow. Implements advanced separation technique which involves meteorological data to reveal genetic components of the runoff: ground, rain, thaw and spring (seasonal thaw). High-performance <code>C++17</code> computation, annually aggregated variables, statistical testing and numerous <a href="https://ggplot2.tidyverse.org" class="external-link">ggplot</a>-based functions for informative plotting.</p>
 <div class="section level2">
-<h2 id="installing">Installing<a class="anchor" aria-label="anchor" href="#installing"></a>
+<h2 id="installing-from-cran">Installing from CRAN<a class="anchor" aria-label="anchor" href="#installing-from-cran"></a>
 </h2>
-<p><strong>grwat</strong> is not available on CRAN yet. You can install it from GitHub repository. For this three steps are required:</p>
+<p>Install the latest released version of <strong><code>grwat</code></strong> from CRAN by:</p>
+<pre><code><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"grwat"</span><span class="op">)</span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="installing-from-sources">Installing from sources<a class="anchor" aria-label="anchor" href="#installing-from-sources"></a>
+</h2>
+<p>The current development version of <strong><code>grwat</code></strong> can be installed from <a href="https://github.com/tsamsonov/grwat/" class="external-link">GitHub</a>. For this three steps are required:</p>
 <ol style="list-style-type: decimal">
 <li>Install devtools R package</li>
 <li>Install compiler (Windows and macOS only)</li>
 <li>Install grwat R package</li>
 </ol>
 <div class="section level3">
-<h3 id="install-devtools">Install devtools<a class="anchor" aria-label="anchor" href="#install-devtools"></a>
+<h3 id="install-remotes">Install remotes<a class="anchor" aria-label="anchor" href="#install-remotes"></a>
 </h3>
-<p>To install from GitHub, you should install <code>devtools</code> package first (unless it is already installed on your machine):</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></code></pre></div>
+<p>To install from GitHub, you should install <code>remotes</code> package first (unless it is already installed on your machine):</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="install-compiler">Install compiler<a class="anchor" aria-label="anchor" href="#install-compiler"></a>
@@ -137,9 +143,9 @@
 <h3 id="install-grwat">Install grwat<a class="anchor" aria-label="anchor" href="#install-grwat"></a>
 </h3>
 <p>If all previous steps are completed successfully, grwat package can be installed via single command:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tsamsonov/grwat"</span><span class="op">)</span></code></pre></div>
-<blockquote><p><strong>A note to Windows users:</strong> if you get the error during installation <em>over the previously installed grwat</em>, remove the package folder manually, restart R and then hit <code>devtools::install_github("tsamsonov/grwat", INSTALL_opts = '--no-lock')</code>. You should run RStudio as Administrator to get the full access to the package installation folder. The location of installation folder can be learned from <em>Packages — Install</em> dialog or by <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code> command in R console as displayed below.</p></blockquote>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tsamsonov/grwat"</span><span class="op">)</span></code></pre></div>
+<blockquote><p><strong>A note to Windows users:</strong> if you get the error during installation <em>over the previously installed grwat</em>, remove the package folder manually, restart R and then hit <code>remotes::install_github("tsamsonov/grwat", INSTALL_opts = '--no-lock')</code>. You should run RStudio as Administrator to get the full access to the package installation folder. The location of installation folder can be learned from <em>Packages — Install</em> dialog or by <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code> command in R console as displayed below.</p></blockquote>
 <pre><code>&gt; .libPaths()
 [1] "C:/Users/tsamsonov/Documents/R/win-library/4.1"
 [2] "C:/Program Files/R/R-4.1.0/library" </code></pre>
@@ -157,6 +163,7 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=grwat" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/tsamsonov/grwat/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/tsamsonov/grwat/issues" class="external-link">Report a bug</a></li>
 </ul>
@@ -194,6 +201,9 @@
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-yellow.svg" alt="lifecycle"></a></li>
 <li><a href="https://app.codecov.io/github/tsamsonov/grwat?branch=main" class="external-link"><img src="https://img.shields.io/codecov/c/github/tsamsonov/grwat/main.svg" alt="Coverage Status"></a></li>
 <li><a href="https://github.com/tsamsonov/grwat/actions/" class="external-link"><img src="https://github.com/tsamsonov/grwat/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://cran.r-project.org/package=grwat" class="external-link"><img src="http://www.r-pkg.org/badges/version/grwat" alt="CRAN"></a></li>
+<li><a href="https://cran.r-project.org/web/checks/check_results_grwat.html" class="external-link"><img src="https://cranchecks.info/badges/worst/grwat" alt="CRAN checks"></a></li>
+<li><a href="http://www.r-pkg.org/pkg/grwat" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grwat?color=brightgreen" alt="Downloads"></a></li>
 </ul>
 </div>
 
