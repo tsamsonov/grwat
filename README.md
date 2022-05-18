@@ -2,6 +2,9 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-yellow.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Coverage Status](https://img.shields.io/codecov/c/github/tsamsonov/grwat/main.svg)](https://app.codecov.io/github/tsamsonov/grwat?branch=main)
 [![R-CMD-check](https://github.com/tsamsonov/grwat/workflows/R-CMD-check/badge.svg)](https://github.com/tsamsonov/grwat/actions/)
+[![CRAN](http://www.r-pkg.org/badges/version/grwat)](https://cran.r-project.org/package=grwat)
+[![CRAN checks](https://cranchecks.info/badges/worst/grwat)](https://cran.r-project.org/web/checks/check_results_grwat.html)
+[![Downloads](http://cranlogs.r-pkg.org/badges/grwat?color=brightgreen)](http://www.r-pkg.org/pkg/grwat)
 
 # grwat
 
@@ -9,20 +12,28 @@
 
 Welcome to __`grwat`__, an R package for the automatic hydrograph separation and hydrological time series analysis. __`grwat`__ provides various filters to separate baseflow and quickflow. Implements advanced separation technique which involves meteorological data to reveal genetic components of the runoff: ground, rain, thaw and spring (seasonal thaw). High-performance `C++17` computation, annually aggregated variables, statistical testing and numerous [ggplot](https://ggplot2.tidyverse.org)-based functions for informative plotting.
 
-## Installing
+## Installing from CRAN
 
-__grwat__ is not available on CRAN yet. You can install it from GitHub repository. For this three steps are required:
+Install the latest released version of __`grwat`__ from CRAN by:
+
+```
+install.packages("grwat")
+```
+
+## Installing from sources
+
+The current development version of __`grwat`__ can be installed from [GitHub](https://github.com/tsamsonov/grwat/). For this three steps are required:
 
 1. Install devtools R package
 2. Install compiler (Windows and macOS only)
 3. Install grwat R package
 
-### Install devtools 
+### Install remotes 
 
-To install from GitHub, you should install `devtools` package first (unless it is already installed on your machine):
+To install from GitHub, you should install `remotes` package first (unless it is already installed on your machine):
 
 ```r
-install.packages("devtools")
+install.packages("remotes")
 ```
 
 ### Install compiler
@@ -45,10 +56,10 @@ __Windows__ users have to:
 
 If all previous steps are completed successfully, grwat package can be installed via single command:
 ```r
-devtools::install_github("tsamsonov/grwat")
+remotes::install_github("tsamsonov/grwat")
 ```
 
-> __A note to Windows users:__ if you get the error during installation _over the previously installed grwat_, remove the package folder manually, restart R and then hit `devtools::install_github("tsamsonov/grwat", INSTALL_opts = '--no-lock')`. You should run RStudio as Administrator to get the full access to the package installation folder. The location of installation folder can be learned from _Packages — Install_ dialog or by `.libPaths()` command in R console as displayed below.
+> __A note to Windows users:__ if you get the error during installation _over the previously installed grwat_, remove the package folder manually, restart R and then hit `remotes::install_github("tsamsonov/grwat", INSTALL_opts = '--no-lock')`. You should run RStudio as Administrator to get the full access to the package installation folder. The location of installation folder can be learned from _Packages — Install_ dialog or by `.libPaths()` command in R console as displayed below.
 
 ```
 > .libPaths()
