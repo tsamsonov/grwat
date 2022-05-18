@@ -112,21 +112,21 @@
 </h2>
 <p>The current development version of <strong><code>grwat</code></strong> can be installed from <a href="https://github.com/tsamsonov/grwat/" class="external-link">GitHub</a>. For this three steps are required:</p>
 <ol style="list-style-type: decimal">
-<li>Install devtools R package</li>
+<li>Install <strong><code>remotes</code></strong> R package</li>
 <li>Install compiler (Windows and macOS only)</li>
-<li>Install grwat R package</li>
+<li>Install <strong><code>grwat</code></strong> R package</li>
 </ol>
 <div class="section level3">
 <h3 id="install-remotes">Install remotes<a class="anchor" aria-label="anchor" href="#install-remotes"></a>
 </h3>
-<p>To install from GitHub, you should install <code>remotes</code> package first (unless it is already installed on your machine):</p>
+<p>To install from GitHub, you should install <strong><code>remotes</code></strong> package first (unless it is already installed on your machine):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="install-compiler">Install compiler<a class="anchor" aria-label="anchor" href="#install-compiler"></a>
 </h3>
-<p>Since grwat contains C++ code, it needs to be compiled during the package installation.</p>
+<p>Since <strong><code>grwat</code></strong> contains C++ code, it needs to be compiled during the package installation.</p>
 <p><strong>Linux</strong> users should have the compiler already installed in their system.</p>
 <p><strong>macOS</strong> users have to:</p>
 <ol style="list-style-type: decimal">
@@ -142,7 +142,7 @@
 <div class="section level3">
 <h3 id="install-grwat">Install grwat<a class="anchor" aria-label="anchor" href="#install-grwat"></a>
 </h3>
-<p>If all previous steps are completed successfully, grwat package can be installed via single command:</p>
+<p>If all previous steps are completed successfully, <strong><code>grwat</code></strong> package can be installed via single command:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tsamsonov/grwat"</span><span class="op">)</span></code></pre></div>
 <blockquote><p><strong>A note to Windows users:</strong> if you get the error during installation <em>over the previously installed grwat</em>, remove the package folder manually, restart R and then hit <code>remotes::install_github("tsamsonov/grwat", INSTALL_opts = '--no-lock')</code>. You should run RStudio as Administrator to get the full access to the package installation folder. The location of installation folder can be learned from <em>Packages — Install</em> dialog or by <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code> command in R console as displayed below.</p></blockquote>
@@ -154,9 +154,9 @@
 <div class="section level2">
 <h2 id="funding">Funding<a class="anchor" aria-label="anchor" href="#funding"></a>
 </h2>
-<p><strong>grwat</strong> package is being developed with financial support of Russian Science Foundation (Project <a href="https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf" class="external-link">19-77-10032</a>).</p>
-<p>The main separation algorithm was developed in 2016-2018 with financial support of RFBR (Project <a href="https://www.rfbr.ru/rffi/ru/project_search/o_2031785" class="external-link">16-35-60080</a>).</p>
-<p>The mountain block of the main separation algorithm was developed in 2018-2019 with financial support of Russian Science Foundation (Project <a href="https://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf" class="external-link">17-77-10169</a>).</p>
+<p><strong><code>grwat</code></strong> package has been developed with financial support of Russian Science Foundation (RSF) Project <a href="https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf" class="external-link">19-77-10032</a>.</p>
+<p>The main separation algorithm was developed in 2016-2018 with financial support of Russian Foundation for Basic Research (RFBR) Project <a href="https://www.rfbr.ru/rffi/ru/project_search/o_2031785" class="external-link">16-35-60080</a>.</p>
+<p>The mountain block of the main separation algorithm was developed in 2018-2019 with financial support of Russian Science Foundation (RSF) Project <a href="https://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf" class="external-link">17-77-10169</a>.</p>
 </div>
 </div>
 
