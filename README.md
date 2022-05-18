@@ -24,13 +24,13 @@ install.packages("grwat")
 
 The current development version of __`grwat`__ can be installed from [GitHub](https://github.com/tsamsonov/grwat/). For this three steps are required:
 
-1. Install devtools R package
+1. Install __`remotes`__ R package
 2. Install compiler (Windows and macOS only)
-3. Install grwat R package
+3. Install __`grwat`__ R package
 
 ### Install remotes 
 
-To install from GitHub, you should install `remotes` package first (unless it is already installed on your machine):
+To install from GitHub, you should install __`remotes`__ package first (unless it is already installed on your machine):
 
 ```r
 install.packages("remotes")
@@ -38,7 +38,7 @@ install.packages("remotes")
 
 ### Install compiler
 
-Since grwat contains C++ code, it needs to be compiled during the package installation. 
+Since __`grwat`__ contains C++ code, it needs to be compiled during the package installation. 
 
 __Linux__ users should have the compiler already installed in their system. 
 
@@ -54,7 +54,7 @@ __Windows__ users have to:
 
 ### Install grwat
 
-If all previous steps are completed successfully, grwat package can be installed via single command:
+If all previous steps are completed successfully, __`grwat`__ package can be installed via single command:
 ```r
 remotes::install_github("tsamsonov/grwat")
 ```
@@ -69,8 +69,8 @@ remotes::install_github("tsamsonov/grwat")
 
 ## Funding
 
-__grwat__ package is being developed with financial support of Russian Science Foundation (Project [19-77-10032](https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf)).
+__`grwat`__ package is being developed with financial support of Russian Science Foundation (RSF) Project [19-77-10032](https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf).
 
-The main separation algorithm was developed in 2016-2018 with financial support of RFBR (Project [16-35-60080](https://www.rfbr.ru/rffi/ru/project_search/o_2031785)).
+The main separation algorithm was developed in 2016-2018 with financial support of Russian Foundation for Basic Research (RFBR) Project [16-35-60080](https://www.rfbr.ru/rffi/ru/project_search/o_2031785).
 
-The mountain block of the main separation algorithm was developed in 2018-2019 with financial support of Russian Science Foundation (Project [17-77-10169](https://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf)).
+The mountain block of the main separation algorithm was developed in 2018-2019 with financial support of Russian Science Foundation (RSF) Project [17-77-10169](https://rscf.ru/sites/default/files/docfiles/ONG_2017.pdf).
