@@ -88,7 +88,7 @@ remotes::install_github("tsamsonov/grwat")
 
 ## Why 'grwat'?
 
-__grwat__ is an acronym made from <b><i>gr</i></b>ound <b><i>wat</i></b>er. This name emerged historically because the extraction of the ground flow (baseflow) is one of the most important stages in the advanced separation algorithm provided by the package.
+___grwat___ is an acronym made from <b><i>gr</i></b>ound <b><i>wat</i></b>er. This name emerged historically because the extraction of the ground flow (baseflow) is one of the most important stages in the advanced separation algorithm provided by the package.
 
 ## Funding
 
