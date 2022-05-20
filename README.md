@@ -2,6 +2,7 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-yellow.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Coverage Status](https://img.shields.io/codecov/c/github/tsamsonov/grwat/main.svg)](https://app.codecov.io/github/tsamsonov/grwat?branch=main)
 [![R-CMD-check](https://github.com/tsamsonov/grwat/workflows/R-CMD-check/badge.svg)](https://github.com/tsamsonov/grwat/actions/)
+[![r-universe](https://tsamsonov.r-universe.dev/badges/grwat)](https://tsamsonov.r-universe.dev/ui#package:grwat)
 [![CRAN](http://www.r-pkg.org/badges/version/grwat)](https://cran.r-project.org/package=grwat)
 [![CRAN checks](https://cranchecks.info/badges/worst/grwat)](https://cran.r-project.org/web/checks/check_results_grwat.html)
 [![Downloads](http://cranlogs.r-pkg.org/badges/grwat?color=brightgreen)](http://www.r-pkg.org/pkg/grwat)
