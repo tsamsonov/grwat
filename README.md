@@ -14,15 +14,32 @@ Welcome to __`grwat`__, an R package for the automatic hydrograph separation and
 
 > __Important note:__ The current state of the package should be considered _experimental_. Convenience of __`grwat`__ data model and processing workflow should be tested by package users and may change in near future. Feel free to submit bugs and suggestions on improvement of the package to the [GitHub issues](https://github.com/tsamsonov/grwat/issues).
 
-## Installing from CRAN
+## Install released version from CRAN
 
 Install the latest released version of __`grwat`__ from CRAN by:
 
-```
+```r
 install.packages("grwat")
 ```
 
-## Installing from sources
+## Install development version from R-universe
+
+The current development version of __`grwat`__ can be installed from [R-universe](https://tsamsonov.r-universe.dev/ui#package:grwat):
+
+```r
+# Enable repository from tsamsonov
+options(
+  repos = c(
+    ropensci = 'https://tsamsonov.r-universe.dev',
+    CRAN = 'https://cloud.r-project.org'
+  )
+)
+  
+# Download and install grwat in R
+install.packages('grwat')
+```
+
+## Install development version from GitHub
 
 The current development version of __`grwat`__ can be installed from [GitHub](https://github.com/tsamsonov/grwat/). For this three steps are required:
 
