@@ -103,13 +103,30 @@
 <p>Welcome to <strong><code>grwat</code></strong>, an R package for the automatic hydrograph separation and daily hydrological time series analysis. <strong><code>grwat</code></strong> provides various filters to separate baseflow and quickflow. Implements advanced separation technique which involves meteorological data to reveal genetic components of the runoff: ground, rain, thaw and spring (seasonal thaw). High-performance <code>C++17</code> computation, annually aggregated variables, statistical testing and numerous <a href="https://ggplot2.tidyverse.org" class="external-link">ggplot</a>-based functions for informative plotting.</p>
 <blockquote><p><strong>Important note:</strong> The current state of the package should be considered <em>experimental</em>. Convenience of <strong><code>grwat</code></strong> data model and processing workflow should be tested by package users and may change in near future. Feel free to submit bugs and suggestions on improvement of the package to the <a href="https://github.com/tsamsonov/grwat/issues" class="external-link">GitHub issues</a>.</p></blockquote>
 <div class="section level2">
-<h2 id="installing-from-cran">Installing from CRAN<a class="anchor" aria-label="anchor" href="#installing-from-cran"></a>
+<h2 id="install-released-version-from-cran">Install released version from CRAN<a class="anchor" aria-label="anchor" href="#install-released-version-from-cran"></a>
 </h2>
 <p>Install the latest released version of <strong><code>grwat</code></strong> from CRAN by:</p>
-<pre><code><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"grwat"</span><span class="op">)</span></code></pre>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"grwat"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="installing-from-sources">Installing from sources<a class="anchor" aria-label="anchor" href="#installing-from-sources"></a>
+<h2 id="install-development-version-from-r-universe">Install development version from R-universe<a class="anchor" aria-label="anchor" href="#install-development-version-from-r-universe"></a>
+</h2>
+<p>The current development version of <strong><code>grwat</code></strong> can be installed from <a href="https://tsamsonov.r-universe.dev/ui#package:grwat" class="external-link">R-universe</a>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Enable repository from tsamsonov</span>
+<span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>
+  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
+    ropensci <span class="op">=</span> <span class="st">'https://tsamsonov.r-universe.dev'</span>,
+    CRAN <span class="op">=</span> <span class="st">'https://cloud.r-project.org'</span>
+  <span class="op">)</span>
+<span class="op">)</span>
+  
+<span class="co"># Download and install grwat in R</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'grwat'</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="install-development-version-from-github">Install development version from GitHub<a class="anchor" aria-label="anchor" href="#install-development-version-from-github"></a>
 </h2>
 <p>The current development version of <strong><code>grwat</code></strong> can be installed from <a href="https://github.com/tsamsonov/grwat/" class="external-link">GitHub</a>. For this three steps are required:</p>
 <ol style="list-style-type: decimal">
@@ -121,7 +138,7 @@
 <h3 id="install-remotes">Install remotes<a class="anchor" aria-label="anchor" href="#install-remotes"></a>
 </h3>
 <p>To install from GitHub, you should install <strong><code>remotes</code></strong> package first (unless it is already installed on your machine):</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
@@ -144,7 +161,7 @@
 <h3 id="install-grwat">Install grwat<a class="anchor" aria-label="anchor" href="#install-grwat"></a>
 </h3>
 <p>If all previous steps are completed successfully, <strong><code>grwat</code></strong> package can be installed via single command:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tsamsonov/grwat"</span><span class="op">)</span></code></pre></div>
 <blockquote><p><strong>A note to Windows users:</strong> if you get the error during installation <em>over the previously installed grwat</em>, remove the package folder manually, restart R and then hit <code>remotes::install_github("tsamsonov/grwat", INSTALL_opts = '--no-lock')</code>. You should run RStudio as Administrator to get the full access to the package installation folder. The location of installation folder can be learned from <em>Packages — Install</em> dialog or by <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code> command in R console as displayed below.</p></blockquote>
 <pre><code>&gt; .libPaths()
