@@ -86,9 +86,13 @@ remotes::install_github("tsamsonov/grwat")
 [2] "C:/Program Files/R/R-4.1.0/library" 
 ```
 
+## Why 'grwat'?
+
+__grwat__ is an acronym made from __gr__ound __wat__er. This name emerged historically because the extraction of the ground flow (baseflow) is one of the most important stages in the advanced separation algorithm provided by the package.
+
 ## Funding
 
-__`grwat`__ package has been developed with financial support of Russian Science Foundation (RSF) Project [19-77-10032](https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf).
+__`grwat`__ package has been developed in 2019-2022 with financial support of Russian Science Foundation (RSF) Project [19-77-10032](https://rscf.ru/upload/iblock/329/3294f294b9a3a424e3044797a0e6bd6f.pdf).
 
 The main separation algorithm was developed in 2016-2018 with financial support of Russian Foundation for Basic Research (RFBR) Project [16-35-60080](https://www.rfbr.ru/rffi/ru/project_search/o_2031785).
 
