@@ -75,7 +75,7 @@
 
 <script src="summaries_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="summaries_files/kePrint-0.0.1/kePrint.js"></script><link href="summaries_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>3. Summaries</h1>
             
       
@@ -91,215 +91,215 @@
 <p>Annual variables are useful statistics calculated for the results of hydrograph separation. While separation is performed on a daily basis, the summaries calculated by <em><code>grwat</code></em> are annual. Examples are maximum spring flood runoff, mean annual groundwater (“baseflow”) runoff, thaw flood runoff volume (w/o groundwater) or the number of rain flood days. Users proficient in R can calculate such variables simply by summarizing the results of <code><a href="../reference/gr_separate.html">gr_separate()</a></code> function. However, summarizing functionality is implemented in the package for a more streamlined analysis. The benefits are that the standardized variables can be supplemented by additional functions that perform their statistical testing and plotting.</p>
 <p>First of all, we need to separate the hydrograph:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># separate</span>
-<span class="co">#&gt;         Date    Q   Temp  Prec</span>
-<span class="co">#&gt; 1 1956-01-01 5.18  -6.46 0.453</span>
-<span class="co">#&gt; 2 1956-01-02 5.18 -11.41 0.825</span>
-<span class="co">#&gt; 3 1956-01-03 5.44 -10.74 0.260</span>
-<span class="co">#&gt; 4 1956-01-04 5.44  -8.05 0.397</span>
-<span class="co">#&gt; 5 1956-01-05 5.44 -11.73 0.102</span>
-<span class="co">#&gt; 6 1956-01-06 5.58 -20.13 0.032</span>
-<span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># separate</span></span>
+<span><span class="co">#&gt;         Date    Q   Temp  Prec</span></span>
+<span><span class="co">#&gt; 1 1956-01-01 5.18  -6.46 0.453</span></span>
+<span><span class="co">#&gt; 2 1956-01-02 5.18 -11.41 0.825</span></span>
+<span><span class="co">#&gt; 3 1956-01-03 5.44 -10.74 0.260</span></span>
+<span><span class="co">#&gt; 4 1956-01-04 5.44  -8.05 0.397</span></span>
+<span><span class="co">#&gt; 5 1956-01-05 5.44 -11.73 0.102</span></span>
+<span><span class="co">#&gt; 6 1956-01-06 5.58 -20.13 0.032</span></span>
+<span><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <blockquote>
 <p>For more information on advanced separation, read the <a href="https://tsamsonov.github.io/grwat/articles/separation.html" class="external-link"><strong>Advanced separation</strong></a> vignette.</p>
 </blockquote>
 <p>After that we can use <code><a href="../reference/gr_summarize.html">gr_summarize()</a></code> to summarize the result:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># summarize</span>
-<span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span>
-<span class="co">#&gt; Warning in min.default(structure(numeric(0), class = "Date"), na.rm = FALSE): no</span>
-<span class="co">#&gt; non-missing arguments to min; returning Inf</span>
-<span class="co">#&gt; Warning in max.default(structure(numeric(0), class = "Date"), na.rm = FALSE): no</span>
-<span class="co">#&gt; non-missing arguments to max; returning -Inf</span>
-<span class="co">#&gt; Warning in min(means, na.rm = TRUE): no non-missing arguments to min; returning</span>
-<span class="co">#&gt; Inf</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 57</span></span>
-<span class="co">#&gt;    Year Year1 Year2 Dspstart   Dspend       Tsp    Qy Qspmax Dspmax      Qygr</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>956  <span style="text-decoration: underline;">1</span>956  <span style="text-decoration: underline;">1</span>957 1956-04-08 1956-05-05    27  18.4    467 1956-04-22  8.59</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">1</span>957  <span style="text-decoration: underline;">1</span>957  <span style="text-decoration: underline;">1</span>958 1957-03-25 1957-05-04    40  20.2    460 1957-04-08  9.77</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">1</span>958  <span style="text-decoration: underline;">1</span>958  <span style="text-decoration: underline;">1</span>959 1958-04-02 1958-05-13    41  27.3    537 1958-04-21 10.2 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">1</span>959  <span style="text-decoration: underline;">1</span>959  <span style="text-decoration: underline;">1</span>960 1959-03-28 1959-04-28    31  27.1    406 1959-04-16 10.9 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>960  <span style="text-decoration: underline;">1</span>960  <span style="text-decoration: underline;">1</span>961 1960-03-27 1960-04-27    31  29.6    406 1960-04-15 12.3 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">1</span>961  <span style="text-decoration: underline;">1</span>961  <span style="text-decoration: underline;">1</span>962 1961-03-07 1961-05-02    56  18.8    296 1961-04-10 10.8 </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 47 more variables: Qsmin &lt;dbl&gt;, Dsmin &lt;date&gt;, Qwmin &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   Dwmin &lt;date&gt;, Q30s &lt;dbl&gt;, D30s1 &lt;date&gt;, D30s2 &lt;date&gt;, Q30w &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   D30w1 &lt;date&gt;, D30w2 &lt;date&gt;, Q10s &lt;dbl&gt;, D10s1 &lt;date&gt;, D10s2 &lt;date&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   Q10w &lt;dbl&gt;, D10w1 &lt;date&gt;, D10w2 &lt;date&gt;, Q5s &lt;dbl&gt;, D5s1 &lt;date&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   D5s2 &lt;date&gt;, Q5w &lt;dbl&gt;, D5w1 &lt;date&gt;, D5w2 &lt;date&gt;, Wy &lt;dbl&gt;, Wygr &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   Wsp &lt;dbl&gt;, Wspgr &lt;dbl&gt;, Wsprngr &lt;dbl&gt;, Wrn &lt;dbl&gt;, Wrngr &lt;dbl&gt;, Wth &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   Wthgr &lt;dbl&gt;, Wgrs &lt;dbl&gt;, Ws &lt;dbl&gt;, Wgrw &lt;dbl&gt;, Ww &lt;dbl&gt;, Qrnmax &lt;dbl&gt;, …</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># summarize</span></span>
+<span><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in min.default(structure(numeric(0), class = "Date"), na.rm = FALSE): no</span></span>
+<span><span class="co">#&gt; non-missing arguments to min; returning Inf</span></span>
+<span><span class="co">#&gt; Warning in max.default(structure(numeric(0), class = "Date"), na.rm = FALSE): no</span></span>
+<span><span class="co">#&gt; non-missing arguments to max; returning -Inf</span></span>
+<span><span class="co">#&gt; Warning in min(means, na.rm = TRUE): no non-missing arguments to min; returning</span></span>
+<span><span class="co">#&gt; Inf</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 57</span></span></span>
+<span><span class="co">#&gt;    Year Year1 Year2 Dspstart   Dspend       Tsp    Qy Qspmax Dspmax      Qygr</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>956  <span style="text-decoration: underline;">1</span>956  <span style="text-decoration: underline;">1</span>957 1956-04-08 1956-05-05    27  18.4    467 1956-04-22  8.59</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">1</span>957  <span style="text-decoration: underline;">1</span>957  <span style="text-decoration: underline;">1</span>958 1957-03-25 1957-05-04    40  20.2    460 1957-04-08  9.77</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">1</span>958  <span style="text-decoration: underline;">1</span>958  <span style="text-decoration: underline;">1</span>959 1958-04-02 1958-05-13    41  27.3    537 1958-04-21 10.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">1</span>959  <span style="text-decoration: underline;">1</span>959  <span style="text-decoration: underline;">1</span>960 1959-03-28 1959-04-28    31  27.1    406 1959-04-16 10.9 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>960  <span style="text-decoration: underline;">1</span>960  <span style="text-decoration: underline;">1</span>961 1960-03-27 1960-04-27    31  29.6    406 1960-04-15 12.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">1</span>961  <span style="text-decoration: underline;">1</span>961  <span style="text-decoration: underline;">1</span>962 1961-03-07 1961-05-02    56  18.8    296 1961-04-10 10.8 </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 47 more variables: Qsmin &lt;dbl&gt;, Dsmin &lt;date&gt;, Qwmin &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Dwmin &lt;date&gt;, Q30s &lt;dbl&gt;, D30s1 &lt;date&gt;, D30s2 &lt;date&gt;, Q30w &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   D30w1 &lt;date&gt;, D30w2 &lt;date&gt;, Q10s &lt;dbl&gt;, D10s1 &lt;date&gt;, D10s2 &lt;date&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Q10w &lt;dbl&gt;, D10w1 &lt;date&gt;, D10w2 &lt;date&gt;, Q5s &lt;dbl&gt;, D5s1 &lt;date&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   D5s2 &lt;date&gt;, Q5w &lt;dbl&gt;, D5w1 &lt;date&gt;, D5w2 &lt;date&gt;, Wy &lt;dbl&gt;, Wygr &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Wsp &lt;dbl&gt;, Wspgr &lt;dbl&gt;, Wsprngr &lt;dbl&gt;, Wrn &lt;dbl&gt;, Wrngr &lt;dbl&gt;, Wth &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Wthgr &lt;dbl&gt;, Wgrs &lt;dbl&gt;, Ws &lt;dbl&gt;, Wgrw &lt;dbl&gt;, Ww &lt;dbl&gt;, Qrnmax &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>Resulting data frame contains more than 50 variables that can be used in the analysis of interannual changes. To get familiar with the variables and their names, just use the <code><a href="../reference/gr_help_vars.html">gr_help_vars()</a></code> function:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/gr_help_vars.html">gr_help_vars</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 57 × 21</span></span>
-<span class="co">#&gt;       ID Position Width Source Name_old    Name   Units Unitsua Unitsen Readtype</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1        1     7      1 year_number Number <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      integer </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2        8    10      1 Year1       Year1  Год   Рок     Year    integer </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3       18    10      1 Year2       Year2  Год   Рок     Year    integer </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     4       28    15      1 datestart   Dspst… Дата  Дата    Date    Date    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     5       43    15      1 datepolend  Dspend Дата  Дата    Date    Date    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    57        0     0      0 PolProd     Tsp    Дней  Дней    Days    integer </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     6       58    10      1 Qy          Qy     м^3/с м^3/с   m^3/s   double  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     7       68    10      1 Qmax        Qspmax м^3/с м^3/с   m^3/s   double  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     8       78    15      1 datemax     Dspmax Дата  Дата    Date    Date    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     9       93    10      1 Qygr        Qygr   м^3/с м^3/с   m^3/s   double  </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 47 more rows, and 11 more variables: Type &lt;chr&gt;, Test &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   Desc &lt;chr&gt;, Descua &lt;chr&gt;, Descen &lt;chr&gt;, Group &lt;chr&gt;, Winter &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   Chart &lt;chr&gt;, Color &lt;chr&gt;, Order &lt;dbl&gt;, Range &lt;chr&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gr_help_vars.html">gr_help_vars</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 57 × 21</span></span></span>
+<span><span class="co">#&gt;       ID Position Width Source Name_old    Name   Units Unitsua Unitsen Readtype</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1        1     7      1 year_number Number <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      integer </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2        8    10      1 Year1       Year1  Год   Рок     Year    integer </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3       18    10      1 Year2       Year2  Год   Рок     Year    integer </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     4       28    15      1 datestart   Dspst… Дата  Дата    Date    Date    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     5       43    15      1 datepolend  Dspend Дата  Дата    Date    Date    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    57        0     0      0 PolProd     Tsp    Дней  Дней    Days    integer </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     6       58    10      1 Qy          Qy     м^3/с м^3/с   m^3/s   double  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     7       68    10      1 Qmax        Qspmax м^3/с м^3/с   m^3/s   double  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     8       78    15      1 datemax     Dspmax Дата  Дата    Date    Date    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     9       93    10      1 Qygr        Qygr   м^3/с м^3/с   m^3/s   double  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 47 more rows, and 11 more variables: Type &lt;chr&gt;, Test &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Desc &lt;chr&gt;, Descua &lt;chr&gt;, Descen &lt;chr&gt;, Group &lt;chr&gt;, Winter &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Chart &lt;chr&gt;, Color &lt;chr&gt;, Order &lt;dbl&gt;, Range &lt;chr&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="statistical-tests">Statistical tests<a class="anchor" aria-label="anchor" href="#statistical-tests"></a>
 </h2>
 <p>Variable testing by <code><a href="../reference/gr_test_vars.html">gr_test_vars()</a></code> can be used to estimate the statistical significance of the interannual changes. Pettitt test is performed to detect the change year — i.e. the year which divides the time series into the statistically most differing samples. Student (Welch) and Fisher tests are used to estimate the significance of mean and variance differences of these samples. Theil-Sen test calculates the trend slope value. Mann-Kendall test is performed to reveal the significance of the trend. <code><a href="../reference/gr_test_vars.html">gr_test_vars()</a></code> returns the list of tests for each variable:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># test all variables</span>
-<span class="va">tests</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span>
-
-<span class="co"># view Pettitt test for Qygr</span>
-<span class="va">tests</span><span class="op">$</span><span class="va">ptt</span><span class="op">$</span><span class="va">Qygr</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Pettitt's test for single change-point detection</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  vl[vl_cmp]</span>
-<span class="co">#&gt; U* = 869, p-value = 8.129e-08</span>
-<span class="co">#&gt; alternative hypothesis: two.sided</span>
-<span class="co">#&gt; sample estimates:</span>
-<span class="co">#&gt; probable change point at time K </span>
-<span class="co">#&gt;                              23</span>
-
-<span class="co"># view Fisher test for Q30s</span>
-<span class="va">tests</span><span class="op">$</span><span class="va">ft</span><span class="op">$</span><span class="va">Q30s</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  F test to compare two variances</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  d1 and d2</span>
-<span class="co">#&gt; F = 0.53023, num df = 21, denom df = 41, p-value = 0.1208</span>
-<span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span>
-<span class="co">#&gt; 95 percent confidence interval:</span>
-<span class="co">#&gt;  0.2597352 1.1887012</span>
-<span class="co">#&gt; sample estimates:</span>
-<span class="co">#&gt; ratio of variances </span>
-<span class="co">#&gt;          0.5302307</span>
-
-<span class="co"># test only Qygr and Q30s using 1978 as fixed year and excluding 1988-1991 yrs</span>
-<span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, year <span class="op">=</span> <span class="fl">1979</span>, exclude <span class="op">=</span> <span class="fl">1988</span><span class="op">:</span><span class="fl">1991</span><span class="op">)</span>
-<span class="co">#&gt; $ptt</span>
-<span class="co">#&gt; $ptt$Qygr</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Pettitt's test for single change-point detection</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  vl[vl_cmp]</span>
-<span class="co">#&gt; U* = 777, p-value = 1.372e-07</span>
-<span class="co">#&gt; alternative hypothesis: two.sided</span>
-<span class="co">#&gt; sample estimates:</span>
-<span class="co">#&gt; probable change point at time K </span>
-<span class="co">#&gt;                              23 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $mkt</span>
-<span class="co">#&gt; $mkt$Qygr</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Mann-Kendall trend test</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  vl[vl_cmp]</span>
-<span class="co">#&gt; z = 4.6495, n = 60, p-value = 3.327e-06</span>
-<span class="co">#&gt; alternative hypothesis: true S is not equal to 0</span>
-<span class="co">#&gt; sample estimates:</span>
-<span class="co">#&gt;            S         varS          tau </span>
-<span class="co">#&gt; 7.300000e+02 2.458333e+04 4.124294e-01 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $tst</span>
-<span class="co">#&gt; $tst$Qygr</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Sen's slope</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  df.theil[[2]][fltr]</span>
-<span class="co">#&gt; z = 4.6495, n = 60, p-value = 3.327e-06</span>
-<span class="co">#&gt; alternative hypothesis: true z is not equal to 0</span>
-<span class="co">#&gt; 95 percent confidence interval:</span>
-<span class="co">#&gt;  0.06251714 0.13908704</span>
-<span class="co">#&gt; sample estimates:</span>
-<span class="co">#&gt; Sen's slope </span>
-<span class="co">#&gt;  0.09723533 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $ts_fit</span>
-<span class="co">#&gt; $ts_fit$Qygr</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; mblm::mblm(formula = eval(frml), dataframe = df.theil[fltr, ], </span>
-<span class="co">#&gt;     repeated = FALSE)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt; (Intercept)        Year1  </span>
-<span class="co">#&gt;  -161.12007      0.08728  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $tt</span>
-<span class="co">#&gt; $tt$Qygr</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Welch Two Sample t-test</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  d1 and d2</span>
-<span class="co">#&gt; t = -8.5377, df = 47.936, p-value = 3.47e-11</span>
-<span class="co">#&gt; alternative hypothesis: true difference in means is not equal to 0</span>
-<span class="co">#&gt; 95 percent confidence interval:</span>
-<span class="co">#&gt;  -5.558042 -3.439122</span>
-<span class="co">#&gt; sample estimates:</span>
-<span class="co">#&gt; mean of x mean of y </span>
-<span class="co">#&gt;  9.296712 13.795294 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $ft</span>
-<span class="co">#&gt; $ft$Qygr</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  F test to compare two variances</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  d1 and d2</span>
-<span class="co">#&gt; F = 0.80703, num df = 21, denom df = 37, p-value = 0.6112</span>
-<span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span>
-<span class="co">#&gt; 95 percent confidence interval:</span>
-<span class="co">#&gt;  0.3877489 1.8252853</span>
-<span class="co">#&gt; sample estimates:</span>
-<span class="co">#&gt; ratio of variances </span>
-<span class="co">#&gt;          0.8070288 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $year</span>
-<span class="co">#&gt; Qygr </span>
-<span class="co">#&gt; 1979 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $maxval</span>
-<span class="co">#&gt; $maxval$Qygr</span>
-<span class="co">#&gt; [1] 20.05682</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $fixed_year</span>
-<span class="co">#&gt; [1] TRUE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $pvalues</span>
-<span class="co">#&gt;   N                                    Variable Change.Year   Trend      M1</span>
-<span class="co">#&gt; 1 1 Mean annual groundwater ("baseflow") runoff        1979 0.08728 9.29671</span>
-<span class="co">#&gt;         M2 MeanRatio     sd1     sd2 sdRatio Mann.Kendall Pettitt Student</span>
-<span class="co">#&gt; 1 13.79529      48.4 1.88588 2.09928    11.3            0       0       0</span>
-<span class="co">#&gt;    Fisher</span>
-<span class="co">#&gt; 1 0.61116</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># test all variables</span></span>
+<span><span class="va">tests</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># view Pettitt test for Qygr</span></span>
+<span><span class="va">tests</span><span class="op">$</span><span class="va">ptt</span><span class="op">$</span><span class="va">Qygr</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Pettitt's test for single change-point detection</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  vl[vl_cmp]</span></span>
+<span><span class="co">#&gt; U* = 865, p-value = 9.505e-08</span></span>
+<span><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; probable change point at time K </span></span>
+<span><span class="co">#&gt;                              23</span></span>
+<span></span>
+<span><span class="co"># view Fisher test for Q30s</span></span>
+<span><span class="va">tests</span><span class="op">$</span><span class="va">ft</span><span class="op">$</span><span class="va">Q30s</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  F test to compare two variances</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  d1 and d2</span></span>
+<span><span class="co">#&gt; F = 0.53023, num df = 21, denom df = 41, p-value = 0.1208</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  0.2597352 1.1887012</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; ratio of variances </span></span>
+<span><span class="co">#&gt;          0.5302307</span></span>
+<span></span>
+<span><span class="co"># test only Qygr and Q30s using 1978 as fixed year and excluding 1988-1991 yrs</span></span>
+<span><span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, year <span class="op">=</span> <span class="fl">1979</span>, exclude <span class="op">=</span> <span class="fl">1988</span><span class="op">:</span><span class="fl">1991</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $ptt</span></span>
+<span><span class="co">#&gt; $ptt$Qygr</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Pettitt's test for single change-point detection</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  vl[vl_cmp]</span></span>
+<span><span class="co">#&gt; U* = 773, p-value = 1.625e-07</span></span>
+<span><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; probable change point at time K </span></span>
+<span><span class="co">#&gt;                              23 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $mkt</span></span>
+<span><span class="co">#&gt; $mkt$Qygr</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Mann-Kendall trend test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  vl[vl_cmp]</span></span>
+<span><span class="co">#&gt; z = 4.6112, n = 60, p-value = 4.003e-06</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true S is not equal to 0</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt;            S         varS          tau </span></span>
+<span><span class="co">#&gt; 7.240000e+02 2.458333e+04 4.090395e-01 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $tst</span></span>
+<span><span class="co">#&gt; $tst$Qygr</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Sen's slope</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  df.theil[[2]][fltr]</span></span>
+<span><span class="co">#&gt; z = 4.6112, n = 60, p-value = 4.003e-06</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true z is not equal to 0</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  0.06134963 0.13908704</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; Sen's slope </span></span>
+<span><span class="co">#&gt;  0.09690887 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $ts_fit</span></span>
+<span><span class="co">#&gt; $ts_fit$Qygr</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; mblm::mblm(formula = eval(frml), dataframe = df.theil[fltr, ], </span></span>
+<span><span class="co">#&gt;     repeated = FALSE)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt; (Intercept)        Year1  </span></span>
+<span><span class="co">#&gt;  -157.23729      0.08532  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $tt</span></span>
+<span><span class="co">#&gt; $tt$Qygr</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Welch Two Sample t-test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  d1 and d2</span></span>
+<span><span class="co">#&gt; t = -8.4912, df = 48.211, p-value = 3.889e-11</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true difference in means is not equal to 0</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  -5.550860 -3.425574</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; mean of x mean of y </span></span>
+<span><span class="co">#&gt;  9.296712 13.784929 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $ft</span></span>
+<span><span class="co">#&gt; $ft$Qygr</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  F test to compare two variances</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  d1 and d2</span></span>
+<span><span class="co">#&gt; F = 0.79501, num df = 21, denom df = 37, p-value = 0.585</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  0.3819737 1.7980992</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; ratio of variances </span></span>
+<span><span class="co">#&gt;          0.7950087 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $year</span></span>
+<span><span class="co">#&gt; Qygr </span></span>
+<span><span class="co">#&gt; 1979 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $maxval</span></span>
+<span><span class="co">#&gt; $maxval$Qygr</span></span>
+<span><span class="co">#&gt; [1] 20.05682</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $fixed_year</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $pvalues</span></span>
+<span><span class="co">#&gt;   N                                    Variable Change.Year   Trend      M1</span></span>
+<span><span class="co">#&gt; 1 1 Mean annual groundwater ("baseflow") runoff        1979 0.08532 9.29671</span></span>
+<span><span class="co">#&gt;         M2 MeanRatio     sd1     sd2 sdRatio Mann.Kendall Pettitt Student</span></span>
+<span><span class="co">#&gt; 1 13.78493      48.3 1.88588 2.11509    12.2            0       0       0</span></span>
+<span><span class="co">#&gt;    Fisher</span></span>
+<span><span class="co">#&gt; 1 0.58504</span></span></code></pre></div>
 <p>The tests can be represented in a clear tabular form for visual analysis:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/gr_kable_tests.html">gr_kable_tests</a></span><span class="op">(</span><span class="va">tests</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gr_kable_tests.html">gr_kable_tests</a></span><span class="op">(</span><span class="va">tests</span><span class="op">)</span></span></code></pre></div>
 <table class="table table table-striped" style="margin-left: auto; margin-right: auto;">
 <caption>
 p-values of statistical criteria
@@ -375,10 +375,10 @@ Annual runoff volume
 0.01713
 </td>
 <td style="text-align:right;">
-0.02187
+0.02185
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">27.7</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">27.6</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.89399</span>
@@ -387,10 +387,10 @@ Annual runoff volume
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41581</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.06135</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.06124</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.24016</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.24221</span>
 </td>
 </tr>
 <tr>
@@ -410,19 +410,19 @@ Spring flood runoff volume (w/o groundwater)
 0.02293
 </td>
 <td style="text-align:left;">
-0.01514
+0.01518
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-34</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-33.8</span>
 </td>
 <td style="text-align:right;">
 0.01204
 </td>
 <td style="text-align:right;">
-0.01083
+0.01078
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-10</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-10.5</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">9e-05</span>
@@ -431,10 +431,10 @@ Spring flood runoff volume (w/o groundwater)
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00596</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00923</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00945</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.55265</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.53551</span>
 </td>
 </tr>
 <tr>
@@ -454,19 +454,19 @@ Annual groundwater runoff volume
 0.02919
 </td>
 <td style="text-align:left;">
-0.04468
+0.04465
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">53.1</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">53</span>
 </td>
 <td style="text-align:right;">
 0.00583
 </td>
 <td style="text-align:right;">
-0.00916
+0.00920
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">57.1</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">57.8</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">2e-05</span>
@@ -478,7 +478,7 @@ Annual groundwater runoff volume
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02898</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02767</span>
 </td>
 </tr>
 <tr>
@@ -498,31 +498,31 @@ Spring flood runoff volume (with groundwater)
 0.03009
 </td>
 <td style="text-align:left;">
-0.0208
+0.02091
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-30.9</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-30.5</span>
 </td>
 <td style="text-align:right;">
 0.01439
 </td>
 <td style="text-align:right;">
-0.01223
+0.01209
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-15</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-16</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00069</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00072</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01499</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00744</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00784</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.36779</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.33334</span>
 </td>
 </tr>
 <tr>
@@ -542,10 +542,10 @@ Rain flood runoff volume (w/o groundwater)
 0.00571
 </td>
 <td style="text-align:left;">
-0.00877
+0.00876
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">53.6</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">53.4</span>
 </td>
 <td style="text-align:right;">
 0.00685
@@ -563,10 +563,10 @@ Rain flood runoff volume (w/o groundwater)
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.66529</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.14526</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.14543</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.30919</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.30891</span>
 </td>
 </tr>
 <tr>
@@ -586,31 +586,31 @@ Rain flood runoff volume (with groundwater)
 0.01413
 </td>
 <td style="text-align:left;">
-0.02377
+0.02375
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">68.2</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">68.1</span>
 </td>
 <td style="text-align:right;">
 0.01045
 </td>
 <td style="text-align:right;">
-0.01585
+0.01587
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">51.7</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">51.9</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.52016</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.52771</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.09611</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00564</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00572</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.05192</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.05143</span>
 </td>
 </tr>
 <tr>
@@ -651,10 +651,10 @@ Thaw flood runoff volume (w/o groundwater)
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.44105</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.49953</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.49662</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.28751</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.28487</span>
 </td>
 </tr>
 <tr>
@@ -665,40 +665,40 @@ Thaw flood runoff volume (w/o groundwater)
 Thaw flood runoff volume (with groundwater)
 </td>
 <td style="text-align:right;">
-2010
+2017
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D3D3D3 !important;">0</span>
 </td>
 <td style="text-align:left;">
-0.00749
+0.00781
 </td>
 <td style="text-align:left;">
-0.00908
+0.00664
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">21.2</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-15</span>
 </td>
 <td style="text-align:right;">
-0.00494
+0.00500
 </td>
 <td style="text-align:right;">
-0.00588
+0.00736
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">19</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">47.2</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.88484</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.91235</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">1</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41744</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.77269</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.40141</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.20148</span>
 </td>
 </tr>
 <tr>
@@ -718,22 +718,22 @@ Winter groundwater runoff volume
 0.00742
 </td>
 <td style="text-align:left;">
-0.01187
+0.01185
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">60</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">59.7</span>
 </td>
 <td style="text-align:right;">
 0.00238
 </td>
 <td style="text-align:right;">
-0.00345
+0.00347
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">45</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">45.8</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00017</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00023</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">1e-05</span>
@@ -742,7 +742,7 @@ Winter groundwater runoff volume
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.07512</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.07098</span>
 </td>
 </tr>
 <tr>
@@ -762,31 +762,31 @@ Winter low flow runoff volume
 0.00953
 </td>
 <td style="text-align:left;">
-0.01349
+0.01346
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">41.6</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">41.2</span>
 </td>
 <td style="text-align:right;">
 0.00492
 </td>
 <td style="text-align:right;">
-0.00502
+0.00504
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D3D3D3 !important;">2</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D3D3D3 !important;">2.4</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.0162</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01955</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00107</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00126</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00463</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00493</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.95422</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.93786</span>
 </td>
 </tr>
 <tr>
@@ -800,37 +800,37 @@ Summer groundwater runoff volume
 1979
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">2e-04</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.00019</span>
 </td>
 <td style="text-align:left;">
 0.01474
 </td>
 <td style="text-align:left;">
-0.02497
+0.02493
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">69.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">69.1</span>
 </td>
 <td style="text-align:right;">
 0.00451
 </td>
 <td style="text-align:right;">
-0.00703
+0.00705
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">55.9</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">56.3</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">1e-05</span>
-</td>
-<td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">2e-05</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03202</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
+</td>
+<td style="text-align:left;">
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03089</span>
 </td>
 </tr>
 <tr>
@@ -850,31 +850,31 @@ Summer low flow runoff volume
 0.01917
 </td>
 <td style="text-align:left;">
-0.03262
+0.03258
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">70.2</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">70</span>
 </td>
 <td style="text-align:right;">
 0.01064
 </td>
 <td style="text-align:right;">
-0.01469
+0.01473
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">38.1</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">38.4</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01337</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.0162</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00175</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00184</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00013</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00014</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.12912</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.12665</span>
 </td>
 </tr>
 <tr>
@@ -894,7 +894,7 @@ Mean annual runoff
 19.69591
 </td>
 <td style="text-align:left;">
-22.67542
+22.67904
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">15.1</span>
@@ -903,10 +903,10 @@ Mean annual runoff
 5.69050
 </td>
 <td style="text-align:right;">
-6.74803
+6.74473
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">18.6</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">18.5</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.98613</span>
@@ -915,10 +915,10 @@ Mean annual runoff
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.47808</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.07105</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.07067</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41506</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41644</span>
 </td>
 </tr>
 <tr>
@@ -932,7 +932,7 @@ First date of a spring flood
 1970
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.16667</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.18605</span>
 </td>
 <td style="text-align:left;">
 28-Mar
@@ -953,16 +953,16 @@ First date of a spring flood
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">87.5</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.08714</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.05209</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.10098</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.08267</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00272</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00228</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02492</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02547</span>
 </td>
 </tr>
 <tr>
@@ -976,25 +976,25 @@ Mean annual groundwater (“baseflow”) runoff
 1979
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.08862</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.0883</span>
 </td>
 <td style="text-align:left;">
 9.29671
 </td>
 <td style="text-align:left;">
-14.18706
+14.17768
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">52.6</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">52.5</span>
 </td>
 <td style="text-align:right;">
 1.88588
 </td>
 <td style="text-align:right;">
-2.48532
+2.49889
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">31.8</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">32.5</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">1e-05</span>
@@ -1006,7 +1006,7 @@ Mean annual groundwater (“baseflow”) runoff
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.17614</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.16785</span>
 </td>
 </tr>
 <tr>
@@ -1020,7 +1020,7 @@ Last date of a spring flood
 1970
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.26393</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.25</span>
 </td>
 <td style="text-align:left;">
 05-May
@@ -1041,7 +1041,7 @@ Last date of a spring flood
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">166.7</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00261</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.0031</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00569</span>
@@ -1050,7 +1050,7 @@ Last date of a spring flood
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">1e-05</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">4e-04</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00043</span>
 </td>
 </tr>
 <tr>
@@ -1064,37 +1064,37 @@ Duration of a spring flood
 1989
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.14634</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.12158</span>
 </td>
 <td style="text-align:left;">
 38.0625
 </td>
 <td style="text-align:left;">
-33.9375
+34.5
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-10.8</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-9.4</span>
 </td>
 <td style="text-align:right;">
 7.33061
 </td>
 <td style="text-align:right;">
-12.75055
+12.19995
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">73.9</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">66.4</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01739</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03369</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02757</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03547</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.11898</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.1629</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00284</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00585</span>
 </td>
 </tr>
 <tr>
@@ -1202,31 +1202,31 @@ Spring flood runoff volume (with groundwater and rain)
 0.03074
 </td>
 <td style="text-align:left;">
-0.02251
+0.02261
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-26.8</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-26.4</span>
 </td>
 <td style="text-align:right;">
 0.01391
 </td>
 <td style="text-align:right;">
-0.01415
+0.01401
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D3D3D3 !important;">1.7</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D3D3D3 !important;">0.7</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00073</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00076</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01377</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02274</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02383</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.93649</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.97772</span>
 </td>
 </tr>
 <tr>
@@ -2038,31 +2038,31 @@ Number of thaw flood events
 14.83333
 </td>
 <td style="text-align:left;">
-11.23077
+11.15385
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-24.3</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-24.8</span>
 </td>
 <td style="text-align:right;">
 4.63835
 </td>
 <td style="text-align:right;">
-7.27356
+7.19829
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">56.8</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">55.2</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00092</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00078</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00548</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00473</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03221</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02766</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01427</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01664</span>
 </td>
 </tr>
 <tr>
@@ -2076,37 +2076,37 @@ Number of thaw flood days
 1984
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.70213</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.70711</span>
 </td>
 <td style="text-align:left;">
 79
 </td>
 <td style="text-align:left;">
-47.05405
+46.81081
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-40.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-40.7</span>
 </td>
 <td style="text-align:right;">
 20.74015
 </td>
 <td style="text-align:right;">
-22.84482
+22.76186
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">10.1</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">9.7</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">5e-05</span>
-</td>
-<td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">4e-05</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.61425</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
+</td>
+<td style="text-align:left;">
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.62808</span>
 </td>
 </tr>
 <tr>
@@ -2208,37 +2208,37 @@ Number of rain flood events
 1977
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.08876</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.09091</span>
 </td>
 <td style="text-align:left;">
 20.05
 </td>
 <td style="text-align:left;">
-14.90909
+14.86364
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-25.6</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-25.9</span>
 </td>
 <td style="text-align:right;">
 4.29780
 </td>
 <td style="text-align:right;">
-3.94036
+3.92719
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-8.3</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-8.6</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00595</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.004</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00122</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00097</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">6e-05</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.61906</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.60685</span>
 </td>
 </tr>
 <tr>
@@ -2258,7 +2258,7 @@ Number of rain flood days
 112.05882
 </td>
 <td style="text-align:left;">
-99.1
+99.03333
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-11.6</span>
@@ -2267,22 +2267,22 @@ Number of rain flood days
 29.43091
 </td>
 <td style="text-align:right;">
-38.07556
+38.14626
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">29.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">29.6</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.65125</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.64293</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41088</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.13723</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.13573</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.15352</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.15061</span>
 </td>
 </tr>
 <tr>
@@ -2296,37 +2296,37 @@ Relative variation of runoff during winter low flow
 1983
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.00272</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.00288</span>
 </td>
 <td style="text-align:left;">
 0.44193
 </td>
 <td style="text-align:left;">
-0.27215
+0.27133
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-38.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-38.6</span>
 </td>
 <td style="text-align:right;">
 0.31443
 </td>
 <td style="text-align:right;">
-0.23674
+0.23725
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-24.7</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-24.5</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02495</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02144</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00955</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00913</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02408</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02352</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.11426</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.11699</span>
 </td>
 </tr>
 <tr>
@@ -2340,37 +2340,37 @@ Duration of winter low flow
 1984
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.47321</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.5</span>
 </td>
 <td style="text-align:left;">
 130.44444
 </td>
 <td style="text-align:left;">
-115.2973
+115.02703
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-11.6</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-11.8</span>
 </td>
 <td style="text-align:right;">
 18.08810
 </td>
 <td style="text-align:right;">
-27.04098
+27.01593
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">49.5</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">49.4</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00115</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00076</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02306</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01845</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00936</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.0082</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03571</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03612</span>
 </td>
 </tr>
 <tr>
@@ -2384,37 +2384,37 @@ Relative variation of runoff during summer-autumn low flow
 1970
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.00039</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.00068</span>
 </td>
 <td style="text-align:left;">
 0.56005
 </td>
 <td style="text-align:left;">
-0.62536
+0.6225
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">11.7</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">11.2</span>
 </td>
 <td style="text-align:right;">
 0.43161
 </td>
 <td style="text-align:right;">
-0.28499
+0.28886
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-34</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-33.1</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.85746</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.74122</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.66529</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.71943</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.60021</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.61664</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03682</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.04352</span>
 </td>
 </tr>
 <tr>
@@ -2428,37 +2428,37 @@ Duration of a summer-autumn low flow
 1999
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.51113</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.5</span>
 </td>
 <td style="text-align:left;">
 198.61905
 </td>
 <td style="text-align:left;">
-216.63636
+216.27273
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">9.1</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">8.9</span>
 </td>
 <td style="text-align:right;">
 20.61488
 </td>
 <td style="text-align:right;">
-23.16719
+23.07582
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">12.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">11.9</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00027</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00034</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00955</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01042</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00394</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00454</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.51051</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.52416</span>
 </td>
 </tr>
 </tbody>
@@ -2469,62 +2469,62 @@ Duration of a summer-autumn low flow
 </h2>
 <p>Summarized variables can be ploted and statistically tested to reveal interannual changes. The basic function for plotting is <code><a href="../reference/gr_plot_vars.html">gr_plot_vars()</a></code>. Just pass the names of the variables that you want to plot, and the desired plotting layout. Different background fill colors are used to differentiate seasons:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># plot one selected variable</span>
-<span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># plot one selected variable</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-6-1.png" width="960"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># plot one selected variable</span>
-<span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Dspstart</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># plot one selected variable</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Dspstart</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-6-2.png" width="960"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># plot two variables sequentially</span>
-<span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Removed 1 rows containing missing values (geom_point).</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># plot two variables sequentially</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-6-3.png" width="960"></p>
-<pre><code><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></code></pre>
+<pre><code><span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span></code></pre>
 <p><img src="summaries_files/figure-html/unnamed-chunk-6-4.png" width="960"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># plot four variables in matrix layout</span>
-<span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qspmax</span>, <span class="va">Qygr</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>,
-             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># plot four variables in matrix layout</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qspmax</span>, <span class="va">Qygr</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>,</span>
+<span>             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-6-5.png" width="960"></p>
 <p>Tests can be calculated on the fly during the variable plotting or passed into <code>tests =</code> parameters. In this case the plots are supplemented with trend line and change year:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># add tests calculated on the fly (only plotted variables are tested)</span>
-<span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qspmax</span>, <span class="va">Qygr</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>,
-             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
-             tests <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># add tests calculated on the fly (only plotted variables are tested)</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qspmax</span>, <span class="va">Qygr</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>,</span>
+<span>             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>             tests <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-7-1.png" width="960"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># calculate tests beforehand</span>
-<span class="va">tests</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>, <span class="va">Nthw</span>, <span class="va">Qrnmax</span>,
-             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
-             tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_rect).</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># calculate tests beforehand</span></span>
+<span><span class="va">tests</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>, <span class="va">Nthw</span>, <span class="va">Qrnmax</span>,</span>
+<span>             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>             tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_rect).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-7-2.png" width="960"></p>
 </div>
 <div class="section level2">
@@ -2532,32 +2532,32 @@ Duration of a summer-autumn low flow
 </h2>
 <p>Period plots are boxplots produced by <code><a href="../reference/gr_plot_periods.html">gr_plot_periods()</a></code> for hydrograph separation variables. The data for each variable is divided into two sample periods: before and after the change year either set by <code>year</code> parameter or extracted from <code>tests</code> (statistically estimated). Different background fill colors are used to differentiate seasons:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># plot periods with fixed change year</span>
-<span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, year <span class="op">=</span> <span class="fl">1979</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># plot periods with fixed change year</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, year <span class="op">=</span> <span class="fl">1979</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-8-1.png" width="960"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># plot periods with change year from Pettitt test</span>
-<span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, tests <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># plot periods with change year from Pettitt test</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, tests <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-8-2.png" width="960"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># calculate test beforehand</span>
-<span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qspmax</span>, tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># calculate test beforehand</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qspmax</span>, tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-8-3.png" width="960"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># use matrix layout to plot multiple variables</span>
-<span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, <span class="va">Qspmax</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>,
-                layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,
-                tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span>
-<span class="co">#&gt; Removed 1 rows containing non-finite values (stat_boxplot).</span>
-<span class="co">#&gt; Removed 1 rows containing non-finite values (stat_boxplot).</span>
-<span class="co">#&gt; Removed 1 rows containing non-finite values (stat_boxplot).</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># use matrix layout to plot multiple variables</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, <span class="va">Qspmax</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>,</span>
+<span>                layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_boxplot).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_boxplot).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_boxplot).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-8-4.png" width="960"></p>
 </div>
 <div class="section level2">
@@ -2565,13 +2565,13 @@ Duration of a summer-autumn low flow
 </h2>
 <p>A histogram of a minimum runoff month for two periods: before and after the change year set by <code>year</code> parameter. This kind of plot is produced by <code><a href="../reference/gr_plot_minmonth.html">gr_plot_minmonth()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># plot minimum runoff month for two periods divided by Pettitt test</span>
-<span class="fu"><a href="../reference/gr_plot_minmonth.html">gr_plot_minmonth</a></span><span class="op">(</span><span class="va">vars</span>, tests <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># plot minimum runoff month for two periods divided by Pettitt test</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_minmonth.html">gr_plot_minmonth</a></span><span class="op">(</span><span class="va">vars</span>, tests <span class="op">=</span> <span class="fu"><a href="../reference/gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-9-1.png" width="960"></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># plot minimum runoff month for two periods divided by fixed year</span>
-<span class="fu"><a href="../reference/gr_plot_minmonth.html">gr_plot_minmonth</a></span><span class="op">(</span><span class="va">vars</span>, year <span class="op">=</span> <span class="fl">1979</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># plot minimum runoff month for two periods divided by fixed year</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_minmonth.html">gr_plot_minmonth</a></span><span class="op">(</span><span class="va">vars</span>, year <span class="op">=</span> <span class="fl">1979</span><span class="op">)</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-9-2.png" width="960"></p>
 </div>
 <div class="section level2">
@@ -2579,8 +2579,8 @@ Duration of a summer-autumn low flow
 </h2>
 <p>Test plots produced by <code><a href="../reference/gr_plot_tests.html">gr_plot_tests()</a></code> are intended to facilitate the visual analysis of statistical tests. Currently only the change year density is available as a plotting variable:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># plot change year from Pettitt test</span>
-<span class="fu"><a href="../reference/gr_plot_tests.html">gr_plot_tests</a></span><span class="op">(</span><span class="va">tests</span>, type <span class="op">=</span> <span class="st">'year'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># plot change year from Pettitt test</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_tests.html">gr_plot_tests</a></span><span class="op">(</span><span class="va">tests</span>, type <span class="op">=</span> <span class="st">'year'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-10-1.png" width="960"></p>
 <p>As can be seen from this plot, most of the variables demonstrate the change in their statistical behavior around <span class="math inline">\(1979\)</span> year.</p>
 </div>
@@ -2597,7 +2597,7 @@ Duration of a summer-autumn low flow
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer>

@@ -6,18 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="River hydrograph separation and daily runoff time series analysis. Provides
-  various filters to separate baseflow and quickflow using methods by 
-  Lyne and Hollick (1979) &lt;https://www.researchgate.net/publication/272491803_Stochastic_Time-Variable_Rainfall-Runoff_Modeling&gt;, 
-  Chapman (1991) &lt;doi:10.1029/91WR01007&gt;, 
-  Boughton (1993) &lt;https://cir.nii.ac.jp/crid/1572543026556977024&gt;, 
-  Jakeman and Hornberger (1993) &lt;doi:10.1029/93WR00877&gt;, 
-  Chapman and Maxwell (1996) &lt;https://search.informit.org/doi/10.3316/informit.360361071346753&gt;,
-  and Kudelin (1960) &lt;https://www.worldcat.org/title/printsipy-regionalnoi-otsenki-estestvennykh-resursov-podzemnykh-vod/&gt;.
-  Implements advanced separation technique by Rets et al. (2022) &lt;doi:10.1134/S0097807822010146&gt; 
-  which involves meteorological data to reveal genetic components of the runoff: 
-  ground, rain, thaw and spring (seasonal thaw). High-performance C++17 computation, 
-  annually aggregated variables, statistical testing and numerous plotting functions 
-  for high-quality visualization.">
+  various filters to separate baseflow and quickflow. Implements advanced separation 
+  technique by Rets et al. (2022) &lt;doi:10.1134/S0097807822010146&gt; which involves 
+  meteorological data to reveal genetic components of the runoff: ground, rain, thaw 
+  and spring (seasonal thaw). High-performance C++17 computation, annually aggregated 
+  variables, statistical testing and numerous plotting functions for high-quality 
+  visualization.">
 <title>River Hydrograph Separation and Analysis • grwat</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
@@ -25,18 +19,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="River Hydrograph Separation and Analysis">
 <meta property="og:description" content="River hydrograph separation and daily runoff time series analysis. Provides
-  various filters to separate baseflow and quickflow using methods by 
-  Lyne and Hollick (1979) &lt;https://www.researchgate.net/publication/272491803_Stochastic_Time-Variable_Rainfall-Runoff_Modeling&gt;, 
-  Chapman (1991) &lt;doi:10.1029/91WR01007&gt;, 
-  Boughton (1993) &lt;https://cir.nii.ac.jp/crid/1572543026556977024&gt;, 
-  Jakeman and Hornberger (1993) &lt;doi:10.1029/93WR00877&gt;, 
-  Chapman and Maxwell (1996) &lt;https://search.informit.org/doi/10.3316/informit.360361071346753&gt;,
-  and Kudelin (1960) &lt;https://www.worldcat.org/title/printsipy-regionalnoi-otsenki-estestvennykh-resursov-podzemnykh-vod/&gt;.
-  Implements advanced separation technique by Rets et al. (2022) &lt;doi:10.1134/S0097807822010146&gt; 
-  which involves meteorological data to reveal genetic components of the runoff: 
-  ground, rain, thaw and spring (seasonal thaw). High-performance C++17 computation, 
-  annually aggregated variables, statistical testing and numerous plotting functions 
-  for high-quality visualization.">
+  various filters to separate baseflow and quickflow. Implements advanced separation 
+  technique by Rets et al. (2022) &lt;doi:10.1134/S0097807822010146&gt; which involves 
+  meteorological data to reveal genetic components of the runoff: ground, rain, thaw 
+  and spring (seasonal thaw). High-performance C++17 computation, annually aggregated 
+  variables, statistical testing and numerous plotting functions for high-quality 
+  visualization.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -107,23 +95,23 @@
 </h2>
 <p>Install the latest released version of <strong><code>grwat</code></strong> from CRAN by:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"grwat"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"grwat"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="install-development-version-from-r-universe">Install development version from R-universe<a class="anchor" aria-label="anchor" href="#install-development-version-from-r-universe"></a>
 </h2>
 <p>The current development version of <strong><code>grwat</code></strong> can be installed from <a href="https://tsamsonov.r-universe.dev/ui#package:grwat" class="external-link">R-universe</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Enable repository from tsamsonov</span>
-<span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>
-  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
-    ropensci <span class="op">=</span> <span class="st">'https://tsamsonov.r-universe.dev'</span>,
-    CRAN <span class="op">=</span> <span class="st">'https://cloud.r-project.org'</span>
-  <span class="op">)</span>
-<span class="op">)</span>
-  
-<span class="co"># Download and install grwat in R</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'grwat'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Enable repository from tsamsonov</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span></span>
+<span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    ropensci <span class="op">=</span> <span class="st">'https://tsamsonov.r-universe.dev'</span>,</span>
+<span>    CRAN <span class="op">=</span> <span class="st">'https://cloud.r-project.org'</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="co"># Download and install grwat in R</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'grwat'</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="install-development-version-from-github">Install development version from GitHub<a class="anchor" aria-label="anchor" href="#install-development-version-from-github"></a>
@@ -139,7 +127,7 @@
 </h3>
 <p>To install from GitHub, you should install <strong><code>remotes</code></strong> package first (unless it is already installed on your machine):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="install-compiler">Install compiler<a class="anchor" aria-label="anchor" href="#install-compiler"></a>
@@ -162,7 +150,7 @@
 </h3>
 <p>If all previous steps are completed successfully, <strong><code>grwat</code></strong> package can be installed via single command:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tsamsonov/grwat"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tsamsonov/grwat"</span><span class="op">)</span></span></code></pre></div>
 <blockquote><p><strong>A note to Windows users:</strong> if you get the error during installation <em>over the previously installed grwat</em>, remove the package folder manually, restart R and then hit <code>remotes::install_github("tsamsonov/grwat", INSTALL_opts = '--no-lock')</code>. You should run RStudio as Administrator to get the full access to the package installation folder. The location of installation folder can be learned from <em>Packages — Install</em> dialog or by <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code> command in R console as displayed below.</p></blockquote>
 <pre><code>&gt; .libPaths()
 [1] "C:/Users/tsamsonov/Documents/R/win-library/4.1"
@@ -242,7 +230,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer>

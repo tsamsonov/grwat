@@ -62,64 +62,83 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gr_report</span><span class="op">(</span>
-  <span class="va">sep</span>,
-  <span class="va">vars</span>,
-  output <span class="op">=</span> <span class="st">"Report.html"</span>,
-  year <span class="op">=</span> <span class="cn">NULL</span>,
-  exclude <span class="op">=</span> <span class="cn">NULL</span>,
-  temp <span class="op">=</span> <span class="cn">FALSE</span>,
-  prec <span class="op">=</span> <span class="cn">FALSE</span>,
-  span <span class="op">=</span> <span class="fl">5</span>,
-  locale <span class="op">=</span> <span class="st">"EN"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gr_report</span><span class="op">(</span></span>
+<span>  <span class="va">sep</span>,</span>
+<span>  <span class="va">vars</span>,</span>
+<span>  output <span class="op">=</span> <span class="st">"Report.html"</span>,</span>
+<span>  year <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  exclude <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  temp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  prec <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  span <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  locale <span class="op">=</span> <span class="st">"EN"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>sep</dt>
 <dd><p><code>data.frame</code> of hydrograph separation as returned by <code><a href="gr_separate.html">gr_separate()</a></code> function.</p></dd>
+
+
 <dt>vars</dt>
 <dd><p><code>data.frame</code> of hydrograph variables as returned by <code><a href="gr_summarize.html">gr_summarize()</a></code> function.</p></dd>
+
+
 <dt>output</dt>
 <dd><p>Character string path to the output file. Must have <code>.html</code> extension.</p></dd>
+
+
 <dt>year</dt>
 <dd><p>Integer value of year used to divide series in two samples compared by Student and Fisher tests. Defaults to <code>NULL</code> which means that the year is calculated automatically by Pettitt test. Defaults to <code>NULL</code>.</p></dd>
+
+
 <dt>exclude</dt>
 <dd><p>Integer vector of years to be excluded from reporting. Defaults to <code>NULL</code>.</p></dd>
+
+
 <dt>temp</dt>
 <dd><p>Boolean. Plot temperature on the top of hydrograph? Defaults to <code>FALSE</code>. If both <code>temp = TRUE</code> and <code>prec = TRUE</code>, then the axis is drawn for precipitation.</p></dd>
+
+
 <dt>prec</dt>
 <dd><p>Boolean. Plot precipitation on the top of hydrograph? Defaults to <code>FALSE</code>. If both <code>temp = TRUE</code> and <code>prec = TRUE</code>, then the axis is drawn for precipitation.</p></dd>
+
+
 <dt>span</dt>
 <dd><p>Integer number of days to accumulate precipitation for plotting. Defaults to <code>5</code>.</p></dd>
+
+
 <dt>locale</dt>
 <dd><p>Character string locale. Currently only English (<code>'EN'</code>) and Russian (<code>'RU'</code>) locales are supported. Defaults to <code>'EN'</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>No return value, called for side effects</p>
+    
+
+<p>No return value, called for side effects</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># separate</span></span>
-<span class="r-in">  <span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># summarize</span></span>
-<span class="r-in">  <span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># report</span></span>
-<span class="r-in">  <span class="va">report</span> <span class="op">=</span> <span class="st">'~/Spas-Zagorye.html'</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="fu">gr_report</span><span class="op">(</span><span class="va">sep</span>, <span class="va">vars</span>, output <span class="op">=</span> <span class="va">report</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/browseURL.html" class="external-link">browseURL</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># separate</span></span></span>
+<span class="r-in"><span>  <span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># summarize</span></span></span>
+<span class="r-in"><span>  <span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># report</span></span></span>
+<span class="r-in"><span>  <span class="va">report</span> <span class="op">=</span> <span class="st">'~/Spas-Zagorye.html'</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu">gr_report</span><span class="op">(</span><span class="va">sep</span>, <span class="va">vars</span>, output <span class="op">=</span> <span class="va">report</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/browseURL.html" class="external-link">browseURL</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -131,7 +150,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

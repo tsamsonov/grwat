@@ -62,26 +62,29 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gr_check_data</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gr_check_data</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>df</dt>
 <dd><p><code>data.frame</code> with four columns: date, runoff, temperature, precipitation, as required by <code><a href="gr_separate.html">gr_separate()</a></code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>stops execution if <code>df</code> contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. runoff or precipitation are negative).</p>
+    
+
+<p>stops execution if <code>df</code> contains the wrong number of columns, or the columns have the wrong types, or the data in columns is incorrect (e.g. runoff or precipitation are negative).</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># example Spas-Zagorye data is included with grwat package</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># example Spas-Zagorye data is included with grwat package</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Date           Q   Temp  Prec</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -91,20 +94,20 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 1956-01-04  5.44  -<span style="color: #BB0000;">8.05</span> 0.397</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 1956-01-05  5.44 -<span style="color: #BB0000;">11.7</span>  0.102</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 1956-01-06  5.58 -<span style="color: #BB0000;">20.1</span>  0.032</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">gr_check_data</span><span class="op">(</span><span class="va">spas</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">gr_check_data</span><span class="op">(</span><span class="va">spas</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># raw Spas-Zagorye data represents date components</span></span>
-<span class="r-in"><span class="co"># in columns and does not contain meteorologgical variables</span></span>
-<span class="r-in"><span class="va">path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"spas-zagorye.txt"</span>, </span>
-<span class="r-in">                   package <span class="op">=</span> <span class="st">"grwat"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">hdata_raw</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span><span class="va">path</span>, header <span class="op">=</span> <span class="cn">FALSE</span>, </span>
-<span class="r-in">                       sep <span class="op">=</span> <span class="st">' '</span>, na.strings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'-999'</span>, <span class="st">'-999.0'</span>, <span class="st">'-'</span><span class="op">)</span>,</span>
-<span class="r-in">                       col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'d'</span>, <span class="st">'m'</span>, <span class="st">'y'</span>, <span class="st">'q'</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">hdata_raw</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># raw Spas-Zagorye data represents date components</span></span></span>
+<span class="r-in"><span><span class="co"># in columns and does not contain meteorologgical variables</span></span></span>
+<span class="r-in"><span><span class="va">path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"spas-zagorye.txt"</span>, </span></span>
+<span class="r-in"><span>                   package <span class="op">=</span> <span class="st">"grwat"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">hdata_raw</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span><span class="va">path</span>, header <span class="op">=</span> <span class="cn">FALSE</span>, </span></span>
+<span class="r-in"><span>                       sep <span class="op">=</span> <span class="st">' '</span>, na.strings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'-999'</span>, <span class="st">'-999.0'</span>, <span class="st">'-'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                       col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'d'</span>, <span class="st">'m'</span>, <span class="st">'y'</span>, <span class="st">'q'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">hdata_raw</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        d  m    y       q</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      1  1 1956   5.180</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      2  1 1956   5.180</span>
@@ -23838,13 +23841,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23730 29 12 2020      NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23731 30 12 2020      NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23732 31 12 2020      NA</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">gr_check_data</span><span class="op">(</span><span class="va">hdata_raw</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">gr_check_data</span><span class="op">(</span><span class="va">hdata_raw</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in gr_check_data(hdata_raw) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #BBBBBB; background-color: #BB0000; font-weight: bold;">grwat:</span> the four columns of input data frame (date, runoff, temperature, precipitation) must be of <span style="color: #BBBBBB; font-style: italic;">Date, numeric, numeric, numeric</span> data types</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -23856,7 +23859,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

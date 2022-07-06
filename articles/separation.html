@@ -74,7 +74,7 @@
 
 
 <script src="separation_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>2. Advanced hydrograph separation</h1>
             
       
@@ -90,16 +90,16 @@
 <p>The core of the <em><code>grwat</code></em> package is the advanced hydrograph separation method by <span class="citation">Rets et al. (2022)</span>, which utilizes supplementary temperature and precipitation data to classify quickflow events by their genesis. The genetic types are rain, thaw and spring. The latter is a specific kind of thaw flood (sometimes called a <em>freshet</em>) that appears in cold climates at the beginning of the spring during the massive snow melting in a watershed. It is not uncommon that a spring flood is significantly larger than others during the year, and produces the major part of the annual runoff volume.</p>
 <p>Throughout <strong><code>grwat</code></strong> package documentation a sample dataset <code>spas</code> containing the daily runoff data for <a href="https://allrivers.info/gauge/protva-obninsk" class="external-link">Spas-Zagorye</a> gauge on <a href="https://en.wikipedia.org/wiki/Protva" class="external-link">Protva</a> river in Central European plane is used. The dataset is supplemented by meteorological variables (temperature and precipitation) obtained from CIRES-DOE (1880-1949) and ERA5 (1950-2021) data averaged inside gauge’s basin:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span>
-<span class="co">#&gt;         Date    Q   Temp  Prec</span>
-<span class="co">#&gt; 1 1956-01-01 5.18  -6.46 0.453</span>
-<span class="co">#&gt; 2 1956-01-02 5.18 -11.41 0.825</span>
-<span class="co">#&gt; 3 1956-01-03 5.44 -10.74 0.260</span>
-<span class="co">#&gt; 4 1956-01-04 5.44  -8.05 0.397</span>
-<span class="co">#&gt; 5 1956-01-05 5.44 -11.73 0.102</span>
-<span class="co">#&gt; 6 1956-01-06 5.58 -20.13 0.032</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         Date    Q   Temp  Prec</span></span>
+<span><span class="co">#&gt; 1 1956-01-01 5.18  -6.46 0.453</span></span>
+<span><span class="co">#&gt; 2 1956-01-02 5.18 -11.41 0.825</span></span>
+<span><span class="co">#&gt; 3 1956-01-03 5.44 -10.74 0.260</span></span>
+<span><span class="co">#&gt; 4 1956-01-04 5.44  -8.05 0.397</span></span>
+<span><span class="co">#&gt; 5 1956-01-05 5.44 -11.73 0.102</span></span>
+<span><span class="co">#&gt; 6 1956-01-06 5.58 -20.13 0.032</span></span></code></pre></div>
 <blockquote>
 <p>This 4-column representation of the date, runoff, temperature and precipitation is a standardized form of a data frame required for advanced separation</p>
 </blockquote>
@@ -131,98 +131,98 @@
 <p><img src="regions.jpg" width="100%"></p>
 <p>To ease the exchange of the parameters, they are organized as list, as returned by <code><a href="../reference/gr_get_params.html">gr_get_params()</a></code>. You can pass either the number of region, or its name in <code>reg</code> argument:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">params</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'south'</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span>
-<span class="co">#&gt; $winmon</span>
-<span class="co">#&gt; [1] 11</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $grad1</span>
-<span class="co">#&gt; [1] 2</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $grad2</span>
-<span class="co">#&gt; [1] 5</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $gratio</span>
-<span class="co">#&gt; [1] 350</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $spmon1</span>
-<span class="co">#&gt; [1] 3</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $spmon2</span>
-<span class="co">#&gt; [1] 5</span>
-
-<span class="va">params</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span>
-<span class="co">#&gt; $winmon</span>
-<span class="co">#&gt; [1] 11</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $grad1</span>
-<span class="co">#&gt; [1] 1.7</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $grad2</span>
-<span class="co">#&gt; [1] 5</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $gratio</span>
-<span class="co">#&gt; [1] 400</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $spmon1</span>
-<span class="co">#&gt; [1] 2</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $spmon2</span>
-<span class="co">#&gt; [1] 5</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">params</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'south'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $winmon</span></span>
+<span><span class="co">#&gt; [1] 11</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $grad1</span></span>
+<span><span class="co">#&gt; [1] 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $grad2</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $gratio</span></span>
+<span><span class="co">#&gt; [1] 350</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $spmon1</span></span>
+<span><span class="co">#&gt; [1] 3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $spmon2</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span></span>
+<span><span class="va">params</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $winmon</span></span>
+<span><span class="co">#&gt; [1] 11</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $grad1</span></span>
+<span><span class="co">#&gt; [1] 1.7</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $grad2</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $gratio</span></span>
+<span><span class="co">#&gt; [1] 400</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $spmon1</span></span>
+<span><span class="co">#&gt; [1] 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $spmon2</span></span>
+<span><span class="co">#&gt; [1] 5</span></span></code></pre></div>
 <p>To ease the understanding of the parameters, grwat contains the helper <code><a href="../reference/gr_help_params.html">gr_help_params()</a></code> function, which describes the meaning of each:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/gr_help_params.html">gr_help_params</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 39 × 12</span></span>
-<span class="co">#&gt;        N name_old name       example desc  units formula comments pics  desc_rus</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 mome     winmon     11      the … month  <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>not us… <span style="color: #BB0000;">NA</span>    месяц, …</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2 grad     grad1      1.5     rate… %      <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>if cha… <span style="color: #BB0000;">NA</span>    интенси…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3 grad1    grad2      2       rate… %     <span style="color: #949494;">"</span>\"\"<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>\"\"<span style="color: #949494;">"</span>   <span style="color: #BB0000;">NA</span>    интенси…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     4 kdQgr1   gratio     150     maxi… %      <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>can be… <span style="color: #BB0000;">NA</span>    максима…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     5 polmon1  spmon1     2       the … month  <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>can be… <span style="color: #BB0000;">NA</span>    cамый р…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     6 polmon2  spmon2     5       the … month  <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>can be… <span style="color: #BB0000;">NA</span>    самый п…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     7 polkol1  sptriseda… 15      amou… days   <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    количес…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     8 polkol2  spriseday… 25      amou… days   <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    количес…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     9 polkol3  spdays     30      amou… days   <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>can be… <span style="color: #BB0000;">NA</span>    количес…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    10 polgrad1 sprise     10      mean… %      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    значени…</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 29 more rows, and 2 more variables: role_1 &lt;chr&gt;, role_2 &lt;chr&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gr_help_params.html">gr_help_params</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 39 × 12</span></span></span>
+<span><span class="co">#&gt;        N name_old name       example desc  units formula comments pics  desc_rus</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 mome     winmon     11      the … month  <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>not us… <span style="color: #BB0000;">NA</span>    месяц, …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2 grad     grad1      1.5     rate… %      <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>if cha… <span style="color: #BB0000;">NA</span>    интенси…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3 grad1    grad2      2       rate… %     <span style="color: #949494;">"</span>\"\"<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>\"\"<span style="color: #949494;">"</span>   <span style="color: #BB0000;">NA</span>    интенси…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     4 kdQgr1   gratio     150     maxi… %      <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>can be… <span style="color: #BB0000;">NA</span>    максима…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     5 polmon1  spmon1     2       the … month  <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>can be… <span style="color: #BB0000;">NA</span>    cамый р…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     6 polmon2  spmon2     5       the … month  <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>can be… <span style="color: #BB0000;">NA</span>    самый п…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     7 polkol1  sptriseda… 15      amou… days   <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    количес…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     8 polkol2  spriseday… 25      amou… days   <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    количес…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     9 polkol3  spdays     30      amou… days   <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">"</span>can be… <span style="color: #BB0000;">NA</span>    количес…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    10 polgrad1 sprise     10      mean… %      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    значени…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 29 more rows, and 2 more variables: role_1 &lt;chr&gt;, role_2 &lt;chr&gt;</span></span></span></code></pre></div>
 <p>You can tweak the parameters just by changing their values in the list:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">params</span><span class="op">$</span><span class="va">sprise</span> <span class="op">=</span> <span class="fl">12</span>
-<span class="va">params</span><span class="op">$</span><span class="va">gratio</span> <span class="op">=</span> <span class="fl">500</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">params</span><span class="op">$</span><span class="va">sprise</span> <span class="op">=</span> <span class="fl">12</span></span>
+<span><span class="va">params</span><span class="op">$</span><span class="va">gratio</span> <span class="op">=</span> <span class="fl">500</span></span></code></pre></div>
 <p>It is quite hard to predict how effective will be parameters for the particular basin. Therefore, the search for optimal values is experimental work. After a preliminary parameters are set, you can separate the hydrograph by <code><a href="../reference/gr_separate.html">gr_separate()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># separate</span>
-<span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, <span class="va">params</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
-<span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 11</span></span>
-<span class="co">#&gt;   Date           Q   Temp  Prec Qbase Quick Qspri Qrain Qthaw Season  Year</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1956-01-01  5.18  -<span style="color: #BB0000;">6.46</span> 0.453    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1956-01-02  5.18 -<span style="color: #BB0000;">11.4</span>  0.825    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1956-01-03  5.44 -<span style="color: #BB0000;">10.7</span>  0.26     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1956-01-04  5.44  -<span style="color: #BB0000;">8.05</span> 0.397    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 1956-01-05  5.44 -<span style="color: #BB0000;">11.7</span>  0.102    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1956-01-06  5.58 -<span style="color: #BB0000;">20.1</span>  0.032    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># separate</span></span>
+<span><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, <span class="va">params</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 11</span></span></span>
+<span><span class="co">#&gt;   Date           Q   Temp  Prec Qbase Quick Qspri Qrain Qthaw Season  Year</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1956-01-01  5.18  -<span style="color: #BB0000;">6.46</span> 0.453    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1956-01-02  5.18 -<span style="color: #BB0000;">11.4</span>  0.825    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1956-01-03  5.44 -<span style="color: #BB0000;">10.7</span>  0.26     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1956-01-04  5.44  -<span style="color: #BB0000;">8.05</span> 0.397    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 1956-01-05  5.44 -<span style="color: #BB0000;">11.7</span>  0.102    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1956-01-06  5.58 -<span style="color: #BB0000;">20.1</span>  0.032    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
 <p>Resulting data frame is enriched with information about different kinds of flow. To evaluate the results, you can use separation plots provided by <code><a href="../reference/gr_plot_sep.html">gr_plot_sep()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># One year</span>
-<span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1978</span><span class="op">)</span> </code></pre></div>
+<code class="sourceCode R"><span><span class="co"># One year</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1978</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="separation_files/figure-html/unnamed-chunk-7-1.png" width="960"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Two years</span>
-<span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Two years</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="separation_files/figure-html/unnamed-chunk-7-2.png" width="960"><img src="separation_files/figure-html/unnamed-chunk-7-3.png" width="960"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Four years in a matrix layout</span>
-<span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1988</span><span class="op">:</span><span class="fl">1991</span>, layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (position_stack).</span>
-<span class="co">#&gt; Removed 1 rows containing missing values (position_stack).</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Four years in a matrix layout</span></span>
+<span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1988</span><span class="op">:</span><span class="fl">1991</span>, layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (position_stack).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing missing values (position_stack).</span></span></code></pre></div>
 <p><img src="separation_files/figure-html/unnamed-chunk-7-4.png" width="960"></p>
 </div>
 <div class="section level2">
@@ -237,98 +237,98 @@
 </ul>
 <p>The attributes are extracted via a base R function <code><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes()</a></code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Debug mode gives access to additional information</span>
-<span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, 
-                        params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span>, 
-                        debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
-<span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
-<span class="co">#&gt; Warning in gr_separate(spas, params = gr_get_params(reg = "center"), debug</span>
-<span class="co">#&gt; = TRUE): <span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1974</span> years were not</span>
-<span class="co">#&gt; separated. Check the input data for possible errors. Use <span style="color: #00BBBB; font-style: italic;">gr_get_gaps()</span></span>
-<span class="co"><span style="color: #00BBBB; font-style: italic;">#&gt; [23m</span><span style="font-style: italic;"> and </span><span style="color: #00BBBB; font-style: italic;">gr_fill_gaps()</span> functions to detect and fill missing</span>
-<span class="co">#&gt; data.</span>
-<span class="co">#&gt; Warning in gr_separate(spas, params = gr_get_params(reg = "center"), debug =</span>
-<span class="co">#&gt; TRUE): <span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">2002, 2014, 2019</span> years were</span>
-<span class="co">#&gt; processed with jittered parameters</span>
-
-<span class="co"># a vector of years with jittered params</span>
-<span class="va">jit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">jittered</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">jit</span><span class="op">)</span>
-<span class="co">#&gt; [1] 2002 2014 2019</span>
-
-<span class="co"># actual params used for each year</span>
-<span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span>
-<span class="va">partab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span>, <span class="va">parlist</span><span class="op">)</span> <span class="co"># View as table</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">partab</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 39</span></span>
-<span class="co">#&gt;   winmon grad1 grad2 gratio spmon1 spmon2 sprisedays1 sprisedays2 spdays sprise</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 29 more variables: spratio &lt;dbl&gt;, sprecdays &lt;dbl&gt;, spcomp &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   precdays &lt;dbl&gt;, frostdays &lt;dbl&gt;, windays &lt;dbl&gt;, floodprec &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   floodtemp &lt;dbl&gt;, frosttemp &lt;dbl&gt;, wintemp &lt;dbl&gt;, signratio1 &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   signratio2 &lt;dbl&gt;, floodratio &lt;dbl&gt;, gaplen &lt;dbl&gt;, snowtemp &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   gradabs &lt;dbl&gt;, mntmode &lt;dbl&gt;, mntgrad &lt;dbl&gt;, mntavgdays &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   mntratiodays &lt;dbl&gt;, mntratio &lt;dbl&gt;, niter &lt;dbl&gt;, a &lt;dbl&gt;, k &lt;dbl&gt;, C &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   aq &lt;dbl&gt;, padding &lt;dbl&gt;, passes &lt;dbl&gt;, filter &lt;chr&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Debug mode gives access to additional information</span></span>
+<span><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, </span>
+<span>                        params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span>, </span>
+<span>                        debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>
+<span><span class="co">#&gt; Warning in gr_separate(spas, params = gr_get_params(reg = "center"), debug</span></span>
+<span><span class="co">#&gt; = TRUE): <span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">1974</span> years were not</span></span>
+<span><span class="co">#&gt; separated. Check the input data for possible errors. Use <span style="color: #00BBBB; font-style: italic;">gr_get_gaps()</span></span></span>
+<span><span class="co"><span style="color: #00BBBB; font-style: italic;">#&gt; [23m</span><span style="font-style: italic;"> and </span><span style="color: #00BBBB; font-style: italic;">gr_fill_gaps()</span> functions to detect and fill missing</span></span>
+<span><span class="co">#&gt; data.</span></span>
+<span><span class="co">#&gt; Warning in gr_separate(spas, params = gr_get_params(reg = "center"), debug =</span></span>
+<span><span class="co">#&gt; TRUE): <span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span> <span style="color: #BBBBBB; font-style: italic;">2002, 2014, 2019</span> years were</span></span>
+<span><span class="co">#&gt; processed with jittered parameters</span></span>
+<span></span>
+<span><span class="co"># a vector of years with jittered params</span></span>
+<span><span class="va">jit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">jittered</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">jit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2002 2014 2019</span></span>
+<span></span>
+<span><span class="co"># actual params used for each year</span></span>
+<span><span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span></span>
+<span><span class="va">partab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span>, <span class="va">parlist</span><span class="op">)</span> <span class="co"># View as table</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">partab</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 39</span></span></span>
+<span><span class="co">#&gt;   winmon grad1 grad2 gratio spmon1 spmon2 sprisedays1 sprisedays2 spdays sprise</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     11   1.7     5    400      2      5           8          10     30     10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     11   1.7     5    400      2      5           8          10     30     10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     11   1.7     5    400      2      5           8          10     30     10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     11   1.7     5    400      2      5           8          10     30     10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     11   1.7     5    400      2      5           8          10     30     10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     11   1.7     5    400      2      5           8          10     30     10</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 29 more variables: spratio &lt;dbl&gt;, sprecdays &lt;dbl&gt;, spcomp &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   precdays &lt;dbl&gt;, frostdays &lt;dbl&gt;, windays &lt;dbl&gt;, floodprec &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   floodtemp &lt;dbl&gt;, frosttemp &lt;dbl&gt;, wintemp &lt;dbl&gt;, signratio1 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   signratio2 &lt;dbl&gt;, floodratio &lt;dbl&gt;, gaplen &lt;dbl&gt;, snowtemp &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   gradabs &lt;dbl&gt;, mntmode &lt;dbl&gt;, mntgrad &lt;dbl&gt;, mntavgdays &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   mntratiodays &lt;dbl&gt;, mntratio &lt;dbl&gt;, niter &lt;dbl&gt;, a &lt;dbl&gt;, k &lt;dbl&gt;, C &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   aq &lt;dbl&gt;, padding &lt;dbl&gt;, passes &lt;dbl&gt;, filter &lt;chr&gt;</span></span></span></code></pre></div>
 <p>After the list of parameters is extracted, any of those can be referenced by the character string of the water-resources year. For example, if you want to apply the parameters of one tweaked your globally, the following will work:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># extract and tweak parameters for selected year</span>
-<span class="va">p</span> <span class="op">=</span> <span class="va">parlist</span><span class="op">[[</span><span class="st">'2014'</span><span class="op">]</span><span class="op">]</span>
-<span class="va">p</span><span class="op">$</span><span class="va">grad1</span> <span class="op">=</span> <span class="fl">1</span>
-<span class="va">p</span><span class="op">$</span><span class="va">grad2</span> <span class="op">=</span> <span class="fl">2.5</span>
-
-<span class="co"># use tweaked parameters for all years</span>
-<span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="va">p</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
-<span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
-<span class="co">#&gt; Warning in gr_separate(spas, params = p, debug = TRUE): <span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span></span>
-<span class="co"><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">#&gt; [22m</span><span style="font-weight: bold;"> </span><span style="color: #BBBBBB; font-weight: bold; font-style: italic;">1974</span><span style="font-weight: bold;"> years were not separated. Check the input data</span></span>
-<span class="co"><span style="font-weight: bold;">#&gt; for possible errors. Use </span><span style="color: #00BBBB; font-weight: bold; font-style: italic;">gr_get_gaps()</span><span style="font-weight: bold;"> and </span><span style="color: #00BBBB; font-weight: bold; font-style: italic;">gr_fill_gaps()</span></span>
-<span class="co"><span style="color: #00BBBB; font-weight: bold; font-style: italic;">#&gt; [23m</span><span style="font-weight: bold; font-style: italic;"> functions to detect and fill missing data.</span></span>
-<span class="co"><span style="font-weight: bold; font-style: italic;">#&gt; Warning in gr_separate(spas, params = p, debug = TRUE): </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold; font-style: italic;">grwat:</span></span>
-<span class="co"><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold; font-style: italic;">#&gt; [22m</span><span style="font-weight: bold; font-style: italic;"> </span><span style="color: #BBBBBB; font-weight: bold; font-style: italic;">2002, 2019</span><span style="font-weight: bold;"> years were processed with jittered</span></span>
-<span class="co"><span style="font-weight: bold;">#&gt; parameters</span></span>
-
-<span class="co"><span style="font-weight: bold;"># Visualize</span></span>
-<span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span> 
-<span class="co"><span style="font-weight: bold;">#&gt; Warning: Removed 3 rows containing missing values (position_stack).</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># extract and tweak parameters for selected year</span></span>
+<span><span class="va">p</span> <span class="op">=</span> <span class="va">parlist</span><span class="op">[[</span><span class="st">'2014'</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">p</span><span class="op">$</span><span class="va">grad1</span> <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="va">p</span><span class="op">$</span><span class="va">grad2</span> <span class="op">=</span> <span class="fl">2.5</span></span>
+<span></span>
+<span><span class="co"># use tweaked parameters for all years</span></span>
+<span><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="va">p</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>
+<span><span class="co">#&gt; Warning in gr_separate(spas, params = p, debug = TRUE): <span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span></span></span>
+<span><span class="co"><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">#&gt; [22m</span><span style="font-weight: bold;"> </span><span style="color: #BBBBBB; font-weight: bold; font-style: italic;">1974</span><span style="font-weight: bold;"> years were not separated. Check the input data</span></span></span>
+<span><span class="co"><span style="font-weight: bold;">#&gt; for possible errors. Use </span><span style="color: #00BBBB; font-weight: bold; font-style: italic;">gr_get_gaps()</span><span style="font-weight: bold;"> and </span><span style="color: #00BBBB; font-weight: bold; font-style: italic;">gr_fill_gaps()</span></span></span>
+<span><span class="co"><span style="color: #00BBBB; font-weight: bold; font-style: italic;">#&gt; [23m</span><span style="font-weight: bold; font-style: italic;"> functions to detect and fill missing data.</span></span></span>
+<span><span class="co"><span style="font-weight: bold; font-style: italic;">#&gt; Warning in gr_separate(spas, params = p, debug = TRUE): </span><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold; font-style: italic;">grwat:</span></span></span>
+<span><span class="co"><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold; font-style: italic;">#&gt; [22m</span><span style="font-weight: bold; font-style: italic;"> </span><span style="color: #BBBBBB; font-weight: bold; font-style: italic;">2002, 2019</span><span style="font-weight: bold;"> years were processed with jittered</span></span></span>
+<span><span class="co"><span style="font-weight: bold;">#&gt; parameters</span></span></span>
+<span></span>
+<span><span class="co"><span style="font-weight: bold;"># Visualize</span></span></span>
+<span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co"><span style="font-weight: bold;">#&gt; Warning: Removed 3 rows containing missing values (position_stack).</span></span></span></code></pre></div>
 <p><img src="separation_files/figure-html/unnamed-chunk-9-1.png" width="960"><img src="separation_files/figure-html/unnamed-chunk-9-2.png" width="960"></p>
 <p>However, the most powerful strategy is to keep the nested list structure and change the parameters individually for different years. If you want to set some parameter for multiple years, then use <code><a href="../reference/gr_set_param.html">gr_set_param()</a></code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># actual params used for each year</span>
-<span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span>
-
-<span class="co"># tweak parameters for selected year</span>
-<span class="va">parlist</span><span class="op">[[</span><span class="st">'2014'</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">grad1</span> <span class="op">=</span> <span class="fl">3</span>
-<span class="va">parlist</span><span class="op">[[</span><span class="st">'2014'</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">grad2</span> <span class="op">=</span> <span class="fl">6</span>
-
-<span class="co"># set the sprecdays parameter for multiple years</span>
-<span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_set_param.html">gr_set_param</a></span><span class="op">(</span><span class="va">parlist</span>, <span class="va">sprecdays</span>, 
-                       years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1999</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span>, 
-                       value <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>
-
-<span class="co"># set the spcomp parameter for all years</span>
-<span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_set_param.html">gr_set_param</a></span><span class="op">(</span><span class="va">parlist</span>, <span class="va">spcomp</span>, value <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span>
-
-<span class="co"># use the list of parameters for separation</span>
-<span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="va">parlist</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span>
-<span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span>
-<span class="co">#&gt; Warning in gr_separate(spas, params = parlist, debug = TRUE): <span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span></span>
-<span class="co"><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">#&gt; [22m</span><span style="font-weight: bold;"> </span><span style="color: #BBBBBB; font-weight: bold; font-style: italic;">1974</span><span style="font-weight: bold;"> years were not separated. Check the input data</span></span>
-<span class="co"><span style="font-weight: bold;">#&gt; for possible errors. Use </span><span style="color: #00BBBB; font-weight: bold; font-style: italic;">gr_get_gaps()</span><span style="font-weight: bold;"> and </span><span style="color: #00BBBB; font-weight: bold; font-style: italic;">gr_fill_gaps()</span></span>
-<span class="co"><span style="color: #00BBBB; font-weight: bold; font-style: italic;">#&gt; [23m</span><span style="font-weight: bold; font-style: italic;"> functions to detect and fill missing data.</span></span>
-
-<span class="co"><span style="font-weight: bold; font-style: italic;"># Visualize</span></span>
-<span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span>
-<span class="co"><span style="font-weight: bold; font-style: italic;">#&gt; Warning: Removed 2 rows containing missing values (position_stack).</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># actual params used for each year</span></span>
+<span><span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span></span>
+<span></span>
+<span><span class="co"># tweak parameters for selected year</span></span>
+<span><span class="va">parlist</span><span class="op">[[</span><span class="st">'2014'</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">grad1</span> <span class="op">=</span> <span class="fl">3</span></span>
+<span><span class="va">parlist</span><span class="op">[[</span><span class="st">'2014'</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">grad2</span> <span class="op">=</span> <span class="fl">6</span></span>
+<span></span>
+<span><span class="co"># set the sprecdays parameter for multiple years</span></span>
+<span><span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_set_param.html">gr_set_param</a></span><span class="op">(</span><span class="va">parlist</span>, <span class="va">sprecdays</span>, </span>
+<span>                       years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1999</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span>, </span>
+<span>                       value <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># set the spcomp parameter for all years</span></span>
+<span><span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_set_param.html">gr_set_param</a></span><span class="op">(</span><span class="va">parlist</span>, <span class="va">spcomp</span>, value <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># use the list of parameters for separation</span></span>
+<span><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="va">parlist</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>
+<span><span class="co">#&gt; Warning in gr_separate(spas, params = parlist, debug = TRUE): <span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">grwat:</span></span></span>
+<span><span class="co"><span style="color: #BBBBBB; background-color: #0000BB; font-weight: bold;">#&gt; [22m</span><span style="font-weight: bold;"> </span><span style="color: #BBBBBB; font-weight: bold; font-style: italic;">1974</span><span style="font-weight: bold;"> years were not separated. Check the input data</span></span></span>
+<span><span class="co"><span style="font-weight: bold;">#&gt; for possible errors. Use </span><span style="color: #00BBBB; font-weight: bold; font-style: italic;">gr_get_gaps()</span><span style="font-weight: bold;"> and </span><span style="color: #00BBBB; font-weight: bold; font-style: italic;">gr_fill_gaps()</span></span></span>
+<span><span class="co"><span style="color: #00BBBB; font-weight: bold; font-style: italic;">#&gt; [23m</span><span style="font-weight: bold; font-style: italic;"> functions to detect and fill missing data.</span></span></span>
+<span></span>
+<span><span class="co"><span style="font-weight: bold; font-style: italic;"># Visualize</span></span></span>
+<span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"><span style="font-weight: bold; font-style: italic;">#&gt; Warning: Removed 2 rows containing missing values (position_stack).</span></span></span></code></pre></div>
 <p><img src="separation_files/figure-html/unnamed-chunk-10-1.png" width="960"><img src="separation_files/figure-html/unnamed-chunk-10-2.png" width="960"></p>
 </div>
 <div class="section level2 unnumbered">
@@ -353,7 +353,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer>
