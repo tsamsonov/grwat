@@ -1,3 +1,8 @@
+# grwat 0.0.3
+
+-   redundant references to old methods are removed from DESCRIPTION;
+
+
 # grwat 0.0.2
 
 This release addresses the issues raised by Gregor Seyer for initial 0.0.1 version:
