@@ -8,8 +8,8 @@
 <meta name="description" content="grwat">
 <title>3. Summaries • grwat</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="3. Summaries">
 <meta property="og:description" content="grwat">
@@ -137,21 +137,22 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gr_help_vars.html">gr_help_vars</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 57 × 21</span></span></span>
-<span><span class="co">#&gt;       ID Position Width Source Name_old    Name   Units Unitsua Unitsen Readtype</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1        1     7      1 year_number Number <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      integer </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2        8    10      1 Year1       Year1  Год   Рок     Year    integer </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3       18    10      1 Year2       Year2  Год   Рок     Year    integer </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     4       28    15      1 datestart   Dspst… Дата  Дата    Date    Date    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     5       43    15      1 datepolend  Dspend Дата  Дата    Date    Date    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    57        0     0      0 PolProd     Tsp    Дней  Дней    Days    integer </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     6       58    10      1 Qy          Qy     м^3/с м^3/с   m^3/s   double  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     7       68    10      1 Qmax        Qspmax м^3/с м^3/с   m^3/s   double  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     8       78    15      1 datemax     Dspmax Дата  Дата    Date    Date    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     9       93    10      1 Qygr        Qygr   м^3/с м^3/с   m^3/s   double  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 47 more rows, and 11 more variables: Type &lt;chr&gt;, Test &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Desc &lt;chr&gt;, Descua &lt;chr&gt;, Descen &lt;chr&gt;, Group &lt;chr&gt;, Winter &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Chart &lt;chr&gt;, Color &lt;chr&gt;, Order &lt;dbl&gt;, Range &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;       ID Position Width Source Name_…¹ Name  Units Unitsua Unitsen Readt…² Type </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1        1     7      1 year_n… Numb… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      integer inte…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2        8    10      1 Year1   Year1 Год   Рок     Year    integer inte…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3       18    10      1 Year2   Year2 Год   Рок     Year    integer inte…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     4       28    15      1 datest… Dsps… Дата  Дата    Date    Date    Date </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     5       43    15      1 datepo… Dspe… Дата  Дата    Date    Date    Date </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    57        0     0      0 PolProd Tsp   Дней  Дней    Days    integer inte…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     6       58    10      1 Qy      Qy    м^3/с м^3/с   m^3/s   double  doub…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     7       68    10      1 Qmax    Qspm… м^3/с м^3/с   m^3/s   double  doub…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     8       78    15      1 datemax Dspm… Дата  Дата    Date    Date    Date </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     9       93    10      1 Qygr    Qygr  м^3/с м^3/с   m^3/s   double  doub…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 47 more rows, 10 more variables: Test &lt;dbl&gt;, Desc &lt;chr&gt;, Descua &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Descen &lt;chr&gt;, Group &lt;chr&gt;, Winter &lt;dbl&gt;, Chart &lt;chr&gt;, Color &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Order &lt;dbl&gt;, Range &lt;chr&gt;, and abbreviated variable names ¹​Name_old,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​Readtype</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="statistical-tests">Statistical tests<a class="anchor" aria-label="anchor" href="#statistical-tests"></a>
@@ -167,7 +168,7 @@
 <span><span class="co">#&gt;  Pettitt's test for single change-point detection</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; data:  vl[vl_cmp]</span></span>
-<span><span class="co">#&gt; U* = 865, p-value = 9.505e-08</span></span>
+<span><span class="co">#&gt; U* = 869, p-value = 8.129e-08</span></span>
 <span><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
 <span><span class="co">#&gt; sample estimates:</span></span>
 <span><span class="co">#&gt; probable change point at time K </span></span>
@@ -195,7 +196,7 @@
 <span><span class="co">#&gt;  Pettitt's test for single change-point detection</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; data:  vl[vl_cmp]</span></span>
-<span><span class="co">#&gt; U* = 773, p-value = 1.625e-07</span></span>
+<span><span class="co">#&gt; U* = 777, p-value = 1.372e-07</span></span>
 <span><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
 <span><span class="co">#&gt; sample estimates:</span></span>
 <span><span class="co">#&gt; probable change point at time K </span></span>
@@ -209,11 +210,11 @@
 <span><span class="co">#&gt;  Mann-Kendall trend test</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; data:  vl[vl_cmp]</span></span>
-<span><span class="co">#&gt; z = 4.6112, n = 60, p-value = 4.003e-06</span></span>
+<span><span class="co">#&gt; z = 4.6495, n = 60, p-value = 3.327e-06</span></span>
 <span><span class="co">#&gt; alternative hypothesis: true S is not equal to 0</span></span>
 <span><span class="co">#&gt; sample estimates:</span></span>
 <span><span class="co">#&gt;            S         varS          tau </span></span>
-<span><span class="co">#&gt; 7.240000e+02 2.458333e+04 4.090395e-01 </span></span>
+<span><span class="co">#&gt; 7.300000e+02 2.458333e+04 4.124294e-01 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -223,13 +224,13 @@
 <span><span class="co">#&gt;  Sen's slope</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; data:  df.theil[[2]][fltr]</span></span>
-<span><span class="co">#&gt; z = 4.6112, n = 60, p-value = 4.003e-06</span></span>
+<span><span class="co">#&gt; z = 4.6495, n = 60, p-value = 3.327e-06</span></span>
 <span><span class="co">#&gt; alternative hypothesis: true z is not equal to 0</span></span>
 <span><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span><span class="co">#&gt;  0.06134963 0.13908704</span></span>
+<span><span class="co">#&gt;  0.06226163 0.13938125</span></span>
 <span><span class="co">#&gt; sample estimates:</span></span>
 <span><span class="co">#&gt; Sen's slope </span></span>
-<span><span class="co">#&gt;  0.09690887 </span></span>
+<span><span class="co">#&gt;  0.09732298 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -242,7 +243,7 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
 <span><span class="co">#&gt; (Intercept)        Year1  </span></span>
-<span><span class="co">#&gt;  -157.23729      0.08532  </span></span>
+<span><span class="co">#&gt;  -161.12007      0.08728  </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -252,13 +253,13 @@
 <span><span class="co">#&gt;  Welch Two Sample t-test</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; data:  d1 and d2</span></span>
-<span><span class="co">#&gt; t = -8.4912, df = 48.211, p-value = 3.889e-11</span></span>
+<span><span class="co">#&gt; t = -8.5321, df = 47.973, p-value = 3.514e-11</span></span>
 <span><span class="co">#&gt; alternative hypothesis: true difference in means is not equal to 0</span></span>
 <span><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span><span class="co">#&gt;  -5.550860 -3.425574</span></span>
+<span><span class="co">#&gt;  -5.557463 -3.437687</span></span>
 <span><span class="co">#&gt; sample estimates:</span></span>
 <span><span class="co">#&gt; mean of x mean of y </span></span>
-<span><span class="co">#&gt;  9.296712 13.784929 </span></span>
+<span><span class="co">#&gt;  9.296712 13.794287 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -268,13 +269,13 @@
 <span><span class="co">#&gt;  F test to compare two variances</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; data:  d1 and d2</span></span>
-<span><span class="co">#&gt; F = 0.79501, num df = 21, denom df = 37, p-value = 0.585</span></span>
+<span><span class="co">#&gt; F = 0.80539, num df = 21, denom df = 37, p-value = 0.6076</span></span>
 <span><span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span></span>
 <span><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span><span class="co">#&gt;  0.3819737 1.7980992</span></span>
+<span><span class="co">#&gt;  0.3869628 1.8215846</span></span>
 <span><span class="co">#&gt; sample estimates:</span></span>
 <span><span class="co">#&gt; ratio of variances </span></span>
-<span><span class="co">#&gt;          0.7950087 </span></span>
+<span><span class="co">#&gt;          0.8053926 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -292,11 +293,11 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pvalues</span></span>
 <span><span class="co">#&gt;   N                                    Variable Change.Year   Trend      M1</span></span>
-<span><span class="co">#&gt; 1 1 Mean annual groundwater ("baseflow") runoff        1979 0.08532 9.29671</span></span>
+<span><span class="co">#&gt; 1 1 Mean annual groundwater ("baseflow") runoff        1979 0.08728 9.29671</span></span>
 <span><span class="co">#&gt;         M2 MeanRatio     sd1     sd2 sdRatio Mann.Kendall Pettitt Student</span></span>
-<span><span class="co">#&gt; 1 13.78493      48.3 1.88588 2.11509    12.2            0       0       0</span></span>
+<span><span class="co">#&gt; 1 13.79429      48.4 1.88588 2.10141    11.4            0       0       0</span></span>
 <span><span class="co">#&gt;    Fisher</span></span>
-<span><span class="co">#&gt; 1 0.58504</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 0.60759</span></span></code></pre></div>
 <p>The tests can be represented in a clear tabular form for visual analysis:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gr_kable_tests.html">gr_kable_tests</a></span><span class="op">(</span><span class="va">tests</span><span class="op">)</span></span></code></pre></div>
@@ -375,22 +376,22 @@ Annual runoff volume
 0.01713
 </td>
 <td style="text-align:right;">
-0.02185
+0.02190
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">27.6</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">27.8</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.89399</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.90316</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41581</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.42579</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.06124</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.06146</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.24221</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.23819</span>
 </td>
 </tr>
 <tr>
@@ -410,19 +411,19 @@ Spring flood runoff volume (w/o groundwater)
 0.02293
 </td>
 <td style="text-align:left;">
-0.01518
+0.01514
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-33.8</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-34</span>
 </td>
 <td style="text-align:right;">
 0.01204
 </td>
 <td style="text-align:right;">
-0.01078
+0.01083
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-10.5</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-10</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">9e-05</span>
@@ -431,10 +432,10 @@ Spring flood runoff volume (w/o groundwater)
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00596</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00945</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00923</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.53551</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.55265</span>
 </td>
 </tr>
 <tr>
@@ -454,7 +455,7 @@ Annual groundwater runoff volume
 0.02919
 </td>
 <td style="text-align:left;">
-0.04465
+0.04467
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">53</span>
@@ -463,10 +464,10 @@ Annual groundwater runoff volume
 0.00583
 </td>
 <td style="text-align:right;">
-0.00920
+0.00917
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">57.8</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">57.3</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">2e-05</span>
@@ -478,7 +479,7 @@ Annual groundwater runoff volume
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02767</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02862</span>
 </td>
 </tr>
 <tr>
@@ -498,31 +499,31 @@ Spring flood runoff volume (with groundwater)
 0.03009
 </td>
 <td style="text-align:left;">
-0.02091
+0.0208
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-30.5</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-30.9</span>
 </td>
 <td style="text-align:right;">
 0.01439
 </td>
 <td style="text-align:right;">
-0.01209
+0.01223
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-16</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-15</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00072</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00069</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01499</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00784</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00744</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.33334</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.36779</span>
 </td>
 </tr>
 <tr>
@@ -542,10 +543,10 @@ Rain flood runoff volume (w/o groundwater)
 0.00571
 </td>
 <td style="text-align:left;">
-0.00876
+0.00877
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">53.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">53.6</span>
 </td>
 <td style="text-align:right;">
 0.00685
@@ -563,10 +564,10 @@ Rain flood runoff volume (w/o groundwater)
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.66529</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.14543</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.14526</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.30891</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.30919</span>
 </td>
 </tr>
 <tr>
@@ -586,31 +587,31 @@ Rain flood runoff volume (with groundwater)
 0.01413
 </td>
 <td style="text-align:left;">
-0.02375
+0.02377
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">68.1</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">68.2</span>
 </td>
 <td style="text-align:right;">
 0.01045
 </td>
 <td style="text-align:right;">
-0.01587
+0.01585
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">51.9</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">51.7</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.52771</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.52016</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.09611</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00572</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00564</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.05143</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.05192</span>
 </td>
 </tr>
 <tr>
@@ -651,10 +652,10 @@ Thaw flood runoff volume (w/o groundwater)
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.44105</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.49662</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.5008</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.28487</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.28897</span>
 </td>
 </tr>
 <tr>
@@ -665,40 +666,40 @@ Thaw flood runoff volume (w/o groundwater)
 Thaw flood runoff volume (with groundwater)
 </td>
 <td style="text-align:right;">
-2017
+2010
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D3D3D3 !important;">0</span>
 </td>
 <td style="text-align:left;">
-0.00781
+0.00749
 </td>
 <td style="text-align:left;">
-0.00664
+0.00909
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-15</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">21.4</span>
 </td>
 <td style="text-align:right;">
-0.00500
+0.00495
 </td>
 <td style="text-align:right;">
-0.00736
+0.00587
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">47.2</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">18.6</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.91235</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.8757</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">1</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.77269</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41408</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.20148</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41023</span>
 </td>
 </tr>
 <tr>
@@ -718,22 +719,22 @@ Winter groundwater runoff volume
 0.00742
 </td>
 <td style="text-align:left;">
-0.01185
+0.01189
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">59.7</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">60.2</span>
 </td>
 <td style="text-align:right;">
 0.00238
 </td>
 <td style="text-align:right;">
-0.00347
+0.00345
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">45.8</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">45</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00023</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00018</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">1e-05</span>
@@ -742,7 +743,7 @@ Winter groundwater runoff volume
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.07098</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.07708</span>
 </td>
 </tr>
 <tr>
@@ -762,31 +763,31 @@ Winter low flow runoff volume
 0.00953
 </td>
 <td style="text-align:left;">
-0.01346
+0.0135
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">41.2</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">41.7</span>
 </td>
 <td style="text-align:right;">
 0.00492
 </td>
 <td style="text-align:right;">
-0.00504
+0.00501
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D3D3D3 !important;">2.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D3D3D3 !important;">1.8</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01955</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01472</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00126</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00102</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00493</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00448</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.93786</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.96005</span>
 </td>
 </tr>
 <tr>
@@ -800,37 +801,37 @@ Summer groundwater runoff volume
 1979
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.00019</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">2e-04</span>
 </td>
 <td style="text-align:left;">
 0.01474
 </td>
 <td style="text-align:left;">
-0.02493
+0.02497
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">69.1</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">69.4</span>
 </td>
 <td style="text-align:right;">
 0.00451
 </td>
 <td style="text-align:right;">
-0.00705
+0.00703
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">56.3</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">55.9</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">2e-05</span>
-</td>
-<td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">1e-05</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03089</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
+</td>
+<td style="text-align:left;">
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03202</span>
 </td>
 </tr>
 <tr>
@@ -850,31 +851,31 @@ Summer low flow runoff volume
 0.01917
 </td>
 <td style="text-align:left;">
-0.03258
+0.03262
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">70</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">70.2</span>
 </td>
 <td style="text-align:right;">
 0.01064
 </td>
 <td style="text-align:right;">
-0.01473
+0.01469
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">38.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">38.1</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.0162</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01337</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00184</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00175</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00014</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00013</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.12665</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.12912</span>
 </td>
 </tr>
 <tr>
@@ -888,13 +889,13 @@ Mean annual runoff
 1978
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.00067</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.00065</span>
 </td>
 <td style="text-align:left;">
 19.69591
 </td>
 <td style="text-align:left;">
-22.67904
+22.6727
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">15.1</span>
@@ -903,10 +904,10 @@ Mean annual runoff
 5.69050
 </td>
 <td style="text-align:right;">
-6.74473
+6.74975
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">18.5</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">18.6</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.98613</span>
@@ -915,10 +916,10 @@ Mean annual runoff
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.47808</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.07067</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.07133</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41644</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41434</span>
 </td>
 </tr>
 <tr>
@@ -932,7 +933,7 @@ First date of a spring flood
 1970
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.18605</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.16515</span>
 </td>
 <td style="text-align:left;">
 28-Mar
@@ -953,16 +954,16 @@ First date of a spring flood
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">87.5</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.05209</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.08932</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.08267</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.10606</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00228</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00289</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02547</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.0255</span>
 </td>
 </tr>
 <tr>
@@ -976,25 +977,25 @@ Mean annual groundwater (“baseflow”) runoff
 1979
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.0883</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.08862</span>
 </td>
 <td style="text-align:left;">
 9.29671
 </td>
 <td style="text-align:left;">
-14.17768
+14.18615
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">52.5</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">52.6</span>
 </td>
 <td style="text-align:right;">
 1.88588
 </td>
 <td style="text-align:right;">
-2.49889
+2.48709
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">32.5</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">31.9</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">1e-05</span>
@@ -1006,7 +1007,7 @@ Mean annual groundwater (“baseflow”) runoff
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.16785</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.17504</span>
 </td>
 </tr>
 <tr>
@@ -1020,7 +1021,7 @@ Last date of a spring flood
 1970
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.25</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.26393</span>
 </td>
 <td style="text-align:left;">
 05-May
@@ -1041,7 +1042,7 @@ Last date of a spring flood
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">166.7</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.0031</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00261</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00569</span>
@@ -1050,7 +1051,7 @@ Last date of a spring flood
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">1e-05</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00043</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">4e-04</span>
 </td>
 </tr>
 <tr>
@@ -1064,37 +1065,37 @@ Duration of a spring flood
 1989
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.12158</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.1467</span>
 </td>
 <td style="text-align:left;">
 38.0625
 </td>
 <td style="text-align:left;">
-34.5
+33.8125
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-9.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-11.2</span>
 </td>
 <td style="text-align:right;">
 7.33061
 </td>
 <td style="text-align:right;">
-12.19995
+12.91770
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">66.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">76.2</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03369</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01739</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03547</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02757</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.1629</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.11193</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00585</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00228</span>
 </td>
 </tr>
 <tr>
@@ -1202,31 +1203,31 @@ Spring flood runoff volume (with groundwater and rain)
 0.03074
 </td>
 <td style="text-align:left;">
-0.02261
+0.02251
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-26.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-26.8</span>
 </td>
 <td style="text-align:right;">
 0.01391
 </td>
 <td style="text-align:right;">
-0.01401
+0.01415
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D3D3D3 !important;">0.7</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D3D3D3 !important;">1.7</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00076</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00073</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01377</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02383</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02274</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.97772</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.93649</span>
 </td>
 </tr>
 <tr>
@@ -1422,7 +1423,7 @@ Minimum 30-day averaged winter runoff
 6.00123
 </td>
 <td style="text-align:left;">
-11.19813
+11.19667
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">86.6</span>
@@ -1431,10 +1432,10 @@ Minimum 30-day averaged winter runoff
 2.15918
 </td>
 <td style="text-align:right;">
-2.88271
+2.88425
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">33.5</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">33.6</span>
 </td>
 <td style="text-align:left;">
 NA
@@ -1446,7 +1447,7 @@ NA
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.15792</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.15716</span>
 </td>
 </tr>
 <tr>
@@ -1460,7 +1461,7 @@ First date of minimum 30-day averaged winter runoff
 1987
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.14545</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.11765</span>
 </td>
 <td style="text-align:left;">
 04-Jan
@@ -1481,16 +1482,16 @@ First date of minimum 30-day averaged winter runoff
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">19</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.39944</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.51392</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.74118</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.89893</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.1862</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.2127</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.44023</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.39239</span>
 </td>
 </tr>
 <tr>
@@ -2032,37 +2033,37 @@ Number of thaw flood events
 1995
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.13333</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.12903</span>
 </td>
 <td style="text-align:left;">
 14.83333
 </td>
 <td style="text-align:left;">
-11.15385
+11.23077
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-24.8</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-24.3</span>
 </td>
 <td style="text-align:right;">
 4.63835
 </td>
 <td style="text-align:right;">
-7.19829
+7.16831
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">55.2</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">54.5</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00078</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00105</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00473</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00618</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02766</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03036</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01664</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01769</span>
 </td>
 </tr>
 <tr>
@@ -2076,37 +2077,37 @@ Number of thaw flood days
 1984
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.70711</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.70213</span>
 </td>
 <td style="text-align:left;">
 79
 </td>
 <td style="text-align:left;">
-46.81081
+47.13514
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-40.7</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-40.3</span>
 </td>
 <td style="text-align:right;">
 20.74015
 </td>
 <td style="text-align:right;">
-22.76186
+22.88396
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">9.7</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">10.3</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">4e-05</span>
-</td>
-<td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">5e-05</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.62808</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0</span>
+</td>
+<td style="text-align:left;">
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.60779</span>
 </td>
 </tr>
 <tr>
@@ -2208,37 +2209,37 @@ Number of rain flood events
 1977
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.09091</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.08876</span>
 </td>
 <td style="text-align:left;">
 20.05
 </td>
 <td style="text-align:left;">
-14.86364
+14.90909
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-25.9</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-25.6</span>
 </td>
 <td style="text-align:right;">
 4.29780
 </td>
 <td style="text-align:right;">
-3.92719
+3.94036
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-8.6</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-8.3</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.004</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00595</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00097</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00122</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">6e-05</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.60685</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.61906</span>
 </td>
 </tr>
 <tr>
@@ -2258,7 +2259,7 @@ Number of rain flood days
 112.05882
 </td>
 <td style="text-align:left;">
-99.03333
+99.1
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-11.6</span>
@@ -2267,22 +2268,22 @@ Number of rain flood days
 29.43091
 </td>
 <td style="text-align:right;">
-38.14626
+38.07556
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">29.6</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">29.4</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.64293</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.65125</span>
 </td>
 <td style="text-align:left;">
 <span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.41088</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.13573</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.13723</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.15061</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.15352</span>
 </td>
 </tr>
 <tr>
@@ -2296,37 +2297,37 @@ Relative variation of runoff during winter low flow
 1983
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.00288</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.00274</span>
 </td>
 <td style="text-align:left;">
 0.44193
 </td>
 <td style="text-align:left;">
-0.27133
+0.27218
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-38.6</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-38.4</span>
 </td>
 <td style="text-align:right;">
 0.31443
 </td>
 <td style="text-align:right;">
-0.23725
+0.23642
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-24.5</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-24.8</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02144</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02649</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00913</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00955</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02352</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02406</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.11699</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.11252</span>
 </td>
 </tr>
 <tr>
@@ -2340,37 +2341,37 @@ Duration of winter low flow
 1984
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.5</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.47321</span>
 </td>
 <td style="text-align:left;">
 130.44444
 </td>
 <td style="text-align:left;">
-115.02703
+115.40541
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-11.8</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-11.5</span>
 </td>
 <td style="text-align:right;">
 18.08810
 </td>
 <td style="text-align:right;">
-27.01593
+26.98401
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">49.4</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">49.2</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00076</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00119</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01845</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.02353</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.0082</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00976</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03612</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03665</span>
 </td>
 </tr>
 <tr>
@@ -2384,37 +2385,37 @@ Relative variation of runoff during summer-autumn low flow
 1970
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.00068</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-0.00039</span>
 </td>
 <td style="text-align:left;">
 0.56005
 </td>
 <td style="text-align:left;">
-0.6225
+0.62536
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">11.2</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">11.7</span>
 </td>
 <td style="text-align:right;">
 0.43161
 </td>
 <td style="text-align:right;">
-0.28886
+0.28499
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-33.1</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ADD8E6 !important;">-34</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.74122</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.85746</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.71943</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.66529</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.61664</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.60021</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.04352</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.03682</span>
 </td>
 </tr>
 <tr>
@@ -2428,37 +2429,37 @@ Duration of a summer-autumn low flow
 1999
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.5</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">0.51113</span>
 </td>
 <td style="text-align:left;">
 198.61905
 </td>
 <td style="text-align:left;">
-216.27273
+216.63636
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">8.9</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">9.1</span>
 </td>
 <td style="text-align:right;">
 20.61488
 </td>
 <td style="text-align:right;">
-23.07582
+23.16719
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">11.9</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFC0CB !important;">12.4</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00034</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00027</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e6e600 !important;">0.01042</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00955</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00454</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #99cc00 !important;">0.00394</span>
 </td>
 <td style="text-align:left;">
-<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.52416</span>
+<span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #ff9966 !important;">0.51051</span>
 </td>
 </tr>
 </tbody>
@@ -2471,34 +2472,34 @@ Duration of a summer-autumn low flow
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># plot one selected variable</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-6-1.png" width="960"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># plot one selected variable</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Dspstart</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (`geom_point()`).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-6-2.png" width="960"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># plot two variables sequentially</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing missing values (`geom_point()`).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-6-3.png" width="960"></p>
-<pre><code><span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span></code></pre>
 <p><img src="summaries_files/figure-html/unnamed-chunk-6-4.png" width="960"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># plot four variables in matrix layout</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qspmax</span>, <span class="va">Qygr</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>,</span>
 <span>             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (`geom_point()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-6-5.png" width="960"></p>
 <p>Tests can be calculated on the fly during the variable plotting or passed into <code>tests =</code> parameters. In this case the plots are supplemented with trend line and change year:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -2506,11 +2507,11 @@ Duration of a summer-autumn low flow
 <span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qspmax</span>, <span class="va">Qygr</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>,</span>
 <span>             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>             tests <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (`geom_point()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-7-1.png" width="960"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -2519,12 +2520,12 @@ Duration of a summer-autumn low flow
 <span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>, <span class="va">Nthw</span>, <span class="va">Qrnmax</span>,</span>
 <span>             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>             tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_smooth).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_rect).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_smooth).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (`geom_point()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (`geom_rect()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-7-2.png" width="960"></p>
 </div>
 <div class="section level2">
@@ -2534,19 +2535,19 @@ Duration of a summer-autumn low flow
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># plot periods with fixed change year</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, year <span class="op">=</span> <span class="fl">1979</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_boxplot()`).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-8-1.png" width="960"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># plot periods with change year from Pettitt test</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, tests <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_boxplot()`).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-8-2.png" width="960"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># calculate test beforehand</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qspmax</span>, tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_boxplot()`).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-8-3.png" width="960"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -2554,10 +2555,10 @@ Duration of a summer-autumn low flow
 <span><span class="fu"><a href="../reference/gr_plot_periods.html">gr_plot_periods</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, <span class="va">Qspmax</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>,</span>
 <span>                layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
 <span>                tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_boxplot).</span></span>
-<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_boxplot).</span></span>
-<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_boxplot).</span></span>
-<span><span class="co">#&gt; Removed 1 rows containing non-finite values (stat_boxplot).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_boxplot()`).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (`stat_boxplot()`).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (`stat_boxplot()`).</span></span>
+<span><span class="co">#&gt; Removed 1 rows containing non-finite values (`stat_boxplot()`).</span></span></code></pre></div>
 <p><img src="summaries_files/figure-html/unnamed-chunk-8-4.png" width="960"></p>
 </div>
 <div class="section level2">
@@ -2597,7 +2598,7 @@ Duration of a summer-autumn low flow
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>
