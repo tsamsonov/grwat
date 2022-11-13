@@ -6,7 +6,7 @@
 [![CRAN](http://www.r-pkg.org/badges/version/grwat)](https://cran.r-project.org/package=grwat)
 [![CRAN checks](https://cranchecks.info/badges/worst/grwat)](https://cran.r-project.org/web/checks/check_results_grwat.html)
 [![Monthly downloads](http://cranlogs.r-pkg.org/badges/grwat?color=brightgreen)](http://www.r-pkg.org/pkg/grwat)
-[![Total downloads](http://cranlogs.r-pkg.org/badges/grand-total/loadflux)](https://cran.r-project.org/package=loadflux)
+[![Total downloads](http://cranlogs.r-pkg.org/badges/grand-total/grwat)](https://cran.r-project.org/package=grwat)
 
 # grwat
 
