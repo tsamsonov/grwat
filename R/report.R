@@ -21,8 +21,13 @@
 gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = NULL, temp = FALSE, prec = FALSE, span = 5, locale = 'EN') {
   t1 = Sys.time()
   
+  output_dir = NULL
+  if (!R.utils::isAbsolutePath(output))
+    output_dir = getwd()
+  
   rmarkdown::render(input = system.file('reports', 'Report_HTML.Rmd', package = 'grwat'), 
                     output_file = output,
+                    output_dir = output_dir,
                     encoding = 'UTF-8',
                     quiet = TRUE,
                     params = list(name = basename(output),
