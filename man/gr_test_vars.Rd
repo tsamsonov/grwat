@@ -36,7 +36,7 @@ Use this function to test interannual changes or hydrograph separation variables
 \details{
 Number of observations formally required for various tests: Pettitt > 0, Mann-Kendall > 2, Theil-Sen > 1, Student > 1, Fisher > 1.
 }
-\examples{\donttest{
+\examples{
 library(grwat)
 
 data(spas) # example Spas-Zagorye data is included with grwat package
@@ -58,4 +58,4 @@ tests$ft$Q30s
 
 # test only Qygr and Q30s using 1978 as fixed year and excluding 1988-1991 yrs
 gr_test_vars(vars, Qygr, Q30s, year = 1978, exclude = 1988:1991)
-}}
+}

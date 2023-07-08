@@ -38,7 +38,7 @@ gr_plot_periods(
 \description{
 This function generates boxplots of the hydrograph separation variables produced by \code{\link[=gr_summarize]{gr_summarize()}}. The data for each variable is divided into two samples: before and after the change year either set by \code{year} parameter or extracted from \code{tests} (statistically estimated). Different background fill colors are used to differentiate seasons types.
 }
-\examples{\donttest{
+\examples{
 library(grwat)
 
 data(spas) # example Spas-Zagorye data is included with grwat package
@@ -63,4 +63,4 @@ gr_plot_periods(vars, Qspmax, tests = tests)
 gr_plot_periods(vars, Qygr, Qspmax, D10w1, Wsprngr,
                 layout = matrix(1:4, nrow = 2),
                 tests = tests)
-}}
+}

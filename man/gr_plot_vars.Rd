@@ -38,7 +38,7 @@ gr_plot_vars(
 \description{
 This function plots the hydrograph separation variables produced by \code{\link[=gr_summarize]{gr_summarize()}}. Different background fill colors and line types are used to differentiate seasons and variable types.
 }
-\examples{\donttest{
+\examples{
 library(grwat)
 
 data(spas) # example Spas-Zagorye data is included with grwat package
@@ -72,4 +72,4 @@ tests = gr_test_vars(vars)
 gr_plot_vars(vars, D10w1, Wsprngr, Nthw, Qrnmax,
              layout = matrix(1:4, nrow = 2, byrow = TRUE),
              tests = tests)
-}}
+}

@@ -38,7 +38,7 @@ Numeric baseflow vector with length equal to \code{Q}
 \description{
 Extract baseflow from hydrological series using the filtering approach
 }
-\examples{\donttest{
+\examples{
 library(grwat)
 library(ggplot2)
 library(dplyr)
@@ -89,4 +89,4 @@ ggplot(hdata) +
   geom_area(aes(Date, Qbase), fill = 'orangered', color = 'black') +
   scale_x_date(limits = c(ymd(19800101), ymd(19801231))) +
   facet_wrap(~Method)
-}}
+}
