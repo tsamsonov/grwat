@@ -22,7 +22,7 @@ namespace grwat {
         int mome = 11;
         double grad = 1.0;
         double grad1 = 13.0;
-        double kdQgr1 = 1500.0;
+        double kdQgr1 = 150;
         int polmon1 = 1;
         int polmon2 = 5;
         int polkol1 = 5;
@@ -65,17 +65,17 @@ namespace grwat {
         return (flt == MAXWELL) || (flt == BOUGHTON) || (flt == JAKEMAN);
     }
 
-    static double baseflow_lyne(const double& Qfi_1,
-                                const double& Qi,
-                                const double& Qi_1,
-                                const double& alpha = 0.925) {
+    static double quickflow_lyne(const double& Qfi_1,
+                                 const double& Qi,
+                                 const double& Qi_1,
+                                 const double& alpha = 0.925) {
         return Qfi_1 * alpha + 0.5 * (Qi - Qi_1) * (1 + alpha);
     }
 
-    static double baseflow_chapman(const double& Qfi_1,
-                                   const double& Qi,
-                                   const double& Qi_1,
-                                   const double& alpha = 0.925) {
+    static double quickflow_chapman(const double& Qfi_1,
+                                    const double& Qi,
+                                    const double& Qi_1,
+                                    const double& alpha = 0.925) {
         return Qfi_1 * (3 * alpha - 1) / (3 - alpha) + 2 * (Qi - alpha * Qi_1) / (3 - alpha);
     }
 
@@ -182,9 +182,9 @@ namespace grwat {
                 const double&,
                 const double&,
                 const double&,
-                const double&)>> baseflow_recursive = {
-                {CHAPMAN, baseflow_chapman},
-                {LYNE, baseflow_lyne}
+                const double&)>> quickflow_recursive = {
+                {CHAPMAN, quickflow_chapman},
+                {LYNE,    quickflow_lyne}
         };
 
         std::vector<double> baseflow(Qin);
@@ -218,7 +218,7 @@ namespace grwat {
                     Qf[begin] = Q[begin];
                     auto Qbase = vector<double>(n, 0);
                     for (auto i = begin + delta; inside(i); i += delta) {
-                        Qf[i] = baseflow_recursive[method](Qf[i-delta], Q[i], Q[i-delta], a);
+                        Qf[i] = quickflow_recursive[method](Qf[i - delta], Q[i], Q[i - delta], a);
                         Qbase[i] = (Qf[i] > 0) ? Q[i] - Qf[i] : Q[i];
                     }
                     std::swap(begin, end);
