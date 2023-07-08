@@ -1,6 +1,7 @@
 # grwat 0.0.3
 
 -   redundant references to old methods are removed from DESCRIPTION;
+-   added support for relative paths in `gr_report()` output file
 
 # grwat 0.0.2
 
