@@ -582,8 +582,9 @@ namespace grwat {
                         auto con1 = ((n - nmax) > par.prodspada)  &&
                                     (dQ > par.grad || dQgr1 > par.kdQgr1 || dQgr2 > par.grad ||
                                      dQabs > par.gradabs || dQgr2abs > par.gradabs);
-                        auto con2 = dQ > par.grad1 || dQgr1 > par.kdQgr1 || dQgr2 > par.grad1  ||
-                                    dQabs > par.gradabs || dQgr2abs > par.gradabs;
+                        auto con2 = ((n - nmax) <= par.prodspada)  &&
+                                    (dQ > par.grad1 || dQgr1 > par.kdQgr1 || dQgr2 > par.grad1  ||
+                                    dQabs > par.gradabs || dQgr2abs > par.gradabs);
                         if (con1 || con2)
                             continue;
                     } else {
