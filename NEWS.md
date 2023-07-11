@@ -2,6 +2,7 @@
 
 -   redundant references to old methods are removed from DESCRIPTION;
 -   added support for relative paths in `gr_report()` output file
+-   fixed incorrect application of grad2 parameter in low-water period
 
 # grwat 0.0.2
 
