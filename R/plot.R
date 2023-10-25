@@ -49,7 +49,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   if(!is.null(years)){
     df = df %>% dplyr::filter(.data$Year %in% unique(c(years, years + 1)))
   } else {
-    years = df %>% dplyr::pull(.data$Year) %>% unique() %>% order() 
+    years = df %>% dplyr::pull(.data$Year) %>% unique() %>% sort() 
   }
   
   yrs = df %>% dplyr::group_by(.data$Year) %>% 
@@ -67,8 +67,6 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   if (prec && (span > 1)) {
     df = dplyr::mutate(df, Preccum = zoo::rollapply(.data$Prec, span, sum, align = 'right', fill = NA))
     max.prec = max(df$Preccum, na.rm = TRUE)
-    # print("YEAH!!!")
-    # print(max.prec)
   }
   
   
@@ -79,15 +77,18 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   plotlist = list()
   j = 1
   
-  bar = progress::progress_bar$new(total = n)
-  bar$tick(0)
+  cli::cli_progress_bar('Plotting separation', total = n)  
+  # bar = progress::progress_bar$new(total = n)
+  # bar$tick(0)
   
   for (i in 1:n) {
     
-    if (!(yrs$Year[i] %in% years)) 
+    if (!(yrs$Year[i] %in% years)) {
+      cli::cli_progress_update()
       next
+    }
     
-    bar$tick()
+    # bar$tick()
     
     begin.date = yrs$nydate[i]
     
@@ -214,12 +215,18 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
       plotlist = list()
       j = 1
     }
+    
+    cli::cli_progress_update()
+    
   }
   
   if (j > 1) {
     if (print) multiplot(plotlist = plotlist, layout = layout)
     allplotlist = c(allplotlist, plotlist)
+    cli::cli_progress_update()
   }
+  
+  cli::cli_progress_done()
   
   invisible(allplotlist)
 }

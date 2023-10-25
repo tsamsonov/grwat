@@ -13,7 +13,7 @@ params:
     eol: "\n"
 date: "`r Sys.Date()`"
 title: "`r tools::file_path_sans_ext(basename(params$name))`"
-author: "`r switch(params$locale, 'EN' = 'Report produced by grwat R package', 'RU' = 'Отчет подготовлен с помощью пакета R grwat', 'UA' = 'Звіт підготовлений за допомогою пакету')`"
+author: "`r switch(params$locale, 'EN' = 'Report produced by grwat R package', 'RU' = 'Отчет подготовлен с помощью пакета R grwat', 'UA' = 'Звіт підготовлений за допомогою пакету R grwat')`"
 output: 
   html_document:
     # toc: true
@@ -38,18 +38,17 @@ header-includes:
 <!-- Settings -->
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-knitr::opts_chunk$set(include=FALSE)
 
 library(grwat)
 gr_set_locale(params$locale)
 ```
 
 # {.tabset}
-```{r, include=TRUE, warning=FALSE, message=FALSE, }
+```{r, warning=FALSE, message=FALSE}
 message('\nGenerating hydrograph separation report for ', params$name, '\n')
 ```
 
-```{r, include=TRUE}
+```{r}
 if (params$locale == 'RU') {
   knitr::asis_output("## Расчленение гидрографа {#separation}")
 } else if (params$locale == 'UA') {
@@ -60,7 +59,7 @@ if (params$locale == 'RU') {
 ```
 
 
-```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
+```{r, results='asis', message=FALSE, warning=FALSE, fig.height=8, fig.width=11}
 message(' > Plotting separation...\n')
 gr_plot_sep(params$sep, years = params$vars$Year, layout = matrix(c(1,2,3,4), nrow=2, byrow=TRUE),
                    temp = params$temp, prec = params$prec, span = params$span,
@@ -68,7 +67,7 @@ gr_plot_sep(params$sep, years = params$vars$Year, layout = matrix(c(1,2,3,4), nr
 ```
 
 <!-- Main plots -->
-```{r, include=TRUE}
+```{r}
 if (params$locale == 'RU') {
   knitr::asis_output("## Межгодичные изменения {#interannual}")
 } else if (params$locale == 'UA') {
@@ -79,7 +78,7 @@ if (params$locale == 'RU') {
 ```
 
 
-```{r, include=TRUE, results='asis', warning=FALSE, message=FALSE, fig.height=8, fig.width=11}
+```{r, results='asis', warning=FALSE, fig.height=8, fig.width=11}
 message(' > Testing variables...\n')
 tests = gr_test_vars(vars, 
                     year = params$year, 
@@ -93,7 +92,7 @@ gr_plot_vars(vars,
             pagebreak = FALSE)
 ```
 
-```{r, include=TRUE}
+```{r}
 if (params$locale == 'RU') {
   knitr::asis_output("## Долгопериодные изменения {#longterm}")
 } else if (params$locale == 'UA') {
@@ -104,7 +103,7 @@ if (params$locale == 'RU') {
 ```
 
 
-```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
+```{r, fig.height=8, fig.width=11, warning=FALSE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting long-term changes...\n')
 gr_plot_minmonth(vars, 
                 year = params$year, 
@@ -112,7 +111,7 @@ gr_plot_minmonth(vars,
                 tests = tests,
                 pagebreak = FALSE)
 ```
-```{r, fig.height=8, fig.width=11, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
+```{r, fig.height=8, fig.width=11, warning=FALSE, results='asis', echo=FALSE, message=FALSE}
 gr_plot_periods(vars,
                exclude = params$exclude,
                tests = tests,
@@ -121,7 +120,7 @@ gr_plot_periods(vars,
 ```
 
 <!-- Stats -->
-```{r, include=TRUE}
+```{r}
 if (params$locale == 'RU') {
   knitr::asis_output("## Матрица расходов {#matrix}")
 } else if (params$locale == 'UA') {
@@ -131,7 +130,7 @@ if (params$locale == 'RU') {
 }
 ```
 
-```{r, fig.height=5, fig.width=10, warning=FALSE, include = TRUE, results='asis', echo=FALSE, message=FALSE}
+```{r, fig.height=5, fig.width=10, warning=FALSE, results='asis', echo=FALSE, message=FALSE}
 message(' > Plotting runoff matrices...\n')
 gr_plot_matrix(sep, type = 'runoff')
 gr_plot_matrix(sep, type = 'season')
@@ -139,7 +138,7 @@ gr_plot_matrix(sep, type = 'component')
 ```
 
 <!-- Stats -->
-```{r, include=TRUE}
+```{r}
 if (params$locale == 'RU') {
   knitr::asis_output("## Тесты {#tests}")
 } else if (params$locale == 'UA') {
@@ -150,7 +149,7 @@ if (params$locale == 'RU') {
 ```
 
 <!-- Knit table to PDF -->
-```{r, include = TRUE, results='asis', warning=FALSE, message=FALSE}
+```{r, results='asis', warning=FALSE}
 message(' > Kabling statistical tests...\n')
 gr_kable_tests(tests, format = 'html')
 gr_plot_tests(tests)

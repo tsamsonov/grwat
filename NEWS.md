@@ -1,8 +1,10 @@
 # grwat 0.0.3
 
--   redundant references to old methods are removed from DESCRIPTION;
--   added support for relative paths in `gr_report()` output file
--   fixed incorrect application of grad2 parameter in low-water period
+-   removed examples and tests with non-ASCII symbols (to address CRAN issue raised by Brian Ripley);
+-   renamed `baseflow_lyne()` and `baseflow_chapman()` functions in C++ sources into `quickflow_lyne()` and `quickflow_chapman()` to address Github issue 13 raised by Kaye-HQ;
+-   removed redundant references to old methods from DESCRIPTION;
+-   added support for relative paths in `gr_report()` output file;
+-   fixed incorrect application of `grad2` parameter in low-water period;
 
 # grwat 0.0.2
 
