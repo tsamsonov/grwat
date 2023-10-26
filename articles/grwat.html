@@ -8,10 +8,10 @@
 <meta name="description" content="grwat">
 <title>Introduction to grwat R package • grwat</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to grwat R package">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to grwat R package">
 <meta property="og:description" content="grwat">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">grwat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,12 +73,14 @@
 
 
 
-<script src="grwat_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Introduction to grwat R package</h1>
-                        <h4 data-toc-skip class="author">Timofey Samsonov</h4>
+                        <h4 data-toc-skip class="author">Timofey
+Samsonov</h4>
             
-            <h4 data-toc-skip class="date">2022-11-14</h4>
+            <h4 data-toc-skip class="date">2023-10-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/HEAD/vignettes/grwat.Rmd" class="external-link"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="d-none name"><code>grwat.Rmd</code></div>
@@ -89,7 +91,14 @@
 <div class="section level2">
 <h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
 </h2>
-<p>Throughout <strong><code>grwat</code></strong> package documentation a sample dataset <code>spas</code> containing the daily runoff data for <a href="https://allrivers.info/gauge/protva-obninsk" class="external-link">Spas-Zagorye</a> gauge on <a href="https://en.wikipedia.org/wiki/Protva" class="external-link">Protva</a> river in Central European plane is used. The dataset is supplemented by meteorological variables (temperature and precipitation) obtained from CIRES-DOE (1880-1949) and ERA5 (1950-2021) data averaged inside gauge’s basin:</p>
+<p>Throughout <strong><code>grwat</code></strong> package documentation
+a sample dataset <code>spas</code> containing the daily runoff data for
+<a href="https://allrivers.info/gauge/protva-obninsk" class="external-link">Spas-Zagorye</a>
+gauge on <a href="https://en.wikipedia.org/wiki/Protva" class="external-link">Protva</a> river
+in Central European plane is used. The dataset is supplemented by
+meteorological variables (temperature and precipitation) obtained from
+CIRES-DOE (1880-1949) and ERA5 (1950-2021) data averaged inside gauge’s
+basin:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tsamsonov/grwat" class="external-link">grwat</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -107,20 +116,26 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1956-01-04  5.44  -<span style="color: #BB0000;">8.05</span> 0.397</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 1956-01-05  5.44 -<span style="color: #BB0000;">11.7</span>  0.102</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1956-01-06  5.58 -<span style="color: #BB0000;">20.1</span>  0.032</span></span></code></pre></div>
-<p>This 4-column representation is standard for advanced separation discussed below.</p>
+<p>This 4-column representation is standard for advanced separation
+discussed below.</p>
 </div>
 <div class="section level2">
 <h2 id="baseflow-filtering">Baseflow filtering<a class="anchor" aria-label="anchor" href="#baseflow-filtering"></a>
 </h2>
 <blockquote>
-<p>For more information on baseflow filtering, read the <a href="https://tsamsonov.github.io/grwat/articles/baseflow.html" class="external-link"><strong>Baseflow filtering</strong></a> vignette.</p>
+<p>For more information on baseflow filtering, read the <a href="https://tsamsonov.github.io/grwat/articles/baseflow.html" class="external-link"><strong>Baseflow
+filtering</strong></a> vignette.</p>
 </blockquote>
-<p><strong><code>grwat</code></strong> implements several methods for baseflow filtering. The <code>get_baseflow()</code> function does the job:</p>
+<p><strong><code>grwat</code></strong> implements several methods for
+baseflow filtering. The <code>get_baseflow()</code> function does the
+job:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Qbase</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">spas</span><span class="op">$</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'lynehollick'</span>, a <span class="op">=</span> <span class="fl">0.925</span>, passes <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">Qbase</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 3.698598 3.789843 3.876099 3.958334 4.037031 4.112454</span></span></code></pre></div>
-<p>Though <code>get_baseflow()</code> needs just a vector of runoff values, it can be applied in a traditional tidyverse pipeline like follows:</p>
+<p>Though <code>get_baseflow()</code> needs just a vector of runoff
+values, it can be applied in a traditional tidyverse pipeline like
+follows:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Calculate baseflow using Jakeman approach</span></span>
 <span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -139,14 +154,26 @@
 <h2 id="advanced-hydrograph-separation">Advanced hydrograph separation<a class="anchor" aria-label="anchor" href="#advanced-hydrograph-separation"></a>
 </h2>
 <blockquote>
-<p>For more information on advanced separation, read the <a href="https://tsamsonov.github.io/grwat/articles/separation.html" class="external-link"><strong>Advanced separation</strong></a> vignette.</p>
+<p>For more information on advanced separation, read the <a href="https://tsamsonov.github.io/grwat/articles/separation.html" class="external-link"><strong>Advanced
+separation</strong></a> vignette.</p>
 </blockquote>
-<p>Advanced separation by <code><a href="../reference/gr_separate.html">gr_separate()</a></code> implements the method by <span class="citation">(Rets et al. 2022)</span>, which involves additional data on temperatures and precipitation to detect and classify flood events into the rain, thaw and spring (seasonal thaw). Between these events <span class="math inline">\(100\%\)</span> of the runoff is considered to be ground. Inside those events the ground flow is filtered either by one of the baseflow functions, or by Kudelin’s method, which degrades baseflow to <span class="math inline">\(0\)</span> under the maximum runoff value during the year.</p>
-<p>The method is controlled by more than 20 parameters, which can be region-specific. Therefore, to ease the management and distribution of these parameters, they are organized as list, as returned by <code><a href="../reference/gr_get_params.html">gr_get_params()</a></code>:</p>
+<p>Advanced separation by <code><a href="../reference/gr_separate.html">gr_separate()</a></code> implements the
+method by <span class="citation">(Rets et al. 2022)</span>, which
+involves additional data on temperatures and precipitation to detect and
+classify flood events into the rain, thaw and spring (seasonal thaw).
+Between these events <span class="math inline">\(100\%\)</span> of the
+runoff is considered to be ground. Inside those events the ground flow
+is filtered either by one of the baseflow functions, or by Kudelin’s
+method, which degrades baseflow to <span class="math inline">\(0\)</span> under the maximum runoff value during
+the year.</p>
+<p>The method is controlled by more than 20 parameters, which can be
+region-specific. Therefore, to ease the management and distribution of
+these parameters, they are organized as list, as returned by
+<code><a href="../reference/gr_get_params.html">gr_get_params()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> data frame is correct</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBBBB; font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>
+<span><span class="co">#&gt; <span style="background-color: #BB0000; font-weight: bold;">grwat:</span> data frame is correct</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 11</span></span></span>
 <span><span class="co">#&gt;   Date           Q   Temp  Prec Qbase Quick Qspri Qrain Qthaw Season  Year</span></span>
@@ -157,7 +184,9 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1956-01-04  5.44  -<span style="color: #BB0000;">8.05</span> 0.397    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 1956-01-05  5.44 -<span style="color: #BB0000;">11.7</span>  0.102    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1956-01-06  5.58 -<span style="color: #BB0000;">20.1</span>  0.032    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
-<p>Resulting separation can be visualized by <code><a href="../reference/gr_plot_sep.html">gr_plot_sep()</a></code> function. In addition to classification of the flow, the function shows the dates of the spring seasonal flood:</p>
+<p>Resulting separation can be visualized by <code><a href="../reference/gr_plot_sep.html">gr_plot_sep()</a></code>
+function. In addition to classification of the flow, the function shows
+the dates of the spring seasonal flood:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="grwat_files/figure-html/unnamed-chunk-5-1.png" width="960"><img src="grwat_files/figure-html/unnamed-chunk-5-2.png" width="960"></p>
@@ -166,9 +195,13 @@
 <h2 id="summaries">Summaries<a class="anchor" aria-label="anchor" href="#summaries"></a>
 </h2>
 <blockquote>
-<p>For more information on annual variables, read the <a href="https://tsamsonov.github.io/grwat/articles/summaries.html" class="external-link"><strong>Summaries</strong></a> vignette.</p>
+<p>For more information on annual variables, read the <a href="https://tsamsonov.github.io/grwat/articles/summaries.html" class="external-link"><strong>Summaries</strong></a>
+vignette.</p>
 </blockquote>
-<p>After hydrograph is separated, its characteristics can be summarized by <code><a href="../reference/gr_summarize.html">gr_summarize()</a></code> into annual variables which characterize the annual runoff, its components (ground, spring, rain and thaw) and low flow periods (summer and winter):</p>
+<p>After hydrograph is separated, its characteristics can be summarized
+by <code><a href="../reference/gr_summarize.html">gr_summarize()</a></code> into annual variables which characterize
+the annual runoff, its components (ground, spring, rain and thaw) and
+low flow periods (summer and winter):</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span></span>
@@ -181,14 +214,15 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">1</span>959  <span style="text-decoration: underline;">1</span>959  <span style="text-decoration: underline;">1</span>960 1959-03-28 1959-04-28    31  27.1    406 1959-04-16 10.9 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>960  <span style="text-decoration: underline;">1</span>960  <span style="text-decoration: underline;">1</span>961 1960-03-27 1960-04-27    31  29.6    406 1960-04-15 12.3 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">1</span>961  <span style="text-decoration: underline;">1</span>961  <span style="text-decoration: underline;">1</span>962 1961-03-07 1961-05-02    56  18.8    296 1961-04-10 10.8 </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 47 more variables: Qsmin &lt;dbl&gt;, Dsmin &lt;date&gt;, Qwmin &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Dwmin &lt;date&gt;, Q30s &lt;dbl&gt;, D30s1 &lt;date&gt;, D30s2 &lt;date&gt;, Q30w &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   D30w1 &lt;date&gt;, D30w2 &lt;date&gt;, Q10s &lt;dbl&gt;, D10s1 &lt;date&gt;, D10s2 &lt;date&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Q10w &lt;dbl&gt;, D10w1 &lt;date&gt;, D10w2 &lt;date&gt;, Q5s &lt;dbl&gt;, D5s1 &lt;date&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   D5s2 &lt;date&gt;, Q5w &lt;dbl&gt;, D5w1 &lt;date&gt;, D5w2 &lt;date&gt;, Wy &lt;dbl&gt;, Wygr &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Wsp &lt;dbl&gt;, Wspgr &lt;dbl&gt;, Wsprngr &lt;dbl&gt;, Wrn &lt;dbl&gt;, Wrngr &lt;dbl&gt;, Wth &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Wthgr &lt;dbl&gt;, Wgrs &lt;dbl&gt;, Ws &lt;dbl&gt;, Wgrw &lt;dbl&gt;, Ww &lt;dbl&gt;, Qrnmax &lt;dbl&gt;, …</span></span></span></code></pre></div>
-<p>These characteristics can be plotted by <code><a href="../reference/gr_plot_vars.html">gr_plot_vars()</a></code>:</p>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 47 more variables: Qsmin &lt;dbl&gt;, Dsmin &lt;date&gt;, Qwmin &lt;dbl&gt;, Dwmin &lt;date&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Q30s &lt;dbl&gt;, D30s1 &lt;date&gt;, D30s2 &lt;date&gt;, Q30w &lt;dbl&gt;, D30w1 &lt;date&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   D30w2 &lt;date&gt;, Q10s &lt;dbl&gt;, D10s1 &lt;date&gt;, D10s2 &lt;date&gt;, Q10w &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   D10w1 &lt;date&gt;, D10w2 &lt;date&gt;, Q5s &lt;dbl&gt;, D5s1 &lt;date&gt;, D5s2 &lt;date&gt;, Q5w &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   D5w1 &lt;date&gt;, D5w2 &lt;date&gt;, Wy &lt;dbl&gt;, Wygr &lt;dbl&gt;, Wsp &lt;dbl&gt;, Wspgr &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Wsprngr &lt;dbl&gt;, Wrn &lt;dbl&gt;, Wrngr &lt;dbl&gt;, Wth &lt;dbl&gt;, Wthgr &lt;dbl&gt;, Wgrs &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Ws &lt;dbl&gt;, Wgrw &lt;dbl&gt;, Ww &lt;dbl&gt;, Qrnmax &lt;dbl&gt;, Qthmax &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<p>These characteristics can be plotted by
+<code><a href="../reference/gr_plot_vars.html">gr_plot_vars()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span></code></pre></div>
@@ -207,22 +241,46 @@
 <div class="section level2">
 <h2 id="additional-features">Additional features<a class="anchor" aria-label="anchor" href="#additional-features"></a>
 </h2>
-<p><strong><code>grwat</code></strong> contains some useful functions that can facilitate your work with runoff data. In particular:</p>
+<p><strong><code>grwat</code></strong> contains some useful functions
+that can facilitate your work with runoff data. In particular:</p>
 <ul>
-<li><p><code><a href="../reference/gr_report.html">gr_report()</a></code> aggregates hydrograph separation and its summaries into one information-rich graphical report that brings everything into one place. Just pass the results of <code><a href="../reference/gr_separate.html">gr_separate()</a></code> and <code><a href="../reference/gr_summarize.html">gr_summarize()</a></code> into <code><a href="../reference/gr_report.html">gr_report()</a></code> function and provide the path to the output <code>HTML</code> file.</p></li>
-<li><p><code><a href="../reference/gr_get_gaps.html">gr_get_gaps()</a></code> and <code><a href="../reference/gr_fill_gaps.html">gr_fill_gaps()</a></code> find and interpolate the periods of missing runoff and meteorological data which may affect the results.</p></li>
-<li><p><code><a href="../reference/gr_read_rean.html">gr_read_rean()</a></code> and <code><a href="../reference/gr_join_rean.html">gr_join_rean()</a></code> add temperature and precipitation to your runoff data from daily reanalysis. This can be useful if you do not have meteorological observations inside the basin. Currently the East European plain is covered.</p></li>
-<li><p><code><a href="../reference/gr_plot_matrix.html">gr_plot_matrix()</a></code>, <code><a href="../reference/gr_plot_hori.html">gr_plot_hori()</a></code> and <code><a href="../reference/gr_plot_ridge.html">gr_plot_ridge()</a></code> empower daily runoff analysis with fascinating graphical techniques which can be used to compare hydrographs for different years: matrix plots, horizon plots and ridgeline plots.</p></li>
-<li><p><code><a href="../reference/gr_set_locale.html">gr_set_locale()</a></code> translates plots and reports to the specified language (English, Russian and Ukrainian are currently available).</p></li>
-<li><p><code>gr_plot_*</code> functions return silently <a href="https://ggplot2.tidyverse.org" class="external-link"><code>ggplot2</code></a> objects or the lists of such objects. This means that they can be modified to your preferences before plotting. Just set <code>print = FALSE</code> and tweak aesthetics as you want or remove some information.</p></li>
+<li><p><code><a href="../reference/gr_report.html">gr_report()</a></code> aggregates hydrograph separation and its
+summaries into one information-rich graphical report that brings
+everything into one place. Just pass the results of
+<code><a href="../reference/gr_separate.html">gr_separate()</a></code> and <code><a href="../reference/gr_summarize.html">gr_summarize()</a></code> into
+<code><a href="../reference/gr_report.html">gr_report()</a></code> function and provide the path to the output
+<code>HTML</code> file.</p></li>
+<li><p><code><a href="../reference/gr_get_gaps.html">gr_get_gaps()</a></code> and <code><a href="../reference/gr_fill_gaps.html">gr_fill_gaps()</a></code> find
+and interpolate the periods of missing runoff and meteorological data
+which may affect the results.</p></li>
+<li><p><code><a href="../reference/gr_read_rean.html">gr_read_rean()</a></code> and <code><a href="../reference/gr_join_rean.html">gr_join_rean()</a></code> add
+temperature and precipitation to your runoff data from daily reanalysis.
+This can be useful if you do not have meteorological observations inside
+the basin. Currently the East European plain is covered.</p></li>
+<li><p><code><a href="../reference/gr_plot_matrix.html">gr_plot_matrix()</a></code>, <code><a href="../reference/gr_plot_hori.html">gr_plot_hori()</a></code> and
+<code><a href="../reference/gr_plot_ridge.html">gr_plot_ridge()</a></code> empower daily runoff analysis with
+fascinating graphical techniques which can be used to compare
+hydrographs for different years: matrix plots, horizon plots and
+ridgeline plots.</p></li>
+<li><p><code><a href="../reference/gr_set_locale.html">gr_set_locale()</a></code> translates plots and reports to the
+specified language (English, Russian and Ukrainian are currently
+available).</p></li>
+<li><p><code>gr_plot_*</code> functions return silently <a href="https://ggplot2.tidyverse.org" class="external-link"><code>ggplot2</code></a> objects or
+the lists of such objects. This means that they can be modified to your
+preferences before plotting. Just set <code>print = FALSE</code> and
+tweak aesthetics as you want or remove some information.</p></li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-rets2022">
-<p>Rets, E. P., M. B. Kireeva, T. E. Samsonov, N. N. Ezerova, A. V. Gorbarenko, and N. L. Frolova. 2022. “Algorithm Grwat for Automated Hydrograph Separation by B. I. Kudelin’s Method: Problems and Perspectives.” <em>Water Resources</em> 49 (1): 23–37.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-rets2022" class="csl-entry">
+Rets, E. P., M. B. Kireeva, T. E. Samsonov, N. N. Ezerova, A. V.
+Gorbarenko, and N. L. Frolova. 2022. <span>“Algorithm Grwat for
+Automated Hydrograph Separation by B. I. Kudelin<span>’</span>s Method:
+Problems and Perspectives.”</span> <em>Water Resources</em> 49 (1):
+23–37.
 </div>
 </div>
 </div>
@@ -239,7 +297,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>
