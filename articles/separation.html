@@ -236,7 +236,7 @@ separate the hydrograph by <code><a href="../reference/gr_separate.html">gr_sepa
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># separate</span></span>
 <span><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, <span class="va">params</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="background-color: #BB0000; font-weight: bold;">grwat:</span> data frame is correct</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> data frame is correct</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 11</span></span></span>
@@ -261,8 +261,11 @@ provided by <code><a href="../reference/gr_plot_sep.html">gr_plot_sep()</a></cod
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Two years</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="separation_files/figure-html/unnamed-chunk-7-2.png" width="960"><img src="separation_files/figure-html/unnamed-chunk-7-3.png" width="960"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p><img src="separation_files/figure-html/unnamed-chunk-7-2.png" width="960"></p>
+<pre><code><span><span class="co">#&gt; Plotting separation <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  75% | ETA:  1s</span></span>
+<span><span class="co">#&gt; Plotting separation <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span></span></code></pre>
+<p><img src="separation_files/figure-html/unnamed-chunk-7-3.png" width="960"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Four years in a matrix layout</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1988</span><span class="op">:</span><span class="fl">1991</span>, layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span>
@@ -293,12 +296,12 @@ were jittered).</li>
 </ul>
 <p>The attributes are extracted via a base R function
 <code><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes()</a></code>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Debug mode gives access to additional information</span></span>
 <span><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, </span>
 <span>                        params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span>, </span>
 <span>                        debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="background-color: #BB0000; font-weight: bold;">grwat:</span> data frame is correct</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> data frame is correct</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>
 <span><span class="co">#&gt; Warning in gr_separate(spas, params = gr_get_params(reg = "center"), debug =</span></span>
 <span><span class="co">#&gt; TRUE): <span style="font-weight: bold;">grwat:</span> <span style="font-style: italic;">1974</span> years were not separated. Check the input data</span></span>
@@ -337,7 +340,7 @@ were jittered).</li>
 referenced by the character string of the water-resources year. For
 example, if you want to apply the parameters of one tweaked your
 globally, the following will work:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># extract and tweak parameters for selected year</span></span>
 <span><span class="va">p</span> <span class="op">=</span> <span class="va">parlist</span><span class="op">[[</span><span class="st">'2014'</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">p</span><span class="op">$</span><span class="va">grad1</span> <span class="op">=</span> <span class="fl">1</span></span>
@@ -345,7 +348,7 @@ globally, the following will work:</p>
 <span></span>
 <span><span class="co"># use tweaked parameters for all years</span></span>
 <span><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="va">p</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="background-color: #BB0000; font-weight: bold;">grwat:</span> data frame is correct</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> data frame is correct</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>
 <span><span class="co">#&gt; Warning in gr_separate(spas, params = p, debug = TRUE): <span style="font-weight: bold;">grwat:</span></span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">1974</span> years were not separated. Check the input data for possible errors.</span></span>
@@ -361,7 +364,7 @@ globally, the following will work:</p>
 structure and change the parameters individually for different years. If
 you want to set some parameter for multiple years, then use
 <code><a href="../reference/gr_set_param.html">gr_set_param()</a></code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># actual params used for each year</span></span>
 <span><span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span></span>
 <span></span>
@@ -379,7 +382,7 @@ you want to set some parameter for multiple years, then use
 <span></span>
 <span><span class="co"># use the list of parameters for separation</span></span>
 <span><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, params <span class="op">=</span> <span class="va">parlist</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="background-color: #BB0000; font-weight: bold;">grwat:</span> data frame is correct</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> data frame is correct</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>
 <span><span class="co">#&gt; Warning in gr_separate(spas, params = parlist, debug = TRUE): <span style="font-weight: bold;">grwat:</span></span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">1974</span> years were not separated. Check the input data for possible errors.</span></span>

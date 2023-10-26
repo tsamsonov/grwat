@@ -115,7 +115,7 @@
 <span class="r-in"><span><span class="va">params</span> <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">sep</span> <span class="op">=</span> <span class="fu"><a href="gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, <span class="va">params</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="background-color: #BB0000; font-weight: bold;">grwat:</span> data frame is correct</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> data frame is correct</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="font-weight: bold;">grwat:</span> <span style="font-style: italic;">1974</span> years were not separated. Check the input data for possible errors. Use <span style="font-style: italic;">gr_get_gaps()</span> and <span style="font-style: italic;">gr_fill_gaps()</span> functions to detect and fill missing data.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="font-weight: bold;">grwat:</span> <span style="font-style: italic;">2002, 2014, 2019</span> years were processed with jittered parameters</span>
@@ -130,13 +130,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #BBBBBB; background-color: #BB0000; font-weight: bold;">grwat:</span> <span style="font-style: italic;">df</span> parameter is needed, because <span style="font-style: italic;">params</span> is a list of lists.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">gr_check_params</span><span class="op">(</span><span class="va">parlist</span>, <span class="va">spas</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="background-color: #BB0000; font-weight: bold;">grwat:</span> data frame is correct</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> data frame is correct</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># grad parameter is not known</span></span></span>
 <span class="r-in"><span><span class="va">parlist</span><span class="op">[[</span><span class="st">'2002'</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">grad</span> <span class="op">=</span> <span class="fl">4</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">gr_check_params</span><span class="op">(</span><span class="va">parlist</span>, <span class="va">spas</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="background-color: #BB0000; font-weight: bold;">grwat:</span> data frame is correct</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> data frame is correct</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in gr_check_params(parlist, spas) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #BBBBBB; background-color: #BB0000; font-weight: bold;">grwat:</span> <span style="font-style: italic;">grad</span> parameter(s) not known. Please use <span style="font-style: italic;">gr_get_params()</span> result as a template.</span>
 <span class="r-in"><span></span></span>
@@ -146,13 +146,13 @@
 <span class="r-in"><span><span class="co"># remove year</span></span></span>
 <span class="r-in"><span><span class="va">parlist</span><span class="op">[[</span><span class="st">'2002'</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">gr_check_params</span><span class="op">(</span><span class="va">parlist</span>, <span class="va">spas</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="background-color: #BB0000; font-weight: bold;">grwat:</span> data frame is correct</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> data frame is correct</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in gr_check_params(parlist, spas) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #BBBBBB; background-color: #BB0000; font-weight: bold;">grwat:</span> the length of parameters list must be equal to 1 or to the number of years in the data</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">parlist</span><span class="op">[[</span><span class="st">'2002'</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="va">parlist</span><span class="op">[[</span><span class="st">'2001'</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="fu">gr_check_params</span><span class="op">(</span><span class="va">parlist</span>, <span class="va">spas</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="background-color: #BB0000; font-weight: bold;">grwat:</span> data frame is correct</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> data frame is correct</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
