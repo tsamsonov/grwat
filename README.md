@@ -2,7 +2,7 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-yellow.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Coverage Status](https://img.shields.io/codecov/c/github/tsamsonov/grwat/main.svg)](https://app.codecov.io/github/tsamsonov/grwat?branch=main)
 [![rcmdcheck](https://github.com/tsamsonov/grwat/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/tsamsonov/grwat/actions/workflows/R-CMD-check.yaml)
-[![r-universe](https://tsamsonov.r-universe.dev/badges/grwat)](https://tsamsonov.r-universe.dev/grwat/)
+[![r-universe](https://tsamsonov.r-universe.dev/badges/grwat)](https://tsamsonov.r-universe.dev/grwat)
 [![CRAN](https://www.r-pkg.org/badges/version/grwat)](https://cran.r-project.org/package=grwat)
 [![CRAN checks](https://badges.cranchecks.info/worst/grwat.svg)](https://cran.r-project.org/web/checks/check_results_grwat.html)
 [![Monthly downloads](https://cranlogs.r-pkg.org/badges/grwat?color=brightgreen)](https://www.r-pkg.org/pkg/grwat)
@@ -26,7 +26,7 @@ install.packages("grwat")
 
 ## Install development version from R-universe
 
-The current development version of __`grwat`__ can be installed from [R-universe](https://tsamsonov.r-universe.dev/ui#package:grwat):
+The current development version of __`grwat`__ can be installed from [R-universe](https://tsamsonov.r-universe.dev/grwat):
 
 ```r
 # Enable repository from tsamsonov
