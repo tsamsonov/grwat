@@ -6,7 +6,11 @@ There were no ERRORs, WARNINGs or NOTEs
 
 In a response to the CRAN note received on 2023-10-15 from Brian Ripley via e-mail I fixed the issue with non-ASCII characters in package examples and tests. Deadline is 2023-10-19.
 
-## Change of e-mail address
+## URLs
+
+All URLs in readme are correct.
+
+## Change of maintainer's e-mail address
 
 The e-mail address of the maintaner has been changed from '<iamste@yandex.ru>' to '<tsamsonov@geogr.msu.ru>'
 
