@@ -20,28 +20,28 @@ update_core <- function() {
 #' 
 gr_check_data <- function(df) {
   if (length(df) != 4)
-    stop(crayon::white$bgRed$bold('grwat:'), 
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
          ' the number of columns in data frame (', length(df), ') is not equal to 4')
   
   if (!lubridate::is.Date(df[[1]]) || !is.numeric(df[[2]]) || !is.numeric(df[[3]]) || !is.numeric(df[[4]]))
-    stop(crayon::white$bgRed$bold('grwat:'), 
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
          ' the four columns of input data frame (date, runoff, temperature, precipitation) must be of ', 
-         crayon::white$italic('Date, numeric, numeric, numeric'), ' data types')
+         cli::style_italic('Date, numeric, numeric, numeric'), ' data types')
   
   if (sum(df[[2]] < 0, na.rm = TRUE) > 0)
-    stop(crayon::white$bgRed$bold('grwat:'), 
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
          ' there are negative values in runoff (2nd) column, please fix the data before proceeding')
   
   if (sum(df[[4]] < 0, na.rm = TRUE) > 0)
-    stop(crayon::white$bgRed$bold('grwat:'), 
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
          ' there are negative values in precipitation (4th) column, please fix the data before proceeding')
   
   if (anyDuplicated(df[[1]]) > 0)
-    stop(crayon::white$bgRed$bold('grwat:'), 
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
          ' there are duplicated dates the 1st column, please fix the data before proceeding. Run ',
-         crayon::italic('duplicated()'), ' on the dates column to learn which dates are duplicates')
+         cli::style_italic('duplicated()'), ' on the dates column to learn which dates are duplicates')
   
-  message(crayon::white$bold('grwat:'), ' data frame is correct')
+  message(cli::bg_red(cli::style_bold('grwat:')), ' data frame is correct')
 }
 
 #' Check the correctness of parameters list for separating
@@ -64,9 +64,9 @@ gr_check_params <- function(params, df = NULL) {
   if (is.list(params[[1]])) {
     
     if (is.null(df)) {
-      stop(crayon::white$bgRed$bold('grwat:'), ' ',
-           crayon::white$italic('df'), ' parameter is needed, because ', 
-           crayon::white$italic('params'), ' is a list of lists.')
+      stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), ' ',
+           cli::style_italic('df'), ' parameter is needed, because ', 
+           cli::style_italic('params'), ' is a list of lists.')
     }
     
     gr_check_data(df)
@@ -75,7 +75,8 @@ gr_check_params <- function(params, df = NULL) {
     listed = TRUE
     
     if (length(unique(lubridate::year(df[[1]]))) != n) {
-      stop(crayon::white$bgRed$bold('grwat:'), ' the length of parameters list must be equal to 1 or to the number of years in the data')
+      stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
+           ' the length of parameters list must be equal to 1 or to the number of years in the data')
     }
     
   }
@@ -90,16 +91,16 @@ gr_check_params <- function(params, df = NULL) {
     
     d = setdiff(names(par), names(template))
     if (length(d) > 0) {
-      stop(crayon::white$bgRed$bold('grwat:'), ' ',
-           crayon::white$italic(paste(d, collapse = ', ')), 
-           ' parameter(s) not known. Please use ', crayon::cyan$italic('gr_get_params()'), ' result as a template.')
+      stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), ' ',
+           cli::style_italic(paste(d, collapse = ', ')), 
+           ' parameter(s) not known. Please use ', cli::style_italic('gr_get_params()'), ' result as a template.')
     }
     
     d = setdiff(names(template), names(par))
     if (length(d) > 0) {
-      stop(crayon::white$bgRed$bold('grwat:'), ' ',
-           crayon::white$italic(paste(d, collapse = ', ')), 
-           ' parameter(s) needed. Please use ', crayon::cyan$italic('gr_get_params()'), ' result as a template.')
+      stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), ' ',
+           cli::style_italic(paste(d, collapse = ', ')), 
+           ' parameter(s) needed. Please use ', cli::style_italic('gr_get_params()'), ' result as a template.')
     }
     
     d = intersect(names(template), names(par))
@@ -108,17 +109,17 @@ gr_check_params <- function(params, df = NULL) {
     
     td = which(types1 != types2)
     if(length(td) > 0) {
-      stop(crayon::white$bgRed$bold('grwat:'), ' ',
-           crayon::white$italic(paste(d[td], collapse = ', ' )), 
+      stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), ' ',
+           cli::style_italic(paste(d[td], collapse = ', ' )), 
            ' parameter(s) must be of ',
-           crayon::cyan$italic(paste(types2[td], collapse = ', ')), 
+           cli::style_italic(paste(types2[td], collapse = ', ')), 
            ' type(s) ')
     }
   }
   
   
   
-  message(crayon::white$bold('grwat:'), ' parameters list and types are OK')
+  message(cli::style_bold('grwat:'), ' parameters list and types are OK')
     
 }
 
@@ -184,16 +185,16 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
     
     problem_years = setdiff(unique(lubridate::year(sep$Date)), unique(sep$Year))
     if (length(problem_years) > 0)
-      warning(crayon::white$bgBlue$bold('grwat:'), ' ',
-              crayon::white$italic(paste(problem_years, collapse = ', ')),
+      warning(cli::style_bold('grwat:'), ' ',
+              cli::style_italic(paste(problem_years, collapse = ', ')),
               ' years were not separated. Check the input data for possible errors. Use ', 
-              crayon::cyan$italic('gr_get_gaps()'), ' and ', crayon::cyan$italic('gr_fill_gaps()'), 
+              cli::style_italic('gr_get_gaps()'), ' and ', cli::style_italic('gr_fill_gaps()'), 
               ' functions to detect and fill missing data.')
     
     jittered_years = attributes(sep)$jittered
     if (length(jittered_years) > 0)
-      warning(crayon::white$bgBlue$bold('grwat:'), ' ',
-              crayon::white$italic(paste(jittered_years, collapse = ', ')),
+      warning(cli::style_bold('grwat:'), ' ',
+              cli::style_italic(paste(jittered_years, collapse = ', ')),
               ' years were processed with jittered parameters')
   }
   
@@ -264,12 +265,12 @@ gr_get_params <- function(reg = 'center', lon = NULL, lat = NULL) {
           dplyr::select(-index, -region) %>%
           as.list()
       } else {
-        stop(crayon::white$bgRed$bold('grwat:'), 
+        stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
              ' there are no recommended separation parameters for specified lon/lat coordinates')
       }
     }
   } else {
-    stop(crayon::white$bgRed$bold('grwat:'), 
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
          ' parameters are incorrect. Either the specified region does not exist in the database, or lon/lat coordinates fall out of [-180, 180] x [-90, 90] geographic domain')
   }
   

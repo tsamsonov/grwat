@@ -31,9 +31,8 @@ gr_set_locale <- function(locale = 'EN') {
   if (locale %in% c('EN', 'RU', 'UA')) {
     grenv$loc = locale
   } else {
-    warning(crayon::white$bgBlue$bold('grwat:'), ' ',
-            crayon::white$italic(locale),
-            " locale is not supported yet. Use 'EN', 'RU' or 'UA' locale.")
+    warning(cli::style_bold('grwat:'), ' ',
+            cli::style_italic(locale), " locale is not supported yet. Use 'EN', 'RU' or 'UA' locale.")
   }
 }
 

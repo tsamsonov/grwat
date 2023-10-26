@@ -43,20 +43,22 @@ This function generates a graphical HTML report that summarizes separation of hy
 }
 \examples{
 \dontrun{
-  library(grwat)
-  
-  data(spas) # example Spas-Zagorye data is included with grwat package
-  
-  # separate
-  sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
-  
-  # summarize
-  vars = gr_summarize(sep)
-  
-  # report
-  report = '~/Spas-Zagorye.html'
-  
-  gr_report(sep, vars, output = report)
-  browseURL(report)
+  if (require("knitr") && require("rmarkdown") && require("kableExtra")) {
+    library(grwat)
+    
+    data(spas) # example Spas-Zagorye data is included with grwat package
+    
+    # separate
+    sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
+    
+    # summarize
+    vars = gr_summarize(sep)
+    
+    # report
+    report = '~/Spas-Zagorye.html'
+    
+    gr_report(sep, vars, output = report)
+    browseURL(report)
+  }
 }
 }

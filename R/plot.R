@@ -1101,7 +1101,8 @@ gr_plot_matrix <- function(df, years = NULL, type = 'runoff', print = TRUE) {
     invisible(plt)
     
   } else {
-    stop(crayon::white$bgRed$bold('grwat:'), ' ', crayon::white$italic(type), ' - unknown plot type')
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), ' ', 
+         cli::style_italic(type), ' - unknown plot type')
   }
 }
 

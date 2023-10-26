@@ -43,7 +43,7 @@ gr_buffer_geo <- function(g, bufsize){
 gr_get_gaps <- function(hdata) {
   
   if (!lubridate::is.Date(hdata[[1]]))
-    stop(crayon::white$bgRed$bold('grwat:'), ' the first column of data frame must have Date type')
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))),  ' the first column of data frame must have Date type')
   
   hdata_dates = hdata %>% 
     dplyr::rename(Date = 1) %>% 
@@ -76,7 +76,7 @@ gr_get_gaps <- function(hdata) {
 gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
   
   if (!lubridate::is.Date(hdata[[1]]))
-    stop(crayon::white$bgRed$bold('grwat:'), ' the first column of data frame must have Date type')
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))),  ' the first column of data frame must have Date type')
   
   nms = colnames(hdata)[-1]
   
@@ -120,7 +120,8 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
     } else if (length(nobserv) == nvars) {
       nobserv = as.list(nobserv)%>% setNames(nms)
     } else {
-      stop(crayon::white$bgRed$bold('grwat:'), ' nobserv parameter should have length 1 or ', 
+      stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))),  
+           ' nobserv parameter should have length 1 or ', 
            nvars, ' but ', length(nobserv), ' elements are given.')
     }
   }
@@ -135,7 +136,7 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
     sum(complete.cases(tabres[i])) - sum(complete.cases(tab[i]))
   })
   
-  message(crayon::white$bold('grwat:'), ' filled ', paste(nfilled, collapse = ', '), 
+  message(cli::style_bold('grwat:'), ' filled ', paste(nfilled, collapse = ', '), 
           ' observations using ', paste(nobserv, collapse = ', '), ' days window for each variable')
   
   return(tabres)
@@ -189,13 +190,15 @@ gr_join_rean <- function(hdata, rean, buffer){
     ndays = length(days)
 
     if (ndays == 0) {
-      stop(crayon::white$bgRed$bold('grwat:'), ' no reanalysis data for hydrological series time period')
+      stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))),  
+           ' no reanalysis data for hydrological series time period')
     } else if (ndays < ndates) {
       date_first = min(datevals[flt])
       date_last = max(datevals[flt])
       hdates = seq(date_first, date_last, "days")
       ndates = length(hdates)
-      warning(crayon::white$bgBlue$bold('grwat:'), ' reanalysis data does not cover the full hydrological series time period, only common dates are kept')
+      warning(cli::style_bold('grwat:'), 
+              ' reanalysis data does not cover the full hydrological series time period, only common dates are kept')
     }
 
     # Replicate position each day
@@ -223,7 +226,8 @@ gr_join_rean <- function(hdata, rean, buffer){
       dplyr::inner_join(sum_table)
 
   } else {
-    stop(crayon::white$bgRed$bold('grwat:'), ' no reanalysis data for requested location')
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))),  
+         ' no reanalysis data for requested location')
   }
 
   return(sum_table_with_dates)
