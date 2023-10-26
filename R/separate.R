@@ -41,7 +41,7 @@ gr_check_data <- function(df) {
          ' there are duplicated dates the 1st column, please fix the data before proceeding. Run ',
          cli::style_italic('duplicated()'), ' on the dates column to learn which dates are duplicates')
   
-  message(cli::bg_red(cli::style_bold('grwat:')), ' data frame is correct')
+  message(cli::style_bold('grwat:'), ' data frame is correct')
 }
 
 #' Check the correctness of parameters list for separating

@@ -11,7 +11,7 @@ We checked 0 reverse dependencies, comparing R CMD check results across CRAN and
 
 ## Corrections according to CRAN issue raised by Brian Ripley
 
-In a response to the CRAN note received on 2023-10-15 from Brian Ripley via e-mail I fixed the issue with non-ASCII characters in package examples and tests. Deadline is 2023-10-19.
+In a response to the CRAN note received on 2023-10-15 from Brian Ripley via e-mail I fixed the issue with non-ASCII characters in package examples and tests. Deadline was 2023-10-29.
 
 ## Change of maintainer's e-mail address
 
