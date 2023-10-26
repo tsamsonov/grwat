@@ -1,3 +1,5 @@
+utils::globalVariables(c('index', 'region'))
+
 # This is a technical function to update grwat core from a separate project
 # Please fork grwat-core repository to contribute
 update_core <- function() {
@@ -237,13 +239,13 @@ gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5,
 gr_get_params <- function(reg = 'center', lon = NULL, lat = NULL) {
   if (reg %in% params_in$index) {
     params_in %>% 
-      dplyr::filter(.data$index == reg) %>% 
-      dplyr::select(-.data$index, -.data$region) %>%
+      dplyr::filter(index == reg) %>% 
+      dplyr::select(-index, -region) %>%
       as.list()
   } else if (reg %in% params_in$region) {
     params_in %>% 
-      dplyr::filter(.data$region == reg) %>% 
-      dplyr::select(-.data$index, -.data$region) %>%
+      dplyr::filter(region == reg) %>% 
+      dplyr::select(-index, -region) %>%
       as.list()
   } else if (is.numeric(lon) && is.numeric(lat) && !is.na(lon) && !is.na(lat)) {
     if (lon >= -180 && lon < 180 && lat >= -90 && lat <= 90) {
@@ -259,7 +261,7 @@ gr_get_params <- function(reg = 'center', lon = NULL, lat = NULL) {
           by = 'index'
         ) %>% 
           sf::st_drop_geometry() %>% 
-          dplyr::select(-.data$index, -.data$region) %>%
+          dplyr::select(-index, -region) %>%
           as.list()
       } else {
         stop(crayon::white$bgRed$bold('grwat:'), 

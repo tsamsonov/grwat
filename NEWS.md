@@ -1,10 +1,13 @@
 # grwat 0.0.3
 
--   removed examples and tests with non-ASCII symbols (to address CRAN issue raised by Brian Ripley);
+-   removed examples and tests with non-ASCII symbols (to address CRAN issue raised by Brian Ripley via e-mail);
 -   renamed `baseflow_lyne()` and `baseflow_chapman()` functions in C++ sources into `quickflow_lyne()` and `quickflow_chapman()` to address Github issue 13 raised by Kaye-HQ;
--   removed redundant references to old methods from DESCRIPTION;
 -   added support for relative paths in `gr_report()` output file;
 -   fixed incorrect application of `grad2` parameter in low-water period;
+-   replaced `progress` and `crayon` with `cli` package;
+-   moved `knitr`, `kableExtra` and `rmarkdown` packages to suggests (as reports may not be used);
+-   removed `.data$` from tidyselect expressions;
+-   removed redundant references to old methods from DESCRIPTION;
 
 # grwat 0.0.2
 

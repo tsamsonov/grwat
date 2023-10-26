@@ -19,6 +19,9 @@
 #' @example inst/examples/gr_report.R
 #' 
 gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = NULL, temp = FALSE, prec = FALSE, span = 5, locale = 'EN') {
+  
+  rlang::check_installed(c("knitr", "rmarkdown", "kableExtra"), reason = "to use `gr_report()`")
+  
   t1 = Sys.time()
   
   output_dir = NULL
@@ -58,6 +61,9 @@ gr_report <- function(sep, vars, output = 'Report.html', year = NULL, exclude = 
 #' @example inst/examples/gr_kable_tests.R
 #' 
 gr_kable_tests <- function(tests, format = 'html'){
+  
+  rlang::check_installed("kableExtra", reason = "to use `gr_kable_tests()`")
+  
   gcolor = '#99cc00' # green
   ycolor = '#e6e600' # yellow
   rcolor = '#ff9966' # red

@@ -1,10 +1,10 @@
 Package: grwat
 Type: Package
 Title: River Hydrograph Separation and Analysis
-Version: 0.0.2
-Date: 2022-05-17
+Version: 0.0.3
+Date: 2023-10-26
 Authors@R: c(
-    person("Timofey", "Samsonov",, "iamste@yandex.ru", role = c("aut", "cre"), 
+    person("Timofey", "Samsonov",, "tsamsonov@geogr.msu.ru", role = c("aut", "cre"), 
       comment = c(ORCID = "0000-0001-5994-0302")
     ),
     person("Ekaterina", "Retz", role = "ctb", comment = c(ORCID = "0000-0002-4505-1173")),
@@ -30,9 +30,8 @@ RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.3)
-Imports: 
-    crayon,
-    progress,
+Imports:
+    cli,
     Rcpp,
     magrittr,
     dplyr,
@@ -42,9 +41,6 @@ Imports:
     rlang,
     grid,
     ggplot2,
-    knitr,
-    rmarkdown,
-    kableExtra,
     zoo,
     trend,
     mblm,
@@ -53,7 +49,10 @@ Suggests:
     ggridges,
     ggHoriPlot,
     ggthemes,
+    kableExtra,
+    knitr,
     ncdf4,
+    rmarkdown,
     sf,
     testthat,
     stringi
