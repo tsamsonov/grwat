@@ -76,12 +76,11 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
     dplyr::mutate_if(params_out$Winter == 1, 
                      replace_year)
   
-  bar = progress::progress_bar$new(total = nn)
-  bar$tick(0)
+  cli::cli_progress_bar('Testing variables', total = nn)
   
   for (i in 1:nn) {
     
-    bar$tick()
+    cli::cli_progress_update()
     
     # PETTITT TEST FOR CHANGE DETECTION
     
@@ -193,6 +192,8 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
       }
     }
   }
+  
+  cli::cli_progress_done()
   
   pvalues = data.frame(
     N = 1:nn,

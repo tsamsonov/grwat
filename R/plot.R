@@ -84,8 +84,6 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   j = 1
   
   cli::cli_progress_bar('Plotting separation', total = n)  
-  # bar = progress::progress_bar$new(total = n)
-  # bar$tick(0)
   
   for (i in 1:n) {
     
@@ -327,14 +325,13 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
   plotlist = list()
   j = 1
   
+  
   nn = nrow(prms)
-  bar = progress::progress_bar$new(total = nn)
-  bar$tick(0)
+  cli::cli_progress_bar('Plotting variables', total = nn) 
   
   for (i in 1:nn) {
     
-    bar$tick()
-    #Sys.sleep(0.01)
+    cli::cli_progress_update()
     
     # MAIN DATA FOR PLOTTING
     g = ggplot2::ggplot(df, ggplot2::aes_string(x = "Year1", y = prms$Name[i])) + 
@@ -454,6 +451,8 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
     allplotlist = c(allplotlist, plotlist)
   }
   
+  cli::cli_progress_done()
+  
   invisible(allplotlist)
 }
 
@@ -540,12 +539,11 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
   j = 1
   
   nn = nrow(prms)
-  bar = progress::progress_bar$new(total = nn)
-  bar$tick(0)
+  cli::cli_progress_bar('Plotting periods', total = nn)
   
   for (i in 1:nn) {
     
-    bar$tick()
+    cli::cli_progress_update()
     
     if(!is.null(tests)){
       year = tests$year[i]
@@ -607,8 +605,8 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
       rsd2 = round(sd(d2, na.rm = TRUE)/m2, 3)
       
       means <- df.plot %>% 
-        dplyr::group_by(.data$Period) %>% 
-        dplyr::summarise(Value = mean(.data$Value, na.rm = TRUE))
+        dplyr::group_by(Period) %>% 
+        dplyr::summarise(Value = mean(Value, na.rm = TRUE))
       
       mean1 = ifelse(is_date, 
                      m1 %>% as.integer() %>% as.Date(origin = '1970-01-01') %>% format("%d-%b"),
@@ -669,6 +667,8 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
     if (print) multiplot(plotlist = plotlist, layout = layout)
     allplotlist = c(allplotlist, plotlist)
   }
+  
+  cli::cli_progress_done()
   
   invisible(allplotlist)
   
