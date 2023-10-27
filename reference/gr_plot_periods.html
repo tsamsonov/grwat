@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">grwat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,20 +126,15 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> data frame is correct</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># summarize</span></span></span>
-<span class="r-in"><span><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There were 2 warnings in `dplyr::summarise()`.</span>
+<span class="r-in"><span><span class="co"># summarize from 1965 to 1990</span></span></span>
+<span class="r-in"><span><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1965</span>, <span class="fl">1990</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There were 4 warnings in `dplyr::summarise()`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> The first warning was:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `Dspstart = min(.data$Date[which(.data$Qspri &gt; 0)])`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In group 19: `Year1 = 1974`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In group 10: `Year1 = 1974`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning in `min.default()`:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> no non-missing arguments to min; returning Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::summarise()`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `Q30w = condrollmean(.data$Q, .data$Season == 2, 30)`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In group 64: `Year = 2020`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning in `min()`:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> no non-missing arguments to min; returning Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 3 remaining warnings.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># plot periods with fixed change year</span></span></span>
 <span class="r-in"><span><span class="fu">gr_plot_periods</span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, year <span class="op">=</span> <span class="fl">1978</span><span class="op">)</span></span></span>
@@ -153,9 +148,6 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># calculate test beforehand</span></span></span>
 <span class="r-in"><span><span class="va">tests</span> <span class="op">=</span> <span class="fu"><a href="gr_test_vars.html">gr_test_vars</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Testing variables <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  46% | ETA:  1s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Testing variables <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  81% | ETA:  0s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Testing variables <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span>
 <span class="r-in"><span><span class="fu">gr_plot_periods</span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qspmax</span>, tests <span class="op">=</span> <span class="va">tests</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing non-finite values (`stat_boxplot()`).</span>
 <span class="r-plt img"><img src="gr_plot_periods-3.png" alt="" width="960" height="593"></span>

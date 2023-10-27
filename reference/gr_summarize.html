@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">grwat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,13 +62,21 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gr_summarize</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gr_summarize</span><span class="op">(</span><span class="va">df</span>, year_min <span class="op">=</span> <span class="cn">NULL</span>, year_max <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>df</dt>
 <dd><p><code>data.frame</code> of hydrograph separation resulting from <code><a href="gr_separate.html">gr_separate()</a></code> function</p></dd>
+
+
+<dt>year_min</dt>
+<dd><p><code>integer</code> first year to summarise</p></dd>
+
+
+<dt>year_max</dt>
+<dd><p><code>integer</code> last year to summarise</p></dd>
 
 </dl></div>
     <div class="section level2">

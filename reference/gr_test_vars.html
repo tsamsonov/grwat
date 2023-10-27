@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">grwat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,25 +104,18 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> data frame is correct</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># summarize</span></span></span>
-<span class="r-in"><span><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There were 2 warnings in `dplyr::summarise()`.</span>
+<span class="r-in"><span><span class="co"># summarize from 1965 to 1990</span></span></span>
+<span class="r-in"><span><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="gr_summarize.html">gr_summarize</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1965</span>, <span class="fl">1990</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There were 4 warnings in `dplyr::summarise()`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> The first warning was:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `Dspstart = min(.data$Date[which(.data$Qspri &gt; 0)])`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In group 19: `Year1 = 1974`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In group 10: `Year1 = 1974`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning in `min.default()`:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> no non-missing arguments to min; returning Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::summarise()`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `Q30w = condrollmean(.data$Q, .data$Season == 2, 30)`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In group 64: `Year = 2020`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning in `min()`:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> no non-missing arguments to min; returning Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 3 remaining warnings.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># test all variables</span></span></span>
 <span class="r-in"><span><span class="va">tests</span> <span class="op">=</span> <span class="fu">gr_test_vars</span><span class="op">(</span><span class="va">vars</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Testing variables <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  90% | ETA:  0s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Testing variables <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># view Pettitt test for Qygr</span></span></span>
 <span class="r-in"><span><span class="va">tests</span><span class="op">$</span><span class="va">ptt</span><span class="op">$</span><span class="va">Qygr</span></span></span>
@@ -130,11 +123,11 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Pettitt's test for single change-point detection</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  vl[vl_cmp]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> U* = 869, p-value = 8.129e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> U* = 156, p-value = 0.0002504</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> probable change point at time K </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                              23 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                              12 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># view Fisher test for Q30s</span></span></span>
@@ -143,28 +136,28 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	F test to compare two variances</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  d1 and d2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F = 0.53023, num df = 21, denom df = 41, p-value = 0.1208</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F = 0.17155, num df = 9, denom df = 14, p-value = 0.0117</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true ratio of variances is not equal to 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.2597352 1.1887012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.05345339 0.65153115</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ratio of variances </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          0.5302307 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           0.171548 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># test only Qygr and Q30s using 1978 as fixed year and excluding 1988-1991 yrs</span></span></span>
-<span class="r-in"><span><span class="fu">gr_test_vars</span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, <span class="va">Q30s</span>, year <span class="op">=</span> <span class="fl">1978</span>, exclude <span class="op">=</span> <span class="fl">1988</span><span class="op">:</span><span class="fl">1991</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">gr_test_vars</span><span class="op">(</span><span class="va">vars</span>, <span class="va">Qygr</span>, <span class="va">Q30s</span>, year <span class="op">=</span> <span class="fl">1978</span>, exclude <span class="op">=</span> <span class="fl">1981</span><span class="op">:</span><span class="fl">1983</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ptt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ptt$Qygr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Pettitt's test for single change-point detection</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  vl[vl_cmp]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> U* = 777, p-value = 1.372e-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> U* = 120, p-value = 0.0008517</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> probable change point at time K </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                              23 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                              12 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ptt$Q30s</span>
@@ -172,11 +165,11 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Pettitt's test for single change-point detection</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  vl[vl_cmp]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> U* = 661, p-value = 1.308e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> U* = 117, p-value = 0.001249</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> probable change point at time K </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                              23 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                              11 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -186,11 +179,11 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Mann-Kendall trend test</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  vl[vl_cmp]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z = 4.6495, n = 60, p-value = 3.327e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z = 4.85, n = 22, p-value = 1.234e-06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true S is not equal to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            S         varS          tau </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7.300000e+02 2.458333e+04 4.124294e-01 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  173.0000000 1257.6666667    0.7489177 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mkt$Q30s</span>
@@ -198,11 +191,11 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Mann-Kendall trend test</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  vl[vl_cmp]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z = 3.272, n = 60, p-value = 0.001068</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z = 4.7109, n = 22, p-value = 2.466e-06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true S is not equal to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            S         varS          tau </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5.140000e+02 2.458133e+04 2.905597e-01 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           S        varS         tau </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  168.000000 1256.666667    0.728852 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -212,13 +205,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Sen's slope</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  df.theil[[2]][fltr]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z = 4.6495, n = 60, p-value = 3.327e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z = 4.85, n = 22, p-value = 1.234e-06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true z is not equal to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.06251714 0.13936618</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.4064579 0.6672221</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sen's slope </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.09723533 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.5231335 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $tst$Q30s</span>
@@ -226,13 +219,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Sen's slope</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  df.theil[[2]][fltr]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z = 3.272, n = 60, p-value = 0.001068</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z = 4.7109, n = 22, p-value = 2.466e-06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true z is not equal to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.02823611 0.09316667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.3457500 0.5597037</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sen's slope </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.06039279 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0.457 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -245,7 +238,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        Year1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  -160.69346      0.08706  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    -826.781        0.424  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ts_fit$Q30s</span>
@@ -256,7 +249,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        Year1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -101.1759       0.0549  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -712.0388       0.3642  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -266,13 +259,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Welch Two Sample t-test</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  d1 and d2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t = -9.0263, df = 46.83, p-value = 8.106e-12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t = -6.1293, df = 13.413, p-value = 3.146e-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true difference in means is not equal to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  -5.653517 -3.592594</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -8.792203 -4.220127</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mean of x mean of y </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9.141565 13.764620 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8.539897 15.046061 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $tt$Q30s</span>
@@ -280,13 +273,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Welch Two Sample t-test</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  d1 and d2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t = -6.7982, df = 47.426, p-value = 1.586e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t = -6.8192, df = 12.971, p-value = 1.241e-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true difference in means is not equal to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  -4.104838 -2.230513</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -7.308626 -3.791274</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mean of x mean of y </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6.100841  9.268517 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5.551333 11.101283 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -296,13 +289,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	F test to compare two variances</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  d1 and d2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F = 0.73437, num df = 20, denom df = 38, p-value = 0.466</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F = 0.30259, num df = 11, denom df = 9, p-value = 0.06579</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true ratio of variances is not equal to 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.3517886 1.6869806</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.07734699 1.08565221</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ratio of variances </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          0.7343747 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          0.3025872 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ft$Q30s</span>
@@ -310,13 +303,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	F test to compare two variances</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  d1 and d2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F = 0.71161, num df = 20, denom df = 38, p-value = 0.4204</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F = 0.27016, num df = 11, denom df = 9, p-value = 0.04493</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true ratio of variances is not equal to 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.3408856 1.6346959</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.06905736 0.96929782</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ratio of variances </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          0.7116142 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          0.2701575 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -326,10 +319,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $maxval</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $maxval$Qygr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 20.05682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 22.0631</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $maxval$Q30s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 13.16333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15.41</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fixed_year</span>
@@ -337,14 +330,14 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $pvalues</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   N                                    Variable Change.Year   Trend      M1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1 Mean annual groundwater ("baseflow") runoff        1978 0.08706 9.14156</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2       Minimum 30-day averaged summer runoff        1978 0.05490 6.10084</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1 Mean annual groundwater ("baseflow") runoff        1978 0.42401 8.53990</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2       Minimum 30-day averaged summer runoff        1978 0.36417 5.55133</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         M2 MeanRatio     sd1     sd2 sdRatio Mann.Kendall Pettitt Student</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 13.76462      50.6 1.78279 2.08037    16.7      0.00000   0e+00       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  9.26852      51.9 1.61105 1.90980    18.5      0.00107   1e-05       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 15.04606      76.2 1.65010 2.99975    81.8            0 0.00085   3e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 11.10128     100.0 1.20858 2.32523    92.4            0 0.00125   1e-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Fisher</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.46602</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.42036</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.06579</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.04493</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
