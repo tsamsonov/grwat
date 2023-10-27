@@ -4,10 +4,14 @@
 \alias{gr_summarize}
 \title{Summarize hydrograph separation}
 \usage{
-gr_summarize(df)
+gr_summarize(df, year_min = NULL, year_max = NULL)
 }
 \arguments{
 \item{df}{\code{data.frame} of hydrograph separation resulting from \code{\link[=gr_separate]{gr_separate()}} function}
+
+\item{year_min}{\code{integer} first year to summarise}
+
+\item{year_max}{\code{integer} last year to summarise}
 }
 \value{
 \code{data.frame} with one row for each water-resources year and multiple columns of statistics explained by \code{\link[=gr_help_vars]{gr_help_vars()}}.

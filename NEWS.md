@@ -1,3 +1,7 @@
+# grwat 0.0.4
+-   reduced the time of all examples to less than 5s.
+-   added `year_min` and `year_max` parameters to `gr_summarize()` function
+
 # grwat 0.0.3
 
 -   removed examples and tests with non-ASCII symbols (to address CRAN issue raised by Brian Ripley via e-mail);

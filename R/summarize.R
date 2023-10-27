@@ -16,16 +16,32 @@ gr_help_vars <- function() {
 #' Use this function to get meaningful summary statistics for hydrograph separation. Resulting variables are described by [grwat::gr_help_vars()]. This function is a convenient wrapper around [dplyr](https://dplyr.tidyverse.org)'s `df %>% group_by %>% summarize` idiom.
 #'
 #' @param df `data.frame` of hydrograph separation resulting from [grwat::gr_separate()] function
+#' @param year_min `integer` first year to summarise 
+#' @param year_max `integer` last year to summarise 
 #'
 #' @return `data.frame` with one row for each water-resources year and multiple columns of statistics explained by [grwat::gr_help_vars()].
 #' @export
 #'
 #' @example inst/examples/gr_summarize.R
 #' 
-gr_summarize <- function(df) {
+gr_summarize <- function(df, year_min = NULL, year_max = NULL) {
   
   secday = 86400
   kmyr = secday / 10e9
+  
+  if (nrow(df) == 0)
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
+         ' no data to summarise')
+  
+  if (!is.null(year_min))
+    df = dplyr::filter(df, Year >= year_min)
+  
+  if (!is.null(year_max))
+    df = dplyr::filter(df, Year <= year_max)
+  
+  if (nrow(df) == 0)
+    stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
+         ' filtering by year resulted in empty data frame')
   
   limits = df %>% 
     dplyr::mutate(Year1 = lubridate::year(.data$Date),
