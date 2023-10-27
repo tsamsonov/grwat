@@ -7,7 +7,7 @@ Authors@R: c(
     person("Timofey", "Samsonov",, "tsamsonov@geogr.msu.ru", role = c("aut", "cre"), 
       comment = c(ORCID = "0000-0001-5994-0302")
     ),
-    person("Ekaterina", "Retz", role = "ctb", comment = c(ORCID = "0000-0002-4505-1173")),
+    person("Ekaterina", "Rets", role = "ctb", comment = c(ORCID = "0000-0002-4505-1173")),
     person("Maria", "Kireeva", role = "ctb", comment = c(ORCID = "0000-0002-8285-9761"))
     )
 Description: River hydrograph separation and daily runoff time series analysis. Provides
