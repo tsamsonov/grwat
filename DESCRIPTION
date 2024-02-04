@@ -18,7 +18,7 @@ Description: River hydrograph separation and daily runoff time series analysis. 
   variables, statistical testing and numerous plotting functions for high-quality 
   visualization.
 License: MIT + file LICENSE
-URL: https://github.com/tsamsonov/grwat
+URL: https://github.com/tsamsonov/grwat, https://tsamsonov.github.io/grwat/
 BugReports: https://github.com/tsamsonov/grwat/issues
 Encoding: UTF-8
 Language: en-US
