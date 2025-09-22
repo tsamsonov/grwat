@@ -4,7 +4,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ---- warning=FALSE, message=FALSE--------------------------------------------
+## ----warning=FALSE, message=FALSE---------------------------------------------
 library(grwat)
 library(dplyr)
 library(ggplot2)
@@ -32,10 +32,10 @@ ggplot(hdata) +
 sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
 head(sep)
 
-## ---- warning=FALSE-----------------------------------------------------------
+## ----warning=FALSE------------------------------------------------------------
 gr_plot_sep(sep, years = c(1978, 1989))
 
-## ---- warning=FALSE-----------------------------------------------------------
+## ----warning=FALSE------------------------------------------------------------
 vars = gr_summarize(sep)
 head(vars)
 
