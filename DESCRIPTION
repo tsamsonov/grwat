@@ -29,7 +29,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Depends: 
-    R (>= 3.3)
+    R (>= 4.1)
 Imports:
     cli,
     Rcpp,

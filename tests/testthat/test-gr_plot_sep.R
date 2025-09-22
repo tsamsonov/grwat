@@ -6,38 +6,44 @@ sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
 test_that("Period plot has the correct content", {
   
   # One year
-  plt = suppressWarnings(gr_plot_sep(sep, 1978))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  
+  plt1 = suppressWarnings(gr_plot_sep(sep, 1978))
   # Two years
-  plt = suppressWarnings(gr_plot_sep(sep, c(1978, 1989)))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  
+  plt2 = suppressWarnings(gr_plot_sep(sep, c(1978, 1989)))
   # Four years in a matrix layout
-  plt = suppressWarnings(gr_plot_sep(sep, 1988:1991, layout = matrix(1:4, nrow = 2, byrow = TRUE))) 
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  
+  plt3 = suppressWarnings(gr_plot_sep(sep, 1988:1991, layout = matrix(1:4, nrow = 2, byrow = TRUE))) 
   # Add temperature
-  plt = suppressWarnings(gr_plot_sep(sep, 1991, temp = TRUE))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  
+  plt4 = suppressWarnings(gr_plot_sep(sep, 1991, temp = TRUE))
   # Add precipitation
-  plt = suppressWarnings(gr_plot_sep(sep, 1991, prec = TRUE))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  
+  plt5 = suppressWarnings(gr_plot_sep(sep, 1991, prec = TRUE))
   # Increase cumulative sum span for precipitation
-  plt = suppressWarnings(gr_plot_sep(sep, 1991, prec = TRUE, span = 10))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  
+  plt6 = suppressWarnings(gr_plot_sep(sep, 1991, prec = TRUE, span = 10))
   # Add both
-  plt = suppressWarnings(gr_plot_sep(sep, 1991, temp = TRUE, prec = TRUE))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
+  plt7 = suppressWarnings(gr_plot_sep(sep, 1991, temp = TRUE, prec = TRUE))
+  
+  expect_type(plt1, 'list')
+  expect_type(plt2, 'list')
+  expect_type(plt3, 'list')
+  expect_type(plt4, 'list')
+  expect_type(plt5, 'list')
+  expect_type(plt6, 'list')
+  expect_type(plt7, 'list')
+  
+  if (packageVersion("ggplot2") < '4.0') {
+    expect_s3_class(plt1[[1]], 'ggplot')
+    expect_s3_class(plt2[[1]], 'ggplot')
+    expect_s3_class(plt3[[1]], 'ggplot')
+    expect_s3_class(plt4[[1]], 'ggplot')
+    expect_s3_class(plt5[[1]], 'ggplot')
+    expect_s3_class(plt6[[1]], 'ggplot')
+    expect_s3_class(plt7[[1]], 'ggplot')
+  } else {
+    expect_true(ggplot2::is_ggplot(plt1[[1]]))
+    expect_true(ggplot2::is_ggplot(plt2[[1]]))
+    expect_true(ggplot2::is_ggplot(plt3[[1]]))
+    expect_true(ggplot2::is_ggplot(plt4[[1]]))
+    expect_true(ggplot2::is_ggplot(plt5[[1]]))
+    expect_true(ggplot2::is_ggplot(plt6[[1]]))
+    expect_true(ggplot2::is_ggplot(plt7[[1]]))
+  }
   
 })

@@ -893,7 +893,7 @@ gr_plot_tests <- function(tests, type = 'year', print = TRUE) {
   plt = ggplot2::ggplot() +    
     ggplot2::geom_line(data = ddf, ggplot2::aes(x =year, y = dens), color = 'black') +
     ggplot2::geom_area(data = ddf, ggplot2::aes(x =year, y = dens), alpha = 0.2) +
-    ggplot2::geom_vline(xintercept = modeval, color = "steelblue4", size = 1) +
+    ggplot2::geom_vline(xintercept = modeval, color = "steelblue4", linewidth = 1) +
     ggplot2::annotate("text", label = modeval, 
              x = modeval + 0.05 * (max(dens$x) - min(dens$x)), y = 0.01, 
              size = 5, colour = "steelblue4") +

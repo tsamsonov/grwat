@@ -5,45 +5,53 @@ vars = suppressWarnings(gr_summarize(sep))
 test_that("Variables plot has the correct content", {
   
   # plot one selected variable
-  plt = suppressWarnings(gr_plot_vars(vars, Qygr))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  
+  plt1 = suppressWarnings(gr_plot_vars(vars, Qygr))
   # plot one selected variable
-  plt = suppressWarnings(gr_plot_vars(vars, Dspstart))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  
+  plt2 = suppressWarnings(gr_plot_vars(vars, Dspstart))
   # plot two variables sequentially
-  plt = suppressWarnings(gr_plot_vars(vars, D10w1, Wsprngr))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  expect_equal(length(plt), 2)
-  
+  plt3 = suppressWarnings(gr_plot_vars(vars, D10w1, Wsprngr))
   # plot four variables in matrix layout
-  plt = suppressWarnings(gr_plot_vars(vars, Qspmax, Qygr, D10w1, Wsprngr,
-               layout = matrix(1:4, nrow = 2, byrow = TRUE)))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  expect_equal(length(plt), 4)
-  
+  plt4 = suppressWarnings(gr_plot_vars(vars, Qspmax, Qygr, D10w1, Wsprngr,
+                                       layout = matrix(1:4, nrow = 2, byrow = TRUE)))
   # add tests calculated on the fly (only plotted variables are tested)
-  plt = suppressWarnings(gr_plot_vars(vars, Qspmax, Qygr, D10w1, Wsprngr,
-               layout = matrix(1:4, nrow = 2, byrow = TRUE),
-               tests = TRUE))
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  expect_equal(length(plt), 4)
-  
+  plt5 = suppressWarnings(gr_plot_vars(vars, Qspmax, Qygr, D10w1, Wsprngr,
+                                       layout = matrix(1:4, nrow = 2, byrow = TRUE),
+                                       tests = TRUE))
   # calculate tests beforehand
   tests = gr_test_vars(vars)
-  plt = suppressWarnings(
-          gr_plot_vars(vars, D10w1, Wsprngr, Nthw, Qrnmax,
-                       layout = matrix(1:4, nrow = 2, byrow = TRUE),
-                       tests = tests)
+  plt6 = suppressWarnings(
+    gr_plot_vars(vars, D10w1, Wsprngr, Nthw, Qrnmax,
+                 layout = matrix(1:4, nrow = 2, byrow = TRUE),
+                 tests = tests)
   )
-  expect_type(plt, 'list')
-  expect_s3_class(plt[[1]], 'ggplot')
-  expect_equal(length(plt), 4)
+  
+  expect_type(plt1, 'list')
+  expect_type(plt2, 'list')
+  expect_type(plt3, 'list')
+  expect_type(plt4, 'list')
+  expect_type(plt5, 'list')
+  expect_type(plt6, 'list')
+  expect_equal(length(plt3), 2)
+  expect_equal(length(plt4), 4)
+  expect_equal(length(plt5), 4)
+  expect_equal(length(plt6), 4)
+  
+  if (packageVersion("ggplot2") < '4.0') {
+    expect_s3_class(plt1[[1]], 'ggplot')
+    expect_s3_class(plt2[[1]], 'ggplot')
+    expect_s3_class(plt3[[1]], 'ggplot')
+    expect_s3_class(plt4[[1]], 'ggplot')
+    expect_s3_class(plt5[[1]], 'ggplot')
+    expect_s3_class(plt6[[1]], 'ggplot')
+  } else {
+    expect_true(ggplot2::is_ggplot(plt1[[1]]))
+    expect_true(ggplot2::is_ggplot(plt2[[1]]))
+    expect_true(ggplot2::is_ggplot(plt3[[1]]))
+    expect_true(ggplot2::is_ggplot(plt4[[1]]))
+    expect_true(ggplot2::is_ggplot(plt5[[1]]))
+    expect_true(ggplot2::is_ggplot(plt6[[1]]))
+  }
+  
+  
   
 })

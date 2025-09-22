@@ -1,6 +1,13 @@
 # grwat (development version)
 
+# grwat 0.0.5
+
+-   promoted to R 4.1 as minimal R version
+-   replaced all internal magrittr `%>%` pipes with native `|>` pipes
+-   updated tests to support ggplot 4.0 version
+
 # grwat 0.0.4
+
 -   reduced the time of all examples to less than 5s.
 -   added `year_min` and `year_max` parameters to `gr_summarize()` function
 
