@@ -88,7 +88,7 @@ values, it can be applied in a traditional tidyverse pipeline like
 follows:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Calculate baseflow using Jakeman approach</span></span>
-<span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Qbase <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'jakeman'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Visualize for 2020 year</span></span>
@@ -103,11 +103,11 @@ follows:</p>
 <p><img src="baseflow_files/figure-html/unnamed-chunk-3-1.png" width="960"></p>
 <p>Different methods can be compared in a similar way:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>lynehollick <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'lynehollick'</span>, a <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>         boughton <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'boughton'</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>         jakeman <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'jakeman'</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
-<span>         maxwell <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'maxwell'</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>         maxwell <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'maxwell'</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="va">lynehollick</span><span class="op">:</span><span class="va">maxwell</span>, names_to <span class="op">=</span> <span class="st">'Method'</span>, values_to <span class="op">=</span> <span class="st">'Qbase'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hdata</span><span class="op">)</span> <span class="op">+</span></span>
@@ -131,10 +131,10 @@ approach during the spring flood:</p>
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span><span class="st">'center'</span><span class="op">)</span></span>
 <span><span class="va">p</span><span class="op">$</span><span class="va">filter</span> <span class="op">=</span> <span class="st">'kudelin'</span></span>
 <span></span>
-<span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>lynehollick <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'lynehollick'</span>, </span>
 <span>                                   a <span class="op">=</span> <span class="fl">0.925</span>, passes <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
-<span>         kudelin <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, <span class="va">p</span><span class="op">)</span><span class="op">$</span><span class="va">Qbase</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>         kudelin <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, <span class="va">p</span><span class="op">)</span><span class="op">$</span><span class="va">Qbase</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="va">lynehollick</span><span class="op">:</span><span class="va">kudelin</span>, names_to <span class="op">=</span> <span class="st">'Method'</span>, values_to <span class="op">=</span> <span class="st">'Qbase'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> data frame is correct</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span></span>

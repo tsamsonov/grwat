@@ -91,7 +91,7 @@
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>Character string to set baseflow filtering method. Available methods are <code>'boughton'</code>, <code>'chapman'</code>, <code>'furey'</code>, <code>'jakeman'</code>, <code>'lynehollick'</code> and <code>'maxwell'</code>. Default is <code>'lynehollick'</code>, which corresponds to Lyne-Hollick (1979) hydrograph separation method.</p></dd>
+<dd><p>Character string to set baseflow filtering method. Available methods are <code>'boughton'</code>, <code>'chapman'</code>, <code>'jakeman'</code>, <code>'lynehollick'</code> and <code>'maxwell'</code>. Default is <code>'lynehollick'</code>, which corresponds to Lyne-Hollick (1979) hydrograph separation method.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -123,7 +123,7 @@
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spas</span><span class="op">)</span> <span class="co"># example Spas-Zagorye data is included with grwat package</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate baseflow using Line-Hollick approach</span></span></span>
-<span class="r-in"><span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> </span></span>
+<span class="r-in"><span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op">|&gt;</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Qbase <span class="op">=</span> <span class="fu">gr_baseflow</span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'lynehollick'</span>, </span></span>
 <span class="r-in"><span>                             a <span class="op">=</span> <span class="fl">0.925</span>, passes <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -139,11 +139,11 @@
 <span class="r-plt img"><img src="gr_baseflow-1.png" alt="" width="960" height="593"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compare various approaches</span></span></span>
-<span class="r-in"><span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>lynehollick <span class="op">=</span> <span class="fu">gr_baseflow</span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'lynehollick'</span>, a <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>         boughton <span class="op">=</span> <span class="fu">gr_baseflow</span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'boughton'</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>         jakeman <span class="op">=</span> <span class="fu">gr_baseflow</span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'jakeman'</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>         maxwell <span class="op">=</span> <span class="fu">gr_baseflow</span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'maxwell'</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> </span></span>
+<span class="r-in"><span>         maxwell <span class="op">=</span> <span class="fu">gr_baseflow</span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'maxwell'</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="va">lynehollick</span><span class="op">:</span><span class="va">maxwell</span>, names_to <span class="op">=</span> <span class="st">'Method'</span>, values_to <span class="op">=</span> <span class="st">'Qbase'</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Visualize for 1980 year</span></span></span>
@@ -162,10 +162,10 @@
 <span class="r-in"><span><span class="va">p</span> <span class="op">=</span> <span class="fu"><a href="gr_get_params.html">gr_get_params</a></span><span class="op">(</span><span class="st">'center'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="va">filter</span> <span class="op">=</span> <span class="st">'kudelin'</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> </span></span>
+<span class="r-in"><span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op">|&gt;</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>lynehollick <span class="op">=</span> <span class="fu">gr_baseflow</span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'lynehollick'</span>, </span></span>
 <span class="r-in"><span>                                   a <span class="op">=</span> <span class="fl">0.925</span>, passes <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>         kudelin <span class="op">=</span> <span class="fu"><a href="gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, <span class="va">p</span><span class="op">)</span><span class="op">$</span><span class="va">Qbase</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> </span></span>
+<span class="r-in"><span>         kudelin <span class="op">=</span> <span class="fu"><a href="gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, <span class="va">p</span><span class="op">)</span><span class="op">$</span><span class="va">Qbase</span><span class="op">)</span> <span class="op">|&gt;</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="va">lynehollick</span><span class="op">:</span><span class="va">kudelin</span>, names_to <span class="op">=</span> <span class="st">'Method'</span>, values_to <span class="op">=</span> <span class="st">'Qbase'</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> data frame is correct</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">grwat:</span> parameters list and types are OK</span>

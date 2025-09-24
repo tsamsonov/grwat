@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Timofey
 Samsonov</h4>
             
-            <h4 data-toc-skip class="date">2025-09-22</h4>
+            <h4 data-toc-skip class="date">2025-09-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/master/vignettes/grwat.Rmd" class="external-link"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="d-none name"><code>grwat.Rmd</code></div>
@@ -121,7 +121,7 @@ values, it can be applied in a traditional tidyverse pipeline like
 follows:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Calculate baseflow using Jakeman approach</span></span>
-<span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span><span class="va">hdata</span> <span class="op">=</span> <span class="va">spas</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Qbase <span class="op">=</span> <span class="fu"><a href="../reference/gr_baseflow.html">gr_baseflow</a></span><span class="op">(</span><span class="va">Q</span>, method <span class="op">=</span> <span class="st">'jakeman'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Visualize for 2020 year</span></span>
