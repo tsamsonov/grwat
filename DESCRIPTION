@@ -33,7 +33,6 @@ Depends:
 Imports:
     cli,
     Rcpp,
-    magrittr,
     dplyr,
     tidyr,
     lubridate,

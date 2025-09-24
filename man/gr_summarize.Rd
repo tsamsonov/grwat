@@ -17,7 +17,7 @@ gr_summarize(df, year_min = NULL, year_max = NULL)
 \code{data.frame} with one row for each water-resources year and multiple columns of statistics explained by \code{\link[=gr_help_vars]{gr_help_vars()}}.
 }
 \description{
-Use this function to get meaningful summary statistics for hydrograph separation. Resulting variables are described by \code{\link[=gr_help_vars]{gr_help_vars()}}. This function is a convenient wrapper around \href{https://dplyr.tidyverse.org}{dplyr}'s \code{df \%>\% group_by \%>\% summarize} idiom.
+Use this function to get meaningful summary statistics for hydrograph separation. Resulting variables are described by \code{\link[=gr_help_vars]{gr_help_vars()}}. This function is a convenient wrapper around \href{https://dplyr.tidyverse.org}{dplyr}'s \verb{df |> group_by |> summarize} idiom.
 }
 \examples{
 library(grwat)

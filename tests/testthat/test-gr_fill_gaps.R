@@ -5,7 +5,7 @@ hdata_raw = read.delim(path, header = FALSE,
                        sep = ' ', na.strings = c('-999', '-999.0', '-'),
                        col.names = c('d', 'm', 'y', 'q'))
 
-hdata = hdata_raw %>% 
+hdata = hdata_raw |> 
   dplyr::transmute(Date = lubridate::make_date(y, m, d), 
                    Q = q)
 

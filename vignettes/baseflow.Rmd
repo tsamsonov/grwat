@@ -34,7 +34,7 @@ Though `get_baseflow()` needs just a vector of runoff values, it can be applied 
 
 ```{r}
 # Calculate baseflow using Jakeman approach
-hdata = spas %>% 
+hdata = spas |> 
   mutate(Qbase = gr_baseflow(Q, method = 'jakeman'))
 
 # Visualize for 2020 year
@@ -47,11 +47,11 @@ ggplot(hdata) +
 Different methods can be compared in a similar way:
 
 ```{r}
-hdata = spas %>%
+hdata = spas |>
   mutate(lynehollick = gr_baseflow(Q, method = 'lynehollick', a = 0.9),
          boughton = gr_baseflow(Q, method = 'boughton', k = 0.9),
          jakeman = gr_baseflow(Q, method = 'jakeman', k = 0.9),
-         maxwell = gr_baseflow(Q, method = 'maxwell', k = 0.9)) %>% 
+         maxwell = gr_baseflow(Q, method = 'maxwell', k = 0.9)) |> 
   pivot_longer(lynehollick:maxwell, names_to = 'Method', values_to = 'Qbase')
 
 ggplot(hdata) +
@@ -67,10 +67,10 @@ In case of 100% hydraulic connection between ground waters and river discharge, 
 p = gr_get_params('center')
 p$filter = 'kudelin'
 
-hdata = spas %>% 
+hdata = spas |> 
   mutate(lynehollick = gr_baseflow(Q, method = 'lynehollick', 
                                    a = 0.925, passes = 3),
-         kudelin = gr_separate(spas, p)$Qbase) %>% 
+         kudelin = gr_separate(spas, p)$Qbase) |> 
   pivot_longer(lynehollick:kudelin, names_to = 'Method', values_to = 'Qbase')
 
 # Visualize for 1980 year

@@ -13,7 +13,7 @@ gr_help_vars <- function() {
 
 #' Summarize hydrograph separation
 #' 
-#' Use this function to get meaningful summary statistics for hydrograph separation. Resulting variables are described by [grwat::gr_help_vars()]. This function is a convenient wrapper around [dplyr](https://dplyr.tidyverse.org)'s `df %>% group_by %>% summarize` idiom.
+#' Use this function to get meaningful summary statistics for hydrograph separation. Resulting variables are described by [grwat::gr_help_vars()]. This function is a convenient wrapper around [dplyr](https://dplyr.tidyverse.org)'s `df |> group_by |> summarize` idiom.
 #'
 #' @param df `data.frame` of hydrograph separation resulting from [grwat::gr_separate()] function
 #' @param year_min `integer` first year to summarise 
@@ -43,18 +43,18 @@ gr_summarize <- function(df, year_min = NULL, year_max = NULL) {
     stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
          ' filtering by year resulted in empty data frame')
   
-  limits = df %>% 
+  limits = df |> 
     dplyr::mutate(Year1 = lubridate::year(.data$Date),
-                  Year2 = .data$Year1+1) %>% 
-    dplyr::group_by(.data$Year1) %>% 
+                  Year2 = .data$Year1+1) |> 
+    dplyr::group_by(.data$Year1) |> 
     dplyr::summarise(Dspstart = min(.data$Date[which(.data$Qspri>0)]),
                      Dspend = max(.data$Date[which(.data$Qspri>0)]))
   
   startflt = df$Date %in% limits$Dspstart
   
-  df %>% 
-    dplyr::filter(!is.na(.data$Year)) %>% 
-    dplyr::group_by(.data$Year) %>% 
+  df |> 
+    dplyr::filter(!is.na(.data$Year)) |> 
+    dplyr::group_by(.data$Year) |> 
     dplyr::summarise(Year1 = min(.data$Year),
               Year2 = max(lubridate::year(.data$Date)),
               Dspstart = min(.data$Date),
@@ -110,9 +110,9 @@ gr_summarize <- function(df, year_min = NULL, year_max = NULL) {
               Cw = sd(.data$Q[.data$Season == 2], na.rm = TRUE) / mean(.data$Q[.data$Season == 2], na.rm = TRUE),
               Cs = sd(.data$Q[.data$Season == 1], na.rm = TRUE) / mean(.data$Q[.data$Season == 1], na.rm = TRUE),
               Nrn = sum(rle(.data$Qrain > 0)$values),
-              Nth = sum(rle(.data$Qthaw > 0)$values)) %>% 
-    dplyr::ungroup() %>%
-    tidyr::complete(Year = tidyr::full_seq(.data$Year, period = 1)) %>%
+              Nth = sum(rle(.data$Qthaw > 0)$values)) |> 
+    dplyr::ungroup() |>
+    tidyr::complete(Year = tidyr::full_seq(.data$Year, period = 1)) |>
     dplyr::mutate(Year1 = .data$Year,
                   Year2 = .data$Year+1)
 }

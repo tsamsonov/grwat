@@ -30,16 +30,16 @@
 #' 
 gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
   
-  fields = rlang::exprs(...) %>% as.character()
+  fields = rlang::exprs(...) |> as.character()
   
   if(length(fields) == 0)
-    fields = params_out %>% 
-      dplyr::filter(.data$Order != 0) %>% 
-      dplyr::arrange(.data$Order) %>% 
+    fields = params_out |> 
+      dplyr::filter(.data$Order != 0) |> 
+      dplyr::arrange(.data$Order) |> 
       dplyr::pull(.data$Name)
   
-  prms = params_out %>% 
-    dplyr::filter(.data$Name %in% fields) %>% 
+  prms = params_out |> 
+    dplyr::filter(.data$Name %in% fields) |> 
     dplyr::slice(match(fields, .data$Name))
   
   fixed = !is.null(year)
@@ -71,8 +71,8 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
   tt = setNames(vector(mode = 'list', length = nn), prms$Name) # Student t test for periods
   ft = setNames(vector(mode = 'list', length = nn), prms$Name) # Fisher F test for periods
   
-  df = df %>% 
-    dplyr::filter(!(.data$Year1 %in% exclude)) %>% 
+  df = df |> 
+    dplyr::filter(!(.data$Year1 %in% exclude)) |> 
     dplyr::mutate_if(params_out$Winter == 1, 
                      replace_year)
   
@@ -116,7 +116,7 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
     
     if(length(vl_cmp) > 2) { # mk.test requires at least 3 observations
       if(isdate){
-        mkt[[i]] = trend::mk.test(vl[vl_cmp] %>% as.integer())
+        mkt[[i]] = trend::mk.test(vl[vl_cmp] |> as.integer())
       } else {
         mkt[[i]] = trend::mk.test(vl[vl_cmp])
       }
@@ -125,16 +125,16 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
     
     # THEIL-SEN SLOPE ESTIMATION
     
-    df.theil = df %>% 
+    df.theil = df |> 
       dplyr::select('Year1', prms$Name[i])
     
-    # values = df.theil[[prms$Name[i]]] %>% 
-      # as.matrix() %>%
+    # values = df.theil[[prms$Name[i]]] |> 
+      # as.matrix() |>
       # as.vector()
     
     if(isdate){
-      # values = values %>% 
-      #   as.Date() %>% 
+      # values = values |> 
+      #   as.Date() |> 
       #   as.integer()
       df.theil[2] = as.integer(vl)
     }
@@ -169,13 +169,13 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
     
     if(isdate) {
       
-      mean1[[i]] = mean1[[i]] %>% as.integer() %>% as.Date(origin = '1970-01-01')
-      mean2[[i]] = mean2[[i]] %>% as.integer() %>% as.Date(origin = '1970-01-01')
+      mean1[[i]] = mean1[[i]] |> as.integer() |> as.Date(origin = '1970-01-01')
+      mean2[[i]] = mean2[[i]] |> as.integer() |> as.Date(origin = '1970-01-01')
       
       mratio[i] = lubridate::yday(mean2[[i]]) - lubridate::yday(mean1[[i]])
       
-      mean1[[i]] = mean1[[i]] %>% format("%d-%b")
-      mean2[[i]] = mean2[[i]] %>% format("%d-%b")
+      mean1[[i]] = mean1[[i]] |> format("%d-%b")
+      mean2[[i]] = mean2[[i]] |> format("%d-%b")
       
       sd1[i] = as.integer(sd1[i])
       sd2[i] = as.integer(sd2[i])

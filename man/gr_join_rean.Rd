@@ -36,7 +36,7 @@ if (require("sf") && require("ncdf4")) {
                          sep = ' ', na.strings = c('-999', '-999.0', '-'),
                          col.names = c('d', 'm', 'y', 'q'))
 
-  hdata = hdata_raw \%>\%
+  hdata = hdata_raw |>
     transmute(Date = lubridate::make_date(y, m, d),
               Q = q)
 

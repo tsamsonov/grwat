@@ -55,7 +55,7 @@ multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 #   
 #   p4s = stringr::str_interp('+proj=lcc +lat_1=${B2} +lat_0=${B1} +lon_0=${L0} +datum=${datum} +no_defs')
 #   
-#   return(s %>% sf::st_transform(p4s))
+#   return(s |> sf::st_transform(p4s))
 # }
 
 replace_year <- function(d) {

@@ -50,17 +50,18 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   if (grenv$loc != 'EN')
     labs = gr_unescape(labs)
   
-  df = df %>% dplyr::mutate(Year = lubridate::year(Date))
+  df = df |> dplyr::mutate(Year = lubridate::year(Date))
   
   if(!is.null(years)){
-    df = df %>% dplyr::filter(Year %in% unique(c(years, years + 1)))
+    df = df |> dplyr::filter(Year %in% unique(c(years, years + 1)))
   } else {
-    years = df %>% dplyr::pull(Year) %>% unique() %>% sort() 
+    years = df |> dplyr::pull(Year) |> unique() |> sort() 
   }
   
-  yrs = df %>% dplyr::group_by(.data$Year) %>% 
-    dplyr::summarise(nydate =Date[which(Qspri>0)[1]],
-                     dspend = max(Date[which(Qspri>0)])) %>% 
+  yrs = df |> 
+    dplyr::group_by(.data$Year) |> 
+    dplyr::summarise(nydate = Date[which(Qspri>0)[1]],
+                     dspend = max(Date[which(Qspri>0)])) |> 
     dplyr::filter(!is.na(nydate))
   
   n = nrow(yrs)
@@ -74,7 +75,6 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
     df = dplyr::mutate(df, Preccum = zoo::rollapply(Prec, span, sum, align = 'right', fill = NA))
     max.prec = max(df$Preccum, na.rm = TRUE)
   }
-  
   
   coef_temp = (max.temp - min.temp) / max.runoff
   coef_prec = max.prec / max.runoff
@@ -117,13 +117,13 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
       }
     }
     
-    yeardata = df %>%  
+    yeardata = df |>   
       dplyr::filter(dplyr::between(.data$Date, begin.date-1, end.date))
     
-    graphdata = yeardata %>% 
+    graphdata = yeardata |>  
       tidyr::pivot_longer(c(.data$Qthaw,Qrain,Qspri,Qbase),
-                          names_to = "Runtype", values_to = "Runoff") %>%
-                          # factor_key=TRUE) %>% 
+                          names_to = "Runtype", values_to = "Runoff") |> 
+                          # factor_key=TRUE) |> 
       dplyr::mutate(Runoff = ifelse(.data$Runoff < 0, 0,Runoff))
     
     graphdata$Runtype = factor(graphdata$Runtype,
@@ -281,28 +281,28 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
   if (grenv$loc != 'EN')
     labs = gr_unescape(labs)
   
-  fields = rlang::exprs(...) %>% as.character()
+  fields = rlang::exprs(...) |> as.character()
   
   if(length(fields) == 0)
-    fields = params_out %>% 
-      dplyr::filter(.data$Order != 0) %>% 
-      dplyr::arrange(.data$Order) %>% 
+    fields = params_out |>  
+      dplyr::filter(.data$Order != 0) |>  
+      dplyr::arrange(.data$Order) |>  
       dplyr::pull(.data$Name)
   
-  prms = params_out %>% 
-    dplyr::filter(.data$Name %in% fields) %>% 
+  prms = params_out |> 
+    dplyr::filter(.data$Name %in% fields) |> 
     dplyr::slice(match(fields,Name))
   
   if (is.logical(tests))
     if (tests == TRUE)
       tests = gr_test_vars(df, ...)
   
-  df = df %>% 
+  df = df |> 
     dplyr::mutate_if(params_out$Type == 'Date', function(X) { 
       lubridate::year(X) = 2000 
       return(X)
-    }) %>%  
-    dplyr::mutate_if(params_out$Winter == 1, replace_year) %>% 
+    }) |> 
+    dplyr::mutate_if(params_out$Winter == 1, replace_year) |> 
     dplyr::mutate_at(dplyr::vars(-.data$Year1, -.data$Year2), function(X) {
       structure(ifelse(df$Year1 %in% exclude, NA, X), class = class(X))
     }) # EXCLUDE YEARS
@@ -505,24 +505,24 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
   if (grenv$loc != 'EN')
     labs = gr_unescape(labs)
   
-  fields = rlang::exprs(...) %>% as.character()
+  fields = rlang::exprs(...) |> as.character()
 
   if(length(fields) == 0)
-    fields = params_out %>% 
-    dplyr::filter(.data$Order != 0) %>% 
-    dplyr::arrange(.data$Order) %>% 
+    fields = params_out |> 
+    dplyr::filter(.data$Order != 0) |> 
+    dplyr::arrange(.data$Order) |> 
     dplyr::pull(.data$Name)
   
-  prms = params_out %>% 
-    dplyr::filter(.data$Name %in% fields) %>% 
+  prms = params_out |> 
+    dplyr::filter(.data$Name %in% fields) |> 
     dplyr::slice(match(fields,Name))
   
   if (is.logical(tests))
     if (tests == TRUE)
       tests = gr_test_vars(df, ...)
   
-  df = df %>% 
-    dplyr::filter(!(.data$Year1 %in% exclude)) %>% 
+  df = df |>  
+    dplyr::filter(!(.data$Year1 %in% exclude)) |>  
     dplyr::mutate_if(params_out$Winter == 1, replace_year)
   
   units = switch(grenv$loc,
@@ -549,14 +549,14 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
       year = tests$year[i]
     }
     
-    d = df[prms$Name[i]] %>% 
-      as.matrix() %>% 
+    d = df[prms$Name[i]] |> 
+      as.matrix() |> 
       as.vector()
     
     is_date = FALSE
     if(prms$Unitsen[i] %in% c('Date', 'Month')){
       
-      d = d %>% as.Date() 
+      d = d |> as.Date() 
       lubridate::year(d) <- 2000 # fake year
       
       if (prms$Winter[i] == 1)
@@ -604,26 +604,26 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
       rsd1 = round(sd(d1, na.rm = TRUE)/m1, 3)
       rsd2 = round(sd(d2, na.rm = TRUE)/m2, 3)
       
-      means <- df.plot %>% 
-        dplyr::group_by(Period) %>% 
+      means <- df.plot |> 
+        dplyr::group_by(Period) |> 
         dplyr::summarise(Value = mean(Value, na.rm = TRUE))
       
       mean1 = ifelse(is_date, 
-                     m1 %>% as.integer() %>% as.Date(origin = '1970-01-01') %>% format("%d-%b"),
-                     m1 %>% round(3)
+                     m1 |> as.integer() |> as.Date(origin = '1970-01-01') |> format("%d-%b"),
+                     m1 |> round(3)
       )
       
       mean2 = ifelse(is_date, 
-                     m2 %>% as.integer() %>% as.Date(origin = '1970-01-01') %>% format("%d-%b"),
-                     m2 %>% round(3)
+                     m2 |> as.integer() |> as.Date(origin = '1970-01-01') |> format("%d-%b"),
+                     m2 |> round(3)
       )
       
       m1 = ifelse(is_date,
-                  m1 %>% as.integer(),
+                  m1 |> as.integer(),
                   m1)
       
       m2 = ifelse(is_date,
-                  m2 %>% as.integer(),
+                  m2 |> as.integer(),
                   m2)
       
       pt.df = data.frame(Value = c(m1, m2), 
@@ -648,7 +648,7 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
     
     if(is_date){
       g = g + ggplot2::scale_y_continuous(labels = function(x) {
-        return(as.Date(x, origin = "1970-01-01") %>% format(format = '%d-%m'))
+        return(as.Date(x, origin = "1970-01-01") |> format(format = '%d-%m'))
       })
     }
     
@@ -734,10 +734,10 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
   periodtitle1_winter = paste0(labs$beforetitle, year_winter)
   periodtitle2_winter = paste0(labs$aftertitle, year_winter)
   
-  chart.data = df %>% 
-    dplyr::filter(!(Year1 %in% exclude)) %>% 
-    dplyr::select(Dsmin, Dwmin, Year1) %>% 
-    dplyr::filter(!is.na(Dsmin) & !is.na(Dwmin)) %>% 
+  chart.data = df |> 
+    dplyr::filter(!(Year1 %in% exclude)) |> 
+    dplyr::select(Dsmin, Dwmin, Year1) |> 
+    dplyr::filter(!is.na(Dsmin) & !is.na(Dwmin)) |> 
     dplyr::mutate(summermonth = lubridate::month(Dsmin),
                   wintermonth = lubridate::month(Dwmin),
                   old_summer = as.integer(Year1 >= year_summer),
@@ -762,30 +762,30 @@ gr_plot_minmonth <- function(df, year = NULL, exclude = NULL, tests = NULL, page
                                    levels = c(7:12, 1:6), 
                                    labels = winterlabels)
   
-  df.summer = chart.data %>% 
-    dplyr::group_by(old_summer, summermonth) %>% 
-    dplyr::tally() %>% 
-    dplyr::ungroup() %>% 
-    tidyr::complete(summermonth, old_summer, fill = list(n=0)) %>%  
+  df.summer = chart.data |> 
+    dplyr::group_by(old_summer, summermonth) |> 
+    dplyr::tally() |> 
+    dplyr::ungroup() |> 
+    tidyr::complete(summermonth, old_summer, fill = list(n=0)) |>  
     dplyr::mutate(perc = 100*.data$n/sum(.data$n))
   
-  df.winter = chart.data %>% 
-    dplyr::group_by(old_winter, wintermonth) %>% 
-    dplyr::tally() %>% 
-    dplyr::ungroup() %>% 
-    tidyr::complete(wintermonth, old_winter, fill = list(n=0)) %>%  
+  df.winter = chart.data |> 
+    dplyr::group_by(old_winter, wintermonth) |> 
+    dplyr::tally() |> 
+    dplyr::ungroup() |> 
+    tidyr::complete(wintermonth, old_winter, fill = list(n=0)) |> 
     dplyr::mutate(perc = 100*n/sum(n))
   
-  df.summer.all = chart.data %>% 
-    dplyr::group_by(summermonth) %>% 
-    dplyr::tally() %>% 
-    dplyr::ungroup() %>%
+  df.summer.all = chart.data |> 
+    dplyr::group_by(summermonth) |> 
+    dplyr::tally() |> 
+    dplyr::ungroup() |>
     dplyr::mutate(perc = 100*n/sum(n))
   
-  df.winter.all = chart.data %>% 
-    dplyr::group_by(.data$wintermonth) %>% 
-    dplyr::tally() %>% 
-    dplyr::ungroup() %>%
+  df.winter.all = chart.data |> 
+    dplyr::group_by(.data$wintermonth) |> 
+    dplyr::tally() |> 
+    dplyr::ungroup() |>
     dplyr::mutate(perc = 100*.data$n/sum(.data$n))
   
   g.summer = ggplot2::ggplot() +
@@ -927,13 +927,13 @@ gr_plot_tests <- function(tests, type = 'year', print = TRUE) {
 #' 
 gr_plot_acf <- function(hdata, autocorr = 0.7, maxlag = 30, print = TRUE) {
   
-  max_period = hdata %>% 
-    grwat::gr_get_gaps() %>% 
+  max_period = hdata |> 
+    grwat::gr_get_gaps() |> 
     dplyr::filter(.data$type == 'data',duration == max(.data$duration))
   
-  acf_data = hdata %>% 
-    dplyr::rename(Date = 1) %>% 
-    dplyr::filter(dplyr::between(.data$Date, max_period$start_date, max_period$end_date)) %>% 
+  acf_data = hdata |> 
+    dplyr::rename(Date = 1) |> 
+    dplyr::filter(dplyr::between(.data$Date, max_period$start_date, max_period$end_date)) |> 
     dplyr::pull(2)
   
   afun = acf(acf_data, lag.max = maxlag, plot = FALSE)
@@ -1152,10 +1152,10 @@ gr_plot_ridge <- function(df, years, pal = 4, rev = FALSE, scale = 0.01, alpha =
   if (grenv$loc != 'EN')
     labs = gr_unescape(labs)
   
-  df_sel = df %>%
-    dplyr::rename(Date = 1, Q = 2) %>%
+  df_sel = df |>
+    dplyr::rename(Date = 1, Q = 2) |>
     dplyr::mutate(Year = lubridate::year(.data$Date),
-                  Datefake = lubridate::ymd(20000101) + lubridate::yday(.data$Date)) %>%
+                  Datefake = lubridate::ymd(20000101) + lubridate::yday(.data$Date)) |>
     dplyr::filter(.data$Year %in% years)
 
   plt = ggplot2::ggplot(df_sel, 
@@ -1224,10 +1224,10 @@ gr_plot_hori <- function(df, years, pal = 'Blues', rev = TRUE, scale = 6, print 
   if (grenv$loc != 'EN')
     labs = gr_unescape(labs)
   
-  df_sel = df %>%
-    dplyr::rename(Date = 1, Q = 2) %>%
+  df_sel = df |>
+    dplyr::rename(Date = 1, Q = 2) |>
     dplyr::mutate(Year = lubridate::year(.data$Date),
-                  Datefake = lubridate::ymd(20000101) + lubridate::yday(.data$Date)) %>%
+                  Datefake = lubridate::ymd(20000101) + lubridate::yday(.data$Date)) |>
     dplyr::filter(.data$Year %in% years)
   
   plt = ggplot2::ggplot(df_sel,  ggplot2::aes(.data$Datefake,Q)) +

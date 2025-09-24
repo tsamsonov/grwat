@@ -74,7 +74,7 @@ gr_kable_tests <- function(tests, format = 'html'){
   
   labs = grlabs[[grenv$loc]]
   
-  pvalues = tests$pvalues %>% dplyr::mutate(
+  pvalues = tests$pvalues |> dplyr::mutate(
     Trend = dplyr::case_when(!is.na(Trend) ~ kableExtra::cell_spec(Trend, format,
             background = ifelse(is.na(Trend), ncolor,
                          ifelse(abs(Trend) < 1e-4, zcolor,

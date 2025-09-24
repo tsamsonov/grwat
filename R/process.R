@@ -21,9 +21,9 @@ gr_buffer_geo <- function(g, bufsize){
   lat0 = 0.5 * (box[2] + box[4]) # latitude
   prj = stringr::str_interp('+proj=aeqd +lat_0=${lat0} +lon_0=${lon0} +x_0=0 +y_0=0 +datum=WGS84')
 
-  ggeo %>%
-    sf::st_transform(prj) %>%
-    sf::st_buffer(bufsize) %>%
+  ggeo |>
+    sf::st_transform(prj) |>
+    sf::st_buffer(bufsize) |>
     sf::st_transform(4326)
   
 }
@@ -45,15 +45,15 @@ gr_get_gaps <- function(hdata) {
   if (!lubridate::is.Date(hdata[[1]]))
     stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))),  ' the first column of data frame must have Date type')
   
-  hdata_dates = hdata %>% 
-    dplyr::rename(Date = 1) %>% 
-    dplyr::filter(!is.na(.data$Date)) %>% 
+  hdata_dates = hdata |> 
+    dplyr::rename(Date = 1) |> 
+    dplyr::filter(!is.na(.data$Date)) |> 
     tidyr::complete(Date = seq(min(.data$Date, na.rm = TRUE), max(.data$Date, na.rm = TRUE), by = 'day'))
   
-  hdata_dates %>%
+  hdata_dates |>
     dplyr::mutate(type = dplyr::if_else(complete.cases(hdata_dates), 'data', 'gap'),
-                  num = with(rle(.data$type), rep(seq_along(lengths), lengths))) %>% 
-    dplyr::group_by(.data$num) %>% 
+                  num = with(rle(.data$type), rep(seq_along(lengths), lengths))) |> 
+    dplyr::group_by(.data$num) |> 
     dplyr::summarise(start_date = min(.data$Date),
                      end_date = max(.data$Date),
                      duration = .data$end_date - .data$start_date + 1,
@@ -80,17 +80,17 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
   
   nms = colnames(hdata)[-1]
   
-  tab = hdata %>% 
-    dplyr::rename(Date = 1) %>% 
-    dplyr::filter(!is.na(.data$Date)) %>% 
+  tab = hdata |> 
+    dplyr::rename(Date = 1) |> 
+    dplyr::filter(!is.na(.data$Date)) |> 
     tidyr::complete(Date = seq(min(.data$Date, na.rm = TRUE), max(.data$Date, na.rm = TRUE), by = 'day'))
   
   # Calculate via autocorrelation
   if (is.null(nobserv)) {
-    timerep = tab %>% 
+    timerep = tab |> 
       dplyr::mutate(type = dplyr::if_else(complete.cases(tab[-1]), 'data', 'gap'),
-             num = with(rle(.data$type), rep(seq_along(lengths), lengths))) %>% 
-      dplyr::group_by(.data$num) %>% 
+             num = with(rle(.data$type), rep(seq_along(lengths), lengths))) |> 
+      dplyr::group_by(.data$num) |> 
       dplyr::summarise(start_date = min(.data$Date),
                 end_date = max(.data$Date),
                 duration = .data$end_date - .data$start_date + 1,
@@ -101,8 +101,8 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
     tab_afun = dplyr::filter(tab, dplyr::between(.data$Date, max_period$start_date, max_period$end_date))
     
     nobserv = sapply(2:ncol(tab_afun), function(i) {
-      afun = tab_afun %>% 
-        dplyr::pull(i) %>% 
+      afun = tab_afun |> 
+        dplyr::pull(i) |> 
         acf(plot = FALSE)
       
       idx = which(afun$acf[,1,1] < autocorr, arr.ind = TRUE)
@@ -112,13 +112,13 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
       else
         Inf
       
-    }) %>% setNames(nms)
+    }) |> setNames(nms)
   } else {
     nvars = ncol(hdata)-1
     if (length(nobserv) == 1) {
-      nobserv = as.list(rep(nobserv, nvars)) %>% setNames(nms)
+      nobserv = as.list(rep(nobserv, nvars)) |> setNames(nms)
     } else if (length(nobserv) == nvars) {
-      nobserv = as.list(nobserv)%>% setNames(nms)
+      nobserv = as.list(nobserv)|> setNames(nms)
     } else {
       stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))),  
            ' nobserv parameter should have length 1 or ', 
@@ -126,10 +126,10 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
     }
   }
   
-  tabres = tab %>%
+  tabres = tab |>
     dplyr::mutate(dplyr::across(2:ncol(tab), 
                          ~zoo::na.approx(tab[[dplyr::cur_column()]], 
-                                         maxgap = nobserv[dplyr::cur_column()], na.rm = FALSE))) %>% 
+                                         maxgap = nobserv[dplyr::cur_column()], na.rm = FALSE))) |> 
     setNames(colnames(hdata))
   
   nfilled = sapply(2:ncol(tab), function(i) {
@@ -178,8 +178,8 @@ gr_join_rean <- function(hdata, rean, buffer){
 
   if (npts > 0){
     # Extract point numbers for subsetting ncdf array
-    pts_numbers = pts_selected %>%
-      dplyr::select(.data$nlon, .data$nlat) %>%
+    pts_numbers = pts_selected |>
+      dplyr::select(.data$nlon, .data$nlat) |>
       sf::st_drop_geometry()
     # st_geometry(pts_numbers) <- NULL
 
@@ -214,15 +214,15 @@ gr_join_rean <- function(hdata, rean, buffer){
     result = data.frame(selection_table, temp_selected, prate_selected)
 
     # calculate average temp and prate per day
-    sum_table = result %>%
-      dplyr::group_by(.data$pts_days) %>%
-      dplyr::summarise(Temp = mean(.data$temp_selected, na.rm = TRUE) %>% round(2),
-                       Prec = mean(.data$prate_selected, na.rm = TRUE) %>% round(3)) %>%
-      dplyr::mutate(Date = hdates) %>%
-      dplyr::rename_at(4, ~ names(hdata)[[1]]) %>%
+    sum_table = result |>
+      dplyr::group_by(.data$pts_days) |>
+      dplyr::summarise(Temp = mean(.data$temp_selected, na.rm = TRUE) |> round(2),
+                       Prec = mean(.data$prate_selected, na.rm = TRUE) |> round(3)) |>
+      dplyr::mutate(Date = hdates) |>
+      dplyr::rename_at(4, ~ names(hdata)[[1]]) |>
       dplyr::select(-1)
 
-    sum_table_with_dates = hdata %>%
+    sum_table_with_dates = hdata |>
       dplyr::inner_join(sum_table)
 
   } else {

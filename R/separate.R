@@ -158,9 +158,9 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
   
   gr_check_params(params, df)
   
-  df = df %>% 
-    dplyr::rename(Date = 1) %>% 
-    dplyr::filter(!is.na(.data$Date)) %>% 
+  df = df |> 
+    dplyr::rename(Date = 1) |> 
+    dplyr::filter(!is.na(.data$Date)) |> 
     tidyr::complete(Date = seq(min(.data$Date, na.rm = TRUE), max(.data$Date, na.rm = TRUE), by = 'day'))
   
   if (!is.list(params[[1]]))
@@ -172,9 +172,9 @@ gr_separate <- function(df, params = gr_get_params(), debug = FALSE) {
                df[[2]], df[[3]], df[[4]],
                params, debug) 
   
-  sep = dplyr::bind_cols(df, sepraw) %>%
-    dplyr::rename(Date = 1, Q = 2, Temp = 3, Prec = 4) %>%
-    # dplyr::relocate(.data$Temp, .data$Prec, .after = dplyr::last_col()) %>%
+  sep = dplyr::bind_cols(df, sepraw) |>
+    dplyr::rename(Date = 1, Q = 2, Temp = 3, Prec = 4) |>
+    # dplyr::relocate(.data$Temp, .data$Prec, .after = dplyr::last_col()) |>
     dplyr::mutate(dplyr::across(5:11, ~ replace(.x, .x < 0, NA)))
   
   if (debug) {
@@ -239,14 +239,14 @@ gr_baseflow <- function(Q, a = 0.925, k = 0.975, C = 0.05, aq = -0.5,
 #' 
 gr_get_params <- function(reg = 'center', lon = NULL, lat = NULL) {
   if (reg %in% params_in$index) {
-    params_in %>% 
-      dplyr::filter(index == reg) %>% 
-      dplyr::select(-index, -region) %>%
+    params_in |> 
+      dplyr::filter(index == reg) |> 
+      dplyr::select(-index, -region) |>
       as.list()
   } else if (reg %in% params_in$region) {
-    params_in %>% 
-      dplyr::filter(region == reg) %>% 
-      dplyr::select(-index, -region) %>%
+    params_in |> 
+      dplyr::filter(region == reg) |> 
+      dplyr::select(-index, -region) |>
       as.list()
   } else if (is.numeric(lon) && is.numeric(lat) && !is.na(lon) && !is.na(lat)) {
     if (lon >= -180 && lon < 180 && lat >= -90 && lat <= 90) {
@@ -260,9 +260,9 @@ gr_get_params <- function(reg = 'center', lon = NULL, lat = NULL) {
           regions[reg[[1]], ],
           params_in,
           by = 'index'
-        ) %>% 
-          sf::st_drop_geometry() %>% 
-          dplyr::select(-index, -region) %>%
+        ) |> 
+          sf::st_drop_geometry() |> 
+          dplyr::select(-index, -region) |>
           as.list()
       } else {
         stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
