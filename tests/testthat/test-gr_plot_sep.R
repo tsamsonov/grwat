@@ -11,6 +11,8 @@ test_that("Period plot has the correct content", {
   plt2 = suppressWarnings(gr_plot_sep(sep, c(1978, 1989)))
   # Four years in a matrix layout
   plt3 = suppressWarnings(gr_plot_sep(sep, 1988:1991, layout = matrix(1:4, nrow = 2, byrow = TRUE))) 
+  # Four years in a matrix layout with free Y scale
+  plt3 = suppressWarnings(gr_plot_sep(sep, 1988:1991, layout = matrix(1:4, nrow = 2, byrow = TRUE), yfree = TRUE)) 
   # Add temperature
   plt4 = suppressWarnings(gr_plot_sep(sep, 1991, temp = TRUE))
   # Add precipitation

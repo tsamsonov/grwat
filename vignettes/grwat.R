@@ -19,7 +19,7 @@ head(Qbase)
 
 ## -----------------------------------------------------------------------------
 # Calculate baseflow using Jakeman approach
-hdata = spas %>% 
+hdata = spas |> 
   mutate(Qbase = gr_baseflow(Q, method = 'jakeman'))
 
 # Visualize for 2020 year

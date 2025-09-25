@@ -12,7 +12,8 @@ gr_plot_sep(
   temp = FALSE,
   prec = FALSE,
   span = 5,
-  print = TRUE
+  print = TRUE,
+  yfree = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ gr_plot_sep(
 \item{span}{Integer number of days to accumulate precipitation for plotting.}
 
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
+
+\item{yfree}{Boolean. Free Y scales for each plot? Defaults to \code{FALSE} which means that the highest value of Y axis is the same on all plots and is determined by the highest discharge for all years to be plotted. Use \code{TRUE} if you want each plot to have its own maximum along Y axis}
 }
 \value{
 \code{list} of \code{ggplot2} objects, one for each year, representing the hydrograph separation
@@ -54,6 +57,9 @@ gr_plot_sep(sep, c(1978, 1989))
 
 # Two years in a matrix layout
 gr_plot_sep(sep, 1988:1989, layout = matrix(1:2, nrow = 2, byrow = TRUE)) 
+
+# Two years in a matrix layout with free Y scale
+gr_plot_sep(sep, 1988:1989, layout = matrix(1:2, nrow = 2, byrow = TRUE, yfree = TRUE)) 
 
 # Add temperature and precipitation
 gr_plot_sep(sep, 1991, temp = TRUE, prec = TRUE) 

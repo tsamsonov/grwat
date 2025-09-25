@@ -16,6 +16,7 @@ utils::globalVariables(c(
 #' @param prec Boolean. Add precipitation curve to the plot? Defaults to `FALSE`. If both `temp = TRUE` and `prec = TRUE`, then the axis is drawn for precipitation.
 #' @param span Integer number of days to accumulate precipitation for plotting.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
+#' @param yfree Boolean. Free Y scales for each plot? Defaults to `FALSE` which means that the highest value of Y axis is the same on all plots and is determined by the highest discharge for all years to be plotted. Use `TRUE` if you want each plot to have its own maximum along Y axis
 #'
 #' @return `list` of `ggplot2` objects, one for each year, representing the hydrograph separation
 #' 
@@ -23,8 +24,8 @@ utils::globalVariables(c(
 #' 
 #' @example inst/examples/gr_plot_sep.R
 #' 
-gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), 
-                        pagebreak = FALSE, temp = FALSE, prec = FALSE, span = 5, print = TRUE){
+gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
+                        pagebreak = FALSE, temp = FALSE, prec = FALSE, span = 5, print = TRUE, yfree = FALSE){
   
   if (grenv$loc == 'RU') {
     Sys.setenv(LANGUAGE="ru")
@@ -119,6 +120,14 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
     
     yeardata = df |>   
       dplyr::filter(dplyr::between(.data$Date, begin.date-1, end.date))
+    
+    if (yfree) {
+      max.runoff = max(yeardata$Q, na.rm = TRUE)
+      max.temp = max(yeardata$Temp, na.rm = TRUE)
+      max.prec = max(yeardata$Prec, na.rm = TRUE)
+      coef_temp = (max.temp - min.temp) / max.runoff
+      coef_prec = max.prec / max.runoff
+    }
     
     graphdata = yeardata |>  
       tidyr::pivot_longer(c(.data$Qthaw,Qrain,Qspri,Qbase),
