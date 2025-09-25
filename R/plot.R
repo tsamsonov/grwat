@@ -146,7 +146,7 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
                fill = 'black',
                alpha = 0.1) +
       ggplot2::geom_area(data = graphdata, mapping = ggplot2::aes(x =Date, y =Runoff, fill =Runtype),
-                         size = 0.1, color = 'black', na.rm = TRUE) + 
+                         linewidth = 0.1, color = 'black', na.rm = TRUE) + 
       # geom_line(aes(group = Runtype), size = 0.1, color = 'black') +
       ggplot2::coord_cartesian(ylim = c(0, max.runoff), clip = 'off') +
       ggplot2::scale_fill_manual(values = c("coral2", "deepskyblue3", "darkturquoise", "bisque4"), 
@@ -165,13 +165,13 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
                                                                      name = paste0(labs$preccum, ' (', span, ' ',  labs$day, ')'))) +
             ggplot2::geom_line(data = yeardata,
                                mapping = ggplot2::aes(x =Date, y =Preccum / coef_prec),
-                               color = 'springgreen1', size = 0.5, na.rm = TRUE)
+                               color = 'springgreen1', linewidth = 0.5, na.rm = TRUE)
         } else {
           g = g +
             ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~ . * coef_prec, name = labs$prec)) +
             ggplot2::geom_line(data = yeardata,
                                mapping = ggplot2::aes(x =Date, y =Prec / coef_prec),
-                               color = 'springgreen1', size = 0.5, na.rm = TRUE)
+                               color = 'springgreen1', linewidth = 0.5, na.rm = TRUE)
         }
     }
     
@@ -184,21 +184,21 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
                              mapping = ggplot2::aes(x =Date, 
                                                     y = (.data$Temp - min.temp) / coef_temp),
                              color = 'purple',
-                             size = 0.5, 
+                             linewidth = 0.5, 
                              na.rm = TRUE) +
           ggplot2::geom_line(data = yeardata,
                              mapping = ggplot2::aes(x =Date, 
                                                     y = (.data$Posit - min.temp) / coef_temp),
                              color = 'red',
-                             size = 0.5,
+                             linewidth = 0.5,
                              na.rm = TRUE) +
           ggplot2::geom_line(data = yeardata,
                              mapping = ggplot2::aes(x =Date, 
                                                     y = (.data$Negat - min.temp) / coef_temp),
                              color = 'blue',
-                             size = 0.5,
+                             linewidth = 0.5,
                              na.rm = TRUE) +
-          ggplot2::geom_hline(yintercept = - min.temp / coef_temp, color = "purple", size = 0.3, linetype = "dotted") +
+          ggplot2::geom_hline(yintercept = - min.temp / coef_temp, color = "purple", linewidth = 0.3, linetype = "dotted") +
           ggplot2::labs(color = NULL)
         
         if (!prec)
@@ -206,8 +206,8 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
     }
     
     g = g + 
-      ggplot2::geom_vline(xintercept = dspstart-1, color = "black", size=0.3) +
-      ggplot2::geom_vline(xintercept = dspend+1, color = "black", size=0.3) +
+      ggplot2::geom_vline(xintercept = dspstart-1, color = "black", linewidth=0.3) +
+      ggplot2::geom_vline(xintercept = dspend+1, color = "black", linewidth=0.3) +
       ggplot2::geom_label(data = data.frame(x = dspstart, 
                                             y = 0.9 * max.runoff, 
                                             text = format(dspstart, format="%d-%m")),
@@ -351,7 +351,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
       ggplot2::theme(plot.title = ggplot2::element_text(size=12, lineheight=.8, face="bold"),
             panel.background = ggplot2::element_rect(fill = prms$Color[i],
                                             colour = prms$Color[i],
-                                            size = 0.5, linetype = "solid"))
+                                            linewidth = 0.5, linetype = "solid"))
     if (!is.null(exclude)) {
       g = g + 
         ggplot2::labs(caption = paste('Excluded years:', paste(exclude, collapse = ', '))) +
@@ -373,7 +373,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
                        ifelse(tests$ptt[[varname]]$p.value > 0.05, 'dashed', 'solid'))
         g = g +
           ggplot2::geom_vline(xintercept = tests$year[varname], color = "red",
-                     size=0.5, linetype = ltype) +
+                              linewidth=0.5, linetype = ltype) +
           ggplot2::annotate("text", label = tests$year[varname],
                    x = tests$year[varname] + 4, y = tests$maxval[[varname]],
                    size = 4, colour = "red")
@@ -383,7 +383,7 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
         ts_ltype = ifelse(mblm::summary.mblm(tests$ts_fit[[varname]])$coefficients[2, 4] > 0.05, 'dashed', 'solid')
         
         g = g + ggplot2::geom_abline(intercept = coef(tests$ts_fit[[varname]])[1], slope = coef(tests$ts_fit[[varname]])[2],
-                            color = 'red', size = 1, linetype = ts_ltype)
+                            color = 'red', linewidth = 1, linetype = ts_ltype)
       }
 
       fixedstr = ifelse(tests$fixed_year, '',
@@ -410,10 +410,10 @@ gr_plot_vars <- function(df, ..., tests = NULL, exclude = NULL, smooth = TRUE,
     if (prms$Chart[i] == 'line') {
       g = g + ggplot2::geom_line() + ggplot2::geom_ribbon(ggplot2::aes_string(ymin = 0, ymax = prms$Name[i]), alpha = 0.3)
     } else if (prms$Chart[i] == 'point') {
-      g = g + ggplot2::geom_point(size = 1.5) + ggplot2::geom_line(size = 0.2)
+      g = g + ggplot2::geom_point(size = 1.5) + ggplot2::geom_line(linewidth = 0.2)
       date_labels = "%b"
     } else if (prms$Chart[i] == 'plate') {
-      g = g + ggplot2::geom_point(shape = 15, size = 1.5) + ggplot2::geom_step(size = 0.2)
+      g = g + ggplot2::geom_point(shape = 15, size = 1.5) + ggplot2::geom_step(linewidth = 0.2)
       date_labels = "%b"
     } else if (prms$Chart[i] == 'step') {
       g = g + ggplot2::geom_step() + ggplot2::geom_rect(ggplot2::aes_string(xmin = "Year1", 
@@ -598,7 +598,7 @@ gr_plot_periods <- function(df, ..., year = NULL, exclude = NULL, tests = NULL,
       ggplot2::theme(plot.title = ggplot2::element_text(size=12, lineheight=.8, face="bold"),
             panel.background = ggplot2::element_rect(fill = prms$Color[i],
                                             colour = prms$Color[i],
-                                            size = 0.5, linetype = "solid"))
+                                            linewidth = 0.5, linetype = "solid"))
     if (!is.null(exclude)) {
       g = g + 
         ggplot2::labs(caption = paste('Excluded years:', paste(exclude, collapse = ', '))) +
