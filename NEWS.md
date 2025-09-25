@@ -3,6 +3,8 @@
 -   promoted to R 4.1 as minimal R version
 -   replaced all internal magrittr `%>%` pipes with native `|>` pipes
 -   updated tests to support ggplot 4.0 version
+-   added `yfree` parameter to `gr_plot_sep()` function
+- 
 
 # grwat 0.0.4
 
