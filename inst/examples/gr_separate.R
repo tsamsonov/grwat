@@ -20,8 +20,20 @@ print(jit)
 
 # actual params used for each year
 parlist = attributes(sep_debug)$params
-partab = do.call(dplyr::bind_rows, parlist) # View as table
+partab = do.call(dplyr::bind_rows, parlist) |> 
+  dplyr::mutate(year = as.integer(names(parlist))) |> 
+  dplyr::relocate(year, .before = 1)
 head(partab)
+
+parlist2 = partab |> 
+  dplyr::select(-year) |> 
+  apply(1, as.list) |> 
+  lapply(\(X) {
+    n = length(X)
+    X[1:(n - 1)] <- lapply(X[1:(n - 1)], as.numeric)
+    return(X)
+  }) |> 
+  setNames(partab$year)
 
 # extract and tweak parameters for selected year
 p = parlist[['1989']]

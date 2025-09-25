@@ -315,3 +315,37 @@ gr_set_param <- function(params, p, value, years = NULL) {
   
   return(params)
 }
+
+#' Convert list of parameters to data frame
+#'
+#' @param params `list` of `list`s of hydrograph separation parameters as returned in `params` attribute by [grwat::gr_separate()]  with `debug = TRUE`.
+#'
+#' @returns `tibble` data frame with tabular representation of parameters
+#' @export
+#'
+#' @example inst/examples/gr_to_pardf.R
+gr_to_pardf <- function(params) {
+  do.call(dplyr::bind_rows, params) |> 
+    dplyr::mutate(year = as.integer(names(params))) |> 
+    dplyr::relocate(year, .before = 1)
+}
+
+#' Convert data frame of parameters to list
+#'
+#' @param params `tibble` of hydrograph separation parameters as returned by [grwat::gr_to_pardf()].
+#'
+#' @returns `list` of `list`s of hydrograph separation parameters as returned in `params` attribute by [grwat::gr_separate()]  with `debug = TRUE`.
+#' @export
+#'
+#' @example inst/examples/gr_from_pardf.R
+gr_from_pardf <- function(pardf) {
+  pardf |> 
+    dplyr::select(-year) |> 
+    apply(1, as.list) |> 
+    lapply(\(X) {
+      n = length(X)
+      X[1:(n - 1)] <- lapply(X[1:(n - 1)], as.numeric)
+      return(X)
+    }) |> 
+    setNames(pardf$year)
+}
