@@ -20,9 +20,9 @@ print(jit)
 
 # actual params used for each year
 parlist = attributes(sep_debug)$params
-partab = do.call(dplyr::bind_rows, parlist) |> 
-  dplyr::mutate(year = as.integer(names(parlist))) |> 
-  dplyr::relocate(year, .before = 1)
+
+# tabular representation of parameters
+partab = gr_to_pardf(parlist)
 head(partab)
 
 parlist2 = partab |> 

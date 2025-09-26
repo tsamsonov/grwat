@@ -320,7 +320,7 @@ gr_set_param <- function(params, p, value, years = NULL) {
 #'
 #' @param params `list` of `list`s of hydrograph separation parameters as returned in `params` attribute by [grwat::gr_separate()]  with `debug = TRUE`.
 #'
-#' @returns `tibble` data frame with tabular representation of parameters
+#' @returns `tibble` data frame with tabular representation of hydrograph separation parameters
 #' @export
 #'
 #' @example inst/examples/gr_to_pardf.R
@@ -332,7 +332,7 @@ gr_to_pardf <- function(params) {
 
 #' Convert data frame of parameters to list
 #'
-#' @param params `tibble` of hydrograph separation parameters as returned by [grwat::gr_to_pardf()].
+#' @param pardf `tibble` data frame with tabular representation of hydrograph separation parameters as returned by [grwat::gr_to_pardf()].
 #'
 #' @returns `list` of `list`s of hydrograph separation parameters as returned in `params` attribute by [grwat::gr_separate()]  with `debug = TRUE`.
 #' @export
