@@ -13,8 +13,8 @@ gr_plot_sep(
   prec = FALSE,
   span = 5,
   print = TRUE,
-  yfree = FALSE,
-  xrange = "hydro"
+  yrange = "single",
+  xrange = "wyear"
 )
 }
 \arguments{
@@ -34,7 +34,9 @@ gr_plot_sep(
 
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
 
-\item{yfree}{Boolean. Free Y scales for each plot? Defaults to \code{FALSE} which means that the highest value of Y axis is the same on all plots and is determined by the highest discharge for all years to be plotted. Use \code{TRUE} if you want each plot to have its own maximum along Y axis}
+\item{yrange}{Boolean. Y range for each plot. Defaults to \code{'uniform'} which means that the highest value of Y axis is the same on all plots and is determined by the highest discharge for all years to be plotted. Use \code{'each'} if you want each plot to have its own maximum along Y axis determined by the highest discharge for this year. Use \code{'yrange = c(ymin, ymax)'} form to determine your own Y scale limits for all plots.}
+
+\item{xrange}{Boolean. X range for each plot. Defaults to \code{'wyear'} which means that each X range is determined by water-resources year which starts and ends at the beginning of the main spring flood. Use \code{year} to use calendar years from January 1st to December 31th. Use \code{spring} to show only spring flood. Use \code{'xrange = c(dmin, mmin, dmax, mmax)'} form to show a prticular time window, where \verb{dmin, mmin} are the start day and month, and \verb{dmax, mmax} are the end day and max. A shorthand \code{'xrange = c(dmin, mmin)'} is also possible which means that each plot will start and end at the specified date}
 }
 \value{
 \code{list} of \code{ggplot2} objects, one for each year, representing the hydrograph separation

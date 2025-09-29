@@ -16,7 +16,8 @@ utils::globalVariables(c(
 #' @param prec Boolean. Add precipitation curve to the plot? Defaults to `FALSE`. If both `temp = TRUE` and `prec = TRUE`, then the axis is drawn for precipitation.
 #' @param span Integer number of days to accumulate precipitation for plotting.
 #' @param print Boolean. Print plot? Defaults to `TRUE`. Use `FALSE` if you want to tweak the plot aesthetics before plotting.
-#' @param yfree Boolean. Free Y scales for each plot? Defaults to `FALSE` which means that the highest value of Y axis is the same on all plots and is determined by the highest discharge for all years to be plotted. Use `TRUE` if you want each plot to have its own maximum along Y axis
+#' @param xrange Boolean. X range for each plot. Defaults to `'wyear'` which means that each X range is determined by water-resources year which starts and ends at the beginning of the main spring flood. Use `year` to use calendar years from January 1st to December 31th. Use `spring` to show only spring flood. Use `'xrange = c(dmin, mmin, dmax, mmax)'` form to show a prticular time window, where `dmin, mmin` are the start day and month, and `dmax, mmax` are the end day and max. A shorthand `'xrange = c(dmin, mmin)'` is also possible which means that each plot will start and end at the specified date 
+#' @param yrange Boolean. Y range for each plot. Defaults to `'uniform'` which means that the highest value of Y axis is the same on all plots and is determined by the highest discharge for all years to be plotted. Use `'each'` if you want each plot to have its own maximum along Y axis determined by the highest discharge for this year. Use `'yrange = c(ymin, ymax)'` form to determine your own Y scale limits for all plots.
 #'
 #' @return `list` of `ggplot2` objects, one for each year, representing the hydrograph separation
 #' 
@@ -26,8 +27,8 @@ utils::globalVariables(c(
 #' 
 gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), 
                         pagebreak = FALSE, temp = FALSE, prec = FALSE, 
-                        span = 5, print = TRUE, yfree = FALSE,
-                        xrange = 'hydro'){
+                        span = 5, print = TRUE, yrange = 'single',
+                        xrange = 'wyear'){
   
   if (grenv$loc == 'RU') {
     Sys.setenv(LANGUAGE="ru")
