@@ -24,8 +24,10 @@ utils::globalVariables(c(
 #' 
 #' @example inst/examples/gr_plot_sep.R
 #' 
-gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
-                        pagebreak = FALSE, temp = FALSE, prec = FALSE, span = 5, print = TRUE, yfree = FALSE){
+gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1), 
+                        pagebreak = FALSE, temp = FALSE, prec = FALSE, 
+                        span = 5, print = TRUE, yfree = FALSE,
+                        xrange = 'hydro'){
   
   if (grenv$loc == 'RU') {
     Sys.setenv(LANGUAGE="ru")

@@ -13,7 +13,8 @@ gr_plot_sep(
   prec = FALSE,
   span = 5,
   print = TRUE,
-  yfree = FALSE
+  yfree = FALSE,
+  xrange = "hydro"
 )
 }
 \arguments{
