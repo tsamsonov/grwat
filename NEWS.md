@@ -3,7 +3,7 @@
 -   promoted to R 4.1 as minimal R version
 -   replaced all internal magrittr `%>%` pipes with native `|>` pipes
 -   updated tests to support ggplot 4.0 version
--   added `yfree` parameter to `gr_plot_sep()` function
+-   added `yrange` parameter to `gr_plot_sep()` function
 -   added `gr_to_pardf()` and `gr_from_pardf()` functions to convert separation parameters to and from tabular form
 
 # grwat 0.0.4

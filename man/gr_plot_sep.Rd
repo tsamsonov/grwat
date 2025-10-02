@@ -13,8 +13,7 @@ gr_plot_sep(
   prec = FALSE,
   span = 5,
   print = TRUE,
-  yrange = "single",
-  xrange = "wyear"
+  yrange = "uniform"
 )
 }
 \arguments{
@@ -34,9 +33,7 @@ gr_plot_sep(
 
 \item{print}{Boolean. Print plot? Defaults to \code{TRUE}. Use \code{FALSE} if you want to tweak the plot aesthetics before plotting.}
 
-\item{yrange}{Boolean. Y range for each plot. Defaults to \code{'uniform'} which means that the highest value of Y axis is the same on all plots and is determined by the highest discharge for all years to be plotted. Use \code{'each'} if you want each plot to have its own maximum along Y axis determined by the highest discharge for this year. Use \code{'yrange = c(ymin, ymax)'} form to determine your own Y scale limits for all plots.}
-
-\item{xrange}{Boolean. X range for each plot. Defaults to \code{'wyear'} which means that each X range is determined by water-resources year which starts and ends at the beginning of the main spring flood. Use \code{year} to use calendar years from January 1st to December 31th. Use \code{spring} to show only spring flood. Use \code{'xrange = c(dmin, mmin, dmax, mmax)'} form to show a prticular time window, where \verb{dmin, mmin} are the start day and month, and \verb{dmax, mmax} are the end day and max. A shorthand \code{'xrange = c(dmin, mmin)'} is also possible which means that each plot will start and end at the specified date}
+\item{yrange}{Boolean. Y range for each plot. Defaults to \code{'uniform'} which means that the highest value of Y axis is the same on all plots and is determined by the highest discharge for all years to be plotted. Use \code{'each'} if you want each plot to have its own maximum along Y axis determined by the highest discharge for this year. You can also use any numeric value \code{ymax} in a form \code{yrange = ymax} to determine your own Y scale maximum for all plots.}
 }
 \value{
 \code{list} of \code{ggplot2} objects, one for each year, representing the hydrograph separation
@@ -62,7 +59,7 @@ gr_plot_sep(sep, c(1978, 1989))
 gr_plot_sep(sep, 1987:1988, layout = matrix(1:2, nrow = 2, byrow = TRUE)) 
 
 # Four years in a matrix layout with free Y scale
-gr_plot_sep(sep, 1987:1990, layout = matrix(1:4, nrow = 2, byrow = TRUE), yfree = TRUE) 
+gr_plot_sep(sep, 1987:1990, layout = matrix(1:4, nrow = 2, byrow = TRUE), yrange = 'each') 
 
 # Add temperature and precipitation
 gr_plot_sep(sep, 1991, temp = TRUE, prec = TRUE) 

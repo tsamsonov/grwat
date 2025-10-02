@@ -15,7 +15,7 @@ gr_plot_sep(sep, c(1978, 1989))
 gr_plot_sep(sep, 1987:1988, layout = matrix(1:2, nrow = 2, byrow = TRUE)) 
 
 # Four years in a matrix layout with free Y scale
-gr_plot_sep(sep, 1987:1990, layout = matrix(1:4, nrow = 2, byrow = TRUE), yfree = TRUE) 
+gr_plot_sep(sep, 1987:1990, layout = matrix(1:4, nrow = 2, byrow = TRUE), yrange = 'each') 
 
 # Add temperature and precipitation
 gr_plot_sep(sep, 1991, temp = TRUE, prec = TRUE) 
