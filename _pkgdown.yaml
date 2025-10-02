@@ -21,6 +21,8 @@ reference:
   - gr_help_params
   - gr_set_param
   - gr_separate
+  - gr_from_pardf
+  - gr_to_pardf
 
 - title: Analysis
   contents:
@@ -52,5 +54,3 @@ reference:
 - title: Datasets
   contents:
   - spas
-  
-  

@@ -1,4 +1,4 @@
-# grwat (development version)
+# grwat 0.1
 
 -   promoted to R 4.1 as minimal R version
 -   replaced all internal magrittr `%>%` pipes with native `|>` pipes
