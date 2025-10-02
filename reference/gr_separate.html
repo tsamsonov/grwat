@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">grwat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,24 +111,36 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># actual params used for each year</span></span></span>
 <span class="r-in"><span><span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span></span></span>
-<span class="r-in"><span><span class="va">partab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span>, <span class="va">parlist</span><span class="op">)</span> <span class="co"># View as table</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># tabular representation of parameters</span></span></span>
+<span class="r-in"><span><span class="va">partab</span> <span class="op">=</span> <span class="fu"><a href="gr_to_pardf.html">gr_to_pardf</a></span><span class="op">(</span><span class="va">parlist</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">partab</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 39</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   winmon grad1 grad2 gratio spmon1 spmon2 sprisedays1 sprisedays2 spdays sprise</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     11   1.7     5    400      2      5           8          10     30     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 29 more variables: spratio &lt;dbl&gt;, sprecdays &lt;dbl&gt;, spcomp &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   precdays &lt;dbl&gt;, frostdays &lt;dbl&gt;, windays &lt;dbl&gt;, floodprec &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   floodtemp &lt;dbl&gt;, frosttemp &lt;dbl&gt;, wintemp &lt;dbl&gt;, signratio1 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   signratio2 &lt;dbl&gt;, floodratio &lt;dbl&gt;, gaplen &lt;dbl&gt;, snowtemp &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   gradabs &lt;dbl&gt;, mntmode &lt;dbl&gt;, mntgrad &lt;dbl&gt;, mntavgdays &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mntratiodays &lt;dbl&gt;, mntratio &lt;dbl&gt;, niter &lt;dbl&gt;, a &lt;dbl&gt;, k &lt;dbl&gt;, C &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   aq &lt;dbl&gt;, padding &lt;dbl&gt;, passes &lt;dbl&gt;, filter &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 40</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    year winmon grad1 grad2 gratio spmon1 spmon2 sprisedays1 sprisedays2 spdays</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>956     11   1.7     5    400      2      5           8          10     30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">1</span>957     11   1.7     5    400      2      5           8          10     30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">1</span>958     11   1.7     5    400      2      5           8          10     30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">1</span>959     11   1.7     5    400      2      5           8          10     30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>960     11   1.7     5    400      2      5           8          10     30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">1</span>961     11   1.7     5    400      2      5           8          10     30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 30 more variables: sprise &lt;dbl&gt;, spratio &lt;dbl&gt;, sprecdays &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   spcomp &lt;dbl&gt;, precdays &lt;dbl&gt;, frostdays &lt;dbl&gt;, windays &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   floodprec &lt;dbl&gt;, floodtemp &lt;dbl&gt;, frosttemp &lt;dbl&gt;, wintemp &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   signratio1 &lt;dbl&gt;, signratio2 &lt;dbl&gt;, floodratio &lt;dbl&gt;, gaplen &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   snowtemp &lt;dbl&gt;, gradabs &lt;dbl&gt;, mntmode &lt;dbl&gt;, mntgrad &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mntavgdays &lt;dbl&gt;, mntratiodays &lt;dbl&gt;, mntratio &lt;dbl&gt;, niter &lt;dbl&gt;, a &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   k &lt;dbl&gt;, C &lt;dbl&gt;, aq &lt;dbl&gt;, padding &lt;dbl&gt;, passes &lt;dbl&gt;, filter &lt;chr&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">parlist2</span> <span class="op">=</span> <span class="va">partab</span> <span class="op">|&gt;</span> </span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">year</span><span class="op">)</span> <span class="op">|&gt;</span> </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">as.list</span><span class="op">)</span> <span class="op">|&gt;</span> </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="va">n</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">X</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span>, <span class="va">as.numeric</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span> </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">partab</span><span class="op">$</span><span class="va">year</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># extract and tweak parameters for selected year</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">=</span> <span class="va">parlist</span><span class="op">[[</span><span class="st">'1989'</span><span class="op">]</span><span class="op">]</span></span></span>

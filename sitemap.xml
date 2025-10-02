@@ -14,6 +14,7 @@
 <url><loc>/reference/gr_check_data.html</loc></url>
 <url><loc>/reference/gr_check_params.html</loc></url>
 <url><loc>/reference/gr_fill_gaps.html</loc></url>
+<url><loc>/reference/gr_from_pardf.html</loc></url>
 <url><loc>/reference/gr_get_gaps.html</loc></url>
 <url><loc>/reference/gr_get_params.html</loc></url>
 <url><loc>/reference/gr_help_params.html</loc></url>
@@ -36,6 +37,7 @@
 <url><loc>/reference/gr_set_param.html</loc></url>
 <url><loc>/reference/gr_summarize.html</loc></url>
 <url><loc>/reference/gr_test_vars.html</loc></url>
+<url><loc>/reference/gr_to_pardf.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/spas.html</loc></url>
 </urlset>
