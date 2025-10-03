@@ -1,3 +1,7 @@
+# grwat development
+
+-   added `gr_read_era5_daily()` function to read ERA5 daily reanalysis
+
 # grwat 0.1
 
 -   promoted to R 4.1 as minimal R version

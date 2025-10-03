@@ -9,7 +9,7 @@ gr_join_rean(hdata, rean, buffer)
 \arguments{
 \item{hdata}{\code{data.frame} containing 2 columns: \code{Date} and runoff}
 
-\item{rean}{\code{list} as returned by \code{\link[=gr_read_rean]{gr_read_rean()}}}
+\item{rean}{\code{list} as returned by \code{\link[=gr_read_rean]{gr_read_rean()}} or \code{\link[=gr_read_era5_daily]{gr_read_era5_daily()}}}
 
 \item{buffer}{\code{sf} object containing the region to select reanalysis data. Usually a river basin is used to select the meteorological data. Use \code{\link[=gr_buffer_geo]{gr_buffer_geo()}} to buffer the basin by specified distance and get more data, if needed.}
 }

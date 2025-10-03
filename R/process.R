@@ -150,7 +150,7 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
 #' Download the reanalysis archive from [here](https://www.dropbox.com/sh/5xjnf620tlwfk7a/AABhTaPEDWLII8rV04dp0MWna?dl=0).
 #'
 #' @param hdata `data.frame` containing 2 columns: `Date` and runoff
-#' @param rean `list` as returned by [grwat::gr_read_rean()]
+#' @param rean `list` as returned by [grwat::gr_read_rean()] or [grwat::gr_read_era5_daily()]
 #' @param buffer `sf` object containing the region to select reanalysis data. Usually a river basin is used to select the meteorological data. Use [grwat::gr_buffer_geo()] to buffer the basin by specified distance and get more data, if needed.
 #'
 #' @return `data.frame` with four columns: date, runoff, temperature, precipitation.

@@ -11,6 +11,7 @@ reference:
   - gr_get_gaps
   - gr_join_rean
   - gr_read_rean
+  - gr_read_era5_daily
   
 - title: Hydrograph separation
   contents:

@@ -1,7 +1,7 @@
 Package: grwat
 Type: Package
 Title: River Hydrograph Separation and Analysis
-Version: 0.1
+Version: 0.1.0.9999
 Date: 2025-10-02
 Authors@R: c(
     person("Timofey", "Samsonov",, "tsamsonov@geogr.msu.ru", role = c("aut", "cre"), 
