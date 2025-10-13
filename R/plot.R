@@ -237,7 +237,6 @@ gr_plot_sep <- function(df, years = NULL, layout = as.matrix(1),
   if (j > 1) {
     if (print) multiplot(plotlist = plotlist, layout = layout)
     allplotlist = c(allplotlist, plotlist)
-    cli::cli_progress_update()
   }
   
   cli::cli_progress_done()
