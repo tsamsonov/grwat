@@ -96,7 +96,12 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
                 duration = .data$end_date - .data$start_date + 1,
                 type = dplyr::first(.data$type))
     
-    max_period = dplyr::filter(timerep, .data$type == 'data', .data$duration == max(.data$duration))
+    if (nrow(dplyr::filter(timerep, type == 'gap')) == 0) {
+      message(cli::style_bold('grwat:'), ' no gaps in data')
+      return(hdata)
+    }
+    
+    max_period = dplyr::filter(timerep, .data$type == 'data', .data$duration == max(.data$duration))[1, ]
     
     tab_afun = dplyr::filter(tab, dplyr::between(.data$Date, max_period$start_date, max_period$end_date))
     
