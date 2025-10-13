@@ -96,7 +96,7 @@ gr_fill_gaps <- function(hdata, autocorr = 0.7, nobserv = NULL) {
                 duration = .data$end_date - .data$start_date + 1,
                 type = dplyr::first(.data$type))
     
-    if (nrow(dplyr::filter(timerep, type == 'gap')) == 0) {
+    if (nrow(dplyr::filter(timerep, .data$type == 'gap')) == 0) {
       message(cli::style_bold('grwat:'), ' no gaps in data')
       return(hdata)
     }
