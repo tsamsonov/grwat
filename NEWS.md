@@ -2,6 +2,7 @@
 
 -   added `gr_read_era5_daily()` function to read ERA5 daily reanalysis
 -   fix error when `gr_fill_gaps()` finds multiple longest data periods of the same length
+-   fix error when `gr_test_vars()` fails when infinite values are present for some variables
 
 # grwat 0.1
 

@@ -88,7 +88,7 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
     
     uvals = unique(vl)
     
-    if (length(uvals[!is.na(uvals)]) < 3)
+    if (length(uvals[! (is.na(uvals) | is.infinite(uvals) | is.nan(uvals))]) < 3)
       next
     
     isdate = FALSE
@@ -100,7 +100,7 @@ gr_test_vars <- function(df, ..., year = NULL, exclude = NULL){
       }
     }
     
-    vl_cmp = !is.na(vl)
+    vl_cmp = ! (is.na(vl) | is.infinite(vl) | is.nan(vl))
     vl_cmp_sum = cumsum(vl_cmp)
     
     ptt[[i]] = trend::pettitt.test(vl[vl_cmp])
