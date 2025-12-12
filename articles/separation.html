@@ -145,7 +145,7 @@ experimentation. The regions are:</p>
 <li><code>oka</code></li>
 <li><code>southeast</code></li>
 </ol>
-<p><img src="regions.jpg" width="100%"></p>
+<p><img src="regions.jpg" class="r-plt" width="100%"></p>
 <p>To ease the exchange of the parameters, they are organized as list,
 as returned by <code><a href="../reference/gr_get_params.html">gr_get_params()</a></code>. You can pass either the
 number of region, or its name in <code>reg</code> argument:</p>
@@ -239,18 +239,18 @@ provided by <code><a href="../reference/gr_plot_sep.html">gr_plot_sep()</a></cod
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># One year</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1978</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="separation_files/figure-html/unnamed-chunk-7-1.png" width="960"></p>
+<p><img src="separation_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="960"></p>
 <pre><code><span><span class="co">#&gt; Plotting separation <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA:  1s</span></span>
 <span><span class="co">#&gt; Plotting separation <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span></span>
 <span></span>
 <span><span class="co"># Two years</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
-<p><img src="separation_files/figure-html/unnamed-chunk-7-2.png" width="960"><img src="separation_files/figure-html/unnamed-chunk-7-3.png" width="960"></p>
+<p><img src="separation_files/figure-html/unnamed-chunk-7-2.png" class="r-plt" width="960"><img src="separation_files/figure-html/unnamed-chunk-7-3.png" class="r-plt" width="960"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Four years in a matrix layout</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1988</span><span class="op">:</span><span class="fl">1991</span>, layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="separation_files/figure-html/unnamed-chunk-7-4.png" width="960"></p>
+<p><img src="separation_files/figure-html/unnamed-chunk-7-4.png" class="r-plt" width="960"></p>
 </div>
 <div class="section level2">
 <h2 id="tweaking-of-the-parameters">Tweaking of the parameters<a class="anchor" aria-label="anchor" href="#tweaking-of-the-parameters"></a>
@@ -338,7 +338,7 @@ globally, the following will work:</p>
 <span></span>
 <span><span class="co"># Visualize</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="separation_files/figure-html/unnamed-chunk-9-1.png" width="960"><img src="separation_files/figure-html/unnamed-chunk-9-2.png" width="960"></p>
+<p><img src="separation_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="960"><img src="separation_files/figure-html/unnamed-chunk-9-2.png" class="r-plt" width="960"></p>
 <p>However, the most powerful strategy is to keep the nested list
 structure and change the parameters individually for different years. If
 you want to set some parameter for multiple years, then use
@@ -370,7 +370,7 @@ you want to set some parameter for multiple years, then use
 <span></span>
 <span><span class="co"># Visualize</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="separation_files/figure-html/unnamed-chunk-10-1.png" width="960"><img src="separation_files/figure-html/unnamed-chunk-10-2.png" width="960"></p>
+<p><img src="separation_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="960"><img src="separation_files/figure-html/unnamed-chunk-10-2.png" class="r-plt" width="960"></p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -396,7 +396,7 @@ Problems and Perspectives.”</span> <em>Water Resources</em> 49 (1):
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
