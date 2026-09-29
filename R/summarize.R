@@ -27,7 +27,7 @@ gr_help_vars <- function() {
 gr_summarize <- function(df, year_min = NULL, year_max = NULL) {
   
   secday = 86400
-  kmyr = secday / 10e9
+  kmyr = secday / 1.0e9
   
   if (nrow(df) == 0)
     stop(cli::col_white(cli::bg_red(cli::style_bold('grwat:'))), 
