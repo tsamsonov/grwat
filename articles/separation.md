@@ -193,11 +193,12 @@ gr_plot_sep(sep, 1978)
 
 ![](separation_files/figure-html/unnamed-chunk-7-1.png)
 
-    #> Plotting separation ■■■■■■■■■■■■■■■■                  50% | ETA:  1s
-    #> Plotting separation ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
+``` r
 
-    # Two years
-    gr_plot_sep(sep, c(1978, 2014)) 
+
+# Two years
+gr_plot_sep(sep, c(1978, 2014)) 
+```
 
 ![](separation_files/figure-html/unnamed-chunk-7-2.png)![](separation_files/figure-html/unnamed-chunk-7-3.png)
 
@@ -209,9 +210,6 @@ gr_plot_sep(sep, 1988:1991, layout = matrix(1:4, nrow = 2, byrow = TRUE))
 ```
 
 ![](separation_files/figure-html/unnamed-chunk-7-4.png)
-
-    #> Plotting separation ■■■■■■■■■■■■■■■■■■■■■■■■■         80% | ETA:  1s
-    #> Plotting separation ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 
 ## Tweaking of the parameters
 
