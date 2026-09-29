@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>2. Advanced hydrograph separation • grwat</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="2. Advanced hydrograph separation">
 </head>
@@ -145,7 +145,7 @@ experimentation. The regions are:</p>
 <li><code>oka</code></li>
 <li><code>southeast</code></li>
 </ol>
-<p><img src="regions.jpg" class="r-plt" width="100%"></p>
+<p><img src="regions.jpg" class="r-plt" alt="" width="100%"></p>
 <p>To ease the exchange of the parameters, they are organized as list,
 as returned by <code><a href="../reference/gr_get_params.html">gr_get_params()</a></code>. You can pass either the
 number of region, or its name in <code>reg</code> argument:</p>
@@ -239,18 +239,20 @@ provided by <code><a href="../reference/gr_plot_sep.html">gr_plot_sep()</a></cod
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># One year</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1978</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="separation_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="960"></p>
+<p><img src="separation_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="960"></p>
 <pre><code><span><span class="co">#&gt; Plotting separation <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA:  1s</span></span>
 <span><span class="co">#&gt; Plotting separation <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span></span>
 <span></span>
 <span><span class="co"># Two years</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
-<p><img src="separation_files/figure-html/unnamed-chunk-7-2.png" class="r-plt" width="960"><img src="separation_files/figure-html/unnamed-chunk-7-3.png" class="r-plt" width="960"></p>
+<p><img src="separation_files/figure-html/unnamed-chunk-7-2.png" class="r-plt" alt="" width="960"><img src="separation_files/figure-html/unnamed-chunk-7-3.png" class="r-plt" alt="" width="960"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Four years in a matrix layout</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, <span class="fl">1988</span><span class="op">:</span><span class="fl">1991</span>, layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="separation_files/figure-html/unnamed-chunk-7-4.png" class="r-plt" width="960"></p>
+<p><img src="separation_files/figure-html/unnamed-chunk-7-4.png" class="r-plt" alt="" width="960"></p>
+<pre><code><span><span class="co">#&gt; Plotting separation <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  1s</span></span>
+<span><span class="co">#&gt; Plotting separation <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="tweaking-of-the-parameters">Tweaking of the parameters<a class="anchor" aria-label="anchor" href="#tweaking-of-the-parameters"></a>
@@ -275,7 +277,7 @@ were jittered).</li>
 </ul>
 <p>The attributes are extracted via a base R function
 <code><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes()</a></code>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Debug mode gives access to additional information</span></span>
 <span><span class="va">sep_debug</span> <span class="op">=</span> <span class="fu"><a href="../reference/gr_separate.html">gr_separate</a></span><span class="op">(</span><span class="va">spas</span>, </span>
 <span>                        params <span class="op">=</span> <span class="fu"><a href="../reference/gr_get_params.html">gr_get_params</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="st">'center'</span><span class="op">)</span>, </span>
@@ -319,7 +321,7 @@ were jittered).</li>
 referenced by the character string of the water-resources year. For
 example, if you want to apply the parameters of one tweaked your
 globally, the following will work:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># extract and tweak parameters for selected year</span></span>
 <span><span class="va">p</span> <span class="op">=</span> <span class="va">parlist</span><span class="op">[[</span><span class="st">'2014'</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">p</span><span class="op">$</span><span class="va">grad1</span> <span class="op">=</span> <span class="fl">1</span></span>
@@ -338,12 +340,12 @@ globally, the following will work:</p>
 <span></span>
 <span><span class="co"># Visualize</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="separation_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="960"><img src="separation_files/figure-html/unnamed-chunk-9-2.png" class="r-plt" width="960"></p>
+<p><img src="separation_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="960"><img src="separation_files/figure-html/unnamed-chunk-9-2.png" class="r-plt" alt="" width="960"></p>
 <p>However, the most powerful strategy is to keep the nested list
 structure and change the parameters individually for different years. If
 you want to set some parameter for multiple years, then use
 <code><a href="../reference/gr_set_param.html">gr_set_param()</a></code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># actual params used for each year</span></span>
 <span><span class="va">parlist</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">sep_debug</span><span class="op">)</span><span class="op">$</span><span class="va">params</span></span>
 <span></span>
@@ -370,16 +372,16 @@ you want to set some parameter for multiple years, then use
 <span></span>
 <span><span class="co"># Visualize</span></span>
 <span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep_debug</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">2014</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="separation_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="960"><img src="separation_files/figure-html/unnamed-chunk-10-2.png" class="r-plt" width="960"></p>
+<p><img src="separation_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="960"><img src="separation_files/figure-html/unnamed-chunk-10-2.png" class="r-plt" alt="" width="960"></p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-rets2022" class="csl-entry">
 Rets, E. P., M. B. Kireeva, T. E. Samsonov, N. N. Ezerova, A. V.
 Gorbarenko, and N. L. Frolova. 2022. <span>“Algorithm Grwat for
-Automated Hydrograph Separation by B. I. Kudelin<span>’</span>s Method:
+Automated Hydrograph Separation by b. I. Kudelin<span>’</span>s Method:
 Problems and Perspectives.”</span> <em>Water Resources</em> 49 (1):
 23–37.
 </div>
@@ -396,7 +398,7 @@ Problems and Perspectives.”</span> <em>Water Resources</em> 49 (1):
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

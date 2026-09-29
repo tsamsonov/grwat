@@ -16,13 +16,13 @@
 Source:
 [`DESCRIPTION`](https://github.com/tsamsonov/grwat/blob/master/DESCRIPTION)
 
-Samsonov T (2025). *grwat: River Hydrograph Separation and Analysis*. R
+Samsonov T (2026). *grwat: River Hydrograph Separation and Analysis*. R
 package version 0.1.0.9999, <https://github.com/tsamsonov/grwat>.
 
     @Manual{,
       title = {grwat: River Hydrograph Separation and Analysis},
       author = {Timofey Samsonov},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.1.0.9999},
       url = {https://github.com/tsamsonov/grwat},
     }

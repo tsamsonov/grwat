@@ -11,6 +11,7 @@ plane is used. The dataset is supplemented by meteorological variables
 ERA5 (1950-2021) data averaged inside gauge’s basin:
 
 ``` r
+
 library(grwat)
 library(dplyr)
 library(ggplot2)
@@ -42,6 +43,7 @@ discussed below.
 `get_baseflow()` function does the job:
 
 ``` r
+
 Qbase = gr_baseflow(spas$Q, method = 'lynehollick', a = 0.925, passes = 3)
 head(Qbase)
 #> [1] 3.698598 3.789843 3.876099 3.958334 4.037031 4.112454
@@ -51,6 +53,7 @@ Though `get_baseflow()` needs just a vector of runoff values, it can be
 applied in a traditional tidyverse pipeline like follows:
 
 ``` r
+
 # Calculate baseflow using Jakeman approach
 hdata = spas |> 
   mutate(Qbase = gr_baseflow(Q, method = 'jakeman'))
@@ -78,10 +81,10 @@ Advanced separation by [`gr_separate()`](../reference/gr_separate.md)
 implements the method by (Rets et al. 2022), which involves additional
 data on temperatures and precipitation to detect and classify flood
 events into the rain, thaw and spring (seasonal thaw). Between these
-events $100\%$ of the runoff is considered to be ground. Inside those
+events $`100\%`$ of the runoff is considered to be ground. Inside those
 events the ground flow is filtered either by one of the baseflow
-functions, or by Kudelin’s method, which degrades baseflow to $0$ under
-the maximum runoff value during the year.
+functions, or by Kudelin’s method, which degrades baseflow to $`0`$
+under the maximum runoff value during the year.
 
 The method is controlled by more than 20 parameters, which can be
 region-specific. Therefore, to ease the management and distribution of
@@ -89,6 +92,7 @@ these parameters, they are organized as list, as returned by
 [`gr_get_params()`](../reference/gr_get_params.md):
 
 ``` r
+
 sep = gr_separate(spas, params = gr_get_params(reg = 'center'))
 #> grwat: data frame is correct
 #> grwat: parameters list and types are OK
@@ -110,6 +114,7 @@ classification of the flow, the function shows the dates of the spring
 seasonal flood:
 
 ``` r
+
 gr_plot_sep(sep, years = c(1978, 1989))
 ```
 
@@ -127,6 +132,7 @@ which characterize the annual runoff, its components (ground, spring,
 rain and thaw) and low flow periods (summer and winter):
 
 ``` r
+
 vars = gr_summarize(sep)
 head(vars)
 #> # A tibble: 6 × 57
@@ -151,13 +157,14 @@ These characteristics can be plotted by
 [`gr_plot_vars()`](../reference/gr_plot_vars.md):
 
 ``` r
+
 gr_plot_vars(vars, Qygr)
 #> Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
 #> ℹ Please use tidy evaluation idioms with `aes()`.
 #> ℹ See also `vignette("ggplot2-in-packages")` for more information.
 #> ℹ The deprecated feature was likely used in the grwat package.
 #>   Please report the issue at <https://github.com/tsamsonov/grwat/issues>.
-#> This warning is displayed once every 8 hours.
+#> This warning is displayed once per session.
 #> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 #> generated.
 #> Warning: Removed 1 row containing non-finite outside the scale range
@@ -169,6 +176,7 @@ gr_plot_vars(vars, Qygr)
 ![](grwat_files/figure-html/unnamed-chunk-7-1.png)
 
 ``` r
+
 gr_plot_vars(vars, D10w1, Wsprngr, Nthw, Qrnmax, tests = TRUE,
              layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
 #> Warning: Removed 1 row containing non-finite outside the scale range
@@ -232,5 +240,5 @@ with runoff data. In particular:
 
 Rets, E. P., M. B. Kireeva, T. E. Samsonov, N. N. Ezerova, A. V.
 Gorbarenko, and N. L. Frolova. 2022. “Algorithm Grwat for Automated
-Hydrograph Separation by B. I. Kudelin’s Method: Problems and
+Hydrograph Separation by b. I. Kudelin’s Method: Problems and
 Perspectives.” *Water Resources* 49 (1): 23–37.

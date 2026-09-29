@@ -40,19 +40,19 @@ gr_test_vars(df, ..., year = NULL, exclude = NULL)
 
 `list` of testing results with following elements:
 
-|              |                                                                                                 |
-|--------------|-------------------------------------------------------------------------------------------------|
-| **Element**  | **Description**                                                                                 |
-| `ptt`        | Pettitt tests for change year                                                                   |
-| `mkt`        | Mann-Kendall test for trend significance                                                        |
-| `tst`        | Theil-Sen test for slope estimation                                                             |
-| `ts_fit`     | Theil-Sen linear model fit                                                                      |
-| `tt`         | Student (Welch) test for significance of mean differences between two periods                   |
-| `ft`         | Fisher test for significance of variance differences between two periods                        |
-| `year`       | Integer value of year used to divide series in two samples compared by Student and Fisher tests |
-| `maxval`     | Maximum value for the variable along the full time series                                       |
-| `fixed_year` | Boolean `TRUE` or `FALSE` value indicating if the year was fixed                                |
-| `pvalues`    | p-values of all tests summarized as a single table for all variables                            |
+|  |  |
+|----|----|
+| **Element** | **Description** |
+| `ptt` | Pettitt tests for change year |
+| `mkt` | Mann-Kendall test for trend significance |
+| `tst` | Theil-Sen test for slope estimation |
+| `ts_fit` | Theil-Sen linear model fit |
+| `tt` | Student (Welch) test for significance of mean differences between two periods |
+| `ft` | Fisher test for significance of variance differences between two periods |
+| `year` | Integer value of year used to divide series in two samples compared by Student and Fisher tests |
+| `maxval` | Maximum value for the variable along the full time series |
+| `fixed_year` | Boolean `TRUE` or `FALSE` value indicating if the year was fixed |
+| `pvalues` | p-values of all tests summarized as a single table for all variables |
 
 ## Details
 

@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Introduction to grwat R package • grwat</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to grwat R package">
 </head>
@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Timofey
 Samsonov</h4>
             
-            <h4 data-toc-skip class="date">2025-12-12</h4>
+            <h4 data-toc-skip class="date">2026-09-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tsamsonov/grwat/blob/master/vignettes/grwat.Rmd" class="external-link"><code>vignettes/grwat.Rmd</code></a></small>
       <div class="d-none name"><code>grwat.Rmd</code></div>
@@ -133,7 +133,7 @@ follows:</p>
 <span><span class="co">#&gt; (`stat_align()`).</span></span>
 <span><span class="co">#&gt; Removed 23376 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_align()`).</span></span></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" width="960"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="960"></p>
 </div>
 <div class="section level2">
 <h2 id="advanced-hydrograph-separation">Advanced hydrograph separation<a class="anchor" aria-label="anchor" href="#advanced-hydrograph-separation"></a>
@@ -176,7 +176,7 @@ function. In addition to classification of the flow, the function shows
 the dates of the spring seasonal flood:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gr_plot_sep.html">gr_plot_sep</a></span><span class="op">(</span><span class="va">sep</span>, years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1978</span>, <span class="fl">1989</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="960"><img src="grwat_files/figure-html/unnamed-chunk-5-2.png" class="r-plt" width="960"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="960"><img src="grwat_files/figure-html/unnamed-chunk-5-2.png" class="r-plt" alt="" width="960"></p>
 </div>
 <div class="section level2">
 <h2 id="summaries">Summaries<a class="anchor" aria-label="anchor" href="#summaries"></a>
@@ -217,14 +217,14 @@ low flow periods (summer and winter):</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> See also `vignette("ggplot2-in-packages")` for more information.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">grwat</span> package.</span></span>
 <span><span class="co">#&gt;   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/tsamsonov/grwat/issues&gt;</span>.</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span><span class="co">#&gt; Warning: Removed 1 row containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_smooth()`).</span></span>
 <span><span class="co">#&gt; Warning: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_ribbon()`).</span></span></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="960"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="960"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gr_plot_vars.html">gr_plot_vars</a></span><span class="op">(</span><span class="va">vars</span>, <span class="va">D10w1</span>, <span class="va">Wsprngr</span>, <span class="va">Nthw</span>, <span class="va">Qrnmax</span>, tests <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>             layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span>
@@ -240,7 +240,7 @@ low flow periods (summer and winter):</p>
 <span><span class="co">#&gt; Removed 1 row containing non-finite outside the scale range (`stat_smooth()`).</span></span>
 <span><span class="co">#&gt; Warning: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_ribbon()`).</span></span></code></pre></div>
-<p><img src="grwat_files/figure-html/unnamed-chunk-7-2.png" class="r-plt" width="960"></p>
+<p><img src="grwat_files/figure-html/unnamed-chunk-7-2.png" class="r-plt" alt="" width="960"></p>
 </div>
 <div class="section level2">
 <h2 id="additional-features">Additional features<a class="anchor" aria-label="anchor" href="#additional-features"></a>
@@ -278,11 +278,11 @@ tweak aesthetics as you want or remove some information.</p></li>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-rets2022" class="csl-entry">
 Rets, E. P., M. B. Kireeva, T. E. Samsonov, N. N. Ezerova, A. V.
 Gorbarenko, and N. L. Frolova. 2022. <span>“Algorithm Grwat for
-Automated Hydrograph Separation by B. I. Kudelin<span>’</span>s Method:
+Automated Hydrograph Separation by b. I. Kudelin<span>’</span>s Method:
 Problems and Perspectives.”</span> <em>Water Resources</em> 49 (1):
 23–37.
 </div>
@@ -299,7 +299,7 @@ Problems and Perspectives.”</span> <em>Water Resources</em> 49 (1):
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

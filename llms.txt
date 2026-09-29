@@ -17,6 +17,7 @@ plotting.
 Install the latest released version of **`grwat`** from CRAN by:
 
 ``` r
+
 install.packages("grwat")
 ```
 
@@ -26,6 +27,7 @@ The current development version of **`grwat`** can be installed from
 [R-universe](https://tsamsonov.r-universe.dev/grwat):
 
 ``` r
+
 # Enable repository from tsamsonov
 options(
   repos = c(
@@ -54,6 +56,7 @@ To install from GitHub, you should install **`remotes`** package first
 (unless it is already installed on your machine):
 
 ``` r
+
 install.packages("remotes")
 ```
 
@@ -82,6 +85,7 @@ If all previous steps are completed successfully, **`grwat`** package
 can be installed via single command:
 
 ``` r
+
 remotes::install_github("tsamsonov/grwat")
 ```
 

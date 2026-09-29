@@ -21,6 +21,7 @@ plane is used. The dataset is supplemented by meteorological variables
 ERA5 (1950-2021) data averaged inside gauge’s basin:
 
 ``` r
+
 library(grwat)
 data(spas) # example Spas-Zagorye data is included with grwat package
 head(spas)
@@ -61,11 +62,11 @@ B. For each water-resources year:
 This algorithm is executed by
 [`gr_separate()`](../reference/gr_separate.md) function, which requires
 a 4-column data frame as specified earlier, and the list of parameters.
-The number parameters is quite big ($39$ for the current version of the
-package), and the parameters depend on the regional climate and the size
-of the river basin. Currently the recommended parameters are available
-for some regions in the center of the East European Plane. You can use
-them as the starting point for experimentation. The regions are:
+The number parameters is quite big ($`39`$ for the current version of
+the package), and the parameters depend on the regional climate and the
+size of the river basin. Currently the recommended parameters are
+available for some regions in the center of the East European Plane. You
+can use them as the starting point for experimentation. The regions are:
 
 1.  `northwest`
 2.  `center`
@@ -82,6 +83,7 @@ returned by [`gr_get_params()`](../reference/gr_get_params.md). You can
 pass either the number of region, or its name in `reg` argument:
 
 ``` r
+
 params = gr_get_params(reg = 'south')
 head(params)
 #> $winmon
@@ -128,6 +130,7 @@ To ease the understanding of the parameters, grwat contains the helper
 describes the meaning of each:
 
 ``` r
+
 gr_help_params()
 #> # A tibble: 39 × 12
 #>        N name_old name       example desc  units formula comments pics  desc_rus
@@ -149,6 +152,7 @@ gr_help_params()
 You can tweak the parameters just by changing their values in the list:
 
 ``` r
+
 params$sprise = 12
 params$gratio = 500
 ```
@@ -160,6 +164,7 @@ separate the hydrograph by
 [`gr_separate()`](../reference/gr_separate.md):
 
 ``` r
+
 # separate
 sep = gr_separate(spas, params)
 #> grwat: data frame is correct
@@ -181,6 +186,7 @@ of flow. To evaluate the results, you can use separation plots provided
 by [`gr_plot_sep()`](../reference/gr_plot_sep.md):
 
 ``` r
+
 # One year
 gr_plot_sep(sep, 1978) 
 ```
@@ -197,11 +203,15 @@ gr_plot_sep(sep, 1978)
 
 ``` r
 
+
 # Four years in a matrix layout
 gr_plot_sep(sep, 1988:1991, layout = matrix(1:4, nrow = 2, byrow = TRUE)) 
 ```
 
 ![](separation_files/figure-html/unnamed-chunk-7-4.png)
+
+    #> Plotting separation ■■■■■■■■■■■■■■■■■■■■■■■■■         80% | ETA:  1s
+    #> Plotting separation ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 
 ## Tweaking of the parameters
 
@@ -223,6 +233,7 @@ The attributes are extracted via a base R function
 [`attributes()`](https://rdrr.io/r/base/attributes.html):
 
 ``` r
+
 # Debug mode gives access to additional information
 sep_debug = gr_separate(spas, 
                         params = gr_get_params(reg = 'center'), 
@@ -270,6 +281,7 @@ example, if you want to apply the parameters of one tweaked your
 globally, the following will work:
 
 ``` r
+
 # extract and tweak parameters for selected year
 p = parlist[['2014']]
 p$grad1 = 1
@@ -298,6 +310,7 @@ to set some parameter for multiple years, then use
 [`gr_set_param()`](../reference/gr_set_param.md):
 
 ``` r
+
 # actual params used for each year
 parlist = attributes(sep_debug)$params
 
@@ -332,5 +345,5 @@ gr_plot_sep(sep_debug, c(1978, 2014))
 
 Rets, E. P., M. B. Kireeva, T. E. Samsonov, N. N. Ezerova, A. V.
 Gorbarenko, and N. L. Frolova. 2022. “Algorithm Grwat for Automated
-Hydrograph Separation by B. I. Kudelin’s Method: Problems and
+Hydrograph Separation by b. I. Kudelin’s Method: Problems and
 Perspectives.” *Water Resources* 49 (1): 23–37.
